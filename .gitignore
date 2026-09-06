@@ -1,0 +1,19 @@
+# Docker / WordPress(ローカル専用)
+.env
+
+# WordPress のアップロード(プレースホルダー画像。export で web/public/wp-uploads へ複製される)
+wp/uploads/*
+!wp/uploads/.gitkeep
+
+# WordPress 本体が themes に置く既定テーマ(自作テーマだけを追跡する)
+wp/themes/twenty*
+
+# Claude Code
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+web/.env.local

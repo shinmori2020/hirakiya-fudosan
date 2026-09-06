@@ -1,0 +1,76 @@
+﻿# hirakiya-fudosan — ローカル開発用 WordPress(記録用サイト・初案 2026-09-06)
+# 起動: docker compose up -d
+# 停止: docker compose down        (データは残る)
+# 全消し: docker compose down -v   (DB とアップロードのボリュームも消える)
+#
+# WordPress  http://localhost:8080        REST: http://localhost:8080/wp-json
+# phpMyAdmin http://localhost:8081
+#
+# このスタックは手元でしか動かない。Vercel は web/data/*.json だけを読む。
+
+name: hirakiya-fudosan
+
+services:
+  db:
+    image: mysql:8.4
+    container_name: hr-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-hirakiya}
+      MYSQL_USER: ${MYSQL_USER:-wp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wp}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      # DB が受け付けられる状態になってから WordPress を起動させる
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  wordpress:
+    image: wordpress:6-php8.3-apache
+    container_name: hr-wp
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-hirakiya}
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wp}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wp}
+      WORDPRESS_DEBUG: "1"
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME',    'http://localhost:${WP_PORT:-8080}');
+        define('WP_SITEURL', 'http://localhost:${WP_PORT:-8080}');
+        define('WP_ENVIRONMENT_TYPE', 'local');
+        define('DISALLOW_FILE_EDIT', true);
+    volumes:
+      # 自作プラグイン・テーマ・アップロードだけをホスト側に出す。
+      # WordPress 本体はコンテナ内に置く(全体を bind mount すると Windows で遅い)
+      - ./wp/plugins:/var/www/html/wp-content/plugins
+      - ./wp/themes:/var/www/html/wp-content/themes
+      - ./wp/uploads:/var/www/html/wp-content/uploads
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: hr-pma
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${MYSQL_USER:-wp}
+      PMA_PASSWORD: ${MYSQL_PASSWORD:-wp}
+      UPLOAD_LIMIT: 64M
+
+volumes:
+  db-data:
