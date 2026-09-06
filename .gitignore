@@ -17,3 +17,10 @@ node_modules/
 .next/
 out/
 web/.env.local
+
+# WordPress 公式イメージがマウント先に置くデフォルトプラグイン(自作 hr-core だけを追跡)
+wp/plugins/akismet/
+wp/plugins/hello.php
+wp/plugins/index.php
+wp/themes/index.php
+

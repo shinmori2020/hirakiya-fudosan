@@ -1,0 +1,6 @@
+# 改行コードを LF に固定(Windows で作業しても Vercel / Linux と揃える)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.zip binary

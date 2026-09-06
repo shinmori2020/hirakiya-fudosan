@@ -52,7 +52,14 @@ if (!/\bgit\s+commit\b/.test(command)) process.exit(0);
 const messages = [];
 const re = /(?:-m|--message)(?:=|\s+)(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'|(\S+))/g;
 let m;
-while ((m = re.exec(command)) !== null) messages.push(m[1] ?? m[2] ?? m[3]);
+while ((m = re.exec(command)) !== null) messages.push(unwrap(m[1] ?? m[2] ?? m[3]));
+
+// Claude Code は既定で -m "$(printf 'subject\n\nbody')" の形で渡す。printf の中身を取り出す
+function unwrap(msg) {
+  const p = msg.match(/^\$\(printf\s+(?:'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)")\s*\)$/);
+  if (!p) return msg;
+  return (p[1] ?? p[2]).replace(/\\n/g, "\n").replace(/\\'/g, "'");
+}
 
 // heredoc(-F - <<'EOF' ... EOF)にも対応
 const heredoc = command.match(/<<-?\s*'?([A-Za-z_]+)'?\n([\s\S]*?)\n\1/);
