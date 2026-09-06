@@ -42,6 +42,7 @@ wp/themes/ wp/uploads/  同上(uploads は Git 管理外)
 # ルートで(WordPress)
 docker compose up -d                      # http://localhost:8080 / phpMyAdmin :8081
 docker compose stop                       # 停止(データは残る)
+docker compose exec -u www-data wordpress php wp-content/plugins/hr-core/scripts/seed-properties.php   # 物件60件を投入(冪等・--reset で入れ直し)
 
 # web/ で(Next.js)
 pnpm install

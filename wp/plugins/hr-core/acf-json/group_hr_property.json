@@ -1,0 +1,1288 @@
+{
+  "key": "group_hr_property",
+  "title": "物件フィールド",
+  "fields": [
+    {
+      "key": "field_hr_tab_common",
+      "label": "共通",
+      "name": "tab_common",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_hr_property_type",
+      "label": "種別",
+      "name": "property_type",
+      "aria-label": "",
+      "type": "taxonomy",
+      "instructions": "賃貸 / 売買。ここで選ぶと下の専用項目が切り替わる",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "33",
+        "class": "",
+        "id": ""
+      },
+      "taxonomy": "property_type",
+      "field_type": "radio",
+      "add_term": 0,
+      "save_terms": 1,
+      "load_terms": 1,
+      "return_format": "id",
+      "multiple": 0,
+      "allow_null": 0,
+      "bidirectional": 0
+    },
+    {
+      "key": "field_hr_property_no",
+      "label": "物件番号",
+      "name": "property_no",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "HR-R-連番(賃貸)/ HR-S-連番(売買)。URL に使う",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "33",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "HR-R-0001",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_staff",
+      "label": "担当者",
+      "name": "staff",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "34",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "架空 太郎": "架空 太郎",
+        "見本 花子": "見本 花子",
+        "仮名 一郎": "仮名 一郎",
+        "架空 次郎": "架空 次郎",
+        "見本 三郎": "見本 三郎",
+        "仮名 美咲": "仮名 美咲",
+        "架空 恵": "架空 恵",
+        "見本 健": "見本 健"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_address",
+      "label": "所在地(表示用)",
+      "name": "address",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "番地は必ず 0-0-0",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "東京都葛飾区青戸0-0-0",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_lat",
+      "label": "緯度",
+      "name": "lat",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "町の代表座標 ±0.004",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_hr_lng",
+      "label": "経度",
+      "name": "lng",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_hr_walk_minutes",
+      "label": "最寄駅 徒歩(分)",
+      "name": "walk_minutes",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": 1,
+      "max": 20,
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "分"
+    },
+    {
+      "key": "field_hr_walk_minutes_2",
+      "label": "2駅目 徒歩(分)",
+      "name": "walk_minutes_2",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": 1,
+      "max": 20,
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "分"
+    },
+    {
+      "key": "field_hr_layout",
+      "label": "間取り",
+      "name": "layout",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "1R": "1R",
+        "1K": "1K",
+        "1DK": "1DK",
+        "1LDK": "1LDK",
+        "2K": "2K",
+        "2DK": "2DK",
+        "2LDK": "2LDK",
+        "3DK": "3DK",
+        "3LDK": "3LDK",
+        "4LDK": "4LDK"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_area_sqm",
+      "label": "専有面積",
+      "name": "area_sqm",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "㎡"
+    },
+    {
+      "key": "field_hr_built_ym",
+      "label": "築年月",
+      "name": "built_ym",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "YYYY-MM",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "1998-04",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_floor",
+      "label": "階",
+      "name": "floor",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_hr_floors_total",
+      "label": "総階数",
+      "name": "floors_total",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_hr_structure",
+      "label": "構造",
+      "name": "structure",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "木造": "木造",
+        "軽量鉄骨": "軽量鉄骨",
+        "RC": "RC",
+        "SRC": "SRC"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_direction",
+      "label": "向き",
+      "name": "direction",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "南": "南",
+        "東": "東",
+        "西": "西",
+        "北": "北",
+        "南東": "南東",
+        "南西": "南西"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_parking",
+      "label": "駐車場",
+      "name": "parking",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "なし": "なし",
+        "空きあり(月額)": "空きあり(月額)",
+        "近隣": "近隣"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_transaction_type",
+      "label": "取引態様",
+      "name": "transaction_type",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "媒介": "媒介",
+        "代理": "代理",
+        "貸主": "貸主",
+        "売主": "売主"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_updated_on",
+      "label": "情報更新日",
+      "name": "updated_on",
+      "aria-label": "",
+      "type": "date_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "Y-m-d",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_hr_next_update_on",
+      "label": "次回更新予定日",
+      "name": "next_update_on",
+      "aria-label": "",
+      "type": "date_picker",
+      "instructions": "更新日+14日",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "Y-m-d",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_hr_published_on",
+      "label": "公開日",
+      "name": "published_on",
+      "aria-label": "",
+      "type": "date_picker",
+      "instructions": "14日以内なら新着バッジ(表示側で判定)",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "Y-m-d",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_hr_comment",
+      "label": "担当者コメント",
+      "name": "comment",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "maxlength": "",
+      "rows": 4,
+      "new_lines": ""
+    },
+    {
+      "key": "field_hr_images",
+      "label": "写真(パス・改行区切り)",
+      "name": "images",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "プレースホルダーのみ。0枚の物件も意図的に作る(ACF無料版にギャラリーが無いため textarea)",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "/wp-content/uploads/placeholders/HR-R-0001-1.svg",
+      "maxlength": "",
+      "rows": 4,
+      "new_lines": ""
+    },
+    {
+      "key": "field_hr_floorplan",
+      "label": "間取り図(パス)",
+      "name": "floorplan",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "間取りごとの汎用 SVG",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "/wp-content/uploads/placeholders/plan-1ldk.svg",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_tab_rental",
+      "label": "賃貸",
+      "name": "tab_rental",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_hr_rent",
+      "label": "家賃",
+      "name": "rent",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "円"
+    },
+    {
+      "key": "field_hr_maintenance_fee",
+      "label": "管理費・共益費",
+      "name": "maintenance_fee",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "円"
+    },
+    {
+      "key": "field_hr_rent_previous",
+      "label": "前回家賃",
+      "name": "rent_previous",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "現家賃より高ければ値下げバッジ",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "円"
+    },
+    {
+      "key": "field_hr_deposit_months",
+      "label": "敷金(ヶ月)",
+      "name": "deposit_months",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": 0,
+      "max": 2,
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_hr_key_money_months",
+      "label": "礼金(ヶ月)",
+      "name": "key_money_months",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": 0,
+      "max": 2,
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_hr_brokerage_fee",
+      "label": "仲介手数料",
+      "name": "brokerage_fee",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "家賃1ヶ月": "家賃1ヶ月",
+        "0.5ヶ月": "0.5ヶ月",
+        "無料": "無料"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_contract_term",
+      "label": "契約期間",
+      "name": "contract_term",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "2年",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_renewal_fee",
+      "label": "更新料",
+      "name": "renewal_fee",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "新家賃1ヶ月",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_guarantor_required",
+      "label": "保証会社 利用",
+      "name": "guarantor_required",
+      "aria-label": "",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    },
+    {
+      "key": "field_hr_available_from",
+      "label": "入居可能日",
+      "name": "available_from",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "rental"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "即入居可",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_tab_sale",
+      "label": "売買",
+      "name": "tab_sale",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_hr_price",
+      "label": "価格",
+      "name": "price",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "万円"
+    },
+    {
+      "key": "field_hr_price_previous",
+      "label": "前回価格",
+      "name": "price_previous",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "現価格より高ければ値下げバッジ",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "万円"
+    },
+    {
+      "key": "field_hr_land_sqm",
+      "label": "土地面積",
+      "name": "land_sqm",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "㎡"
+    },
+    {
+      "key": "field_hr_building_sqm",
+      "label": "建物面積",
+      "name": "building_sqm",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "㎡"
+    },
+    {
+      "key": "field_hr_mgmt_fee",
+      "label": "管理費",
+      "name": "mgmt_fee",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "円/月"
+    },
+    {
+      "key": "field_hr_repair_fund",
+      "label": "修繕積立金",
+      "name": "repair_fund",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "円/月"
+    },
+    {
+      "key": "field_hr_land_rights",
+      "label": "土地権利",
+      "name": "land_rights",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "所有権": "所有権",
+        "借地権": "借地権"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_zoning",
+      "label": "用途地域",
+      "name": "zoning",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "第一種低層住居専用": "第一種低層住居専用",
+        "第一種住居": "第一種住居",
+        "第二種住居": "第二種住居",
+        "近隣商業": "近隣商業",
+        "商業": "商業",
+        "準工業": "準工業"
+      },
+      "default_value": [],
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 1,
+      "ui": 0,
+      "ajax": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_hr_bcr",
+      "label": "建ぺい率",
+      "name": "bcr",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "%"
+    },
+    {
+      "key": "field_hr_far",
+      "label": "容積率",
+      "name": "far",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "%"
+    },
+    {
+      "key": "field_hr_road_access",
+      "label": "接道",
+      "name": "road_access",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "南 4.0m 公道",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_hr_handover",
+      "label": "引渡し",
+      "name": "handover",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hr_property_type",
+            "operator": "==",
+            "value": "sale"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "相談",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "property"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "docs/02-物件データ設計.md §3。学区は入れない(§8-3)。",
+  "show_in_rest": 1,
+  "modified": 1788800000
+}
