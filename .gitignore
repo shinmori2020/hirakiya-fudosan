@@ -24,3 +24,6 @@ wp/plugins/hello.php
 wp/plugins/index.php
 wp/themes/index.php
 
+
+# ACF 無料版(WordPress 管理画面から導入。自作 hr-core だけを追跡)
+wp/plugins/advanced-custom-fields/

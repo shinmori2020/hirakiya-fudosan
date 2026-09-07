@@ -16,7 +16,7 @@
 
 ## 技術スタック
 
-- **フロント**:Next.js(App Router)/ TypeScript strict / Tailwind / pnpm v10 / Node 20+
+- **フロント**:Next.js 16.3(App Router・Turbopack(Next 16 の既定))/ React 19.2 / TypeScript strict / Tailwind 4 / pnpm 12 / Node 24
 - **CMS**:WordPress(Docker compose でローカル運用のみ。`compose.yaml` = WordPress 6 + MySQL 8.4 + phpMyAdmin)+ 自作プラグイン `hr-core`(CPT / タクソノミー / ACF 無料版)
 - **データ経路**:WP REST → `scripts/export-wp-data.mjs` → `web/data/*.json` + `web/public/wp-uploads/` → `DATA_SOURCE=static` でビルド(Nordic Works から流用)
 - **地図**:Leaflet / MapLibre + OpenStreetMap(Google Maps は使わない)
@@ -64,6 +64,8 @@ pnpm exec playwright test                 # web/e2e(フォーム3本・検索 UR
 | `NEXT_PUBLIC_SITE_URL` | 公開 URL。sitemap・canonical・OGP に使う |
 | `RESEND_API_KEY` / `CONTACT_EMAIL_FROM` / `CONTACT_EMAIL_TO` | フォーム送信(3本共通・宛先は SHIN のみ) |
 | `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | スパム対策(採用時) |
+
+Norton 環境では `npm` / `pnpm` の HTTPS 検証が失敗する。`$env:NODE_OPTIONS="--use-system-ca"` を付けるか、Norton で `npmjs.org` を除外。PowerShell の `curl` は別名なので `curl.exe` を使う。
 
 GraphQL・Algolia・preview/revalidate 用の変数は **使わない**(Nordic Works から持ち込まない)。
 
