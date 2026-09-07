@@ -1,0 +1,132 @@
+[
+  {
+    "slug": "ohanajaya",
+    "name": "お花茶屋",
+    "count": 13,
+    "parent": null,
+    "meta": {
+      "lines": "keisei-main",
+      "area_slug": "ohanajaya"
+    }
+  },
+  {
+    "slug": "kameari",
+    "name": "亀有",
+    "count": 8,
+    "parent": null,
+    "meta": {
+      "lines": "jr-joban",
+      "area_slug": "kameari"
+    }
+  },
+  {
+    "slug": "keisei-koiwa",
+    "name": "京成小岩",
+    "count": 6,
+    "parent": null,
+    "meta": {
+      "lines": "keisei-main",
+      "area_slug": "koiwa"
+    }
+  },
+  {
+    "slug": "keisei-tateishi",
+    "name": "京成立石",
+    "count": 5,
+    "parent": null,
+    "meta": {
+      "lines": "keisei-oshiage",
+      "area_slug": "tateishi"
+    }
+  },
+  {
+    "slug": "kitasenju",
+    "name": "北千住",
+    "count": 10,
+    "parent": null,
+    "meta": {
+      "lines": "jr-joban,tobu-skytree",
+      "area_slug": "kitasenju"
+    }
+  },
+  {
+    "slug": "horikiri-shobuen",
+    "name": "堀切菖蒲園",
+    "count": 4,
+    "parent": null,
+    "meta": {
+      "lines": "keisei-main",
+      "area_slug": "horikiri"
+    }
+  },
+  {
+    "slug": "hirai",
+    "name": "平井",
+    "count": 10,
+    "parent": null,
+    "meta": {
+      "lines": "jr-sobu",
+      "area_slug": "hirai"
+    }
+  },
+  {
+    "slug": "oshiage",
+    "name": "押上",
+    "count": 8,
+    "parent": null,
+    "meta": {
+      "lines": "keisei-oshiage,tobu-skytree",
+      "area_slug": "oshiage"
+    }
+  },
+  {
+    "slug": "shinkoiwa",
+    "name": "新小岩",
+    "count": 16,
+    "parent": null,
+    "meta": {
+      "lines": "jr-sobu",
+      "area_slug": "shinkoiwa"
+    }
+  },
+  {
+    "slug": "hikifune",
+    "name": "曳舟",
+    "count": 8,
+    "parent": null,
+    "meta": {
+      "lines": "tobu-skytree",
+      "area_slug": "hikifune"
+    }
+  },
+  {
+    "slug": "ayase",
+    "name": "綾瀬",
+    "count": 14,
+    "parent": null,
+    "meta": {
+      "lines": "jr-joban",
+      "area_slug": "ayase"
+    }
+  },
+  {
+    "slug": "kanamachi",
+    "name": "金町",
+    "count": 4,
+    "parent": null,
+    "meta": {
+      "lines": "jr-joban,keisei-kanamachi",
+      "area_slug": "kanamachi"
+    }
+  },
+  {
+    "slug": "aoto",
+    "name": "青砥",
+    "count": 14,
+    "parent": null,
+    "meta": {
+      "lines": "keisei-main,keisei-oshiage",
+      "area_slug": "aoto"
+    }
+  }
+]

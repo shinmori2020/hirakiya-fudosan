@@ -1,0 +1,69 @@
+{
+  "no": "HR-S-0008",
+  "slug": "hr-s-0008",
+  "type": "sale",
+  "kind": "mansion",
+  "status": "open",
+  "title": "綾瀬レジデンス0-48",
+  "area": "ayase",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 11
+    },
+    {
+      "slug": "ayase",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "aircon",
+    "washstand",
+    "reheating"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "2LDK",
+  "areaSqm": 41,
+  "builtYm": "1999-11",
+  "lat": 35.75909,
+  "lng": 139.825047,
+  "thumb": "/wp-uploads/placeholders/HR-S-0008-1.svg",
+  "publishedOn": "2026-07-16",
+  "price": 2510,
+  "address": "東京都足立区綾瀬0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 11,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 13,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "なし",
+  "transactionType": "売主",
+  "updatedOn": "2026-07-20",
+  "nextUpdateOn": "2026-08-03",
+  "comment": "綾瀬駅から徒歩11分、平坦な道のりで通勤にも便利な立地です。2LDKのお部屋です。独立洗面・追い焚きで、暮らしやすさを重視した造りになっています。周辺の成約事例もご案内できます。お気軽にどうぞ。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0008-1.svg",
+    "/wp-uploads/placeholders/HR-S-0008-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2ldk.svg",
+  "sale": {
+    "landSqm": null,
+    "buildingSqm": null,
+    "mgmtFee": 12000,
+    "repairFund": 6000,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 60,
+    "far": 200,
+    "roadAccess": "北 4.5m 私道",
+    "handover": "相談"
+  }
+}

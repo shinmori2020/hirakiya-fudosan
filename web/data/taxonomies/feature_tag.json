@@ -1,0 +1,107 @@
+[
+  {
+    "slug": "upper-floor",
+    "name": "2階以上",
+    "count": 28,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "aircon",
+    "name": "エアコン",
+    "count": 56,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "autolock",
+    "name": "オートロック",
+    "count": 24,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "separate-bath",
+    "name": "バス・トイレ別",
+    "count": 38,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "pet-ok",
+    "name": "ペット可",
+    "count": 6,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "office-ok",
+    "name": "事務所可",
+    "count": 6,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "south-facing",
+    "name": "南向き",
+    "count": 23,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "move-in-now",
+    "name": "即入居可",
+    "count": 14,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "delivery-box",
+    "name": "宅配ボックス",
+    "count": 17,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "zero-deposit",
+    "name": "敷金礼金ゼロ",
+    "count": 11,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "instrument-ok",
+    "name": "楽器可",
+    "count": 4,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "washstand",
+    "name": "独立洗面",
+    "count": 25,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "corner-room",
+    "name": "角部屋",
+    "count": 12,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "reheating",
+    "name": "追い焚き",
+    "count": 20,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "parking",
+    "name": "駐車場",
+    "count": 27,
+    "parent": null,
+    "meta": {}
+  }
+]

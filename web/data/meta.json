@@ -1,0 +1,19 @@
+{
+  "exportedAt": "2026-09-07T00:24:48.951Z",
+  "source": "http://localhost:8080/wp-json",
+  "wordpress": "6.9.4",
+  "counts": {
+    "properties": 60,
+    "rental": 40,
+    "sale": 20,
+    "noPhoto": 3,
+    "property_type": 2,
+    "property_kind": 5,
+    "area": 17,
+    "line": 6,
+    "station": 13,
+    "feature_tag": 15,
+    "collection": 6,
+    "status": 3
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "no": "HR-R-0032",
+  "slug": "hr-r-0032",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "小岩メゾン0-32",
+  "area": "koiwa",
+  "stations": [
+    {
+      "slug": "keisei-koiwa",
+      "walk": 4
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 13
+    }
+  ],
+  "lines": [
+    "jr-sobu",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "move-in-now",
+    "corner-room"
+  ],
+  "collections": [
+    "near-station"
+  ],
+  "layout": "1DK",
+  "areaSqm": 31,
+  "builtYm": "1995-12",
+  "lat": 35.73799,
+  "lng": 139.88246,
+  "thumb": "/wp-uploads/placeholders/HR-R-0032-1.svg",
+  "publishedOn": "2026-08-11",
+  "rent": 89000,
+  "address": "東京都江戸川区小岩0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 4,
+  "walkMinutes2": 13,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南西",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-14",
+  "nextUpdateOn": "2026-08-28",
+  "comment": "京成小岩駅まで徒歩4分。静かな住宅街の一角にあります。1DKタイプ。設備面ではバス・トイレ別・角部屋が備わっています。ご不明点は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0032-1.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

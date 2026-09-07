@@ -1,0 +1,75 @@
+{
+  "no": "HR-R-0036",
+  "slug": "hr-r-0036",
+  "type": "rental",
+  "kind": "house_rental",
+  "status": "open",
+  "title": "小岩コーポ0-36",
+  "area": "koiwa",
+  "stations": [
+    {
+      "slug": "keisei-koiwa",
+      "walk": 9
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 16
+    }
+  ],
+  "lines": [
+    "jr-sobu",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "south-facing",
+    "move-in-now",
+    "delivery-box",
+    "washstand",
+    "corner-room",
+    "reheating",
+    "parking"
+  ],
+  "collections": [
+    "house-rental",
+    "new-built"
+  ],
+  "layout": "3LDK",
+  "areaSqm": 62,
+  "builtYm": "2022-08",
+  "lat": 35.741152,
+  "lng": 139.879963,
+  "thumb": "/wp-uploads/placeholders/HR-R-0036-1.svg",
+  "publishedOn": "2026-07-25",
+  "rent": 227000,
+  "address": "東京都江戸川区小岩0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 9,
+  "walkMinutes2": 16,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "南西",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-29",
+  "nextUpdateOn": "2026-08-12",
+  "comment": "京成小岩駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。3LDKタイプ。設備面ではオートロック・宅配ボックスが備わっています。ご不明点は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0036-1.svg",
+    "/wp-uploads/placeholders/HR-R-0036-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "rental": {
+    "maintenanceFee": 5000,
+    "depositMonths": 2,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "無料",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

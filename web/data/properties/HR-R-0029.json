@@ -1,0 +1,70 @@
+{
+  "no": "HR-R-0029",
+  "slug": "hr-r-0029",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "sold",
+  "title": "新小岩メゾン0-29",
+  "area": "shinkoiwa",
+  "stations": [
+    {
+      "slug": "hirai",
+      "walk": 16
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-sobu"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "move-in-now",
+    "zero-deposit",
+    "reheating"
+  ],
+  "collections": [
+    "zero-deposit"
+  ],
+  "layout": "2K",
+  "areaSqm": 47,
+  "builtYm": "1990-05",
+  "lat": 35.713956,
+  "lng": 139.857778,
+  "thumb": "/wp-uploads/placeholders/HR-R-0029-1.svg",
+  "publishedOn": "2026-08-12",
+  "rent": 149000,
+  "address": "東京都葛飾区新小岩0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 16,
+  "walkMinutes2": 20,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-12",
+  "nextUpdateOn": "2026-08-26",
+  "comment": "新小岩駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。2Kのお部屋です。追い焚き・2階以上で、暮らしやすさを重視した造りになっています。現地でのご案内も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0029-1.svg",
+    "/wp-uploads/placeholders/HR-R-0029-2.svg",
+    "/wp-uploads/placeholders/HR-R-0029-3.svg",
+    "/wp-uploads/placeholders/HR-R-0029-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2k.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

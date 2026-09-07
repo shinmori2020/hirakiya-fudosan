@@ -1,0 +1,74 @@
+{
+  "no": "HR-S-0011",
+  "slug": "hr-s-0011",
+  "type": "sale",
+  "kind": "house",
+  "status": "open",
+  "title": "金町テラス0-51",
+  "area": "kanamachi",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 7
+    },
+    {
+      "slug": "kanamachi",
+      "walk": 15
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "keisei-kanamachi"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "delivery-box",
+    "washstand",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "3LDK",
+  "areaSqm": 80,
+  "builtYm": "2012-07",
+  "lat": 35.767858,
+  "lng": 139.869795,
+  "thumb": "/wp-uploads/placeholders/HR-S-0011-1.svg",
+  "publishedOn": "2026-07-21",
+  "price": 4170,
+  "pricePrevious": 4460,
+  "address": "東京都葛飾区金町0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 7,
+  "walkMinutes2": 15,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "西",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-22",
+  "nextUpdateOn": "2026-08-05",
+  "comment": "金町駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。3LDKの間取りで、収納も確保されています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0011-1.svg",
+    "/wp-uploads/placeholders/HR-S-0011-2.svg",
+    "/wp-uploads/placeholders/HR-S-0011-3.svg",
+    "/wp-uploads/placeholders/HR-S-0011-4.svg",
+    "/wp-uploads/placeholders/HR-S-0011-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": 63,
+    "buildingSqm": 97,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "準工業",
+    "bcr": 60,
+    "far": 400,
+    "roadAccess": "南 5.0m 公道",
+    "handover": "相談"
+  }
+}

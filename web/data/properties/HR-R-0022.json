@@ -1,0 +1,67 @@
+{
+  "no": "HR-R-0022",
+  "slug": "hr-r-0022",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "sold",
+  "title": "青戸ハイツ0-22",
+  "area": "aoto",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 14
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "washstand"
+  ],
+  "collections": [],
+  "layout": "1LDK",
+  "areaSqm": 32,
+  "builtYm": "2004-04",
+  "lat": 35.746339,
+  "lng": 139.856456,
+  "thumb": "/wp-uploads/placeholders/HR-R-0022-1.svg",
+  "publishedOn": "2026-07-31",
+  "rent": 108000,
+  "address": "東京都葛飾区青戸0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 14,
+  "walkMinutes2": 20,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "東",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-03",
+  "nextUpdateOn": "2026-08-17",
+  "comment": "青砥駅まで徒歩14分。静かな住宅街の一角にあります。1LDK・32㎡。室内は明るく、家具の配置もしやすい形です。ご不明点は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0022-1.svg",
+    "/wp-uploads/placeholders/HR-R-0022-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-28"
+  }
+}

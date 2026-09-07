@@ -1,0 +1,71 @@
+{
+  "no": "HR-S-0010",
+  "slug": "hr-s-0010",
+  "type": "sale",
+  "kind": "house",
+  "status": "open",
+  "title": "平井コーポ0-50",
+  "area": "hirai",
+  "stations": [
+    {
+      "slug": "hirai",
+      "walk": 6
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 12
+    }
+  ],
+  "lines": [
+    "jr-sobu"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "delivery-box",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "3DK",
+  "areaSqm": 81,
+  "builtYm": "1998-09",
+  "lat": 35.705392,
+  "lng": 139.83986,
+  "thumb": "/wp-uploads/placeholders/HR-S-0010-1.svg",
+  "publishedOn": "2026-07-10",
+  "price": 5710,
+  "address": "東京都江戸川区平井0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 6,
+  "walkMinutes2": 12,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-10",
+  "nextUpdateOn": "2026-07-24",
+  "comment": "平井駅まで徒歩6分。静かな住宅街の一角にあります。3DKタイプ。設備面では宅配ボックス・バス・トイレ別が備わっています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0010-1.svg",
+    "/wp-uploads/placeholders/HR-S-0010-2.svg",
+    "/wp-uploads/placeholders/HR-S-0010-3.svg",
+    "/wp-uploads/placeholders/HR-S-0010-4.svg",
+    "/wp-uploads/placeholders/HR-S-0010-5.svg",
+    "/wp-uploads/placeholders/HR-S-0010-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3dk.svg",
+  "sale": {
+    "landSqm": 112,
+    "buildingSqm": 80,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種低層住居専用",
+    "bcr": 60,
+    "far": 400,
+    "roadAccess": "東 4.0m 公道",
+    "handover": "相談"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "no": "HR-S-0015",
+  "slug": "hr-s-0015",
+  "type": "sale",
+  "kind": "house",
+  "status": "open",
+  "title": "堀切ハイツ0-55",
+  "area": "horikiri",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 2
+    },
+    {
+      "slug": "horikiri-shobuen",
+      "walk": 11
+    }
+  ],
+  "lines": [
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "washstand",
+    "parking"
+  ],
+  "collections": [
+    "near-station"
+  ],
+  "layout": "3LDK",
+  "areaSqm": 80,
+  "builtYm": "1976-04",
+  "lat": 35.740738,
+  "lng": 139.832077,
+  "thumb": "/wp-uploads/placeholders/HR-S-0015-1.svg",
+  "publishedOn": "2026-08-31",
+  "price": 5470,
+  "address": "東京都葛飾区堀切0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 2,
+  "walkMinutes2": 11,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "南",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-09-02",
+  "nextUpdateOn": "2026-09-16",
+  "comment": "堀切菖蒲園駅まで徒歩2分。静かな住宅街の一角にあります。3LDK・80㎡。室内は明るく、家具の配置もしやすい形です。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0015-1.svg",
+    "/wp-uploads/placeholders/HR-S-0015-2.svg",
+    "/wp-uploads/placeholders/HR-S-0015-3.svg",
+    "/wp-uploads/placeholders/HR-S-0015-4.svg",
+    "/wp-uploads/placeholders/HR-S-0015-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": 109,
+    "buildingSqm": 120,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 80,
+    "far": 300,
+    "roadAccess": "北 5.0m 公道",
+    "handover": "相談"
+  }
+}

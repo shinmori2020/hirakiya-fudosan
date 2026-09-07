@@ -1,0 +1,69 @@
+{
+  "no": "HR-S-0013",
+  "slug": "hr-s-0013",
+  "type": "sale",
+  "kind": "house",
+  "status": "open",
+  "title": "お花茶屋テラス0-53",
+  "area": "ohanajaya",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 15
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "corner-room",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "3DK",
+  "areaSqm": 93,
+  "builtYm": "2008-08",
+  "lat": 35.749946,
+  "lng": 139.846719,
+  "thumb": "/wp-uploads/placeholders/HR-S-0013-1.svg",
+  "publishedOn": "2026-08-18",
+  "price": 5230,
+  "address": "東京都葛飾区お花茶屋0-0-0",
+  "staff": "仮名 一郎",
+  "walkMinutes": 15,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-20",
+  "nextUpdateOn": "2026-09-03",
+  "comment": "お花茶屋駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。3DKのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。価格のご相談は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0013-1.svg",
+    "/wp-uploads/placeholders/HR-S-0013-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3dk.svg",
+  "sale": {
+    "landSqm": 138,
+    "buildingSqm": 103,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 60,
+    "far": 200,
+    "roadAccess": "東 5.0m 公道",
+    "handover": "相談"
+  }
+}

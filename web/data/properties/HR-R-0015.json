@@ -1,0 +1,71 @@
+{
+  "no": "HR-R-0015",
+  "slug": "hr-r-0015",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "青戸ハウス0-15",
+  "area": "aoto",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 14
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "pet-ok",
+    "south-facing",
+    "delivery-box",
+    "washstand"
+  ],
+  "collections": [
+    "pet-ok"
+  ],
+  "layout": "1DK",
+  "areaSqm": 44,
+  "builtYm": "2018-05",
+  "lat": 35.748586,
+  "lng": 139.858402,
+  "thumb": "/wp-uploads/placeholders/HR-R-0015-1.svg",
+  "publishedOn": "2026-08-14",
+  "rent": 79000,
+  "address": "東京都葛飾区青戸0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 14,
+  "walkMinutes2": 20,
+  "floor": 3,
+  "floorsTotal": 5,
+  "structure": "SRC",
+  "direction": "北",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-16",
+  "nextUpdateOn": "2026-08-30",
+  "comment": "青砥駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1DKのお部屋です。オートロック・宅配ボックスで、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0015-1.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 10000,
+    "depositMonths": 2,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": false,
+    "availableFrom": "2026-10-31"
+  }
+}

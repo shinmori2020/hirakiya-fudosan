@@ -1,0 +1,69 @@
+{
+  "no": "HR-S-0014",
+  "slug": "hr-s-0014",
+  "type": "sale",
+  "kind": "house",
+  "status": "open",
+  "title": "青戸コーポ0-54",
+  "area": "aoto",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 20
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "south-facing",
+    "washstand",
+    "reheating",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "3LDK",
+  "areaSqm": 67,
+  "builtYm": "2005-03",
+  "lat": 35.745004,
+  "lng": 139.853141,
+  "thumb": "/wp-uploads/placeholders/HR-S-0014-1.svg",
+  "publishedOn": "2026-07-19",
+  "price": 4140,
+  "address": "東京都葛飾区青戸0-0-0",
+  "staff": "仮名 一郎",
+  "walkMinutes": 20,
+  "walkMinutes2": 20,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南西",
+  "parking": "空きあり(月額)",
+  "transactionType": "売主",
+  "updatedOn": "2026-07-19",
+  "nextUpdateOn": "2026-08-02",
+  "comment": "青砥駅まで徒歩20分。静かな住宅街の一角にあります。3LDKのお部屋です。バス・トイレ別・独立洗面で、暮らしやすさを重視した造りになっています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0014-1.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": 117,
+    "buildingSqm": 73,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種低層住居専用",
+    "bcr": 60,
+    "far": 200,
+    "roadAccess": "北 6.0m 公道",
+    "handover": "即時"
+  }
+}

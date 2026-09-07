@@ -1,0 +1,75 @@
+{
+  "no": "HR-R-0009",
+  "slug": "hr-r-0009",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "北千住ハイツ0-9",
+  "area": "kitasenju",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 4
+    },
+    {
+      "slug": "ayase",
+      "walk": 14
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "delivery-box",
+    "zero-deposit",
+    "reheating",
+    "parking"
+  ],
+  "collections": [
+    "zero-deposit",
+    "new-built",
+    "central-30min",
+    "near-station"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 31,
+  "builtYm": "2026-06",
+  "lat": 35.752602,
+  "lng": 139.807061,
+  "thumb": "/wp-uploads/placeholders/HR-R-0009-1.svg",
+  "publishedOn": "2026-08-22",
+  "rent": 129000,
+  "address": "東京都足立区北千住0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 4,
+  "walkMinutes2": 14,
+  "floor": 8,
+  "floorsTotal": 8,
+  "structure": "RC",
+  "direction": "南東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-27",
+  "nextUpdateOn": "2026-09-10",
+  "comment": "北千住駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。1LDKタイプ。設備面ではオートロック・宅配ボックスが備わっています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0009-1.svg",
+    "/wp-uploads/placeholders/HR-R-0009-2.svg",
+    "/wp-uploads/placeholders/HR-R-0009-3.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "無料",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-09-23"
+  }
+}

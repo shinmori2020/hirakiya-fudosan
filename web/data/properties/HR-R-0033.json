@@ -1,0 +1,71 @@
+{
+  "no": "HR-R-0033",
+  "slug": "hr-r-0033",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "平井コーポ0-33",
+  "area": "hirai",
+  "stations": [
+    {
+      "slug": "hirai",
+      "walk": 4
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 10
+    }
+  ],
+  "lines": [
+    "jr-sobu"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "south-facing",
+    "washstand"
+  ],
+  "collections": [
+    "near-station"
+  ],
+  "layout": "1R",
+  "areaSqm": 20,
+  "builtYm": "2000-05",
+  "lat": 35.703244,
+  "lng": 139.840815,
+  "thumb": "/wp-uploads/placeholders/HR-R-0033-1.svg",
+  "publishedOn": "2026-07-15",
+  "rent": 70000,
+  "address": "東京都江戸川区平井0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 4,
+  "walkMinutes2": 10,
+  "floor": 1,
+  "floorsTotal": 3,
+  "structure": "木造",
+  "direction": "南東",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-15",
+  "nextUpdateOn": "2026-07-29",
+  "comment": "平井駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1R・20㎡。室内は明るく、家具の配置もしやすい形です。ご不明点は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0033-1.svg",
+    "/wp-uploads/placeholders/HR-R-0033-2.svg",
+    "/wp-uploads/placeholders/HR-R-0033-3.svg",
+    "/wp-uploads/placeholders/HR-R-0033-4.svg",
+    "/wp-uploads/placeholders/HR-R-0033-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1r.svg",
+  "rental": {
+    "maintenanceFee": 10000,
+    "depositMonths": 2,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "無料",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": false,
+    "availableFrom": "2026-10-08"
+  }
+}

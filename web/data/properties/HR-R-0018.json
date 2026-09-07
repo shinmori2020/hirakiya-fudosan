@@ -1,0 +1,74 @@
+{
+  "no": "HR-R-0018",
+  "slug": "hr-r-0018",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "negotiating",
+  "title": "小岩コーポ0-18",
+  "area": "koiwa",
+  "stations": [
+    {
+      "slug": "keisei-koiwa",
+      "walk": 6
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 10
+    }
+  ],
+  "lines": [
+    "jr-sobu",
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "south-facing",
+    "delivery-box",
+    "washstand",
+    "reheating"
+  ],
+  "collections": [],
+  "layout": "2LDK",
+  "areaSqm": 44,
+  "builtYm": "2013-05",
+  "lat": 35.73502,
+  "lng": 139.878909,
+  "thumb": "/wp-uploads/placeholders/HR-R-0018-1.svg",
+  "publishedOn": "2026-08-05",
+  "rent": 110000,
+  "rentPrevious": 119000,
+  "address": "東京都江戸川区小岩0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 6,
+  "walkMinutes2": 10,
+  "floor": 8,
+  "floorsTotal": 8,
+  "structure": "RC",
+  "direction": "西",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-07",
+  "nextUpdateOn": "2026-08-21",
+  "comment": "京成小岩駅から徒歩6分、平坦な道のりで通勤にも便利な立地です。2LDKの間取りで、収納も確保されています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0018-1.svg",
+    "/wp-uploads/placeholders/HR-R-0018-2.svg",
+    "/wp-uploads/placeholders/HR-R-0018-3.svg",
+    "/wp-uploads/placeholders/HR-R-0018-4.svg",
+    "/wp-uploads/placeholders/HR-R-0018-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2ldk.svg",
+  "rental": {
+    "maintenanceFee": 10000,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-09-28"
+  }
+}

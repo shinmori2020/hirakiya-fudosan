@@ -1,0 +1,73 @@
+{
+  "no": "HR-R-0040",
+  "slug": "hr-r-0040",
+  "type": "rental",
+  "kind": "house_rental",
+  "status": "open",
+  "title": "堀切ハウス0-40",
+  "area": "horikiri",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 20
+    },
+    {
+      "slug": "horikiri-shobuen",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "office-ok",
+    "move-in-now",
+    "delivery-box",
+    "parking"
+  ],
+  "collections": [
+    "house-rental"
+  ],
+  "layout": "3DK",
+  "areaSqm": 86,
+  "builtYm": "2001-03",
+  "lat": 35.745461,
+  "lng": 139.831564,
+  "thumb": "/wp-uploads/placeholders/HR-R-0040-1.svg",
+  "publishedOn": "2026-07-24",
+  "rent": 171000,
+  "address": "東京都葛飾区堀切0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 20,
+  "walkMinutes2": 20,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-27",
+  "nextUpdateOn": "2026-08-10",
+  "comment": "堀切菖蒲園駅から徒歩20分、平坦な道のりで通勤にも便利な立地です。3DKの間取りで、収納も確保されています。空室状況は日々変わります。お早めにご相談ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0040-1.svg",
+    "/wp-uploads/placeholders/HR-R-0040-2.svg",
+    "/wp-uploads/placeholders/HR-R-0040-3.svg",
+    "/wp-uploads/placeholders/HR-R-0040-4.svg",
+    "/wp-uploads/placeholders/HR-R-0040-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3dk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": false,
+    "availableFrom": "即入居可"
+  }
+}

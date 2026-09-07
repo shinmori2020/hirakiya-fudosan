@@ -1,0 +1,72 @@
+{
+  "no": "HR-R-0005",
+  "slug": "hr-r-0005",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "金町ハウス0-5",
+  "area": "kanamachi",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 6
+    },
+    {
+      "slug": "kanamachi",
+      "walk": 10
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "keisei-kanamachi"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "office-ok",
+    "south-facing",
+    "move-in-now",
+    "corner-room"
+  ],
+  "collections": [],
+  "layout": "1DK",
+  "areaSqm": 28,
+  "builtYm": "1979-06",
+  "lat": 35.765863,
+  "lng": 139.86638,
+  "thumb": "/wp-uploads/placeholders/HR-R-0005-1.svg",
+  "publishedOn": "2026-08-12",
+  "rent": 71000,
+  "address": "東京都葛飾区金町0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 6,
+  "walkMinutes2": 10,
+  "floor": 5,
+  "floorsTotal": 12,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "なし",
+  "transactionType": "貸主",
+  "updatedOn": "2026-08-16",
+  "nextUpdateOn": "2026-08-30",
+  "comment": "金町駅まで徒歩6分。静かな住宅街の一角にあります。1DKの間取りで、収納も確保されています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0005-1.svg",
+    "/wp-uploads/placeholders/HR-R-0005-2.svg",
+    "/wp-uploads/placeholders/HR-R-0005-3.svg",
+    "/wp-uploads/placeholders/HR-R-0005-4.svg",
+    "/wp-uploads/placeholders/HR-R-0005-5.svg",
+    "/wp-uploads/placeholders/HR-R-0005-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 3000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": false,
+    "availableFrom": "即入居可"
+  }
+}

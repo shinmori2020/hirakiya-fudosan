@@ -1,0 +1,76 @@
+{
+  "no": "HR-R-0025",
+  "slug": "hr-r-0025",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "sold",
+  "title": "堀切テラス0-25",
+  "area": "horikiri",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 1
+    },
+    {
+      "slug": "horikiri-shobuen",
+      "walk": 10
+    }
+  ],
+  "lines": [
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "pet-ok",
+    "south-facing",
+    "zero-deposit"
+  ],
+  "collections": [
+    "pet-ok",
+    "zero-deposit",
+    "near-station"
+  ],
+  "layout": "2K",
+  "areaSqm": 51,
+  "builtYm": "1997-03",
+  "lat": 35.741406,
+  "lng": 139.828695,
+  "thumb": "/wp-uploads/placeholders/HR-R-0025-1.svg",
+  "publishedOn": "2026-09-04",
+  "rent": 155000,
+  "address": "東京都葛飾区堀切0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 1,
+  "walkMinutes2": 10,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "南西",
+  "parking": "なし",
+  "transactionType": "貸主",
+  "updatedOn": "2026-09-06",
+  "nextUpdateOn": "2026-09-20",
+  "comment": "堀切菖蒲園駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。2Kのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0025-1.svg",
+    "/wp-uploads/placeholders/HR-R-0025-2.svg",
+    "/wp-uploads/placeholders/HR-R-0025-3.svg",
+    "/wp-uploads/placeholders/HR-R-0025-4.svg",
+    "/wp-uploads/placeholders/HR-R-0025-5.svg",
+    "/wp-uploads/placeholders/HR-R-0025-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2k.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-12"
+  }
+}

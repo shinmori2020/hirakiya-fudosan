@@ -73,7 +73,7 @@ function hr_register_taxonomies() {
 		'station'       => array( '駅', false, 'stations' ),
 		'feature_tag'   => array( '設備', false, 'feature_tags' ),
 		'collection'    => array( '特集', false, 'collections' ),
-		'status'        => array( 'ステータス', false, 'statuses' ),
+		'status'        => array( 'ステータス', false, 'property_statuses' ),
 	);
 
 	foreach ( $defs as $slug => [ $label, $hierarchical, $rest_base ] ) {

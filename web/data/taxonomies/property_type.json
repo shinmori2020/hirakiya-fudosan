@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "sale",
+    "name": "売買",
+    "count": 20,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "rental",
+    "name": "賃貸",
+    "count": 40,
+    "parent": null,
+    "meta": {}
+  }
+]

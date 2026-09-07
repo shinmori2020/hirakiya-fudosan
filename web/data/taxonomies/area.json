@@ -1,0 +1,172 @@
+[
+  {
+    "slug": "ohanajaya",
+    "name": "お花茶屋",
+    "count": 4,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7517,
+      "lng": 139.848
+    }
+  },
+  {
+    "slug": "kameari",
+    "name": "亀有",
+    "count": 4,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7601,
+      "lng": 139.8483
+    }
+  },
+  {
+    "slug": "kitasenju",
+    "name": "北千住",
+    "count": 5,
+    "parent": "adachi",
+    "meta": {
+      "lat": 35.7494,
+      "lng": 139.805
+    }
+  },
+  {
+    "slug": "horikiri",
+    "name": "堀切",
+    "count": 4,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7439,
+      "lng": 139.8305
+    }
+  },
+  {
+    "slug": "sumida",
+    "name": "墨田区",
+    "count": 0,
+    "parent": null,
+    "meta": {
+      "lat": 0,
+      "lng": 0
+    }
+  },
+  {
+    "slug": "koiwa",
+    "name": "小岩",
+    "count": 6,
+    "parent": "edogawa",
+    "meta": {
+      "lat": 35.7381,
+      "lng": 139.8817
+    }
+  },
+  {
+    "slug": "hirai",
+    "name": "平井",
+    "count": 6,
+    "parent": "edogawa",
+    "meta": {
+      "lat": 35.7059,
+      "lng": 139.8425
+    }
+  },
+  {
+    "slug": "oshiage",
+    "name": "押上",
+    "count": 4,
+    "parent": "sumida",
+    "meta": {
+      "lat": 35.7102,
+      "lng": 139.8132
+    }
+  },
+  {
+    "slug": "shinkoiwa",
+    "name": "新小岩",
+    "count": 4,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7167,
+      "lng": 139.8586
+    }
+  },
+  {
+    "slug": "hikifune",
+    "name": "曳舟",
+    "count": 4,
+    "parent": "sumida",
+    "meta": {
+      "lat": 35.7182,
+      "lng": 139.8153
+    }
+  },
+  {
+    "slug": "edogawa",
+    "name": "江戸川区",
+    "count": 0,
+    "parent": null,
+    "meta": {
+      "lat": 0,
+      "lng": 0
+    }
+  },
+  {
+    "slug": "tateishi",
+    "name": "立石",
+    "count": 5,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7414,
+      "lng": 139.8487
+    }
+  },
+  {
+    "slug": "ayase",
+    "name": "綾瀬",
+    "count": 5,
+    "parent": "adachi",
+    "meta": {
+      "lat": 35.7622,
+      "lng": 139.8247
+    }
+  },
+  {
+    "slug": "katsushika",
+    "name": "葛飾区",
+    "count": 0,
+    "parent": null,
+    "meta": {
+      "lat": 0,
+      "lng": 0
+    }
+  },
+  {
+    "slug": "adachi",
+    "name": "足立区",
+    "count": 0,
+    "parent": null,
+    "meta": {
+      "lat": 0,
+      "lng": 0
+    }
+  },
+  {
+    "slug": "kanamachi",
+    "name": "金町",
+    "count": 4,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7666,
+      "lng": 139.8703
+    }
+  },
+  {
+    "slug": "aoto",
+    "name": "青戸",
+    "count": 5,
+    "parent": "katsushika",
+    "meta": {
+      "lat": 35.7457,
+      "lng": 139.8547
+    }
+  }
+]

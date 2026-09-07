@@ -1,0 +1,75 @@
+{
+  "no": "HR-R-0013",
+  "slug": "hr-r-0013",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "北千住メゾン0-13",
+  "area": "kitasenju",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 3
+    },
+    {
+      "slug": "ayase",
+      "walk": 10
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "pet-ok",
+    "washstand",
+    "reheating",
+    "parking"
+  ],
+  "collections": [
+    "pet-ok",
+    "new-built",
+    "central-30min",
+    "near-station"
+  ],
+  "layout": "1DK",
+  "areaSqm": 29,
+  "builtYm": "2026-03",
+  "lat": 35.74548,
+  "lng": 139.801445,
+  "thumb": "/wp-uploads/placeholders/HR-R-0013-1.svg",
+  "publishedOn": "2026-08-29",
+  "rent": 81000,
+  "address": "東京都足立区北千住0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 3,
+  "walkMinutes2": 10,
+  "floor": 7,
+  "floorsTotal": 13,
+  "structure": "SRC",
+  "direction": "南西",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-09-01",
+  "nextUpdateOn": "2026-09-15",
+  "comment": "北千住駅まで徒歩3分。静かな住宅街の一角にあります。1DKのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。ご不明点は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0013-1.svg",
+    "/wp-uploads/placeholders/HR-R-0013-2.svg",
+    "/wp-uploads/placeholders/HR-R-0013-3.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 8000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": false,
+    "availableFrom": "2026-09-22"
+  }
+}

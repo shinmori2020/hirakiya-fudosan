@@ -1,0 +1,71 @@
+{
+  "no": "HR-R-0037",
+  "slug": "hr-r-0037",
+  "type": "rental",
+  "kind": "house_rental",
+  "status": "open",
+  "title": "お花茶屋ハイツ0-37",
+  "area": "ohanajaya",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 13
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "office-ok",
+    "parking"
+  ],
+  "collections": [
+    "house-rental"
+  ],
+  "layout": "3DK",
+  "areaSqm": 83,
+  "builtYm": "1994-10",
+  "lat": 35.75499,
+  "lng": 139.845992,
+  "thumb": "/wp-uploads/placeholders/HR-R-0037-1.svg",
+  "publishedOn": "2026-08-26",
+  "rent": 141000,
+  "address": "東京都葛飾区お花茶屋0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 13,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "南",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-30",
+  "nextUpdateOn": "2026-09-13",
+  "comment": "お花茶屋駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。3DKのお部屋です。バス・トイレ別・駐車場で、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0037-1.svg",
+    "/wp-uploads/placeholders/HR-R-0037-2.svg",
+    "/wp-uploads/placeholders/HR-R-0037-3.svg",
+    "/wp-uploads/placeholders/HR-R-0037-4.svg",
+    "/wp-uploads/placeholders/HR-R-0037-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3dk.svg",
+  "rental": {
+    "maintenanceFee": 10000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-01"
+  }
+}

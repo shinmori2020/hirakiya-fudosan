@@ -1,0 +1,72 @@
+{
+  "no": "HR-R-0021",
+  "slug": "hr-r-0021",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "お花茶屋コーポ0-21",
+  "area": "ohanajaya",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 12
+    },
+    {
+      "slug": "aoto",
+      "walk": 19
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "separate-bath",
+    "office-ok",
+    "south-facing",
+    "move-in-now",
+    "corner-room",
+    "reheating",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "2K",
+  "areaSqm": 42,
+  "builtYm": "1991-10",
+  "lat": 35.750858,
+  "lng": 139.847146,
+  "thumb": "/wp-uploads/placeholders/HR-R-0021-1.svg",
+  "publishedOn": "2026-07-25",
+  "rent": 102000,
+  "address": "東京都葛飾区お花茶屋0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 12,
+  "walkMinutes2": 19,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南西",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-27",
+  "nextUpdateOn": "2026-08-10",
+  "comment": "お花茶屋駅から徒歩12分、平坦な道のりで通勤にも便利な立地です。2Kの間取りで、収納も確保されています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0021-1.svg",
+    "/wp-uploads/placeholders/HR-R-0021-2.svg",
+    "/wp-uploads/placeholders/HR-R-0021-3.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2k.svg",
+  "rental": {
+    "maintenanceFee": 5000,
+    "depositMonths": 2,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

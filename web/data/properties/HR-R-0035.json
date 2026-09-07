@@ -1,0 +1,73 @@
+{
+  "no": "HR-R-0035",
+  "slug": "hr-r-0035",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "綾瀬テラス0-35",
+  "area": "ayase",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 6
+    },
+    {
+      "slug": "ayase",
+      "walk": 11
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "separate-bath",
+    "south-facing",
+    "washstand",
+    "parking"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 41,
+  "builtYm": "1980-01",
+  "lat": 35.759843,
+  "lng": 139.827346,
+  "thumb": "/wp-uploads/placeholders/HR-R-0035-1.svg",
+  "publishedOn": "2026-07-27",
+  "rent": 81000,
+  "address": "東京都足立区綾瀬0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 6,
+  "walkMinutes2": 11,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "南",
+  "parking": "空きあり(月額)",
+  "transactionType": "貸主",
+  "updatedOn": "2026-07-31",
+  "nextUpdateOn": "2026-08-14",
+  "comment": "綾瀬駅から徒歩6分、平坦な道のりで通勤にも便利な立地です。1LDK・41㎡。室内は明るく、家具の配置もしやすい形です。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0035-1.svg",
+    "/wp-uploads/placeholders/HR-R-0035-2.svg",
+    "/wp-uploads/placeholders/HR-R-0035-3.svg",
+    "/wp-uploads/placeholders/HR-R-0035-4.svg",
+    "/wp-uploads/placeholders/HR-R-0035-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 10000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "2026-11-04"
+  }
+}

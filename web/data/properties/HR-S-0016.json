@@ -1,0 +1,72 @@
+{
+  "no": "HR-S-0016",
+  "slug": "hr-s-0016",
+  "type": "sale",
+  "kind": "house",
+  "status": "sold",
+  "title": "綾瀬ハイツ0-56",
+  "area": "ayase",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 6
+    },
+    {
+      "slug": "ayase",
+      "walk": 13
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "aircon",
+    "corner-room",
+    "parking"
+  ],
+  "collections": [
+    "new-built",
+    "central-30min"
+  ],
+  "layout": "2LDK",
+  "areaSqm": 48,
+  "builtYm": "2024-09",
+  "lat": 35.76111,
+  "lng": 139.824787,
+  "thumb": "/wp-uploads/placeholders/HR-S-0016-1.svg",
+  "publishedOn": "2026-08-13",
+  "price": 4450,
+  "address": "東京都足立区綾瀬0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 6,
+  "walkMinutes2": 13,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "北",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-17",
+  "nextUpdateOn": "2026-08-31",
+  "comment": "綾瀬駅から徒歩6分、平坦な道のりで通勤にも便利な立地です。2LDKのお部屋です。角部屋・駐車場で、暮らしやすさを重視した造りになっています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0016-1.svg",
+    "/wp-uploads/placeholders/HR-S-0016-2.svg",
+    "/wp-uploads/placeholders/HR-S-0016-3.svg",
+    "/wp-uploads/placeholders/HR-S-0016-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2ldk.svg",
+  "sale": {
+    "landSqm": 122,
+    "buildingSqm": 87,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 60,
+    "far": 200,
+    "roadAccess": "東 4.5m 公道",
+    "handover": "即時"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "no": "HR-S-0009",
+  "slug": "hr-s-0009",
+  "type": "sale",
+  "kind": "house",
+  "status": "open",
+  "title": "平井メゾン0-49",
+  "area": "hirai",
+  "stations": [
+    {
+      "slug": "hirai",
+      "walk": 13
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 17
+    }
+  ],
+  "lines": [
+    "jr-sobu"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "3LDK",
+  "areaSqm": 80,
+  "builtYm": "1994-10",
+  "lat": 35.703056,
+  "lng": 139.839427,
+  "thumb": "/wp-uploads/placeholders/HR-S-0009-1.svg",
+  "publishedOn": "2026-09-05",
+  "price": 3100,
+  "address": "東京都江戸川区平井0-0-0",
+  "staff": "仮名 一郎",
+  "walkMinutes": 13,
+  "walkMinutes2": 17,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "南",
+  "parking": "空きあり(月額)",
+  "transactionType": "売主",
+  "updatedOn": "2026-09-06",
+  "nextUpdateOn": "2026-09-20",
+  "comment": "平井駅まで徒歩13分。静かな住宅街の一角にあります。3LDKのお部屋です。バス・トイレ別・駐車場で、暮らしやすさを重視した造りになっています。資料請求・現地見学のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0009-1.svg",
+    "/wp-uploads/placeholders/HR-S-0009-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": 76,
+    "buildingSqm": 90,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 60,
+    "far": 300,
+    "roadAccess": "南 4.5m 公道",
+    "handover": "相談"
+  }
+}

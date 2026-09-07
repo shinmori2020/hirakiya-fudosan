@@ -1,0 +1,71 @@
+{
+  "no": "HR-R-0006",
+  "slug": "hr-r-0006",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "negotiating",
+  "title": "小岩ハウス0-6",
+  "area": "koiwa",
+  "stations": [
+    {
+      "slug": "keisei-koiwa",
+      "walk": 4
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 8
+    }
+  ],
+  "lines": [
+    "jr-sobu",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "delivery-box",
+    "zero-deposit",
+    "corner-room",
+    "reheating"
+  ],
+  "collections": [
+    "zero-deposit",
+    "near-station"
+  ],
+  "layout": "1K",
+  "areaSqm": 23,
+  "builtYm": "2009-03",
+  "lat": 35.734449,
+  "lng": 139.882123,
+  "thumb": "/wp-uploads/placeholders/HR-R-0006-1.svg",
+  "publishedOn": "2026-07-23",
+  "rent": 71000,
+  "address": "東京都江戸川区小岩0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 4,
+  "walkMinutes2": 8,
+  "floor": 1,
+  "floorsTotal": 8,
+  "structure": "RC",
+  "direction": "南西",
+  "parking": "なし",
+  "transactionType": "貸主",
+  "updatedOn": "2026-07-26",
+  "nextUpdateOn": "2026-08-09",
+  "comment": "京成小岩駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1K・23㎡。室内は明るく、家具の配置もしやすい形です。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0006-1.svg",
+    "/wp-uploads/placeholders/HR-R-0006-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1k.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-31"
+  }
+}

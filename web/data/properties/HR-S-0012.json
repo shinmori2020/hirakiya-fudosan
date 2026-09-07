@@ -1,0 +1,71 @@
+{
+  "no": "HR-S-0012",
+  "slug": "hr-s-0012",
+  "type": "sale",
+  "kind": "house",
+  "status": "negotiating",
+  "title": "亀有コーポ0-52",
+  "area": "kameari",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 8
+    },
+    {
+      "slug": "ayase",
+      "walk": 16
+    }
+  ],
+  "lines": [
+    "jr-joban"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "south-facing",
+    "washstand",
+    "parking"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "3LDK",
+  "areaSqm": 79,
+  "builtYm": "2017-08",
+  "lat": 35.757689,
+  "lng": 139.849601,
+  "thumb": "/wp-uploads/placeholders/HR-S-0012-1.svg",
+  "publishedOn": "2026-08-04",
+  "price": 4930,
+  "address": "東京都葛飾区亀有0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 8,
+  "walkMinutes2": 16,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "軽量鉄骨",
+  "direction": "東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-08",
+  "nextUpdateOn": "2026-08-22",
+  "comment": "亀有駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。3LDKタイプ。設備面ではバス・トイレ別・独立洗面が備わっています。周辺の成約事例もご案内できます。お気軽にどうぞ。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0012-1.svg",
+    "/wp-uploads/placeholders/HR-S-0012-2.svg",
+    "/wp-uploads/placeholders/HR-S-0012-3.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": 97,
+    "buildingSqm": 71,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第一種低層住居専用",
+    "bcr": 80,
+    "far": 300,
+    "roadAccess": "東 4.0m 公道",
+    "handover": "即時"
+  }
+}

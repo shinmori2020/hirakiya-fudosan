@@ -1,0 +1,71 @@
+{
+  "no": "HR-S-0006",
+  "slug": "hr-s-0006",
+  "type": "sale",
+  "kind": "mansion",
+  "status": "open",
+  "title": "曳舟ハイツ0-46",
+  "area": "hikifune",
+  "stations": [
+    {
+      "slug": "oshiage",
+      "walk": 16
+    },
+    {
+      "slug": "hikifune",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "tobu-skytree"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "washstand"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 42,
+  "builtYm": "2007-05",
+  "lat": 35.71518,
+  "lng": 139.818326,
+  "thumb": "/wp-uploads/placeholders/HR-S-0006-1.svg",
+  "publishedOn": "2026-08-08",
+  "price": 6110,
+  "address": "東京都墨田区曳舟0-0-0",
+  "staff": "仮名 一郎",
+  "walkMinutes": 16,
+  "walkMinutes2": 20,
+  "floor": 3,
+  "floorsTotal": 12,
+  "structure": "SRC",
+  "direction": "南",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-10",
+  "nextUpdateOn": "2026-08-24",
+  "comment": "曳舟駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1LDKのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。周辺の成約事例もご案内できます。お気軽にどうぞ。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0006-1.svg",
+    "/wp-uploads/placeholders/HR-S-0006-2.svg",
+    "/wp-uploads/placeholders/HR-S-0006-3.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "sale": {
+    "landSqm": null,
+    "buildingSqm": null,
+    "mgmtFee": 17000,
+    "repairFund": 8000,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 60,
+    "far": 300,
+    "roadAccess": "南 6.0m 私道",
+    "handover": "相談"
+  }
+}

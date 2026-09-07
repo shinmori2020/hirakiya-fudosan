@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "open",
+    "name": "公開中",
+    "count": 48,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "negotiating",
+    "name": "商談中",
+    "count": 7,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "sold",
+    "name": "成約済み",
+    "count": 5,
+    "parent": null,
+    "meta": {}
+  }
+]

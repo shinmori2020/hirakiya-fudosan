@@ -1,0 +1,67 @@
+{
+  "no": "HR-R-0010",
+  "slug": "hr-r-0010",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "negotiating",
+  "title": "綾瀬テラス0-10",
+  "area": "ayase",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 12
+    },
+    {
+      "slug": "ayase",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "2LDK",
+  "areaSqm": 61,
+  "builtYm": "1993-10",
+  "lat": 35.763136,
+  "lng": 139.823906,
+  "thumb": "/wp-uploads/placeholders/HR-R-0010-1.svg",
+  "publishedOn": "2026-07-20",
+  "rent": 137000,
+  "rentPrevious": 148000,
+  "address": "東京都足立区綾瀬0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 12,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 9,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-25",
+  "nextUpdateOn": "2026-08-08",
+  "comment": "綾瀬駅まで徒歩12分。静かな住宅街の一角にあります。2LDK・61㎡。室内は明るく、家具の配置もしやすい形です。現地でのご案内も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0010-1.svg",
+    "/wp-uploads/placeholders/HR-R-0010-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-2ldk.svg",
+  "rental": {
+    "maintenanceFee": 8000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "無料",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-02"
+  }
+}

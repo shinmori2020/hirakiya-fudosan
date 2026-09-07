@@ -1,0 +1,68 @@
+{
+  "no": "HR-R-0026",
+  "slug": "hr-r-0026",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "小岩レジデンス0-26",
+  "area": "koiwa",
+  "stations": [
+    {
+      "slug": "keisei-koiwa",
+      "walk": 8
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 13
+    }
+  ],
+  "lines": [
+    "jr-sobu",
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "office-ok"
+  ],
+  "collections": [],
+  "layout": "1DK",
+  "areaSqm": 31,
+  "builtYm": "1990-01",
+  "lat": 35.736406,
+  "lng": 139.884519,
+  "thumb": "/wp-uploads/placeholders/HR-R-0026-1.svg",
+  "publishedOn": "2026-07-25",
+  "rent": 110000,
+  "rentPrevious": 119000,
+  "address": "東京都江戸川区小岩0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 8,
+  "walkMinutes2": 13,
+  "floor": 3,
+  "floorsTotal": 3,
+  "structure": "木造",
+  "direction": "南西",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-30",
+  "nextUpdateOn": "2026-08-13",
+  "comment": "京成小岩駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1DK・31㎡。室内は明るく、家具の配置もしやすい形です。現地でのご案内も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0026-1.svg",
+    "/wp-uploads/placeholders/HR-R-0026-2.svg",
+    "/wp-uploads/placeholders/HR-R-0026-3.svg",
+    "/wp-uploads/placeholders/HR-R-0026-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 5000,
+    "depositMonths": 0,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-09-26"
+  }
+}

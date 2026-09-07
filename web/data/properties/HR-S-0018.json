@@ -1,0 +1,70 @@
+{
+  "no": "HR-S-0018",
+  "slug": "hr-s-0018",
+  "type": "sale",
+  "kind": "land",
+  "status": "negotiating",
+  "title": "新小岩 売地 0-58",
+  "area": "shinkoiwa",
+  "stations": [
+    {
+      "slug": "hirai",
+      "walk": 5
+    },
+    {
+      "slug": "shinkoiwa",
+      "walk": 14
+    }
+  ],
+  "lines": [
+    "jr-sobu"
+  ],
+  "features": [],
+  "collections": [
+    "new-built",
+    "near-station"
+  ],
+  "layout": "",
+  "areaSqm": null,
+  "builtYm": "",
+  "lat": 35.713136,
+  "lng": 139.855168,
+  "thumb": "/wp-uploads/placeholders/HR-S-0018-1.svg",
+  "publishedOn": "2026-07-12",
+  "price": 3940,
+  "pricePrevious": 4220,
+  "address": "東京都葛飾区新小岩0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 5,
+  "walkMinutes2": 14,
+  "floor": null,
+  "floorsTotal": null,
+  "structure": "",
+  "direction": "",
+  "parking": "近隣",
+  "transactionType": "売主",
+  "updatedOn": "2026-07-14",
+  "nextUpdateOn": "2026-07-28",
+  "comment": "新小岩駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。110㎡の整形地。資料請求・現地見学のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0018-1.svg",
+    "/wp-uploads/placeholders/HR-S-0018-2.svg",
+    "/wp-uploads/placeholders/HR-S-0018-3.svg",
+    "/wp-uploads/placeholders/HR-S-0018-4.svg",
+    "/wp-uploads/placeholders/HR-S-0018-5.svg",
+    "/wp-uploads/placeholders/HR-S-0018-6.svg"
+  ],
+  "floorplan": null,
+  "sale": {
+    "landSqm": 110,
+    "buildingSqm": null,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "準工業",
+    "bcr": 60,
+    "far": 400,
+    "roadAccess": "西 4.0m 公道",
+    "handover": "即時"
+  }
+}

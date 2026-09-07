@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "apartment",
+    "name": "アパート",
+    "count": 15,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "mansion",
+    "name": "マンション",
+    "count": 28,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "land",
+    "name": "土地",
+    "count": 4,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "house",
+    "name": "戸建",
+    "count": 8,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "house_rental",
+    "name": "戸建賃貸",
+    "count": 5,
+    "parent": null,
+    "meta": {}
+  }
+]

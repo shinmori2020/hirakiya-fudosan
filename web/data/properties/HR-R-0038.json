@@ -1,0 +1,70 @@
+{
+  "no": "HR-R-0038",
+  "slug": "hr-r-0038",
+  "type": "rental",
+  "kind": "house_rental",
+  "status": "open",
+  "title": "金町テラス0-38",
+  "area": "kanamachi",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 14
+    },
+    {
+      "slug": "kanamachi",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "keisei-kanamachi"
+  ],
+  "features": [
+    "aircon",
+    "south-facing",
+    "zero-deposit",
+    "washstand",
+    "reheating",
+    "parking"
+  ],
+  "collections": [
+    "house-rental",
+    "zero-deposit"
+  ],
+  "layout": "4LDK",
+  "areaSqm": 95,
+  "builtYm": "1989-04",
+  "lat": 35.764558,
+  "lng": 139.869817,
+  "thumb": "/wp-uploads/placeholders/HR-R-0038-1.svg",
+  "publishedOn": "2026-08-11",
+  "rent": 121000,
+  "address": "東京都葛飾区金町0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 14,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "北",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-14",
+  "nextUpdateOn": "2026-08-28",
+  "comment": "金町駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。4LDKの間取りで、収納も確保されています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0038-1.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-4ldk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "2026-09-23"
+  }
+}

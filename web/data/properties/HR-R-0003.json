@@ -1,0 +1,72 @@
+{
+  "no": "HR-R-0003",
+  "slug": "hr-r-0003",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "立石ハウス0-3",
+  "area": "tateishi",
+  "stations": [
+    {
+      "slug": "keisei-tateishi",
+      "walk": 11
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "south-facing",
+    "move-in-now",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "1K",
+  "areaSqm": 22,
+  "builtYm": "1980-11",
+  "lat": 35.73858,
+  "lng": 139.850743,
+  "thumb": "/wp-uploads/placeholders/HR-R-0003-1.svg",
+  "publishedOn": "2026-08-14",
+  "rent": 68000,
+  "address": "東京都葛飾区立石0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 11,
+  "walkMinutes2": 20,
+  "floor": 9,
+  "floorsTotal": 12,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-17",
+  "nextUpdateOn": "2026-08-31",
+  "comment": "京成立石駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。1Kの間取りで、収納も確保されています。空室状況は日々変わります。お早めにご相談ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0003-1.svg",
+    "/wp-uploads/placeholders/HR-R-0003-2.svg",
+    "/wp-uploads/placeholders/HR-R-0003-3.svg",
+    "/wp-uploads/placeholders/HR-R-0003-4.svg",
+    "/wp-uploads/placeholders/HR-R-0003-5.svg",
+    "/wp-uploads/placeholders/HR-R-0003-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1k.svg",
+  "rental": {
+    "maintenanceFee": 8000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

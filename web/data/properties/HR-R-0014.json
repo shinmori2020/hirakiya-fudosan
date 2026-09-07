@@ -1,0 +1,72 @@
+{
+  "no": "HR-R-0014",
+  "slug": "hr-r-0014",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "北千住テラス0-14",
+  "area": "kitasenju",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 11
+    },
+    {
+      "slug": "ayase",
+      "walk": 15
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "move-in-now",
+    "washstand"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 43,
+  "builtYm": "2005-04",
+  "lat": 35.745526,
+  "lng": 139.807992,
+  "thumb": "/wp-uploads/placeholders/HR-R-0014-1.svg",
+  "publishedOn": "2026-07-10",
+  "rent": 107000,
+  "address": "東京都足立区北千住0-0-0",
+  "staff": "見本 花子",
+  "walkMinutes": 11,
+  "walkMinutes2": 15,
+  "floor": 2,
+  "floorsTotal": 12,
+  "structure": "RC",
+  "direction": "東",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-10",
+  "nextUpdateOn": "2026-07-24",
+  "comment": "北千住駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1LDKのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。空室状況は日々変わります。お早めにご相談ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0014-1.svg",
+    "/wp-uploads/placeholders/HR-R-0014-2.svg",
+    "/wp-uploads/placeholders/HR-R-0014-3.svg",
+    "/wp-uploads/placeholders/HR-R-0014-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 3000,
+    "depositMonths": 2,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": false,
+    "availableFrom": "即入居可"
+  }
+}

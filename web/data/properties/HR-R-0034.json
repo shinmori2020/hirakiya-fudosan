@@ -1,0 +1,73 @@
+{
+  "no": "HR-R-0034",
+  "slug": "hr-r-0034",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "青戸テラス0-34",
+  "area": "aoto",
+  "stations": [
+    {
+      "slug": "ohanajaya",
+      "walk": 18
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "south-facing",
+    "instrument-ok",
+    "corner-room",
+    "parking"
+  ],
+  "collections": [],
+  "layout": "1DK",
+  "areaSqm": 34,
+  "builtYm": "1999-11",
+  "lat": 35.7487,
+  "lng": 139.852057,
+  "thumb": "/wp-uploads/placeholders/HR-R-0034-1.svg",
+  "publishedOn": "2026-08-08",
+  "rent": 79000,
+  "rentPrevious": 85000,
+  "address": "東京都葛飾区青戸0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 18,
+  "walkMinutes2": 20,
+  "floor": 3,
+  "floorsTotal": 3,
+  "structure": "木造",
+  "direction": "北",
+  "parking": "空きあり(月額)",
+  "transactionType": "貸主",
+  "updatedOn": "2026-08-08",
+  "nextUpdateOn": "2026-08-22",
+  "comment": "青砥駅から徒歩18分、平坦な道のりで通勤にも便利な立地です。1DK・34㎡。室内は明るく、家具の配置もしやすい形です。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0034-1.svg",
+    "/wp-uploads/placeholders/HR-R-0034-2.svg",
+    "/wp-uploads/placeholders/HR-R-0034-3.svg",
+    "/wp-uploads/placeholders/HR-R-0034-4.svg",
+    "/wp-uploads/placeholders/HR-R-0034-5.svg",
+    "/wp-uploads/placeholders/HR-R-0034-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 5000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "無料",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": false,
+    "availableFrom": "2026-09-30"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "no": "HR-R-0030",
+  "slug": "hr-r-0030",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "亀有レジデンス0-30",
+  "area": "kameari",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 7
+    },
+    {
+      "slug": "ayase",
+      "walk": 11
+    }
+  ],
+  "lines": [
+    "jr-joban"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "separate-bath",
+    "move-in-now",
+    "instrument-ok",
+    "washstand",
+    "reheating",
+    "parking"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 37,
+  "builtYm": "2004-10",
+  "lat": 35.764054,
+  "lng": 139.849755,
+  "thumb": "/wp-uploads/placeholders/HR-R-0030-1.svg",
+  "publishedOn": "2026-08-03",
+  "rent": 109000,
+  "address": "東京都葛飾区亀有0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 7,
+  "walkMinutes2": 11,
+  "floor": 1,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "北",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-04",
+  "nextUpdateOn": "2026-08-18",
+  "comment": "亀有駅から徒歩7分、平坦な道のりで通勤にも便利な立地です。1LDKのお部屋です。バス・トイレ別・独立洗面で、暮らしやすさを重視した造りになっています。空室状況は日々変わります。お早めにご相談ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0030-1.svg",
+    "/wp-uploads/placeholders/HR-R-0030-2.svg",
+    "/wp-uploads/placeholders/HR-R-0030-3.svg",
+    "/wp-uploads/placeholders/HR-R-0030-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 5000,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

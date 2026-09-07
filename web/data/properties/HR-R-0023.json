@@ -1,0 +1,71 @@
+{
+  "no": "HR-R-0023",
+  "slug": "hr-r-0023",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "北千住ハウス0-23",
+  "area": "kitasenju",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 17
+    },
+    {
+      "slug": "ayase",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "aircon",
+    "south-facing",
+    "washstand",
+    "reheating",
+    "parking"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1R",
+  "areaSqm": 19,
+  "builtYm": "1993-03",
+  "lat": 35.752118,
+  "lng": 139.802229,
+  "thumb": "/wp-uploads/placeholders/HR-R-0023-1.svg",
+  "publishedOn": "2026-08-02",
+  "rent": 61000,
+  "address": "東京都足立区北千住0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 17,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-04",
+  "nextUpdateOn": "2026-08-18",
+  "comment": "北千住駅まで徒歩17分。静かな住宅街の一角にあります。1Rタイプ。設備面では独立洗面・追い焚きが備わっています。ご不明点は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0023-1.svg",
+    "/wp-uploads/placeholders/HR-R-0023-2.svg",
+    "/wp-uploads/placeholders/HR-R-0023-3.svg",
+    "/wp-uploads/placeholders/HR-R-0023-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1r.svg",
+  "rental": {
+    "maintenanceFee": 8000,
+    "depositMonths": 2,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": false,
+    "availableFrom": "2026-10-17"
+  }
+}

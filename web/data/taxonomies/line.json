@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "jr-joban",
+    "name": "JR常磐線",
+    "count": 18,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "jr-sobu",
+    "name": "JR総武線",
+    "count": 16,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "keisei-oshiage",
+    "name": "京成押上線",
+    "count": 22,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "keisei-main",
+    "name": "京成本線",
+    "count": 24,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "keisei-kanamachi",
+    "name": "京成金町線",
+    "count": 4,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "tobu-skytree",
+    "name": "東武スカイツリーライン",
+    "count": 18,
+    "parent": null,
+    "meta": {}
+  }
+]

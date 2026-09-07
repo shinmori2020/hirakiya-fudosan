@@ -1,0 +1,74 @@
+{
+  "no": "HR-R-0001",
+  "slug": "hr-r-0001",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "曳舟テラス0-1",
+  "area": "hikifune",
+  "stations": [
+    {
+      "slug": "oshiage",
+      "walk": 8
+    },
+    {
+      "slug": "hikifune",
+      "walk": 18
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "separate-bath",
+    "delivery-box",
+    "instrument-ok",
+    "washstand",
+    "reheating"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 35,
+  "builtYm": "2008-04",
+  "lat": 35.714237,
+  "lng": 139.81688,
+  "thumb": "/wp-uploads/placeholders/HR-R-0001-1.svg",
+  "publishedOn": "2026-09-03",
+  "rent": 82000,
+  "address": "東京都墨田区曳舟0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 8,
+  "walkMinutes2": 18,
+  "floor": 5,
+  "floorsTotal": 14,
+  "structure": "RC",
+  "direction": "北",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-09-06",
+  "nextUpdateOn": "2026-09-20",
+  "comment": "曳舟駅まで徒歩8分。静かな住宅街の一角にあります。1LDKのお部屋です。宅配ボックス・バス・トイレ別で、暮らしやすさを重視した造りになっています。空室状況は日々変わります。お早めにご相談ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0001-1.svg",
+    "/wp-uploads/placeholders/HR-R-0001-2.svg",
+    "/wp-uploads/placeholders/HR-R-0001-3.svg",
+    "/wp-uploads/placeholders/HR-R-0001-4.svg",
+    "/wp-uploads/placeholders/HR-R-0001-5.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 2,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-27"
+  }
+}

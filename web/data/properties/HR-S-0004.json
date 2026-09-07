@@ -1,0 +1,70 @@
+{
+  "no": "HR-S-0004",
+  "slug": "hr-s-0004",
+  "type": "sale",
+  "kind": "mansion",
+  "status": "open",
+  "title": "立石テラス0-44",
+  "area": "tateishi",
+  "stations": [
+    {
+      "slug": "keisei-tateishi",
+      "walk": 11
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "south-facing",
+    "washstand"
+  ],
+  "collections": [],
+  "layout": "3LDK",
+  "areaSqm": 90,
+  "builtYm": "1990-09",
+  "lat": 35.74303,
+  "lng": 139.846667,
+  "thumb": "/wp-uploads/placeholders/HR-S-0004-1.svg",
+  "publishedOn": "2026-08-09",
+  "price": 6090,
+  "address": "東京都葛飾区立石0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 11,
+  "walkMinutes2": 20,
+  "floor": 3,
+  "floorsTotal": 5,
+  "structure": "SRC",
+  "direction": "南東",
+  "parking": "近隣",
+  "transactionType": "売主",
+  "updatedOn": "2026-08-12",
+  "nextUpdateOn": "2026-08-26",
+  "comment": "京成立石駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。3LDK・90㎡。室内は明るく、家具の配置もしやすい形です。周辺の成約事例もご案内できます。お気軽にどうぞ。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0004-1.svg",
+    "/wp-uploads/placeholders/HR-S-0004-2.svg",
+    "/wp-uploads/placeholders/HR-S-0004-3.svg",
+    "/wp-uploads/placeholders/HR-S-0004-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": null,
+    "buildingSqm": null,
+    "mgmtFee": 8000,
+    "repairFund": 8000,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 80,
+    "far": 200,
+    "roadAccess": "西 6.0m 公道",
+    "handover": "相談"
+  }
+}

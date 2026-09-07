@@ -1,0 +1,69 @@
+{
+  "no": "HR-S-0007",
+  "slug": "hr-s-0007",
+  "type": "sale",
+  "kind": "mansion",
+  "status": "open",
+  "title": "立石ハイツ0-47",
+  "area": "tateishi",
+  "stations": [
+    {
+      "slug": "keisei-tateishi",
+      "walk": 20
+    },
+    {
+      "slug": "aoto",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "corner-room"
+  ],
+  "collections": [],
+  "layout": "1LDK",
+  "areaSqm": 28,
+  "builtYm": "2006-04",
+  "lat": 35.738413,
+  "lng": 139.852364,
+  "thumb": "/wp-uploads/placeholders/HR-S-0007-1.svg",
+  "publishedOn": "2026-07-12",
+  "price": 4070,
+  "address": "東京都葛飾区立石0-0-0",
+  "staff": "仮名 一郎",
+  "walkMinutes": 20,
+  "walkMinutes2": 20,
+  "floor": 1,
+  "floorsTotal": 14,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-16",
+  "nextUpdateOn": "2026-07-30",
+  "comment": "京成立石駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1LDKのお部屋です。バス・トイレ別・角部屋で、暮らしやすさを重視した造りになっています。周辺の成約事例もご案内できます。お気軽にどうぞ。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0007-1.svg",
+    "/wp-uploads/placeholders/HR-S-0007-2.svg",
+    "/wp-uploads/placeholders/HR-S-0007-3.svg",
+    "/wp-uploads/placeholders/HR-S-0007-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "sale": {
+    "landSqm": null,
+    "buildingSqm": null,
+    "mgmtFee": 8000,
+    "repairFund": 10000,
+    "landRights": "所有権",
+    "zoning": "近隣商業",
+    "bcr": 80,
+    "far": 400,
+    "roadAccess": "西 4.5m 公道",
+    "handover": "即時"
+  }
+}

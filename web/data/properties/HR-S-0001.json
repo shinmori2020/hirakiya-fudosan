@@ -1,0 +1,71 @@
+{
+  "no": "HR-S-0001",
+  "slug": "hr-s-0001",
+  "type": "sale",
+  "kind": "mansion",
+  "status": "open",
+  "title": "亀有コーポ0-41",
+  "area": "kameari",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 19
+    },
+    {
+      "slug": "ayase",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-joban"
+  ],
+  "features": [
+    "aircon",
+    "separate-bath",
+    "delivery-box",
+    "washstand"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 32,
+  "builtYm": "2013-06",
+  "lat": 35.760922,
+  "lng": 139.850723,
+  "thumb": "/wp-uploads/placeholders/HR-S-0001-1.svg",
+  "publishedOn": "2026-07-21",
+  "price": 2910,
+  "address": "東京都葛飾区亀有0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 19,
+  "walkMinutes2": 20,
+  "floor": 6,
+  "floorsTotal": 13,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "なし",
+  "transactionType": "売主",
+  "updatedOn": "2026-07-23",
+  "nextUpdateOn": "2026-08-06",
+  "comment": "亀有駅まで徒歩19分。静かな住宅街の一角にあります。1LDKの間取りで、収納も確保されています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0001-1.svg",
+    "/wp-uploads/placeholders/HR-S-0001-2.svg",
+    "/wp-uploads/placeholders/HR-S-0001-3.svg",
+    "/wp-uploads/placeholders/HR-S-0001-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "sale": {
+    "landSqm": null,
+    "buildingSqm": null,
+    "mgmtFee": 11000,
+    "repairFund": 5000,
+    "landRights": "所有権",
+    "zoning": "近隣商業",
+    "bcr": 80,
+    "far": 200,
+    "roadAccess": "北 4.0m 私道",
+    "handover": "相談"
+  }
+}

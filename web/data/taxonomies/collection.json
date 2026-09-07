@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "pet-ok",
+    "name": "ペット可",
+    "count": 6,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "house-rental",
+    "name": "戸建賃貸",
+    "count": 5,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "zero-deposit",
+    "name": "敷礼ゼロ",
+    "count": 11,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "new-built",
+    "name": "新築・築浅",
+    "count": 5,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "central-30min",
+    "name": "都心まで30分以内",
+    "count": 22,
+    "parent": null,
+    "meta": {}
+  },
+  {
+    "slug": "near-station",
+    "name": "駅徒歩5分",
+    "count": 15,
+    "parent": null,
+    "meta": {}
+  }
+]

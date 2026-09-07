@@ -1,0 +1,74 @@
+{
+  "no": "HR-S-0003",
+  "slug": "hr-s-0003",
+  "type": "sale",
+  "kind": "mansion",
+  "status": "open",
+  "title": "押上テラス0-43",
+  "area": "oshiage",
+  "stations": [
+    {
+      "slug": "oshiage",
+      "walk": 13
+    },
+    {
+      "slug": "hikifune",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "tobu-skytree"
+  ],
+  "features": [
+    "aircon",
+    "autolock",
+    "delivery-box"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "3LDK",
+  "areaSqm": 75,
+  "builtYm": "2014-06",
+  "lat": 35.710547,
+  "lng": 139.814118,
+  "thumb": "/wp-uploads/placeholders/HR-S-0003-1.svg",
+  "publishedOn": "2026-09-06",
+  "price": 3070,
+  "pricePrevious": 3280,
+  "address": "東京都墨田区押上0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 13,
+  "walkMinutes2": 20,
+  "floor": 10,
+  "floorsTotal": 10,
+  "structure": "RC",
+  "direction": "東",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-09-06",
+  "nextUpdateOn": "2026-09-20",
+  "comment": "押上駅まで徒歩13分。静かな住宅街の一角にあります。3LDKタイプ。設備面ではオートロック・宅配ボックスが備わっています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0003-1.svg",
+    "/wp-uploads/placeholders/HR-S-0003-2.svg",
+    "/wp-uploads/placeholders/HR-S-0003-3.svg",
+    "/wp-uploads/placeholders/HR-S-0003-4.svg",
+    "/wp-uploads/placeholders/HR-S-0003-5.svg",
+    "/wp-uploads/placeholders/HR-S-0003-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-3ldk.svg",
+  "sale": {
+    "landSqm": null,
+    "buildingSqm": null,
+    "mgmtFee": 12000,
+    "repairFund": 14000,
+    "landRights": "所有権",
+    "zoning": "第一種住居",
+    "bcr": 60,
+    "far": 200,
+    "roadAccess": "北 4.0m 私道",
+    "handover": "即時"
+  }
+}

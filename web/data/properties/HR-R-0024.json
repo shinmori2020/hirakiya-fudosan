@@ -1,0 +1,72 @@
+{
+  "no": "HR-R-0024",
+  "slug": "hr-r-0024",
+  "type": "rental",
+  "kind": "apartment",
+  "status": "open",
+  "title": "亀有コーポ0-24",
+  "area": "kameari",
+  "stations": [
+    {
+      "slug": "kameari",
+      "walk": 13
+    },
+    {
+      "slug": "ayase",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "jr-joban"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "autolock",
+    "separate-bath",
+    "move-in-now",
+    "zero-deposit"
+  ],
+  "collections": [
+    "zero-deposit",
+    "central-30min"
+  ],
+  "layout": "1R",
+  "areaSqm": 24,
+  "builtYm": "2017-05",
+  "lat": 35.757788,
+  "lng": 139.845035,
+  "thumb": "/wp-uploads/placeholders/HR-R-0024-1.svg",
+  "publishedOn": "2026-08-02",
+  "rent": 67000,
+  "address": "東京都葛飾区亀有0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 13,
+  "walkMinutes2": 20,
+  "floor": 2,
+  "floorsTotal": 2,
+  "structure": "木造",
+  "direction": "南",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-04",
+  "nextUpdateOn": "2026-08-18",
+  "comment": "亀有駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。1Rタイプ。設備面ではオートロック・バス・トイレ別が備わっています。内見のご希望はお気軽にお問い合わせください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0024-1.svg",
+    "/wp-uploads/placeholders/HR-R-0024-2.svg",
+    "/wp-uploads/placeholders/HR-R-0024-3.svg",
+    "/wp-uploads/placeholders/HR-R-0024-4.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1r.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "0.5ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

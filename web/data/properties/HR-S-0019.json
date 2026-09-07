@@ -1,0 +1,69 @@
+{
+  "no": "HR-S-0019",
+  "slug": "hr-s-0019",
+  "type": "sale",
+  "kind": "land",
+  "status": "open",
+  "title": "立石 売地 0-59",
+  "area": "tateishi",
+  "stations": [
+    {
+      "slug": "keisei-tateishi",
+      "walk": 3
+    },
+    {
+      "slug": "aoto",
+      "walk": 7
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "keisei-main"
+  ],
+  "features": [],
+  "collections": [
+    "near-station"
+  ],
+  "layout": "",
+  "areaSqm": null,
+  "builtYm": "",
+  "lat": 35.738036,
+  "lng": 139.847846,
+  "thumb": "/wp-uploads/placeholders/HR-S-0019-1.svg",
+  "publishedOn": "2026-07-22",
+  "price": 4530,
+  "address": "東京都葛飾区立石0-0-0",
+  "staff": "架空 太郎",
+  "walkMinutes": 3,
+  "walkMinutes2": 7,
+  "floor": null,
+  "floorsTotal": null,
+  "structure": "",
+  "direction": "",
+  "parking": "なし",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-24",
+  "nextUpdateOn": "2026-08-07",
+  "comment": "京成立石駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。124㎡の整形地。価格のご相談は担当までご連絡ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-S-0019-1.svg",
+    "/wp-uploads/placeholders/HR-S-0019-2.svg",
+    "/wp-uploads/placeholders/HR-S-0019-3.svg",
+    "/wp-uploads/placeholders/HR-S-0019-4.svg",
+    "/wp-uploads/placeholders/HR-S-0019-5.svg",
+    "/wp-uploads/placeholders/HR-S-0019-6.svg"
+  ],
+  "floorplan": null,
+  "sale": {
+    "landSqm": 124,
+    "buildingSqm": null,
+    "mgmtFee": null,
+    "repairFund": null,
+    "landRights": "所有権",
+    "zoning": "第二種住居",
+    "bcr": 60,
+    "far": 200,
+    "roadAccess": "南 5.0m 私道",
+    "handover": "相談"
+  }
+}

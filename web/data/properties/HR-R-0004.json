@@ -1,0 +1,66 @@
+{
+  "no": "HR-R-0004",
+  "slug": "hr-r-0004",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "北千住レジデンス0-4",
+  "area": "kitasenju",
+  "stations": [
+    {
+      "slug": "kitasenju",
+      "walk": 7
+    },
+    {
+      "slug": "ayase",
+      "walk": 17
+    }
+  ],
+  "lines": [
+    "jr-joban",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "separate-bath",
+    "south-facing",
+    "move-in-now"
+  ],
+  "collections": [
+    "central-30min"
+  ],
+  "layout": "1DK",
+  "areaSqm": 43,
+  "builtYm": "1982-03",
+  "lat": 35.751162,
+  "lng": 139.808721,
+  "thumb": null,
+  "publishedOn": "2026-08-14",
+  "rent": 92000,
+  "address": "東京都足立区北千住0-0-0",
+  "staff": "見本 三郎",
+  "walkMinutes": 7,
+  "walkMinutes2": 17,
+  "floor": 12,
+  "floorsTotal": 14,
+  "structure": "RC",
+  "direction": "南西",
+  "parking": "近隣",
+  "transactionType": "媒介",
+  "updatedOn": "2026-08-19",
+  "nextUpdateOn": "2026-09-02",
+  "comment": "北千住駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1DKの間取りで、収納も確保されています。ご不明点は担当までご連絡ください。",
+  "images": [],
+  "floorplan": "/wp-uploads/placeholders/plan-1dk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "即入居可"
+  }
+}

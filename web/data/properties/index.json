@@ -1,0 +1,2443 @@
+[
+  {
+    "no": "HR-S-0003",
+    "slug": "hr-s-0003",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "押上テラス0-43",
+    "area": "oshiage",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 13
+      },
+      {
+        "slug": "hikifune",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "delivery-box"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "3LDK",
+    "areaSqm": 75,
+    "builtYm": "2014-06",
+    "lat": 35.710547,
+    "lng": 139.814118,
+    "thumb": "/wp-uploads/placeholders/HR-S-0003-1.svg",
+    "publishedOn": "2026-09-06",
+    "price": 3070,
+    "pricePrevious": 3280
+  },
+  {
+    "no": "HR-S-0009",
+    "slug": "hr-s-0009",
+    "type": "sale",
+    "kind": "house",
+    "status": "open",
+    "title": "平井メゾン0-49",
+    "area": "hirai",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 13
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 17
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "3LDK",
+    "areaSqm": 80,
+    "builtYm": "1994-10",
+    "lat": 35.703056,
+    "lng": 139.839427,
+    "thumb": "/wp-uploads/placeholders/HR-S-0009-1.svg",
+    "publishedOn": "2026-09-05",
+    "price": 3100
+  },
+  {
+    "no": "HR-R-0025",
+    "slug": "hr-r-0025",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "sold",
+    "title": "堀切テラス0-25",
+    "area": "horikiri",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 1
+      },
+      {
+        "slug": "horikiri-shobuen",
+        "walk": 10
+      }
+    ],
+    "lines": [
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "pet-ok",
+      "south-facing",
+      "zero-deposit"
+    ],
+    "collections": [
+      "pet-ok",
+      "zero-deposit",
+      "near-station"
+    ],
+    "layout": "2K",
+    "areaSqm": 51,
+    "builtYm": "1997-03",
+    "lat": 35.741406,
+    "lng": 139.828695,
+    "thumb": "/wp-uploads/placeholders/HR-R-0025-1.svg",
+    "publishedOn": "2026-09-04",
+    "rent": 155000
+  },
+  {
+    "no": "HR-R-0001",
+    "slug": "hr-r-0001",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "曳舟テラス0-1",
+    "area": "hikifune",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 8
+      },
+      {
+        "slug": "hikifune",
+        "walk": 18
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "delivery-box",
+      "instrument-ok",
+      "washstand",
+      "reheating"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 35,
+    "builtYm": "2008-04",
+    "lat": 35.714237,
+    "lng": 139.81688,
+    "thumb": "/wp-uploads/placeholders/HR-R-0001-1.svg",
+    "publishedOn": "2026-09-03",
+    "rent": 82000
+  },
+  {
+    "no": "HR-S-0015",
+    "slug": "hr-s-0015",
+    "type": "sale",
+    "kind": "house",
+    "status": "open",
+    "title": "堀切ハイツ0-55",
+    "area": "horikiri",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 2
+      },
+      {
+        "slug": "horikiri-shobuen",
+        "walk": 11
+      }
+    ],
+    "lines": [
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "washstand",
+      "parking"
+    ],
+    "collections": [
+      "near-station"
+    ],
+    "layout": "3LDK",
+    "areaSqm": 80,
+    "builtYm": "1976-04",
+    "lat": 35.740738,
+    "lng": 139.832077,
+    "thumb": "/wp-uploads/placeholders/HR-S-0015-1.svg",
+    "publishedOn": "2026-08-31",
+    "price": 5470
+  },
+  {
+    "no": "HR-R-0019",
+    "slug": "hr-r-0019",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "曳舟コーポ0-19",
+    "area": "hikifune",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 13
+      },
+      {
+        "slug": "hikifune",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "pet-ok",
+      "south-facing",
+      "delivery-box",
+      "parking"
+    ],
+    "collections": [
+      "pet-ok",
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 37,
+    "builtYm": "2003-01",
+    "lat": 35.716269,
+    "lng": 139.816108,
+    "thumb": "/wp-uploads/placeholders/HR-R-0019-1.svg",
+    "publishedOn": "2026-08-31",
+    "rent": 77000
+  },
+  {
+    "no": "HR-R-0013",
+    "slug": "hr-r-0013",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "北千住メゾン0-13",
+    "area": "kitasenju",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 3
+      },
+      {
+        "slug": "ayase",
+        "walk": 10
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "pet-ok",
+      "washstand",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "pet-ok",
+      "new-built",
+      "central-30min",
+      "near-station"
+    ],
+    "layout": "1DK",
+    "areaSqm": 29,
+    "builtYm": "2026-03",
+    "lat": 35.74548,
+    "lng": 139.801445,
+    "thumb": "/wp-uploads/placeholders/HR-R-0013-1.svg",
+    "publishedOn": "2026-08-29",
+    "rent": 81000
+  },
+  {
+    "no": "HR-R-0007",
+    "slug": "hr-r-0007",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "曳舟ハウス0-7",
+    "area": "hikifune",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 5
+      },
+      {
+        "slug": "hikifune",
+        "walk": 9
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "pet-ok",
+      "delivery-box",
+      "washstand"
+    ],
+    "collections": [
+      "pet-ok",
+      "central-30min",
+      "near-station"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 37,
+    "builtYm": "1992-02",
+    "lat": 35.72073,
+    "lng": 139.815543,
+    "thumb": "/wp-uploads/placeholders/HR-R-0007-1.svg",
+    "publishedOn": "2026-08-27",
+    "rent": 104000
+  },
+  {
+    "no": "HR-R-0037",
+    "slug": "hr-r-0037",
+    "type": "rental",
+    "kind": "house_rental",
+    "status": "open",
+    "title": "お花茶屋ハイツ0-37",
+    "area": "ohanajaya",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 13
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "office-ok",
+      "parking"
+    ],
+    "collections": [
+      "house-rental"
+    ],
+    "layout": "3DK",
+    "areaSqm": 83,
+    "builtYm": "1994-10",
+    "lat": 35.75499,
+    "lng": 139.845992,
+    "thumb": "/wp-uploads/placeholders/HR-R-0037-1.svg",
+    "publishedOn": "2026-08-26",
+    "rent": 141000
+  },
+  {
+    "no": "HR-R-0031",
+    "slug": "hr-r-0031",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "青戸ハイツ0-31",
+    "area": "aoto",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 5
+      },
+      {
+        "slug": "aoto",
+        "walk": 10
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "pet-ok",
+      "delivery-box",
+      "zero-deposit",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "pet-ok",
+      "zero-deposit",
+      "near-station"
+    ],
+    "layout": "2K",
+    "areaSqm": 45,
+    "builtYm": "2012-04",
+    "lat": 35.747552,
+    "lng": 139.855621,
+    "thumb": "/wp-uploads/placeholders/HR-R-0031-1.svg",
+    "publishedOn": "2026-08-25",
+    "rent": 127000
+  },
+  {
+    "no": "HR-R-0009",
+    "slug": "hr-r-0009",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "北千住ハイツ0-9",
+    "area": "kitasenju",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 4
+      },
+      {
+        "slug": "ayase",
+        "walk": 14
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "delivery-box",
+      "zero-deposit",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "zero-deposit",
+      "new-built",
+      "central-30min",
+      "near-station"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 31,
+    "builtYm": "2026-06",
+    "lat": 35.752602,
+    "lng": 139.807061,
+    "thumb": "/wp-uploads/placeholders/HR-R-0009-1.svg",
+    "publishedOn": "2026-08-22",
+    "rent": 129000
+  },
+  {
+    "no": "HR-R-0039",
+    "slug": "hr-r-0039",
+    "type": "rental",
+    "kind": "house_rental",
+    "status": "open",
+    "title": "押上コーポ0-39",
+    "area": "oshiage",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 4
+      },
+      {
+        "slug": "hikifune",
+        "walk": 13
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "house-rental",
+      "central-30min",
+      "near-station"
+    ],
+    "layout": "3LDK",
+    "areaSqm": 61,
+    "builtYm": "1981-10",
+    "lat": 35.711669,
+    "lng": 139.816262,
+    "thumb": "/wp-uploads/placeholders/HR-R-0039-1.svg",
+    "publishedOn": "2026-08-19",
+    "rent": 122000
+  },
+  {
+    "no": "HR-S-0013",
+    "slug": "hr-s-0013",
+    "type": "sale",
+    "kind": "house",
+    "status": "open",
+    "title": "お花茶屋テラス0-53",
+    "area": "ohanajaya",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 15
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "corner-room",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "3DK",
+    "areaSqm": 93,
+    "builtYm": "2008-08",
+    "lat": 35.749946,
+    "lng": 139.846719,
+    "thumb": "/wp-uploads/placeholders/HR-S-0013-1.svg",
+    "publishedOn": "2026-08-18",
+    "price": 5230
+  },
+  {
+    "no": "HR-R-0015",
+    "slug": "hr-r-0015",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "青戸ハウス0-15",
+    "area": "aoto",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 14
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "pet-ok",
+      "south-facing",
+      "delivery-box",
+      "washstand"
+    ],
+    "collections": [
+      "pet-ok"
+    ],
+    "layout": "1DK",
+    "areaSqm": 44,
+    "builtYm": "2018-05",
+    "lat": 35.748586,
+    "lng": 139.858402,
+    "thumb": "/wp-uploads/placeholders/HR-R-0015-1.svg",
+    "publishedOn": "2026-08-14",
+    "rent": 79000
+  },
+  {
+    "no": "HR-R-0004",
+    "slug": "hr-r-0004",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "北千住レジデンス0-4",
+    "area": "kitasenju",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 7
+      },
+      {
+        "slug": "ayase",
+        "walk": 17
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "move-in-now"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1DK",
+    "areaSqm": 43,
+    "builtYm": "1982-03",
+    "lat": 35.751162,
+    "lng": 139.808721,
+    "thumb": null,
+    "publishedOn": "2026-08-14",
+    "rent": 92000
+  },
+  {
+    "no": "HR-R-0003",
+    "slug": "hr-r-0003",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "立石ハウス0-3",
+    "area": "tateishi",
+    "stations": [
+      {
+        "slug": "keisei-tateishi",
+        "walk": 11
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "south-facing",
+      "move-in-now",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "1K",
+    "areaSqm": 22,
+    "builtYm": "1980-11",
+    "lat": 35.73858,
+    "lng": 139.850743,
+    "thumb": "/wp-uploads/placeholders/HR-R-0003-1.svg",
+    "publishedOn": "2026-08-14",
+    "rent": 68000
+  },
+  {
+    "no": "HR-S-0016",
+    "slug": "hr-s-0016",
+    "type": "sale",
+    "kind": "house",
+    "status": "sold",
+    "title": "綾瀬ハイツ0-56",
+    "area": "ayase",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 6
+      },
+      {
+        "slug": "ayase",
+        "walk": 13
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "corner-room",
+      "parking"
+    ],
+    "collections": [
+      "new-built",
+      "central-30min"
+    ],
+    "layout": "2LDK",
+    "areaSqm": 48,
+    "builtYm": "2024-09",
+    "lat": 35.76111,
+    "lng": 139.824787,
+    "thumb": "/wp-uploads/placeholders/HR-S-0016-1.svg",
+    "publishedOn": "2026-08-13",
+    "price": 4450
+  },
+  {
+    "no": "HR-R-0029",
+    "slug": "hr-r-0029",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "sold",
+    "title": "新小岩メゾン0-29",
+    "area": "shinkoiwa",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 16
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "move-in-now",
+      "zero-deposit",
+      "reheating"
+    ],
+    "collections": [
+      "zero-deposit"
+    ],
+    "layout": "2K",
+    "areaSqm": 47,
+    "builtYm": "1990-05",
+    "lat": 35.713956,
+    "lng": 139.857778,
+    "thumb": "/wp-uploads/placeholders/HR-R-0029-1.svg",
+    "publishedOn": "2026-08-12",
+    "rent": 149000
+  },
+  {
+    "no": "HR-R-0005",
+    "slug": "hr-r-0005",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "金町ハウス0-5",
+    "area": "kanamachi",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 6
+      },
+      {
+        "slug": "kanamachi",
+        "walk": 10
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "keisei-kanamachi"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "office-ok",
+      "south-facing",
+      "move-in-now",
+      "corner-room"
+    ],
+    "collections": [],
+    "layout": "1DK",
+    "areaSqm": 28,
+    "builtYm": "1979-06",
+    "lat": 35.765863,
+    "lng": 139.86638,
+    "thumb": "/wp-uploads/placeholders/HR-R-0005-1.svg",
+    "publishedOn": "2026-08-12",
+    "rent": 71000
+  },
+  {
+    "no": "HR-R-0038",
+    "slug": "hr-r-0038",
+    "type": "rental",
+    "kind": "house_rental",
+    "status": "open",
+    "title": "金町テラス0-38",
+    "area": "kanamachi",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 14
+      },
+      {
+        "slug": "kanamachi",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "keisei-kanamachi"
+    ],
+    "features": [
+      "aircon",
+      "south-facing",
+      "zero-deposit",
+      "washstand",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "house-rental",
+      "zero-deposit"
+    ],
+    "layout": "4LDK",
+    "areaSqm": 95,
+    "builtYm": "1989-04",
+    "lat": 35.764558,
+    "lng": 139.869817,
+    "thumb": "/wp-uploads/placeholders/HR-R-0038-1.svg",
+    "publishedOn": "2026-08-11",
+    "rent": 121000
+  },
+  {
+    "no": "HR-R-0032",
+    "slug": "hr-r-0032",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "小岩メゾン0-32",
+    "area": "koiwa",
+    "stations": [
+      {
+        "slug": "keisei-koiwa",
+        "walk": 4
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 13
+      }
+    ],
+    "lines": [
+      "jr-sobu",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "move-in-now",
+      "corner-room"
+    ],
+    "collections": [
+      "near-station"
+    ],
+    "layout": "1DK",
+    "areaSqm": 31,
+    "builtYm": "1995-12",
+    "lat": 35.73799,
+    "lng": 139.88246,
+    "thumb": "/wp-uploads/placeholders/HR-R-0032-1.svg",
+    "publishedOn": "2026-08-11",
+    "rent": 89000
+  },
+  {
+    "no": "HR-S-0005",
+    "slug": "hr-s-0005",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "新小岩ハウス0-45",
+    "area": "shinkoiwa",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 7
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 12
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "delivery-box",
+      "corner-room",
+      "reheating"
+    ],
+    "collections": [],
+    "layout": "2LDK",
+    "areaSqm": 54,
+    "builtYm": "2004-10",
+    "lat": 35.715826,
+    "lng": 139.860875,
+    "thumb": null,
+    "publishedOn": "2026-08-09",
+    "price": 3230
+  },
+  {
+    "no": "HR-S-0004",
+    "slug": "hr-s-0004",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "立石テラス0-44",
+    "area": "tateishi",
+    "stations": [
+      {
+        "slug": "keisei-tateishi",
+        "walk": 11
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "south-facing",
+      "washstand"
+    ],
+    "collections": [],
+    "layout": "3LDK",
+    "areaSqm": 90,
+    "builtYm": "1990-09",
+    "lat": 35.74303,
+    "lng": 139.846667,
+    "thumb": "/wp-uploads/placeholders/HR-S-0004-1.svg",
+    "publishedOn": "2026-08-09",
+    "price": 6090
+  },
+  {
+    "no": "HR-S-0006",
+    "slug": "hr-s-0006",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "曳舟ハイツ0-46",
+    "area": "hikifune",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 16
+      },
+      {
+        "slug": "hikifune",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "washstand"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 42,
+    "builtYm": "2007-05",
+    "lat": 35.71518,
+    "lng": 139.818326,
+    "thumb": "/wp-uploads/placeholders/HR-S-0006-1.svg",
+    "publishedOn": "2026-08-08",
+    "price": 6110
+  },
+  {
+    "no": "HR-R-0034",
+    "slug": "hr-r-0034",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "青戸テラス0-34",
+    "area": "aoto",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 18
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "instrument-ok",
+      "corner-room",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "1DK",
+    "areaSqm": 34,
+    "builtYm": "1999-11",
+    "lat": 35.7487,
+    "lng": 139.852057,
+    "thumb": "/wp-uploads/placeholders/HR-R-0034-1.svg",
+    "publishedOn": "2026-08-08",
+    "rent": 79000,
+    "rentPrevious": 85000
+  },
+  {
+    "no": "HR-R-0011",
+    "slug": "hr-r-0011",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "新小岩レジデンス0-11",
+    "area": "shinkoiwa",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 9
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 16
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "south-facing",
+      "corner-room",
+      "reheating"
+    ],
+    "collections": [],
+    "layout": "3LDK",
+    "areaSqm": 72,
+    "builtYm": "1994-02",
+    "lat": 35.716697,
+    "lng": 139.859196,
+    "thumb": "/wp-uploads/placeholders/HR-R-0011-1.svg",
+    "publishedOn": "2026-08-06",
+    "rent": 131000
+  },
+  {
+    "no": "HR-R-0018",
+    "slug": "hr-r-0018",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "negotiating",
+    "title": "小岩コーポ0-18",
+    "area": "koiwa",
+    "stations": [
+      {
+        "slug": "keisei-koiwa",
+        "walk": 6
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 10
+      }
+    ],
+    "lines": [
+      "jr-sobu",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "south-facing",
+      "delivery-box",
+      "washstand",
+      "reheating"
+    ],
+    "collections": [],
+    "layout": "2LDK",
+    "areaSqm": 44,
+    "builtYm": "2013-05",
+    "lat": 35.73502,
+    "lng": 139.878909,
+    "thumb": "/wp-uploads/placeholders/HR-R-0018-1.svg",
+    "publishedOn": "2026-08-05",
+    "rent": 110000,
+    "rentPrevious": 119000
+  },
+  {
+    "no": "HR-R-0017",
+    "slug": "hr-r-0017",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "小岩メゾン0-17",
+    "area": "koiwa",
+    "stations": [
+      {
+        "slug": "keisei-koiwa",
+        "walk": 13
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-sobu",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "office-ok",
+      "south-facing",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "1LDK",
+    "areaSqm": 34,
+    "builtYm": "2000-07",
+    "lat": 35.736559,
+    "lng": 139.88143,
+    "thumb": "/wp-uploads/placeholders/HR-R-0017-1.svg",
+    "publishedOn": "2026-08-05",
+    "rent": 93000
+  },
+  {
+    "no": "HR-S-0012",
+    "slug": "hr-s-0012",
+    "type": "sale",
+    "kind": "house",
+    "status": "negotiating",
+    "title": "亀有コーポ0-52",
+    "area": "kameari",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 8
+      },
+      {
+        "slug": "ayase",
+        "walk": 16
+      }
+    ],
+    "lines": [
+      "jr-joban"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "washstand",
+      "parking"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "3LDK",
+    "areaSqm": 79,
+    "builtYm": "2017-08",
+    "lat": 35.757689,
+    "lng": 139.849601,
+    "thumb": "/wp-uploads/placeholders/HR-S-0012-1.svg",
+    "publishedOn": "2026-08-04",
+    "price": 4930
+  },
+  {
+    "no": "HR-R-0030",
+    "slug": "hr-r-0030",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "亀有レジデンス0-30",
+    "area": "kameari",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 7
+      },
+      {
+        "slug": "ayase",
+        "walk": 11
+      }
+    ],
+    "lines": [
+      "jr-joban"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "move-in-now",
+      "instrument-ok",
+      "washstand",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 37,
+    "builtYm": "2004-10",
+    "lat": 35.764054,
+    "lng": 139.849755,
+    "thumb": "/wp-uploads/placeholders/HR-R-0030-1.svg",
+    "publishedOn": "2026-08-03",
+    "rent": 109000
+  },
+  {
+    "no": "HR-R-0024",
+    "slug": "hr-r-0024",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "亀有コーポ0-24",
+    "area": "kameari",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 13
+      },
+      {
+        "slug": "ayase",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "move-in-now",
+      "zero-deposit"
+    ],
+    "collections": [
+      "zero-deposit",
+      "central-30min"
+    ],
+    "layout": "1R",
+    "areaSqm": 24,
+    "builtYm": "2017-05",
+    "lat": 35.757788,
+    "lng": 139.845035,
+    "thumb": "/wp-uploads/placeholders/HR-R-0024-1.svg",
+    "publishedOn": "2026-08-02",
+    "rent": 67000
+  },
+  {
+    "no": "HR-R-0023",
+    "slug": "hr-r-0023",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "北千住ハウス0-23",
+    "area": "kitasenju",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 17
+      },
+      {
+        "slug": "ayase",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "south-facing",
+      "washstand",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1R",
+    "areaSqm": 19,
+    "builtYm": "1993-03",
+    "lat": 35.752118,
+    "lng": 139.802229,
+    "thumb": "/wp-uploads/placeholders/HR-R-0023-1.svg",
+    "publishedOn": "2026-08-02",
+    "rent": 61000
+  },
+  {
+    "no": "HR-R-0002",
+    "slug": "hr-r-0002",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "綾瀬ハウス0-2",
+    "area": "ayase",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 17
+      },
+      {
+        "slug": "ayase",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "move-in-now",
+      "delivery-box",
+      "washstand"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1DK",
+    "areaSqm": 37,
+    "builtYm": "2002-12",
+    "lat": 35.762429,
+    "lng": 139.82264,
+    "thumb": "/wp-uploads/placeholders/HR-R-0002-1.svg",
+    "publishedOn": "2026-08-02",
+    "rent": 93000,
+    "rentPrevious": 100000
+  },
+  {
+    "no": "HR-S-0017",
+    "slug": "hr-s-0017",
+    "type": "sale",
+    "kind": "land",
+    "status": "open",
+    "title": "堀切 売地 0-57",
+    "area": "horikiri",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 19
+      },
+      {
+        "slug": "horikiri-shobuen",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-main"
+    ],
+    "features": [],
+    "collections": [],
+    "layout": "",
+    "areaSqm": null,
+    "builtYm": "",
+    "lat": 35.746094,
+    "lng": 139.832156,
+    "thumb": "/wp-uploads/placeholders/HR-S-0017-1.svg",
+    "publishedOn": "2026-07-31",
+    "price": 3850
+  },
+  {
+    "no": "HR-R-0022",
+    "slug": "hr-r-0022",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "sold",
+    "title": "青戸ハイツ0-22",
+    "area": "aoto",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 14
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "washstand"
+    ],
+    "collections": [],
+    "layout": "1LDK",
+    "areaSqm": 32,
+    "builtYm": "2004-04",
+    "lat": 35.746339,
+    "lng": 139.856456,
+    "thumb": "/wp-uploads/placeholders/HR-R-0022-1.svg",
+    "publishedOn": "2026-07-31",
+    "rent": 108000
+  },
+  {
+    "no": "HR-R-0020",
+    "slug": "hr-r-0020",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "金町ハウス0-20",
+    "area": "kanamachi",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 3
+      },
+      {
+        "slug": "kanamachi",
+        "walk": 9
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "keisei-kanamachi"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "instrument-ok",
+      "washstand"
+    ],
+    "collections": [
+      "near-station"
+    ],
+    "layout": "1K",
+    "areaSqm": 20,
+    "builtYm": "2013-05",
+    "lat": 35.766534,
+    "lng": 139.870533,
+    "thumb": "/wp-uploads/placeholders/HR-R-0020-1.svg",
+    "publishedOn": "2026-07-28",
+    "rent": 74000
+  },
+  {
+    "no": "HR-R-0035",
+    "slug": "hr-r-0035",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "綾瀬テラス0-35",
+    "area": "ayase",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 6
+      },
+      {
+        "slug": "ayase",
+        "walk": 11
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "washstand",
+      "parking"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 41,
+    "builtYm": "1980-01",
+    "lat": 35.759843,
+    "lng": 139.827346,
+    "thumb": "/wp-uploads/placeholders/HR-R-0035-1.svg",
+    "publishedOn": "2026-07-27",
+    "rent": 81000
+  },
+  {
+    "no": "HR-S-0020",
+    "slug": "hr-s-0020",
+    "type": "sale",
+    "kind": "land",
+    "status": "open",
+    "title": "押上 売地 0-60",
+    "area": "oshiage",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 14
+      },
+      {
+        "slug": "hikifune",
+        "walk": 18
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "",
+    "areaSqm": null,
+    "builtYm": "",
+    "lat": 35.713229,
+    "lng": 139.817116,
+    "thumb": "/wp-uploads/placeholders/HR-S-0020-1.svg",
+    "publishedOn": "2026-07-25",
+    "price": 3030
+  },
+  {
+    "no": "HR-R-0036",
+    "slug": "hr-r-0036",
+    "type": "rental",
+    "kind": "house_rental",
+    "status": "open",
+    "title": "小岩コーポ0-36",
+    "area": "koiwa",
+    "stations": [
+      {
+        "slug": "keisei-koiwa",
+        "walk": 9
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 16
+      }
+    ],
+    "lines": [
+      "jr-sobu",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "south-facing",
+      "move-in-now",
+      "delivery-box",
+      "washstand",
+      "corner-room",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "house-rental",
+      "new-built"
+    ],
+    "layout": "3LDK",
+    "areaSqm": 62,
+    "builtYm": "2022-08",
+    "lat": 35.741152,
+    "lng": 139.879963,
+    "thumb": "/wp-uploads/placeholders/HR-R-0036-1.svg",
+    "publishedOn": "2026-07-25",
+    "rent": 227000
+  },
+  {
+    "no": "HR-R-0026",
+    "slug": "hr-r-0026",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "小岩レジデンス0-26",
+    "area": "koiwa",
+    "stations": [
+      {
+        "slug": "keisei-koiwa",
+        "walk": 8
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 13
+      }
+    ],
+    "lines": [
+      "jr-sobu",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "office-ok"
+    ],
+    "collections": [],
+    "layout": "1DK",
+    "areaSqm": 31,
+    "builtYm": "1990-01",
+    "lat": 35.736406,
+    "lng": 139.884519,
+    "thumb": "/wp-uploads/placeholders/HR-R-0026-1.svg",
+    "publishedOn": "2026-07-25",
+    "rent": 110000,
+    "rentPrevious": 119000
+  },
+  {
+    "no": "HR-R-0021",
+    "slug": "hr-r-0021",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "お花茶屋コーポ0-21",
+    "area": "ohanajaya",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 12
+      },
+      {
+        "slug": "aoto",
+        "walk": 19
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "office-ok",
+      "south-facing",
+      "move-in-now",
+      "corner-room",
+      "reheating",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "2K",
+    "areaSqm": 42,
+    "builtYm": "1991-10",
+    "lat": 35.750858,
+    "lng": 139.847146,
+    "thumb": "/wp-uploads/placeholders/HR-R-0021-1.svg",
+    "publishedOn": "2026-07-25",
+    "rent": 102000
+  },
+  {
+    "no": "HR-R-0040",
+    "slug": "hr-r-0040",
+    "type": "rental",
+    "kind": "house_rental",
+    "status": "open",
+    "title": "堀切ハウス0-40",
+    "area": "horikiri",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 20
+      },
+      {
+        "slug": "horikiri-shobuen",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "office-ok",
+      "move-in-now",
+      "delivery-box",
+      "parking"
+    ],
+    "collections": [
+      "house-rental"
+    ],
+    "layout": "3DK",
+    "areaSqm": 86,
+    "builtYm": "2001-03",
+    "lat": 35.745461,
+    "lng": 139.831564,
+    "thumb": "/wp-uploads/placeholders/HR-R-0040-1.svg",
+    "publishedOn": "2026-07-24",
+    "rent": 171000
+  },
+  {
+    "no": "HR-R-0016",
+    "slug": "hr-r-0016",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "お花茶屋ハウス0-16",
+    "area": "ohanajaya",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 20
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "south-facing",
+      "zero-deposit",
+      "reheating",
+      "parking"
+    ],
+    "collections": [
+      "zero-deposit"
+    ],
+    "layout": "1DK",
+    "areaSqm": 40,
+    "builtYm": "1993-11",
+    "lat": 35.751478,
+    "lng": 139.84459,
+    "thumb": "/wp-uploads/placeholders/HR-R-0016-1.svg",
+    "publishedOn": "2026-07-24",
+    "rent": 70000
+  },
+  {
+    "no": "HR-R-0008",
+    "slug": "hr-r-0008",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "sold",
+    "title": "平井ハイツ0-8",
+    "area": "hirai",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 6
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 16
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "zero-deposit",
+      "corner-room",
+      "reheating"
+    ],
+    "collections": [
+      "zero-deposit"
+    ],
+    "layout": "1K",
+    "areaSqm": 22,
+    "builtYm": "1976-08",
+    "lat": 35.70531,
+    "lng": 139.846235,
+    "thumb": "/wp-uploads/placeholders/HR-R-0008-1.svg",
+    "publishedOn": "2026-07-24",
+    "rent": 54000
+  },
+  {
+    "no": "HR-R-0006",
+    "slug": "hr-r-0006",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "negotiating",
+    "title": "小岩ハウス0-6",
+    "area": "koiwa",
+    "stations": [
+      {
+        "slug": "keisei-koiwa",
+        "walk": 4
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 8
+      }
+    ],
+    "lines": [
+      "jr-sobu",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "delivery-box",
+      "zero-deposit",
+      "corner-room",
+      "reheating"
+    ],
+    "collections": [
+      "zero-deposit",
+      "near-station"
+    ],
+    "layout": "1K",
+    "areaSqm": 23,
+    "builtYm": "2009-03",
+    "lat": 35.734449,
+    "lng": 139.882123,
+    "thumb": "/wp-uploads/placeholders/HR-R-0006-1.svg",
+    "publishedOn": "2026-07-23",
+    "rent": 71000
+  },
+  {
+    "no": "HR-S-0019",
+    "slug": "hr-s-0019",
+    "type": "sale",
+    "kind": "land",
+    "status": "open",
+    "title": "立石 売地 0-59",
+    "area": "tateishi",
+    "stations": [
+      {
+        "slug": "keisei-tateishi",
+        "walk": 3
+      },
+      {
+        "slug": "aoto",
+        "walk": 7
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [],
+    "collections": [
+      "near-station"
+    ],
+    "layout": "",
+    "areaSqm": null,
+    "builtYm": "",
+    "lat": 35.738036,
+    "lng": 139.847846,
+    "thumb": "/wp-uploads/placeholders/HR-S-0019-1.svg",
+    "publishedOn": "2026-07-22",
+    "price": 4530
+  },
+  {
+    "no": "HR-S-0011",
+    "slug": "hr-s-0011",
+    "type": "sale",
+    "kind": "house",
+    "status": "open",
+    "title": "金町テラス0-51",
+    "area": "kanamachi",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 7
+      },
+      {
+        "slug": "kanamachi",
+        "walk": 15
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "keisei-kanamachi"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "delivery-box",
+      "washstand",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "3LDK",
+    "areaSqm": 80,
+    "builtYm": "2012-07",
+    "lat": 35.767858,
+    "lng": 139.869795,
+    "thumb": "/wp-uploads/placeholders/HR-S-0011-1.svg",
+    "publishedOn": "2026-07-21",
+    "price": 4170,
+    "pricePrevious": 4460
+  },
+  {
+    "no": "HR-S-0001",
+    "slug": "hr-s-0001",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "亀有コーポ0-41",
+    "area": "kameari",
+    "stations": [
+      {
+        "slug": "kameari",
+        "walk": 19
+      },
+      {
+        "slug": "ayase",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "delivery-box",
+      "washstand"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 32,
+    "builtYm": "2013-06",
+    "lat": 35.760922,
+    "lng": 139.850723,
+    "thumb": "/wp-uploads/placeholders/HR-S-0001-1.svg",
+    "publishedOn": "2026-07-21",
+    "price": 2910
+  },
+  {
+    "no": "HR-R-0010",
+    "slug": "hr-r-0010",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "negotiating",
+    "title": "綾瀬テラス0-10",
+    "area": "ayase",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 12
+      },
+      {
+        "slug": "ayase",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "2LDK",
+    "areaSqm": 61,
+    "builtYm": "1993-10",
+    "lat": 35.763136,
+    "lng": 139.823906,
+    "thumb": "/wp-uploads/placeholders/HR-R-0010-1.svg",
+    "publishedOn": "2026-07-20",
+    "rent": 137000,
+    "rentPrevious": 148000
+  },
+  {
+    "no": "HR-S-0014",
+    "slug": "hr-s-0014",
+    "type": "sale",
+    "kind": "house",
+    "status": "open",
+    "title": "青戸コーポ0-54",
+    "area": "aoto",
+    "stations": [
+      {
+        "slug": "ohanajaya",
+        "walk": 20
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "south-facing",
+      "washstand",
+      "reheating",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "3LDK",
+    "areaSqm": 67,
+    "builtYm": "2005-03",
+    "lat": 35.745004,
+    "lng": 139.853141,
+    "thumb": "/wp-uploads/placeholders/HR-S-0014-1.svg",
+    "publishedOn": "2026-07-19",
+    "price": 4140
+  },
+  {
+    "no": "HR-R-0028",
+    "slug": "hr-r-0028",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "立石コーポ0-28",
+    "area": "tateishi",
+    "stations": [
+      {
+        "slug": "keisei-tateishi",
+        "walk": 5
+      },
+      {
+        "slug": "aoto",
+        "walk": 12
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "move-in-now",
+      "zero-deposit",
+      "washstand"
+    ],
+    "collections": [
+      "zero-deposit",
+      "near-station"
+    ],
+    "layout": "1K",
+    "areaSqm": 28,
+    "builtYm": "2019-09",
+    "lat": 35.741262,
+    "lng": 139.845621,
+    "thumb": null,
+    "publishedOn": "2026-07-18",
+    "rent": 92000
+  },
+  {
+    "no": "HR-S-0008",
+    "slug": "hr-s-0008",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "綾瀬レジデンス0-48",
+    "area": "ayase",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 11
+      },
+      {
+        "slug": "ayase",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "aircon",
+      "washstand",
+      "reheating"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "2LDK",
+    "areaSqm": 41,
+    "builtYm": "1999-11",
+    "lat": 35.75909,
+    "lng": 139.825047,
+    "thumb": "/wp-uploads/placeholders/HR-S-0008-1.svg",
+    "publishedOn": "2026-07-16",
+    "price": 2510
+  },
+  {
+    "no": "HR-R-0033",
+    "slug": "hr-r-0033",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "open",
+    "title": "平井コーポ0-33",
+    "area": "hirai",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 4
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 10
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "south-facing",
+      "washstand"
+    ],
+    "collections": [
+      "near-station"
+    ],
+    "layout": "1R",
+    "areaSqm": 20,
+    "builtYm": "2000-05",
+    "lat": 35.703244,
+    "lng": 139.840815,
+    "thumb": "/wp-uploads/placeholders/HR-R-0033-1.svg",
+    "publishedOn": "2026-07-15",
+    "rent": 70000
+  },
+  {
+    "no": "HR-R-0027",
+    "slug": "hr-r-0027",
+    "type": "rental",
+    "kind": "apartment",
+    "status": "negotiating",
+    "title": "平井コーポ0-27",
+    "area": "hirai",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 6
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 11
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "move-in-now",
+      "reheating",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "2K",
+    "areaSqm": 43,
+    "builtYm": "1993-12",
+    "lat": 35.708001,
+    "lng": 139.842166,
+    "thumb": "/wp-uploads/placeholders/HR-R-0027-1.svg",
+    "publishedOn": "2026-07-15",
+    "rent": 151000
+  },
+  {
+    "no": "HR-S-0018",
+    "slug": "hr-s-0018",
+    "type": "sale",
+    "kind": "land",
+    "status": "negotiating",
+    "title": "新小岩 売地 0-58",
+    "area": "shinkoiwa",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 5
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 14
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [],
+    "collections": [
+      "new-built",
+      "near-station"
+    ],
+    "layout": "",
+    "areaSqm": null,
+    "builtYm": "",
+    "lat": 35.713136,
+    "lng": 139.855168,
+    "thumb": "/wp-uploads/placeholders/HR-S-0018-1.svg",
+    "publishedOn": "2026-07-12",
+    "price": 3940,
+    "pricePrevious": 4220
+  },
+  {
+    "no": "HR-S-0007",
+    "slug": "hr-s-0007",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "立石ハイツ0-47",
+    "area": "tateishi",
+    "stations": [
+      {
+        "slug": "keisei-tateishi",
+        "walk": 20
+      },
+      {
+        "slug": "aoto",
+        "walk": 20
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "keisei-main"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "corner-room"
+    ],
+    "collections": [],
+    "layout": "1LDK",
+    "areaSqm": 28,
+    "builtYm": "2006-04",
+    "lat": 35.738413,
+    "lng": 139.852364,
+    "thumb": "/wp-uploads/placeholders/HR-S-0007-1.svg",
+    "publishedOn": "2026-07-12",
+    "price": 4070
+  },
+  {
+    "no": "HR-S-0002",
+    "slug": "hr-s-0002",
+    "type": "sale",
+    "kind": "mansion",
+    "status": "open",
+    "title": "平井コーポ0-42",
+    "area": "hirai",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 9
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 16
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "south-facing",
+      "delivery-box"
+    ],
+    "collections": [],
+    "layout": "3LDK",
+    "areaSqm": 95,
+    "builtYm": "1996-06",
+    "lat": 35.703115,
+    "lng": 139.84536,
+    "thumb": "/wp-uploads/placeholders/HR-S-0002-1.svg",
+    "publishedOn": "2026-07-12",
+    "price": 5590
+  },
+  {
+    "no": "HR-S-0010",
+    "slug": "hr-s-0010",
+    "type": "sale",
+    "kind": "house",
+    "status": "open",
+    "title": "平井コーポ0-50",
+    "area": "hirai",
+    "stations": [
+      {
+        "slug": "hirai",
+        "walk": 6
+      },
+      {
+        "slug": "shinkoiwa",
+        "walk": 12
+      }
+    ],
+    "lines": [
+      "jr-sobu"
+    ],
+    "features": [
+      "aircon",
+      "separate-bath",
+      "delivery-box",
+      "parking"
+    ],
+    "collections": [],
+    "layout": "3DK",
+    "areaSqm": 81,
+    "builtYm": "1998-09",
+    "lat": 35.705392,
+    "lng": 139.83986,
+    "thumb": "/wp-uploads/placeholders/HR-S-0010-1.svg",
+    "publishedOn": "2026-07-10",
+    "price": 5710
+  },
+  {
+    "no": "HR-R-0014",
+    "slug": "hr-r-0014",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "open",
+    "title": "北千住テラス0-14",
+    "area": "kitasenju",
+    "stations": [
+      {
+        "slug": "kitasenju",
+        "walk": 11
+      },
+      {
+        "slug": "ayase",
+        "walk": 15
+      }
+    ],
+    "lines": [
+      "jr-joban",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "autolock",
+      "separate-bath",
+      "move-in-now",
+      "washstand"
+    ],
+    "collections": [
+      "central-30min"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 43,
+    "builtYm": "2005-04",
+    "lat": 35.745526,
+    "lng": 139.807992,
+    "thumb": "/wp-uploads/placeholders/HR-R-0014-1.svg",
+    "publishedOn": "2026-07-10",
+    "rent": 107000
+  },
+  {
+    "no": "HR-R-0012",
+    "slug": "hr-r-0012",
+    "type": "rental",
+    "kind": "mansion",
+    "status": "negotiating",
+    "title": "押上ハウス0-12",
+    "area": "oshiage",
+    "stations": [
+      {
+        "slug": "oshiage",
+        "walk": 1
+      },
+      {
+        "slug": "hikifune",
+        "walk": 8
+      }
+    ],
+    "lines": [
+      "keisei-oshiage",
+      "tobu-skytree"
+    ],
+    "features": [
+      "upper-floor",
+      "aircon",
+      "separate-bath",
+      "zero-deposit",
+      "washstand",
+      "parking"
+    ],
+    "collections": [
+      "zero-deposit",
+      "central-30min",
+      "near-station"
+    ],
+    "layout": "1LDK",
+    "areaSqm": 38,
+    "builtYm": "2001-01",
+    "lat": 35.706304,
+    "lng": 139.812899,
+    "thumb": "/wp-uploads/placeholders/HR-R-0012-1.svg",
+    "publishedOn": "2026-07-08",
+    "rent": 104000
+  }
+]

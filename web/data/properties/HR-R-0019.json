@@ -1,0 +1,75 @@
+{
+  "no": "HR-R-0019",
+  "slug": "hr-r-0019",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "open",
+  "title": "曳舟コーポ0-19",
+  "area": "hikifune",
+  "stations": [
+    {
+      "slug": "oshiage",
+      "walk": 13
+    },
+    {
+      "slug": "hikifune",
+      "walk": 20
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "pet-ok",
+    "south-facing",
+    "delivery-box",
+    "parking"
+  ],
+  "collections": [
+    "pet-ok",
+    "central-30min"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 37,
+  "builtYm": "2003-01",
+  "lat": 35.716269,
+  "lng": 139.816108,
+  "thumb": "/wp-uploads/placeholders/HR-R-0019-1.svg",
+  "publishedOn": "2026-08-31",
+  "rent": 77000,
+  "address": "東京都墨田区曳舟0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 13,
+  "walkMinutes2": 20,
+  "floor": 8,
+  "floorsTotal": 8,
+  "structure": "RC",
+  "direction": "南",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-09-04",
+  "nextUpdateOn": "2026-09-18",
+  "comment": "曳舟駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。1LDKのお部屋です。宅配ボックス・南向きで、暮らしやすさを重視した造りになっています。空室状況は日々変わります。お早めにご相談ください。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0019-1.svg",
+    "/wp-uploads/placeholders/HR-R-0019-2.svg",
+    "/wp-uploads/placeholders/HR-R-0019-3.svg",
+    "/wp-uploads/placeholders/HR-R-0019-4.svg",
+    "/wp-uploads/placeholders/HR-R-0019-5.svg",
+    "/wp-uploads/placeholders/HR-R-0019-6.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 1,
+    "keyMoneyMonths": 1,
+    "brokerageFee": "無料",
+    "contractTerm": "2年",
+    "renewalFee": "なし",
+    "guarantorRequired": true,
+    "availableFrom": "2026-11-03"
+  }
+}

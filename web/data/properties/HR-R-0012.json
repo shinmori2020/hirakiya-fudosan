@@ -1,0 +1,72 @@
+{
+  "no": "HR-R-0012",
+  "slug": "hr-r-0012",
+  "type": "rental",
+  "kind": "mansion",
+  "status": "negotiating",
+  "title": "押上ハウス0-12",
+  "area": "oshiage",
+  "stations": [
+    {
+      "slug": "oshiage",
+      "walk": 1
+    },
+    {
+      "slug": "hikifune",
+      "walk": 8
+    }
+  ],
+  "lines": [
+    "keisei-oshiage",
+    "tobu-skytree"
+  ],
+  "features": [
+    "upper-floor",
+    "aircon",
+    "separate-bath",
+    "zero-deposit",
+    "washstand",
+    "parking"
+  ],
+  "collections": [
+    "zero-deposit",
+    "central-30min",
+    "near-station"
+  ],
+  "layout": "1LDK",
+  "areaSqm": 38,
+  "builtYm": "2001-01",
+  "lat": 35.706304,
+  "lng": 139.812899,
+  "thumb": "/wp-uploads/placeholders/HR-R-0012-1.svg",
+  "publishedOn": "2026-07-08",
+  "rent": 104000,
+  "address": "東京都墨田区押上0-0-0",
+  "staff": "仮名 美咲",
+  "walkMinutes": 1,
+  "walkMinutes2": 8,
+  "floor": 6,
+  "floorsTotal": 11,
+  "structure": "RC",
+  "direction": "東",
+  "parking": "空きあり(月額)",
+  "transactionType": "媒介",
+  "updatedOn": "2026-07-09",
+  "nextUpdateOn": "2026-07-23",
+  "comment": "押上駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。1LDKのお部屋です。バス・トイレ別・独立洗面で、暮らしやすさを重視した造りになっています。現地でのご案内も承ります。まずはお問い合わせを。",
+  "images": [
+    "/wp-uploads/placeholders/HR-R-0012-1.svg",
+    "/wp-uploads/placeholders/HR-R-0012-2.svg"
+  ],
+  "floorplan": "/wp-uploads/placeholders/plan-1ldk.svg",
+  "rental": {
+    "maintenanceFee": 0,
+    "depositMonths": 0,
+    "keyMoneyMonths": 0,
+    "brokerageFee": "家賃1ヶ月",
+    "contractTerm": "2年",
+    "renewalFee": "新家賃1ヶ月",
+    "guarantorRequired": true,
+    "availableFrom": "2026-10-06"
+  }
+}
