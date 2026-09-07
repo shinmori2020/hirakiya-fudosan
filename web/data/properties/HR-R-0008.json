@@ -36,7 +36,7 @@
   "lat": 35.70531,
   "lng": 139.846235,
   "thumb": "/wp-uploads/placeholders/HR-R-0008-1.svg",
-  "publishedOn": "2026-07-24",
+  "publishedOn": "2026-07-25",
   "rent": 54000,
   "address": "東京都江戸川区平井0-0-0",
   "staff": "見本 三郎",
@@ -48,8 +48,8 @@
   "direction": "南",
   "parking": "近隣",
   "transactionType": "媒介",
-  "updatedOn": "2026-07-26",
-  "nextUpdateOn": "2026-08-09",
+  "updatedOn": "2026-07-27",
+  "nextUpdateOn": "2026-08-10",
   "comment": "平井駅まで徒歩6分。静かな住宅街の一角にあります。1Kの間取りで、収納も確保されています。現地でのご案内も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0008-1.svg",
@@ -65,6 +65,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-09-15"
+    "availableFrom": "2026-09-16"
   }
 }

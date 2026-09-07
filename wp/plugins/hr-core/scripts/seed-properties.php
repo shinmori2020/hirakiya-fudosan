@@ -150,6 +150,11 @@ if ( $reset ) {
 	$ids = get_posts( array( 'post_type' => 'property', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids' ) );
 	foreach ( $ids as $id ) { wp_delete_post( $id, true ); }
 	hr_log( '--reset: 物件 ' . count( $ids ) . ' 件を削除' );
+	// プレースホルダー SVG も消す(生成は「存在すればスキップ」なので、消さないと色の変更が反映されない)
+	$ph_reset_dir = trailingslashit( wp_upload_dir()['basedir'] ) . 'placeholders';
+	$ph_files     = is_dir( $ph_reset_dir ) ? glob( $ph_reset_dir . '/*.svg' ) : array();
+	foreach ( $ph_files as $f ) { unlink( $f ); }
+	hr_log( '--reset: プレースホルダー ' . count( $ph_files ) . ' 件を削除' );
 }
 
 /* =========================================================================
@@ -192,7 +197,7 @@ foreach ( $STATIONS as $s => [ $n, $area, $lines ] ) {
 $upload = wp_upload_dir();
 $ph_dir = trailingslashit( $upload['basedir'] ) . 'placeholders';
 if ( ! is_dir( $ph_dir ) ) { wp_mkdir_p( $ph_dir ); }
-$PH_COLORS = array( '#7A8C99', '#8A9A7B', '#9A8A7B', '#7B8A9A', '#8C7A8C', '#7A9A8C' );
+$PH_COLORS = array( '#3A3F45', '#535A61', '#6C737B', '#858D95', '#9AA3AB' ); // 墨系5段階(03 §2・J-032)
 
 function hr_placeholder_svg( $path, $label1, $label2, $color, $w = 1200, $h = 800 ) {
 	if ( file_exists( $path ) ) { return; }

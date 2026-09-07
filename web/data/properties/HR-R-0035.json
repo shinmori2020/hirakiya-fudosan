@@ -37,7 +37,7 @@
   "lat": 35.759843,
   "lng": 139.827346,
   "thumb": "/wp-uploads/placeholders/HR-R-0035-1.svg",
-  "publishedOn": "2026-07-27",
+  "publishedOn": "2026-07-28",
   "rent": 81000,
   "address": "東京都足立区綾瀬0-0-0",
   "staff": "見本 三郎",
@@ -49,8 +49,8 @@
   "direction": "南",
   "parking": "空きあり(月額)",
   "transactionType": "貸主",
-  "updatedOn": "2026-07-31",
-  "nextUpdateOn": "2026-08-14",
+  "updatedOn": "2026-08-01",
+  "nextUpdateOn": "2026-08-15",
   "comment": "綾瀬駅から徒歩6分、平坦な道のりで通勤にも便利な立地です。1LDK・41㎡。室内は明るく、家具の配置もしやすい形です。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0035-1.svg",
@@ -68,6 +68,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": true,
-    "availableFrom": "2026-11-04"
+    "availableFrom": "2026-11-05"
   }
 }

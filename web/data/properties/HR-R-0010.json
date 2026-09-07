@@ -33,7 +33,7 @@
   "lat": 35.763136,
   "lng": 139.823906,
   "thumb": "/wp-uploads/placeholders/HR-R-0010-1.svg",
-  "publishedOn": "2026-07-20",
+  "publishedOn": "2026-07-21",
   "rent": 137000,
   "rentPrevious": 148000,
   "address": "東京都足立区綾瀬0-0-0",
@@ -46,8 +46,8 @@
   "direction": "南",
   "parking": "近隣",
   "transactionType": "媒介",
-  "updatedOn": "2026-07-25",
-  "nextUpdateOn": "2026-08-08",
+  "updatedOn": "2026-07-26",
+  "nextUpdateOn": "2026-08-09",
   "comment": "綾瀬駅まで徒歩12分。静かな住宅街の一角にあります。2LDK・61㎡。室内は明るく、家具の配置もしやすい形です。現地でのご案内も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0010-1.svg",
@@ -62,6 +62,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-02"
+    "availableFrom": "2026-10-03"
   }
 }

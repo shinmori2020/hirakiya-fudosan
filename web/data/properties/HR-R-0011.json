@@ -33,7 +33,7 @@
   "lat": 35.716697,
   "lng": 139.859196,
   "thumb": "/wp-uploads/placeholders/HR-R-0011-1.svg",
-  "publishedOn": "2026-08-06",
+  "publishedOn": "2026-08-07",
   "rent": 131000,
   "address": "東京都葛飾区新小岩0-0-0",
   "staff": "見本 花子",
@@ -45,8 +45,8 @@
   "direction": "南西",
   "parking": "近隣",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-11",
-  "nextUpdateOn": "2026-08-25",
+  "updatedOn": "2026-08-12",
+  "nextUpdateOn": "2026-08-26",
   "comment": "新小岩駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。3LDK・72㎡。室内は明るく、家具の配置もしやすい形です。空室状況は日々変わります。お早めにご相談ください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0011-1.svg",
@@ -63,6 +63,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-29"
+    "availableFrom": "2026-10-30"
   }
 }

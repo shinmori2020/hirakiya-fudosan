@@ -34,7 +34,7 @@
   "lat": 35.746339,
   "lng": 139.856456,
   "thumb": "/wp-uploads/placeholders/HR-R-0022-1.svg",
-  "publishedOn": "2026-07-31",
+  "publishedOn": "2026-08-01",
   "rent": 108000,
   "address": "東京都葛飾区青戸0-0-0",
   "staff": "仮名 美咲",
@@ -46,8 +46,8 @@
   "direction": "東",
   "parking": "なし",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-03",
-  "nextUpdateOn": "2026-08-17",
+  "updatedOn": "2026-08-04",
+  "nextUpdateOn": "2026-08-18",
   "comment": "青砥駅まで徒歩14分。静かな住宅街の一角にあります。1LDK・32㎡。室内は明るく、家具の配置もしやすい形です。ご不明点は担当までご連絡ください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0022-1.svg",
@@ -62,6 +62,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-28"
+    "availableFrom": "2026-10-29"
   }
 }

@@ -35,7 +35,7 @@
   "lat": 35.7487,
   "lng": 139.852057,
   "thumb": "/wp-uploads/placeholders/HR-R-0034-1.svg",
-  "publishedOn": "2026-08-08",
+  "publishedOn": "2026-08-09",
   "rent": 79000,
   "rentPrevious": 85000,
   "address": "東京都葛飾区青戸0-0-0",
@@ -48,8 +48,8 @@
   "direction": "北",
   "parking": "空きあり(月額)",
   "transactionType": "貸主",
-  "updatedOn": "2026-08-08",
-  "nextUpdateOn": "2026-08-22",
+  "updatedOn": "2026-08-09",
+  "nextUpdateOn": "2026-08-23",
   "comment": "青砥駅から徒歩18分、平坦な道のりで通勤にも便利な立地です。1DK・34㎡。室内は明るく、家具の配置もしやすい形です。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0034-1.svg",
@@ -68,6 +68,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": false,
-    "availableFrom": "2026-09-30"
+    "availableFrom": "2026-10-01"
   }
 }

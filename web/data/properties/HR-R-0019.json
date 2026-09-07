@@ -38,7 +38,7 @@
   "lat": 35.716269,
   "lng": 139.816108,
   "thumb": "/wp-uploads/placeholders/HR-R-0019-1.svg",
-  "publishedOn": "2026-08-31",
+  "publishedOn": "2026-09-01",
   "rent": 77000,
   "address": "東京都墨田区曳舟0-0-0",
   "staff": "仮名 美咲",
@@ -50,8 +50,8 @@
   "direction": "南",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-09-04",
-  "nextUpdateOn": "2026-09-18",
+  "updatedOn": "2026-09-05",
+  "nextUpdateOn": "2026-09-19",
   "comment": "曳舟駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。1LDKのお部屋です。宅配ボックス・南向きで、暮らしやすさを重視した造りになっています。空室状況は日々変わります。お早めにご相談ください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0019-1.svg",
@@ -70,6 +70,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-11-03"
+    "availableFrom": "2026-11-04"
   }
 }

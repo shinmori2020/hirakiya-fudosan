@@ -39,7 +39,7 @@
   "lat": 35.741406,
   "lng": 139.828695,
   "thumb": "/wp-uploads/placeholders/HR-R-0025-1.svg",
-  "publishedOn": "2026-09-04",
+  "publishedOn": "2026-09-05",
   "rent": 155000,
   "address": "東京都葛飾区堀切0-0-0",
   "staff": "仮名 美咲",
@@ -51,8 +51,8 @@
   "direction": "南西",
   "parking": "なし",
   "transactionType": "貸主",
-  "updatedOn": "2026-09-06",
-  "nextUpdateOn": "2026-09-20",
+  "updatedOn": "2026-09-07",
+  "nextUpdateOn": "2026-09-21",
   "comment": "堀切菖蒲園駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。2Kのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0025-1.svg",
@@ -71,6 +71,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-12"
+    "availableFrom": "2026-10-13"
   }
 }

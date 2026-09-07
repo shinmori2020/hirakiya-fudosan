@@ -36,7 +36,7 @@
   "lat": 35.736559,
   "lng": 139.88143,
   "thumb": "/wp-uploads/placeholders/HR-R-0017-1.svg",
-  "publishedOn": "2026-08-05",
+  "publishedOn": "2026-08-06",
   "rent": 93000,
   "address": "東京都江戸川区小岩0-0-0",
   "staff": "見本 三郎",
@@ -48,8 +48,8 @@
   "direction": "南",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-08",
-  "nextUpdateOn": "2026-08-22",
+  "updatedOn": "2026-08-09",
+  "nextUpdateOn": "2026-08-23",
   "comment": "京成小岩駅まで徒歩13分。静かな住宅街の一角にあります。1LDKタイプ。設備面ではオートロック・バス・トイレ別が備わっています。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0017-1.svg",
@@ -68,6 +68,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-09-15"
+    "availableFrom": "2026-09-16"
   }
 }

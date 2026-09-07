@@ -50,7 +50,7 @@ curl "http://localhost:8080/wp-json/wp/v2/properties?per_page=1"
 | 「都心まで30分以内」の対象駅 | 押上・北千住・曳舟・綾瀬の 4 駅(全駅にすると 56/60 件が該当) |
 | 種別による表示切替 | ACF の taxonomy 型フィールド `property_type`(save_terms)で条件表示。ACF 無料版は素のタクソノミー欄を条件にできない |
 | 間取り図 | `image` 型ではなく **パス(text)**。`images` と同じ扱い |
-| プレースホルダー | SVG のまま(PNG 変換しない)。`/wp-content/uploads/placeholders/` |
+| プレースホルダー | SVG のまま(PNG 変換しない)。`/wp-content/uploads/placeholders/`。色は墨系5段階 `#3A3F45 / #535A61 / #6C737B / #858D95 / #9AA3AB`(03 §2・J-032。v0.1 の灰青・灰緑6色から変更) |
 | 特集の付与 | seed が条件で自動付与(02 §2 の「手動付与」の代行) |
 | 2駅目 | 町ごとに近接する町の駅を固定で割当(`$SECOND_STATION`) |
 | 乱数 | `mt_srand(20260907)`。仕様を変えると 60 件全部が変わる |
