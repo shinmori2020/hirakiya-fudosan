@@ -96,6 +96,25 @@ h3 {
   line-height: 1.3;
 }
 
+/*
+ * details/summary の開閉トランジション(03 §8・J-031)。CSS のみ・JS なし。
+ * ::details-content と interpolate-size に対応するブラウザ(Chromium 131+)では両方向が 200ms で滑らか。
+ * 未対応ブラウザでは即時開閉(機能は同じ)。
+ */
+:root {
+  interpolate-size: allow-keywords;
+}
+details.hr-accordion::details-content {
+  height: 0;
+  overflow: clip;
+  transition:
+    height 200ms ease,
+    content-visibility 200ms allow-discrete;
+}
+details.hr-accordion[open]::details-content {
+  height: auto;
+}
+
 /* 数字は桁を揃える(§3) */
 .tabular {
   font-variant-numeric: tabular-nums;

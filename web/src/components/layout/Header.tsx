@@ -1,30 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { company, mainOffice } from '@/config/site';
 import { headerNav } from '@/config/nav';
 
 /**
- * ヘッダー(03 §7 v0.2)。白。ロゴ / メニュー5 / 電話(PC は営業時間付き・スマホは番号のみ J-029)。
+ * ヘッダー(03 §7 v0.3)。白。ロゴ / メニュー5 / 電話(PC は営業時間付き・スマホは番号のみ J-029)。
  * スマホはロゴ+電話+ハンバーガー。メニューはオーバーレイ(J-030)。スクロール後は高さを詰めて固定。
+ * オーバーレイは header の子として absolute で直下に置く(J-031:位置を JS で測ると、注記バーが
+ * スクロールで消えた後にズレて隙間が出るため)。開閉は 200ms のトランジション。
  */
 export function Header() {
 	const [open, setOpen] = useState(false);
 	const [compact, setCompact] = useState(false);
-	const barRef = useRef<HTMLDivElement>(null);
-	const [barHeight, setBarHeight] = useState(0);
-
-	// オーバーレイをヘッダーの下端から始めるため、ヘッダーの高さを測る
-	useEffect(() => {
-		const el = barRef.current;
-		if (!el) return;
-		const measure = () => setBarHeight(el.getBoundingClientRect().bottom);
-		measure();
-		const ro = new ResizeObserver(measure);
-		ro.observe(el);
-		return () => ro.disconnect();
-	}, [compact]);
 
 	useEffect(() => {
 		const onScroll = () => setCompact(window.scrollY > 8);
@@ -44,8 +34,7 @@ export function Header() {
 	return (
 		<header className="sticky top-0 z-40 border-b border-line bg-surface">
 			<div
-				ref={barRef}
-				className={`mx-auto flex w-full max-w-(--container-content) items-center justify-between gap-4 px-4 transition-[padding] lg:px-8 ${
+				className={`mx-auto flex w-full max-w-(--container-content) items-center justify-between gap-4 px-4 transition-[padding] duration-200 lg:px-8 ${
 					compact ? 'py-2' : 'py-3 lg:py-4'
 				}`}
 			>
@@ -77,36 +66,42 @@ export function Header() {
 					</a>
 					<button
 						type="button"
-						className="flex h-11 w-11 flex-col items-center justify-center gap-1 rounded-hr border border-line lg:hidden"
+						className="flex h-11 w-11 items-center justify-center rounded-hr border border-line text-sumi lg:hidden"
 						aria-expanded={open}
 						aria-controls="mobile-menu"
 						aria-label={open ? 'メニューを閉じる' : 'メニューを開く'}
 						onClick={() => setOpen((v) => !v)}
 					>
-						<span className="block h-0.5 w-5 bg-sumi" />
-						<span className="block h-0.5 w-5 bg-sumi" />
-						<span className="block h-0.5 w-5 bg-sumi" />
+						{open ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
 					</button>
 				</div>
 			</div>
 
-			{/* オーバーレイのメニュー(スマホ) */}
+			{/* オーバーレイのメニュー(スマホ)。ヘッダー直下(top-full)に密着。閉時は不可視+操作不可 */}
 			<div
 				id="mobile-menu"
-				hidden={!open}
-				className="fixed inset-x-0 bottom-0 z-40 bg-sumi/60 lg:hidden"
-				style={{ top: barHeight }}
+				aria-hidden={!open}
+				className={`absolute inset-x-0 top-full z-40 h-dvh bg-sumi/60 transition-[opacity,visibility] duration-200 lg:hidden ${
+					open ? 'visible opacity-100' : 'invisible opacity-0'
+				}`}
 				onClick={() => setOpen(false)}
 			>
 				<nav
 					aria-label="メイン(スマホ)"
-					className="max-h-full overflow-y-auto bg-surface px-4 py-2 shadow-panel"
+					className={`max-h-full overflow-y-auto bg-surface px-4 py-2 shadow-panel transition-transform duration-200 ${
+						open ? 'translate-y-0' : '-translate-y-2'
+					}`}
 					onClick={(e) => e.stopPropagation()}
 				>
 					<ul>
 						{headerNav.map((item) => (
 							<li key={item.href} className="border-b border-line last:border-b-0">
-								<Link href={item.href} className="block py-3 font-medium text-sumi" onClick={() => setOpen(false)}>
+								<Link
+									href={item.href}
+									className="block py-3 font-medium text-sumi"
+									tabIndex={open ? 0 : -1}
+									onClick={() => setOpen(false)}
+								>
 									{item.label}
 								</Link>
 							</li>

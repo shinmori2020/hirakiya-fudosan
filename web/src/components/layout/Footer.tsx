@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { company, offices } from '@/config/site';
 import { footerArrows, footerColumns, footerLegal } from '@/config/nav';
 
@@ -43,15 +44,10 @@ export function Footer() {
 						{/* スマホ:見出し5つのアコーディオン(閉じた details は中身を描画しないため、PC 用は別に描く) */}
 						<div className="border-t border-white/20 md:hidden">
 							{footerColumns.map((col) => (
-								<details key={col.heading} className="group border-b border-white/20">
+								<details key={col.heading} className="hr-accordion group border-b border-white/20">
 									<summary className="flex cursor-pointer list-none items-center justify-between py-3 text-small font-bold [&::-webkit-details-marker]:hidden">
 										{col.heading}
-										<span aria-hidden="true" className="text-white/80 group-open:hidden">
-											∨
-										</span>
-										<span aria-hidden="true" className="hidden text-white/80 group-open:inline">
-											∧
-										</span>
+										<ChevronDown aria-hidden="true" size={20} className="text-white/80 transition-transform duration-200 group-open:rotate-180" />
 									</summary>
 									<ul className="mb-3 space-y-2">
 										{col.items.map((item) => (
@@ -94,7 +90,7 @@ export function Footer() {
 							className="flex h-12 items-center justify-between rounded-hr border border-white/60 px-4 font-bold hover:bg-white hover:text-sumi lg:h-11"
 						>
 							<span>{a.label}</span>
-							<span aria-hidden="true">→</span>
+							<ArrowRight aria-hidden="true" size={20} />
 						</Link>
 					))}
 				</div>
