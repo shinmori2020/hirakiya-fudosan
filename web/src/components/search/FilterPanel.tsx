@@ -196,6 +196,7 @@ function Check({ label, checked, onChange }: { label: string; checked: boolean; 
 	);
 }
 
+/** 絞り込み欄のセレクト:13px・高さ 40(スマホ)/ 32(PC)・余白 8。チップと同じ寸法(J-035 条件追加)。並び替えのセレクトは別(SearchResults) */
 function Select({
 	value,
 	onChange,
@@ -211,7 +212,7 @@ function Select({
 		<select
 			value={value ?? ''}
 			onChange={(e) => onChange(e.target.value)}
-			className="h-[46px] w-full rounded-hr border border-line bg-surface px-3 text-small focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+			className="h-10 w-full rounded-hr border border-line bg-surface px-2 text-small focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent lg:h-8"
 		>
 			<option value="">{blank}</option>
 			{options.map(([v, label]) => (
