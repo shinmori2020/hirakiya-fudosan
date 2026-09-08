@@ -8,11 +8,11 @@
   "area": "kanamachi",
   "stations": [
     {
-      "slug": "kameari",
+      "slug": "kanamachi",
       "walk": 14
     },
     {
-      "slug": "kanamachi",
+      "slug": "kameari",
       "walk": 20
     }
   ],
@@ -38,7 +38,7 @@
   "lat": 35.764558,
   "lng": 139.869817,
   "thumb": "/wp-uploads/placeholders/HR-R-0038-1.svg",
-  "publishedOn": "2026-08-12",
+  "publishedOn": "2026-08-13",
   "rent": 121000,
   "address": "東京都葛飾区金町0-0-0",
   "staff": "見本 三郎",
@@ -50,8 +50,8 @@
   "direction": "北",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-15",
-  "nextUpdateOn": "2026-08-29",
+  "updatedOn": "2026-08-16",
+  "nextUpdateOn": "2026-08-30",
   "comment": "金町駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。4LDKの間取りで、収納も確保されています。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0038-1.svg"
@@ -65,6 +65,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": true,
-    "availableFrom": "2026-09-24"
+    "availableFrom": "2026-09-25"
   }
 }

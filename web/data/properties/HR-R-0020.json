@@ -8,11 +8,11 @@
   "area": "kanamachi",
   "stations": [
     {
-      "slug": "kameari",
+      "slug": "kanamachi",
       "walk": 3
     },
     {
-      "slug": "kanamachi",
+      "slug": "kameari",
       "walk": 9
     }
   ],
@@ -36,7 +36,7 @@
   "lat": 35.766534,
   "lng": 139.870533,
   "thumb": "/wp-uploads/placeholders/HR-R-0020-1.svg",
-  "publishedOn": "2026-07-29",
+  "publishedOn": "2026-07-30",
   "rent": 74000,
   "address": "東京都葛飾区金町0-0-0",
   "staff": "見本 花子",
@@ -48,8 +48,8 @@
   "direction": "西",
   "parking": "なし",
   "transactionType": "貸主",
-  "updatedOn": "2026-08-03",
-  "nextUpdateOn": "2026-08-17",
+  "updatedOn": "2026-08-04",
+  "nextUpdateOn": "2026-08-18",
   "comment": "金町駅まで徒歩3分。静かな住宅街の一角にあります。1Kのお部屋です。オートロック・独立洗面で、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0020-1.svg",
@@ -68,6 +68,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-07"
+    "availableFrom": "2026-10-08"
   }
 }

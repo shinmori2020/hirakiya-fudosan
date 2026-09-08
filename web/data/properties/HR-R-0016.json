@@ -38,7 +38,7 @@
   "lat": 35.751478,
   "lng": 139.84459,
   "thumb": "/wp-uploads/placeholders/HR-R-0016-1.svg",
-  "publishedOn": "2026-07-25",
+  "publishedOn": "2026-07-26",
   "rent": 70000,
   "address": "東京都葛飾区お花茶屋0-0-0",
   "staff": "見本 三郎",
@@ -50,8 +50,8 @@
   "direction": "南西",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-07-27",
-  "nextUpdateOn": "2026-08-10",
+  "updatedOn": "2026-07-28",
+  "nextUpdateOn": "2026-08-11",
   "comment": "お花茶屋駅から徒歩20分、平坦な道のりで通勤にも便利な立地です。1DKのお部屋です。オートロック・バス・トイレ別で、暮らしやすさを重視した造りになっています。ご不明点は担当までご連絡ください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0016-1.svg",
@@ -67,6 +67,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-08"
+    "availableFrom": "2026-10-09"
   }
 }

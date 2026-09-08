@@ -8,11 +8,11 @@
   "area": "hikifune",
   "stations": [
     {
-      "slug": "oshiage",
+      "slug": "hikifune",
       "walk": 5
     },
     {
-      "slug": "hikifune",
+      "slug": "oshiage",
       "walk": 9
     }
   ],
@@ -39,7 +39,7 @@
   "lat": 35.72073,
   "lng": 139.815543,
   "thumb": "/wp-uploads/placeholders/HR-R-0007-1.svg",
-  "publishedOn": "2026-08-28",
+  "publishedOn": "2026-08-29",
   "rent": 104000,
   "address": "東京都墨田区曳舟0-0-0",
   "staff": "仮名 美咲",
@@ -51,8 +51,8 @@
   "direction": "南西",
   "parking": "近隣",
   "transactionType": "貸主",
-  "updatedOn": "2026-08-29",
-  "nextUpdateOn": "2026-09-12",
+  "updatedOn": "2026-08-30",
+  "nextUpdateOn": "2026-09-13",
   "comment": "曳舟駅まで徒歩5分。静かな住宅街の一角にあります。1LDKの間取りで、収納も確保されています。現地でのご案内も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0007-1.svg",
@@ -69,6 +69,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-26"
+    "availableFrom": "2026-10-27"
   }
 }

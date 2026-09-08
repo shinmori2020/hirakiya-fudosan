@@ -8,11 +8,11 @@
   "area": "horikiri",
   "stations": [
     {
-      "slug": "ohanajaya",
+      "slug": "horikiri-shobuen",
       "walk": 20
     },
     {
-      "slug": "horikiri-shobuen",
+      "slug": "ohanajaya",
       "walk": 20
     }
   ],
@@ -37,7 +37,7 @@
   "lat": 35.745461,
   "lng": 139.831564,
   "thumb": "/wp-uploads/placeholders/HR-R-0040-1.svg",
-  "publishedOn": "2026-07-25",
+  "publishedOn": "2026-07-26",
   "rent": 171000,
   "address": "東京都葛飾区堀切0-0-0",
   "staff": "見本 花子",
@@ -49,8 +49,8 @@
   "direction": "東",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-07-28",
-  "nextUpdateOn": "2026-08-11",
+  "updatedOn": "2026-07-29",
+  "nextUpdateOn": "2026-08-12",
   "comment": "堀切菖蒲園駅から徒歩20分、平坦な道のりで通勤にも便利な立地です。3DKの間取りで、収納も確保されています。空室状況は日々変わります。お早めにご相談ください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0040-1.svg",

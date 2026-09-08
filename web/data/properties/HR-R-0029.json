@@ -8,11 +8,11 @@
   "area": "shinkoiwa",
   "stations": [
     {
-      "slug": "hirai",
+      "slug": "shinkoiwa",
       "walk": 16
     },
     {
-      "slug": "shinkoiwa",
+      "slug": "hirai",
       "walk": 20
     }
   ],
@@ -35,7 +35,7 @@
   "lat": 35.713956,
   "lng": 139.857778,
   "thumb": "/wp-uploads/placeholders/HR-R-0029-1.svg",
-  "publishedOn": "2026-08-13",
+  "publishedOn": "2026-08-14",
   "rent": 149000,
   "address": "東京都葛飾区新小岩0-0-0",
   "staff": "見本 花子",
@@ -47,8 +47,8 @@
   "direction": "南",
   "parking": "近隣",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-13",
-  "nextUpdateOn": "2026-08-27",
+  "updatedOn": "2026-08-14",
+  "nextUpdateOn": "2026-08-28",
   "comment": "新小岩駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。2Kのお部屋です。追い焚き・2階以上で、暮らしやすさを重視した造りになっています。現地でのご案内も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0029-1.svg",

@@ -32,7 +32,7 @@
   "lat": 35.736406,
   "lng": 139.884519,
   "thumb": "/wp-uploads/placeholders/HR-R-0026-1.svg",
-  "publishedOn": "2026-07-26",
+  "publishedOn": "2026-07-27",
   "rent": 110000,
   "rentPrevious": 119000,
   "address": "東京都江戸川区小岩0-0-0",
@@ -45,8 +45,8 @@
   "direction": "南西",
   "parking": "なし",
   "transactionType": "媒介",
-  "updatedOn": "2026-07-31",
-  "nextUpdateOn": "2026-08-14",
+  "updatedOn": "2026-08-01",
+  "nextUpdateOn": "2026-08-15",
   "comment": "京成小岩駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1DK・31㎡。室内は明るく、家具の配置もしやすい形です。現地でのご案内も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0026-1.svg",
@@ -63,6 +63,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-09-27"
+    "availableFrom": "2026-09-28"
   }
 }

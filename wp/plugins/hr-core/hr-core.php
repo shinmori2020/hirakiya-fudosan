@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       HR Core (ヒラキヤ不動産)
  * Description:       記録用サイト「株式会社ヒラキヤ不動産(架空)」の投稿タイプ・タクソノミー・ACF フィールドを登録するコアプラグイン。構造は本番相当、値はすべて架空。
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            SHIN
@@ -143,6 +143,11 @@ function hr_rest_terms( $post_arr ) {
 	foreach ( array( 'property_type', 'property_kind', 'area', 'line', 'station', 'feature_tag', 'collection', 'status' ) as $tax ) {
 		$terms       = get_the_terms( $post_arr['id'], $tax );
 		$out[ $tax ] = ( $terms && ! is_wp_error( $terms ) ) ? array_values( wp_list_pluck( $terms, 'slug' ) ) : array();
+	}
+	// 駅は名前順で返るため、ACF primary_station(最寄1駅目)を先頭に並べ直す(J-033・F-005)
+	$primary = get_post_meta( $post_arr['id'], 'primary_station', true );
+	if ( $primary && in_array( $primary, $out['station'], true ) ) {
+		$out['station'] = array_values( array_merge( array( $primary ), array_diff( $out['station'], array( $primary ) ) ) );
 	}
 	return $out;
 }

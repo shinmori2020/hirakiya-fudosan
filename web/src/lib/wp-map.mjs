@@ -49,13 +49,21 @@ export function rewriteUpload(p, uploadsPrefix) {
 	return p.replace(/^\/?wp-content\/uploads\//, '/wp-uploads/');
 }
 
+/** primary を先頭に。無ければそのまま */
+function orderStations(slugs, primary) {
+	const pr = str(primary);
+	return pr && slugs.includes(pr) ? [pr, ...slugs.filter((s) => s !== pr)] : slugs;
+}
+
 /** post → PropertySummary(index.json 用) */
 export function toSummary(post, opts = {}) {
 	const t = post.hr_terms ?? {};
 	const a = post.acf ?? {};
 	const type = first(t.property_type) ?? 'rental';
 	const images = splitPaths(a.images, opts.uploadsPrefix);
-	const stations = (t.station ?? []).map((slug, i) => ({
+	// 最寄1駅目は acf.primary_station(F-005:hr_terms.station は名前順。hr-core 側でも並べ直すが、ここでも保証する)
+	const stationSlugs = orderStations(t.station ?? [], a.primary_station);
+	const stations = stationSlugs.map((slug, i) => ({
 		slug,
 		walk: num(i === 0 ? a.walk_minutes : a.walk_minutes_2) ?? 0,
 	}));

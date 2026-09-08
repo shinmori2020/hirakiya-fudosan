@@ -8,11 +8,11 @@
   "area": "kanamachi",
   "stations": [
     {
-      "slug": "kameari",
+      "slug": "kanamachi",
       "walk": 7
     },
     {
-      "slug": "kanamachi",
+      "slug": "kameari",
       "walk": 15
     }
   ],
@@ -35,7 +35,7 @@
   "lat": 35.767858,
   "lng": 139.869795,
   "thumb": "/wp-uploads/placeholders/HR-S-0011-1.svg",
-  "publishedOn": "2026-07-22",
+  "publishedOn": "2026-07-23",
   "price": 4170,
   "pricePrevious": 4460,
   "address": "東京都葛飾区金町0-0-0",
@@ -48,8 +48,8 @@
   "direction": "西",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-07-23",
-  "nextUpdateOn": "2026-08-06",
+  "updatedOn": "2026-07-24",
+  "nextUpdateOn": "2026-08-07",
   "comment": "金町駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。3LDKの間取りで、収納も確保されています。住宅ローンのご相談も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-S-0011-1.svg",

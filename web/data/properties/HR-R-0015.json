@@ -8,11 +8,11 @@
   "area": "aoto",
   "stations": [
     {
-      "slug": "ohanajaya",
+      "slug": "aoto",
       "walk": 14
     },
     {
-      "slug": "aoto",
+      "slug": "ohanajaya",
       "walk": 20
     }
   ],
@@ -39,7 +39,7 @@
   "lat": 35.748586,
   "lng": 139.858402,
   "thumb": "/wp-uploads/placeholders/HR-R-0015-1.svg",
-  "publishedOn": "2026-08-15",
+  "publishedOn": "2026-08-16",
   "rent": 79000,
   "address": "東京都葛飾区青戸0-0-0",
   "staff": "仮名 美咲",
@@ -51,8 +51,8 @@
   "direction": "北",
   "parking": "なし",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-17",
-  "nextUpdateOn": "2026-08-31",
+  "updatedOn": "2026-08-18",
+  "nextUpdateOn": "2026-09-01",
   "comment": "青砥駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。1DKのお部屋です。オートロック・宅配ボックスで、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0015-1.svg"
@@ -66,6 +66,6 @@
     "contractTerm": "2年",
     "renewalFee": "新家賃1ヶ月",
     "guarantorRequired": false,
-    "availableFrom": "2026-11-01"
+    "availableFrom": "2026-11-02"
   }
 }

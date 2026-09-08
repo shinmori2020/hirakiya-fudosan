@@ -35,7 +35,7 @@
   "lat": 35.75499,
   "lng": 139.845992,
   "thumb": "/wp-uploads/placeholders/HR-R-0037-1.svg",
-  "publishedOn": "2026-08-27",
+  "publishedOn": "2026-08-28",
   "rent": 141000,
   "address": "東京都葛飾区お花茶屋0-0-0",
   "staff": "仮名 美咲",
@@ -47,8 +47,8 @@
   "direction": "南",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-08-31",
-  "nextUpdateOn": "2026-09-14",
+  "updatedOn": "2026-09-01",
+  "nextUpdateOn": "2026-09-15",
   "comment": "お花茶屋駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。3DKのお部屋です。バス・トイレ別・駐車場で、暮らしやすさを重視した造りになっています。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0037-1.svg",
@@ -66,6 +66,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-10-02"
+    "availableFrom": "2026-10-03"
   }
 }

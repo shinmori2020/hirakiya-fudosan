@@ -8,11 +8,11 @@
   "area": "horikiri",
   "stations": [
     {
-      "slug": "ohanajaya",
+      "slug": "horikiri-shobuen",
       "walk": 2
     },
     {
-      "slug": "horikiri-shobuen",
+      "slug": "ohanajaya",
       "walk": 11
     }
   ],
@@ -34,7 +34,7 @@
   "lat": 35.740738,
   "lng": 139.832077,
   "thumb": "/wp-uploads/placeholders/HR-S-0015-1.svg",
-  "publishedOn": "2026-09-01",
+  "publishedOn": "2026-09-02",
   "price": 5470,
   "address": "東京都葛飾区堀切0-0-0",
   "staff": "架空 太郎",
@@ -46,8 +46,8 @@
   "direction": "南",
   "parking": "空きあり(月額)",
   "transactionType": "媒介",
-  "updatedOn": "2026-09-03",
-  "nextUpdateOn": "2026-09-17",
+  "updatedOn": "2026-09-04",
+  "nextUpdateOn": "2026-09-18",
   "comment": "堀切菖蒲園駅まで徒歩2分。静かな住宅街の一角にあります。3LDK・80㎡。室内は明るく、家具の配置もしやすい形です。住宅ローンのご相談も承ります。まずはお問い合わせを。",
   "images": [
     "/wp-uploads/placeholders/HR-S-0015-1.svg",

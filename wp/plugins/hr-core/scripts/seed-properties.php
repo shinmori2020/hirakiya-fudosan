@@ -427,7 +427,7 @@ foreach ( $plan as $i => [ $type, $kind ] ) {
 			'post_status' => 'publish',
 			'post_title'  => $title,
 			'post_name'   => $slug,
-			'post_date'   => $published->format( 'Y-m-d 10:00:00' ),
+			'post_date'   => $published->format( 'Y-m-d 00:00:00' ), // 00:00 に固定(10:00 だと当日分が実行時刻より後になり future 扱いで REST から消える)
 		),
 		true
 	);
@@ -471,6 +471,7 @@ foreach ( $plan as $i => [ $type, $kind ] ) {
 		'lng'             => $lng,
 		'walk_minutes'    => $walk,
 		'walk_minutes_2'  => $walk2 ?? '',
+		'primary_station' => $st1, // 最寄1駅目の slug(F-005:駅タクソノミーは名前順で返るため、順序をここで持つ)
 		'layout'          => $layout,
 		'area_sqm'        => $sqm ?: '',
 		'built_ym'        => 'land' === $kind ? '' : $built_ym,

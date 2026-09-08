@@ -38,7 +38,7 @@
   "lat": 35.711669,
   "lng": 139.816262,
   "thumb": "/wp-uploads/placeholders/HR-R-0039-1.svg",
-  "publishedOn": "2026-08-20",
+  "publishedOn": "2026-08-21",
   "rent": 122000,
   "address": "東京都墨田区押上0-0-0",
   "staff": "見本 花子",
@@ -50,8 +50,8 @@
   "direction": "北",
   "parking": "空きあり(月額)",
   "transactionType": "貸主",
-  "updatedOn": "2026-08-25",
-  "nextUpdateOn": "2026-09-08",
+  "updatedOn": "2026-08-26",
+  "nextUpdateOn": "2026-09-09",
   "comment": "押上駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。3LDK・61㎡。室内は明るく、家具の配置もしやすい形です。内見のご希望はお気軽にお問い合わせください。",
   "images": [
     "/wp-uploads/placeholders/HR-R-0039-1.svg",
@@ -69,6 +69,6 @@
     "contractTerm": "2年",
     "renewalFee": "なし",
     "guarantorRequired": true,
-    "availableFrom": "2026-11-04"
+    "availableFrom": "2026-11-05"
   }
 }

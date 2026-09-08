@@ -8,11 +8,11 @@
   "area": "ayase",
   "stations": [
     {
-      "slug": "kitasenju",
+      "slug": "ayase",
       "walk": 11
     },
     {
-      "slug": "ayase",
+      "slug": "kitasenju",
       "walk": 20
     }
   ],
@@ -34,7 +34,7 @@
   "lat": 35.75909,
   "lng": 139.825047,
   "thumb": "/wp-uploads/placeholders/HR-S-0008-1.svg",
-  "publishedOn": "2026-07-17",
+  "publishedOn": "2026-07-18",
   "price": 2510,
   "address": "東京都足立区綾瀬0-0-0",
   "staff": "架空 太郎",
@@ -46,8 +46,8 @@
   "direction": "南",
   "parking": "なし",
   "transactionType": "売主",
-  "updatedOn": "2026-07-21",
-  "nextUpdateOn": "2026-08-04",
+  "updatedOn": "2026-07-22",
+  "nextUpdateOn": "2026-08-05",
   "comment": "綾瀬駅から徒歩11分、平坦な道のりで通勤にも便利な立地です。2LDKのお部屋です。独立洗面・追い焚きで、暮らしやすさを重視した造りになっています。周辺の成約事例もご案内できます。お気軽にどうぞ。",
   "images": [
     "/wp-uploads/placeholders/HR-S-0008-1.svg",
