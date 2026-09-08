@@ -17,6 +17,7 @@ export interface TermMaps {
  * 絞り込みパネル(01 §2-2・J-033)。
  * 制御コンポーネント:value / onChange。PC は左サイドで即時反映、スマホはドロワーで下書き → 適用。
  * 上4つ(エリア / 駅 / 家賃or価格 / 間取りor種目)+ 詳細条件(駅徒歩 / 築年 / 面積 / 設備)。
+ * 文字サイズ(J-035):項目は 小 13px(本文より1段下)、区名・沿線名は 最小 11/12px、「エリア」「駅」の見出しは H3 のまま。
  * collapseAdvanced(スマホ)では詳細条件を折りたたむ。駅は沿線6本でグループ化(config/site.ts の lines 順)。
  */
 export function FilterPanel({
@@ -77,7 +78,7 @@ export function FilterPanel({
 			<Group title="エリア">
 				{serviceAreas.map((w) => (
 					<div key={w.ward} className="mb-3 last:mb-0">
-						<p className="mb-1 text-small text-ink-weak">{w.ward}</p>
+						<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">{w.ward}</p>
 						<div className="flex flex-wrap gap-x-4 gap-y-2">
 							{w.towns.map((town) => {
 								const slug = areaSlugByName(town);
@@ -93,7 +94,7 @@ export function FilterPanel({
 			<Group title="駅">
 				{stationGroups.map((g) => (
 					<div key={g.line.slug} className="mb-3 last:mb-0">
-						<p className="mb-1 text-small text-ink-weak">{g.line.name}</p>
+						<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">{g.line.name}</p>
 						<div className="flex flex-wrap gap-2">
 							{g.items.map((t) => (
 								<Chip key={`${g.line.slug}-${t.slug}`} label={t.name} pressed={q.station.includes(t.slug)} onClick={() => toggle('station', t.slug)} />
@@ -168,7 +169,7 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 	);
 }
 
-/** チップ:角丸 6px(03 §5)・高さ 40(スマホ)/ 32(PC)。選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字 */
+/** チップ:角丸 6px(03 §5)・高さ 40(スマホ)/ 32(PC)・余白 8(J-035)。選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字 */
 function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; onClick: () => void }) {
 	return (
 		<button
@@ -176,7 +177,7 @@ function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; on
 			aria-pressed={pressed}
 			onClick={onClick}
 			data-chip
-			className={`h-10 rounded-hr border px-3 text-small whitespace-nowrap transition-colors duration-150 lg:h-8 ${
+			className={`h-10 rounded-hr border px-2 text-small whitespace-nowrap transition-colors duration-150 lg:h-8 ${
 				pressed ? 'border-accent bg-accent font-bold text-white' : 'border-line bg-surface text-ink hover:border-sumi'
 			}`}
 		>
@@ -187,7 +188,7 @@ function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; on
 
 function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
 	return (
-		<label className="flex min-h-11 items-center gap-2 text-body lg:min-h-0 lg:text-body-pc">
+		<label className="flex min-h-11 items-center gap-2 text-small lg:min-h-0">
 			<input type="checkbox" checked={checked} onChange={onChange} className="h-5 w-5 accent-accent" />
 			{label}
 		</label>
@@ -209,7 +210,7 @@ function Select({
 		<select
 			value={value ?? ''}
 			onChange={(e) => onChange(e.target.value)}
-			className="h-[46px] w-full rounded-hr border border-line bg-surface px-3 text-body focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent lg:text-body-pc"
+			className="h-[46px] w-full rounded-hr border border-line bg-surface px-3 text-small focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
 		>
 			<option value="">{blank}</option>
 			{options.map(([v, label]) => (
