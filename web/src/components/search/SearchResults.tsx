@@ -67,7 +67,8 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 		<div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8">
 			{/* PC:左サイドの絞り込み(常時) */}
 			<aside className="hidden lg:block">
-				<div className="sticky top-24 rounded-hr border border-line p-4">
+				{/* ヘッダー直下(compact 時の高さ 61px → top 64)に固定。上限は 画面高 − ヘッダー高 − 余白 16、超える分はカラム内でスクロール(J-034) */}
+				<div className="sticky top-16 max-h-[calc(100dvh-4rem-1rem)] overflow-y-auto rounded-hr border border-line p-4 [scrollbar-width:thin]">
 					<FilterPanel value={q} onChange={change} terms={terms} />
 				</div>
 			</aside>

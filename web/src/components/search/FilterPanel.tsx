@@ -38,18 +38,11 @@ export function FilterPanel({
 		onChange({ ...q, [key]: v === '' ? undefined : Number(v) });
 	const areaSlugByName = (name: string) => terms.area.find((t) => t.slug === name || (t.name === name && t.parent))?.slug;
 
-	// 駅を沿線でグループ化。複数路線の駅は lines 順で最初の路線にだけ置く(重複表示を避ける)
-	const placed = new Set<string>();
-	const stationGroups = LINES.map((line) => {
-		const items = terms.station.filter((t) => {
-			if (placed.has(t.slug)) return false;
-			const ls = String(t.meta.lines ?? '').split(',');
-			if (!ls.includes(line.slug)) return false;
-			placed.add(t.slug);
-			return true;
-		});
-		return { line, items };
-	}).filter((g) => g.items.length > 0);
+	// 駅を沿線でグループ化(config/site.ts の lines 順)。複数路線の駅は各路線に出す(重複表示は許容・J-034)
+	const stationGroups = LINES.map((line) => ({
+		line,
+		items: terms.station.filter((t) => String(t.meta.lines ?? '').split(',').includes(line.slug)),
+	})).filter((g) => g.items.length > 0);
 
 	const advancedCount =
 		[q.walkMax, q.builtMaxYears, q.sqmMin].filter((v) => v != null).length + (q.type === 'rental' ? q.feature.length : 0);
@@ -96,13 +89,14 @@ export function FilterPanel({
 				))}
 			</Group>
 
+			{/* 駅はチップ(トグルボタン)。沿線ごとに横流し。選択中は青緑の塗り、未選択は枠のみ(J-034) */}
 			<Group title="駅">
 				{stationGroups.map((g) => (
 					<div key={g.line.slug} className="mb-3 last:mb-0">
 						<p className="mb-1 text-small text-ink-weak">{g.line.name}</p>
-						<div className="flex flex-wrap gap-x-4 gap-y-2">
+						<div className="flex flex-wrap gap-2">
 							{g.items.map((t) => (
-								<Check key={t.slug} label={t.name} checked={q.station.includes(t.slug)} onChange={() => toggle('station', t.slug)} />
+								<Chip key={`${g.line.slug}-${t.slug}`} label={t.name} pressed={q.station.includes(t.slug)} onClick={() => toggle('station', t.slug)} />
 							))}
 						</div>
 					</div>
@@ -171,6 +165,23 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 			<legend className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">{title}</legend>
 			{children}
 		</fieldset>
+	);
+}
+
+/** チップ:角丸 6px(03 §5)・高さ 40(スマホ)/ 32(PC)。選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字 */
+function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; onClick: () => void }) {
+	return (
+		<button
+			type="button"
+			aria-pressed={pressed}
+			onClick={onClick}
+			data-chip
+			className={`h-10 rounded-hr border px-3 text-small whitespace-nowrap transition-colors duration-150 lg:h-8 ${
+				pressed ? 'border-accent bg-accent font-bold text-white' : 'border-line bg-surface text-ink hover:border-sumi'
+			}`}
+		>
+			{label}
+		</button>
 	);
 }
 
