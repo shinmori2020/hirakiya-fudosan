@@ -59,6 +59,27 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 	}, [drawer]);
 	const draftCount = useMemo(() => applyQuery(all, draft, now).length, [all, draft, now]);
 
+	// J-036:直前の描画(URL クエリが違った時点)の物件番号と件数を state に保持する
+	// (React 公式の「前回の値を保存する」パターン。ref を描画中に読まない)
+	const queryKey = sp.toString();
+	const [snap, setSnap] = useState<{ key: string; nos: Set<string>; count: number; prevNos: Set<string> | null; prevCount: number | null } | null>(null);
+	if (snap === null || snap.key !== queryKey) {
+		setSnap({ key: queryKey, nos: new Set(items.map((p) => p.no)), count: filtered.length, prevNos: snap?.nos ?? null, prevCount: snap?.count ?? null });
+	}
+	const prevNos = snap && snap.key === queryKey ? snap.prevNos : null;
+	const prevCount = snap && snap.key === queryKey ? snap.prevCount : null;
+	// 新規カード = 直前の描画に無かった物件番号。新規の中での順番 × 30ms(上限 210ms)を遅延にする
+	const newOrder = new Map<string, number>();
+	for (const p of items) {
+		if (prevNos && prevNos.has(p.no)) continue;
+		newOrder.set(p.no, newOrder.size);
+	}
+	const STAGGER_MS = 30;
+	const STAGGER_MAX = 7; // 8枚目以降は同時
+	const delayFor = (no: string) => `${Math.min(newOrder.get(no) ?? 0, STAGGER_MAX) * STAGGER_MS}ms`;
+	// 件数が変わった時だけ数字を青緑 → 墨へ 300ms(初回は光らせない)
+	const countChanged = prevCount !== null && prevCount !== filtered.length;
+
 	const stationName = (slug: string) => terms.station.find((t) => t.slug === slug)?.name ?? slug;
 	const typeLabel = q.type === 'rental' ? '賃貸' : '売買';
 	const condCount = activeConditionCount(q);
@@ -98,7 +119,13 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 				{/* 件数・並び替え・(スマホ)絞り込みボタン */}
 				<div className="mt-4 flex items-center justify-between gap-2">
 					<p className="text-body lg:text-body-pc">
-						<span className="tabular text-h2 font-bold text-sumi lg:text-h2-pc">{filtered.length}</span> 件
+						<span
+							key={filtered.length}
+							className={`tabular text-h2 font-bold text-sumi lg:text-h2-pc ${countChanged ? 'animate-count-flash motion-reduce:animate-none' : ''}`}
+						>
+							{filtered.length}
+						</span>{' '}
+						件
 					</p>
 					<div className="flex items-center gap-2">
 						<label className="flex items-center gap-2 text-small text-ink-weak">
@@ -129,21 +156,22 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 				</div>
 
 				{/*
-				 * 一覧(J-036・改)。外枠は作り直さない。カードは物件番号を key にし、条件変更後も残るカードはそのまま維持。
-				 * 新しくマウントされる li だけ CSS の fade-in(150ms)。消えるカードは即時。並び替えは同じ key の並べ替えなので再マウントせずフェードしない。
-				 * 0件表示も「新しく現れる要素」として1回だけフェード。prefers-reduced-motion では animate-none。
-				 * 初案(外枠に key={URL} を付けて全体を再マウント)は「チカチカする」と却下された。FLIP は入れない。
+				 * 一覧(J-036)。外枠は作り直さない。カードは物件番号を key にし、条件変更後も残るカードはそのまま維持。
+				 * 新しくマウントされる li だけ list-in(300ms・不透明度 0→1・8px 上昇)+ 順番ずらし 30ms × 最大7。
+				 * 消えるカードは即時。並び替えは同じ key の並べ替えなので再マウントせずアニメーションしない。
+				 * 0件表示も「新しく現れる要素」として同じアニメーション。prefers-reduced-motion では animate-none。
+				 * 経緯:外枠の再マウント(却下:チカチカ)→ 150ms フェード(却下:分かりにくい)→ 現行。FLIP は入れない。
 				 */}
 				<div className="mt-6">
 					{filtered.length === 0 ? (
-						<div className="animate-fade-in motion-reduce:animate-none">
+						<div className="animate-list-in motion-reduce:animate-none">
 							<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} />
 						</div>
 					) : (
 						// 〜767px 1列 / 768px〜 2列(03 §7 v0.5)。左カラムは lg から
 						<ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-4">
 							{items.map((p, i) => (
-								<li key={p.no} className="animate-fade-in motion-reduce:animate-none">
+								<li key={p.no} className="animate-list-in motion-reduce:animate-none" style={{ animationDelay: delayFor(p.no) }}>
 									<PropertyCard p={p} stationName={stationName} now={now} priority={i < 2} />
 								</li>
 							))}
