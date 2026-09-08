@@ -169,7 +169,8 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 	);
 }
 
-/** チップ:角丸 6px(03 §5)・高さ 40(スマホ)/ 32(PC)・余白 8(J-035)。選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字 */
+/** チップ:角丸 6px(03 §5)・高さ 40(スマホ)/ 32(PC)・余白 8(J-035)。選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字。
+ *  hover(PC)/ active(スマホ)で枠・文字が青緑。背景・枠・文字色を 150ms・cubic-bezier(0.4,0,0.2,1) で遷移(J-035・03 §8) */
 function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; onClick: () => void }) {
 	return (
 		<button
@@ -177,8 +178,10 @@ function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; on
 			aria-pressed={pressed}
 			onClick={onClick}
 			data-chip
-			className={`h-10 rounded-hr border px-2 text-small whitespace-nowrap transition-colors duration-150 lg:h-8 ${
-				pressed ? 'border-accent bg-accent font-bold text-white' : 'border-line bg-surface text-ink hover:border-sumi'
+			className={`h-10 rounded-hr border px-2 text-small whitespace-nowrap transition-[background-color,border-color,color] duration-150 motion-reduce:transition-none lg:h-8 ${
+				pressed
+					? 'border-accent bg-accent font-bold text-white'
+					: 'border-line bg-surface text-ink hover:border-accent hover:text-accent active:border-accent active:text-accent'
 			}`}
 		>
 			{label}
@@ -186,11 +189,17 @@ function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; on
 	);
 }
 
-/** チェックボックスは項目文字(小 13px)と同じ高さ(J-035 条件追加)。色・角丸はブラウザ既定+accent のまま */
+/** チェックボックスは項目文字(小 13px)と同じ高さ(J-035 条件追加)。色・角丸はブラウザ既定+accent のまま。
+ *  hover / active で枠を一段濃く見せる(native の border は CSS で変えられないため、同位置に 1px の outline を重ねる。focus-visible の輪郭は変えない) */
 function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
 	return (
 		<label className="flex min-h-11 items-center gap-2 text-small lg:min-h-0">
-			<input type="checkbox" checked={checked} onChange={onChange} className="size-[13px] accent-accent" />
+			<input
+				type="checkbox"
+				checked={checked}
+				onChange={onChange}
+				className="size-[13px] accent-accent transition-[outline-color] duration-150 outline-1 -outline-offset-1 outline-transparent motion-reduce:transition-none [&:hover:not(:focus-visible)]:outline-ink-weak [&:active:not(:focus-visible)]:outline-ink-weak"
+			/>
 			{label}
 		</label>
 	);
@@ -212,7 +221,7 @@ function Select({
 		<select
 			value={value ?? ''}
 			onChange={(e) => onChange(e.target.value)}
-			className="h-10 w-full rounded-hr border border-line bg-surface px-2 text-small focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent lg:h-8"
+			className="h-10 w-full rounded-hr border border-line bg-surface px-2 text-small transition-[border-color] duration-150 motion-reduce:transition-none hover:border-ink-weak active:border-ink-weak focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent lg:h-8"
 		>
 			<option value="">{blank}</option>
 			{options.map(([v, label]) => (
