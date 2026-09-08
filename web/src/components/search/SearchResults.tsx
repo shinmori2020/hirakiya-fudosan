@@ -59,25 +59,18 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 	}, [drawer]);
 	const draftCount = useMemo(() => applyQuery(all, draft, now).length, [all, draft, now]);
 
-	// J-036:直前の描画(URL クエリが違った時点)の物件番号と件数を state に保持する
-	// (React 公式の「前回の値を保存する」パターン。ref を描画中に読まない)
+	// J-036(3回目):切り替えのたびに一覧全体を現れ直させる。外枠の key に URL クエリを使い、全カードを再マウントする。
+	// 順番ずらしは表示順 × 30ms(上限 210ms・8枚目以降は同時)
 	const queryKey = sp.toString();
-	const [snap, setSnap] = useState<{ key: string; nos: Set<string>; count: number; prevNos: Set<string> | null; prevCount: number | null } | null>(null);
-	if (snap === null || snap.key !== queryKey) {
-		setSnap({ key: queryKey, nos: new Set(items.map((p) => p.no)), count: filtered.length, prevNos: snap?.nos ?? null, prevCount: snap?.count ?? null });
-	}
-	const prevNos = snap && snap.key === queryKey ? snap.prevNos : null;
-	const prevCount = snap && snap.key === queryKey ? snap.prevCount : null;
-	// 新規カード = 直前の描画に無かった物件番号。新規の中での順番 × 30ms(上限 210ms)を遅延にする
-	const newOrder = new Map<string, number>();
-	for (const p of items) {
-		if (prevNos && prevNos.has(p.no)) continue;
-		newOrder.set(p.no, newOrder.size);
-	}
 	const STAGGER_MS = 30;
-	const STAGGER_MAX = 7; // 8枚目以降は同時
-	const delayFor = (no: string) => `${Math.min(newOrder.get(no) ?? 0, STAGGER_MAX) * STAGGER_MS}ms`;
-	// 件数が変わった時だけ数字を青緑 → 墨へ 300ms(初回は光らせない)
+	const STAGGER_MAX = 7;
+	const delayFor = (index: number) => `${Math.min(index, STAGGER_MAX) * STAGGER_MS}ms`;
+	// 件数が変わった時だけ数字を青緑 → 墨へ 300ms(初回は光らせない)。前回の件数は state に保持(ref を描画中に読まない)
+	const [snap, setSnap] = useState<{ key: string; count: number; prevCount: number | null } | null>(null);
+	if (snap === null || snap.key !== queryKey) {
+		setSnap({ key: queryKey, count: filtered.length, prevCount: snap?.count ?? null });
+	}
+	const prevCount = snap && snap.key === queryKey ? snap.prevCount : null;
 	const countChanged = prevCount !== null && prevCount !== filtered.length;
 
 	const stationName = (slug: string) => terms.station.find((t) => t.slug === slug)?.name ?? slug;
@@ -156,13 +149,13 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 				</div>
 
 				{/*
-				 * 一覧(J-036)。外枠は作り直さない。カードは物件番号を key にし、条件変更後も残るカードはそのまま維持。
-				 * 新しくマウントされる li だけ list-in(300ms・不透明度 0→1・8px 上昇)+ 順番ずらし 30ms × 最大7。
-				 * 消えるカードは即時。並び替えは同じ key の並べ替えなので再マウントせずアニメーションしない。
-				 * 0件表示も「新しく現れる要素」として同じアニメーション。prefers-reduced-motion では animate-none。
-				 * 経緯:外枠の再マウント(却下:チカチカ)→ 150ms フェード(却下:分かりにくい)→ 現行。FLIP は入れない。
+				 * 一覧(J-036・3回目)。条件・並び替え・タブ・ページが変わるたび外枠の key が変わり、全カードが現れ直す:
+				 * list-in(300ms・不透明度 0→1・8px 上昇)+ 表示順の順番ずらし 30ms × 最大7(最大遅延 210ms)。
+				 * 0件表示も同じ。prefers-reduced-motion では animate-none。FLIP は入れない。
+				 * 経緯:外枠再マウント+150ms フェード(却下:チカチカ)→ 新規カードのみ 150ms(却下:分かりにくい)
+				 *     → 新規カードのみ 300ms+上昇+順番ずらし → SHIN の希望で「切り替えるたびに表示し直す」に(300ms+上昇+順番ずらしは維持)。
 				 */}
-				<div className="mt-6">
+				<div key={queryKey} className="mt-6">
 					{filtered.length === 0 ? (
 						<div className="animate-list-in motion-reduce:animate-none">
 							<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} />
@@ -171,7 +164,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 						// 〜767px 1列 / 768px〜 2列(03 §7 v0.5)。左カラムは lg から
 						<ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-4">
 							{items.map((p, i) => (
-								<li key={p.no} className="animate-list-in motion-reduce:animate-none" style={{ animationDelay: delayFor(p.no) }}>
+								<li key={p.no} className="animate-list-in motion-reduce:animate-none" style={{ animationDelay: delayFor(i) }}>
 									<PropertyCard p={p} stationName={stationName} now={now} priority={i < 2} />
 								</li>
 							))}
