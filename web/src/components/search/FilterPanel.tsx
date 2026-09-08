@@ -186,10 +186,11 @@ function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; on
 	);
 }
 
+/** チェックボックスは項目文字(小 13px)と同じ高さ(J-035 条件追加)。色・角丸はブラウザ既定+accent のまま */
 function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
 	return (
 		<label className="flex min-h-11 items-center gap-2 text-small lg:min-h-0">
-			<input type="checkbox" checked={checked} onChange={onChange} className="h-5 w-5 accent-accent" />
+			<input type="checkbox" checked={checked} onChange={onChange} className="size-[13px] accent-accent" />
 			{label}
 		</label>
 	);
