@@ -30,8 +30,8 @@ async function readJson<T>(rel: string): Promise<T | null> {
 
 async function wpFetch<T>(resource: string): Promise<T | null> {
 	try {
-		// 開発時のみ。本番は static なので到達しない。キャッシュは明示(Next.js の既定は no-store)
-		const res = await fetch(`${API_URL}/wp/v2/${resource}`, { cache: 'force-cache' });
+		// 開発時のみ。本番は static なので到達しない。キャッシュは明示。no-store:再シード後の REST を次のリクエストで反映する(force-cache だと Data Cache の古い応答が残った・F-005)
+		const res = await fetch(`${API_URL}/wp/v2/${resource}`, { cache: 'no-store' });
 		if (!res.ok) {
 			console.error(`[wp] ${resource} -> ${res.status}`);
 			return null;
