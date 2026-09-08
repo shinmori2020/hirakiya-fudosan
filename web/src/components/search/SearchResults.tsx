@@ -129,18 +129,21 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 				</div>
 
 				{/*
-				 * 一覧(J-036)。条件・並び・ページ・タブが変わるたび key が変わり、中身が再マウントされて
-				 * CSS の fade-in(150ms)が走る。カードの位置移動(FLIP)はしない。0件時も同じフェード。
-				 * prefers-reduced-motion では animate-none。URL 同期・絞り込みロジックには関与しない。
+				 * 一覧(J-036・改)。外枠は作り直さない。カードは物件番号を key にし、条件変更後も残るカードはそのまま維持。
+				 * 新しくマウントされる li だけ CSS の fade-in(150ms)。消えるカードは即時。並び替えは同じ key の並べ替えなので再マウントせずフェードしない。
+				 * 0件表示も「新しく現れる要素」として1回だけフェード。prefers-reduced-motion では animate-none。
+				 * 初案(外枠に key={URL} を付けて全体を再マウント)は「チカチカする」と却下された。FLIP は入れない。
 				 */}
-				<div key={sp.toString()} className="mt-6 animate-fade-in motion-reduce:animate-none">
+				<div className="mt-6">
 					{filtered.length === 0 ? (
-						<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} />
+						<div className="animate-fade-in motion-reduce:animate-none">
+							<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} />
+						</div>
 					) : (
 						// 〜767px 1列 / 768px〜 2列(03 §7 v0.5)。左カラムは lg から
 						<ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-4">
 							{items.map((p, i) => (
-								<li key={p.no}>
+								<li key={p.no} className="animate-fade-in motion-reduce:animate-none">
 									<PropertyCard p={p} stationName={stationName} now={now} priority={i < 2} />
 								</li>
 							))}
