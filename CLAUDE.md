@@ -49,6 +49,7 @@ pnpm install
 pnpm dev                                  # http://localhost:3000(DATA_SOURCE=api で Docker の WP を読む)
 pnpm run export-wp                        # WP REST → web/data/*.json + 画像 DL(Docker 起動中のみ)
 DATA_SOURCE=static pnpm build && pnpm start   # 本番相当。Vercel はこの形でビルドする
+DATA_SOURCE=static pnpm start -p 3001         # 確認用(AI のスクショ等)は -p 3001。3000 は SHIN の dev サーバーなので起動・停止しない
 pnpm lint
 pnpm exec playwright test                 # web/e2e(フォーム3本・検索 URL 同期)
 ```
