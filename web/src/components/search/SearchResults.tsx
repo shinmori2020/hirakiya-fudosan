@@ -128,8 +128,12 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 					</div>
 				</div>
 
-				{/* 一覧 */}
-				<div className="mt-6">
+				{/*
+				 * 一覧(J-036)。条件・並び・ページ・タブが変わるたび key が変わり、中身が再マウントされて
+				 * CSS の fade-in(150ms)が走る。カードの位置移動(FLIP)はしない。0件時も同じフェード。
+				 * prefers-reduced-motion では animate-none。URL 同期・絞り込みロジックには関与しない。
+				 */}
+				<div key={sp.toString()} className="mt-6 animate-fade-in motion-reduce:animate-none">
 					{filtered.length === 0 ? (
 						<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} />
 					) : (
