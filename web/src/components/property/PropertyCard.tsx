@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { PropertySummary } from '@/types/property';
 import { badgesFor } from '@/lib/badges';
-import { builtLabel, mainPrice, sqmLabel } from '@/lib/format';
+import { builtLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
 import { Badge } from '@/components/property/Badge';
 
 /**
@@ -61,7 +61,7 @@ export function PropertyCard({
 					</p>
 					{st && (
 						<p className="text-small">
-							{stationName(st.slug)}駅 徒歩{st.walk}分
+							{stationName(st.slug)}駅 {walkLabel(st.walk)}
 						</p>
 					)}
 					{built && <p className="text-small text-ink-weak">{built}</p>}

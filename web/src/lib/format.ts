@@ -19,3 +19,13 @@ export function builtLabel(builtYm: string, now: Date = new Date()): string | nu
 export function sqmLabel(sqm: number | null): string {
 	return sqm != null ? `${sqm}㎡` : '—';
 }
+
+/** 「徒歩8分」(J-041) */
+export function walkLabel(minutes: number): string {
+	return `徒歩${minutes}分`;
+}
+
+/** 管理費・共益費などの月額。0 や null は「なし」、それ以外は「5,000円」(J-041) */
+export function feeLabel(yen: number | null | undefined): string {
+	return yen != null && yen > 0 ? `${yen.toLocaleString('ja-JP')}円` : 'なし';
+}

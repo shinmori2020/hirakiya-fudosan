@@ -11,7 +11,7 @@ import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
 import { company, formatRent, staff as staffList } from '@/config/site';
 import { badgesFor } from '@/lib/badges';
-import { builtLabel, mainPrice } from '@/lib/format';
+import { builtLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
@@ -60,7 +60,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 		['築年', p.builtYm ? (builtLabel(p.builtYm, now) ?? '—') : '—'],
 		['向き', p.direction || '—'],
 		[p.type === 'rental' ? '入居可能日' : '引渡し', (p.type === 'rental' ? p.rental?.availableFrom : p.sale?.handover) || '—'],
-		['2駅目', second ? `${stationName(second.slug)}駅 徒歩${second.walk}分` : '—'],
+		['2駅目', second ? `${stationName(second.slug)}駅 ${walkLabel(second.walk)}` : '—'],
 	];
 
 	return (
@@ -110,12 +110,12 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							)}
 							<h1 className="mt-2 text-h1 font-bold lg:text-h1-pc">{p.title}</h1>
 							<p className="mt-1 text-small text-ink-weak">
-								{p.address} / {p.stations[0] ? `${stationName(p.stations[0].slug)}駅 徒歩${p.stations[0].walk}分` : ''}
+								{p.address} / {p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : ''}
 							</p>
 							<p className="tabular mt-4 text-price-detail font-bold text-sumi lg:text-price-detail-pc">{mainPrice(p)}</p>
 							{p.type === 'rental' && p.rental && (
 								<p className="text-small text-ink-weak">
-									管理費・共益費 {p.rental.maintenanceFee > 0 ? `${p.rental.maintenanceFee.toLocaleString('ja-JP')}円` : 'なし'} / 敷金{' '}
+									管理費・共益費 {feeLabel(p.rental.maintenanceFee)} / 敷金{' '}
 									{p.rental.depositMonths === 0 ? 'なし' : `${p.rental.depositMonths}ヶ月`} / 礼金 {p.rental.keyMoneyMonths === 0 ? 'なし' : `${p.rental.keyMoneyMonths}ヶ月`}
 								</p>
 							)}

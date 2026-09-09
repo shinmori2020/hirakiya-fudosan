@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { PropertyDetail } from '@/types/property';
 import { formatPrice, formatRent } from '@/config/site';
-import { builtLabel, sqmLabel } from '@/lib/format';
+import { builtLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
 
 /**
  * 基本情報表(01 §3-4・03 §6・J-039)。
@@ -23,7 +23,7 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 		return m ? `${m[1]}年${Number(m[2])}月${Number(m[3])}日` : v || '—';
 	};
 	const built = p.builtYm ? `${ym(p.builtYm)}(${builtLabel(p.builtYm, now) ?? '—'})` : '—';
-	const traffic = p.stations.map((s) => `${stationName(s.slug)}駅 徒歩${s.walk}分`).join(' / ') || '—';
+	const traffic = p.stations.map((s) => `${stationName(s.slug)}駅 ${walkLabel(s.walk)}`).join(' / ') || '—';
 	const floor = p.floor != null ? `${p.floor}階${p.floorsTotal != null ? ` / ${p.floorsTotal}階建` : ''}` : p.floorsTotal != null ? `${p.floorsTotal}階建` : '—';
 	const months = (n: number) => (n === 0 ? 'なし' : `${n}ヶ月`);
 	const yen = (n: number) => `${n.toLocaleString('ja-JP')}円`;
@@ -50,7 +50,7 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 				title: '費用',
 				rows: [
 					{ k: '家賃', v: formatRent(p.rent ?? 0), emphasis: true },
-					{ k: '管理費・共益費', v: r.maintenanceFee > 0 ? yen(r.maintenanceFee) : 'なし' },
+					{ k: '管理費・共益費', v: feeLabel(r.maintenanceFee) },
 					{ k: '初期費用', v: `敷金 ${months(r.depositMonths)} / 礼金 ${months(r.keyMoneyMonths)} / 仲介手数料 ${r.brokerageFee}`, emphasis: true },
 					{ k: '更新料', v: r.renewalFee || '—' },
 				],
