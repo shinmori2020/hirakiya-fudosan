@@ -46,7 +46,8 @@ export const RENT_STEPS = [50000, 60000, 70000, 80000, 90000, 100000, 120000, 15
 /** 価格の刻み(万円) */
 export const PRICE_STEPS = [2000, 3000, 4000, 5000, 6000, 8000] as const;
 export const WALK_STEPS = [5, 10, 15, 20] as const;
-export const BUILT_STEPS = [5, 10, 15, 20, 30] as const;
+/** 築年数の刻み。1年以内は詳細の「新築」ポイントタグの遷移先(J-040) */
+export const BUILT_STEPS = [1, 5, 10, 15, 20, 30] as const;
 export const SQM_STEPS = [20, 30, 40, 50, 60, 80] as const;
 
 const DEFAULT: SearchQuery = {

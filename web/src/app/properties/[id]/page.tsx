@@ -158,11 +158,17 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">この物件について</h2>
+					{/* ポイントタグは同じ条件の一覧へのリンク(J-040)。見た目は据え置き、hover は J-035 と同じ 150ms */}
 					{points.length > 0 && (
 						<ul className="mt-6 flex flex-wrap gap-x-1 gap-y-2" aria-label="この物件のポイント">
 							{points.map((pt) => (
-								<li key={pt} className="h-8 rounded-hr border border-accent bg-badge-new-bg px-2 text-small leading-8 font-bold whitespace-nowrap text-accent-strong">
-									{pt}
+								<li key={pt.label}>
+									<Link
+										href={pt.href}
+										className="block h-8 rounded-hr border border-accent bg-badge-new-bg px-2 text-small leading-8 font-bold whitespace-nowrap text-accent-strong transition-[background-color,border-color,color] duration-150 hover:bg-accent hover:text-white active:bg-accent active:text-white motion-reduce:transition-none"
+									>
+										{pt.label}
+									</Link>
 								</li>
 							))}
 						</ul>
