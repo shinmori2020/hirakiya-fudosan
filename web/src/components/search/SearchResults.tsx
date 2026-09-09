@@ -197,7 +197,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 						</button>
 					</div>
 					<div className="flex-1 overflow-y-auto px-4 py-4">
-						<FilterPanel value={draft} onChange={setDraft} terms={terms} collapseAdvanced />
+						<FilterPanel value={draft} onChange={setDraft} terms={terms} />
 					</div>
 					<div className="grid grid-cols-[auto_1fr] gap-2 border-t border-line p-3">
 						<button
