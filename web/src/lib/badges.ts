@@ -23,11 +23,11 @@ export function isDiscounted(p: Pick<PropertySummary, 'rent' | 'rentPrevious' | 
 
 export type Badge = 'sold' | 'negotiating' | 'discount' | 'new';
 
-/** 表示するバッジ。優先度 成約済み > 商談中 > 値下げ > 新着。最大2つ */
+/** 表示するバッジ。優先度 成約済み > 商談中 > 値下げ > 新着。最大2つ。成約済みは単独(新着・値下げを併記しない・J-038) */
 export function badgesFor(p: PropertySummary, now: Date = new Date()): Badge[] {
+	if (p.status === 'sold') return ['sold'];
 	const out: Badge[] = [];
-	if (p.status === 'sold') out.push('sold');
-	else if (p.status === 'negotiating') out.push('negotiating');
+	if (p.status === 'negotiating') out.push('negotiating');
 	if (isDiscounted(p)) out.push('discount');
 	if (isNew(p, now)) out.push('new');
 	return out.slice(0, 2);
