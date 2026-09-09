@@ -106,6 +106,7 @@ chore: update WP data export
 | `/log-judgment` | SHIN が判断を記録する時に呼ぶ。行の追加と `docs/decisions/J-xxx.md` の生成 |
 | `/export-wp` | Docker の WP → JSON の書き出しとコミット |
 | `hooks/check-jid.mjs` | `git commit` の前に J-ID とコミット規約を検査(settings.json で登録) |
+| `settings.json` の `permissions.ask` | プロセス停止・ポート操作・再帰削除・force push・hard reset は実行前に確認(F-006) |
 
 公式スキル `react-best-practices` / `web-design-guidelines` / `webapp-testing` は `.claude/skills/` にインストール済みの前提。出力はすべて初案として扱う。
 
