@@ -9,9 +9,10 @@ import { InfoTable } from '@/components/property/InfoTable';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
-import { company, formatRent } from '@/config/site';
+import { company, formatRent, staff as staffList } from '@/config/site';
 import { badgesFor } from '@/lib/badges';
-import { mainPrice } from '@/lib/format';
+import { builtLabel, mainPrice } from '@/lib/format';
+import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
 
@@ -51,6 +52,16 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 	const sold = p.status === 'sold';
 	const related = relatedProperties(all, p, 4);
 	const typeLabel = p.type === 'rental' ? '賃貸' : '売買';
+	const points = pointChips(p, featureName, now);
+	const staffInfo = staffList.find((st) => st.name === p.staff);
+	const second = p.stations[1];
+	// 右カラムの要約(J-039):築年 / 向き / 入居可能日(売買は引渡し)/ 最寄2駅目
+	const summary: [string, string][] = [
+		['築年', p.builtYm ? (builtLabel(p.builtYm, now) ?? '—') : '—'],
+		['向き', p.direction || '—'],
+		[p.type === 'rental' ? '入居可能日' : '引渡し', (p.type === 'rental' ? p.rental?.availableFrom : p.sale?.handover) || '—'],
+		['2駅目', second ? `${stationName(second.slug)}駅 徒歩${second.walk}分` : '—'],
+	];
 
 	return (
 		<>
@@ -116,6 +127,15 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 								{p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}
 								{p.floor != null ? ` / ${p.floor}階` : ''}
 							</p>
+							{/* 要約(J-039):2列×2行 */}
+							<dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-4 text-small">
+								{summary.map(([k, v]) => (
+									<div key={k} className="flex gap-2">
+										<dt className="shrink-0 text-ink-weak">{k}</dt>
+										<dd className="text-ink">{v}</dd>
+									</div>
+								))}
+							</dl>
 							<div className="mt-6">
 								<CtaBlock no={p.no} type={p.type} sold={sold} />
 							</div>
@@ -124,22 +144,49 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 				</Container>
 			</section>
 
-			{/* 4 基本情報表 */}
+			{/* 4 基本情報表(J-039:4区分・PC 2ペア) */}
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">物件概要</h2>
-					<div className="mt-6 overflow-x-auto rounded-hr border border-line bg-surface">
+					<div className="mt-6">
 						<InfoTable p={p} stationName={stationName} featureName={featureName} now={now} />
 					</div>
 				</Container>
 			</section>
 
-			{/* 5 担当者コメント */}
+			{/* 5 この物件について:ポイントチップ → 本文 → 担当者カード(J-039) */}
 			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">この物件について</h2>
+					{points.length > 0 && (
+						<ul className="mt-6 flex flex-wrap gap-x-1 gap-y-2" aria-label="この物件のポイント">
+							{points.map((pt) => (
+								<li key={pt} className="h-8 rounded-hr border border-accent bg-badge-new-bg px-2 text-small leading-8 font-bold whitespace-nowrap text-accent-strong">
+									{pt}
+								</li>
+							))}
+						</ul>
+					)}
 					<p className="mt-6 whitespace-pre-line">{p.comment}</p>
-					<p className="mt-4 text-small text-ink-weak">担当:{p.staff}(架空)</p>
+					{/* 担当者カード:イニシャル枠+氏名+役職・資格(config/site.ts)。一言はデータに無いので出さない */}
+					<div className="mt-6 flex items-center gap-4 rounded-hr border border-line bg-surface p-4">
+						<div aria-hidden="true" className="flex size-12 shrink-0 items-center justify-center rounded-hr bg-surface-alt text-h3 font-bold text-ink-weak">
+							{p.staff.trim().charAt(0)}
+						</div>
+						<div>
+							<p className="text-small text-ink-weak">担当</p>
+							<p className="font-bold text-sumi">
+								{p.staff}
+								<span className="ml-1 text-xs font-normal text-ink-weak lg:text-xs-pc">(架空)</span>
+							</p>
+							{staffInfo && (
+								<p className="text-small text-ink-weak">
+									{staffInfo.role}
+									{staffInfo.qualifications.length > 0 ? ' / ' + staffInfo.qualifications.join('・') : ''}
+								</p>
+							)}
+						</div>
+					</div>
 				</Container>
 			</section>
 
