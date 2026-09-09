@@ -84,7 +84,7 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 				{serviceAreas.map((w) => (
 					<div key={w.ward} className="mb-3 last:mb-0">
 						<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">{w.ward}</p>
-						<div className="flex flex-wrap gap-x-4 gap-y-2">
+						<div className="flex flex-wrap gap-x-3 gap-y-2">
 							{w.towns.map((town) => {
 								const slug = areaSlugByName(town);
 								if (!slug) return null;
@@ -100,7 +100,7 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 				{stationGroups.map((g) => (
 					<div key={g.line.slug} className="mb-3 last:mb-0">
 						<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">{g.line.name}</p>
-						<div className="flex flex-wrap gap-2">
+						<div className="flex flex-wrap gap-x-1 gap-y-2">
 							{g.items.map((t) => (
 								<Chip key={t.slug} label={t.name} pressed={q.station.includes(t.slug)} onClick={() => toggle('station', t.slug)} />
 							))}
@@ -129,7 +129,7 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 
 			{q.type === 'rental' ? (
 				<Group title="間取り">
-					<div className="flex flex-wrap gap-x-4 gap-y-2">
+					<div className="flex flex-wrap gap-x-3 gap-y-2">
 						{LAYOUTS.map((l) => (
 							<Check key={l} label={l} checked={q.layout.includes(l)} onChange={() => toggle('layout', l)} />
 						))}
@@ -137,7 +137,7 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 				</Group>
 			) : (
 				<Group title="種目">
-					<div className="flex flex-wrap gap-x-4 gap-y-2">
+					<div className="flex flex-wrap gap-x-3 gap-y-2">
 						{terms.kind
 							.filter((k) => ['mansion', 'house', 'land'].includes(k.slug))
 							.map((k) => (
@@ -170,7 +170,7 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 					</Group>
 					{q.type === 'rental' && (
 						<Group title="設備・条件">
-							<div className="flex flex-wrap gap-x-4 gap-y-2">
+							<div className="flex flex-wrap gap-x-3 gap-y-2">
 								{visibleFeatures.map((t) => (
 									<Check key={t.slug} label={t.name} checked={q.feature.includes(t.slug)} onChange={() => toggle('feature', t.slug)} />
 								))}
