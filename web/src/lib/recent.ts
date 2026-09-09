@@ -1,5 +1,5 @@
 /**
- * 最近見た物件(01 §3-9)。ブラウザの localStorage に物件番号だけを持つ(rules/static-rendering.md §2:サーバーは関与しない)。
+ * 最近見た物件(01 §3-9・J-038 判断 8)。ブラウザの localStorage に物件番号だけを持つ(rules/static-rendering.md §2:サーバーは関与しない)。
  * 最大 10 件。読み書きは Client Component からだけ呼ぶ。
  */
 const KEY = 'hr:recent';
@@ -15,6 +15,7 @@ export function readRecent(): string[] {
 	}
 }
 
+/** 見た物件を先頭へ。同じ物件は1件だけ。RECENT_MAX を超えた最古は消える */
 export function pushRecent(no: string): string[] {
 	const next = [no, ...readRecent().filter((x) => x !== no)].slice(0, RECENT_MAX);
 	try {
@@ -23,4 +24,9 @@ export function pushRecent(no: string): string[] {
 		/* private mode 等。表示だけ行う */
 	}
 	return next;
+}
+
+/** 表示用:今見ている物件を除いた一覧(J-041)。無ければ空配列 */
+export function recentExcept(list: string[], currentNo: string): string[] {
+	return list.filter((x) => x !== currentNo);
 }

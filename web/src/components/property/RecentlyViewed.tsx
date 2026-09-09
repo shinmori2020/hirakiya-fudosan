@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { PropertySummary } from '@/types/property';
-import { pushRecent } from '@/lib/recent';
+import { pushRecent, recentExcept } from '@/lib/recent';
 import { PropertyCard } from '@/components/property/PropertyCard';
 
 /**
@@ -18,7 +18,7 @@ export function RecentlyViewed({ all, currentNo, stationNames, nowIso }: { all: 
 		// localStorage は外部システム。effect で読み書きし、結果を state に反映する
 		const next = pushRecent(currentNo);
 		// eslint-disable-next-line react-hooks/set-state-in-effect -- 外部ストレージからの同期
-		setNos(next.filter((n) => n !== currentNo));
+		setNos(recentExcept(next, currentNo));
 	}, [currentNo]);
 
 	const items = nos.map((n) => all.find((p) => p.no === n)).filter((p): p is PropertySummary => !!p);
