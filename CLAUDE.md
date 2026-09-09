@@ -51,6 +51,7 @@ pnpm run export-wp                        # WP REST → web/data/*.json + 画像
 DATA_SOURCE=static pnpm build && pnpm start   # 本番相当。Vercel はこの形でビルドする
 DATA_SOURCE=static pnpm start -p 3001         # 確認用(AI のスクショ等)は -p 3001。3000 は SHIN の dev サーバーなので起動・停止しない
 pnpm lint
+pnpm test                                 # web/src/lib/**/*.test.ts(Vitest・純関数のユニットテスト)
 pnpm exec playwright test                 # web/e2e(フォーム3本・検索 URL 同期)
 ```
 
@@ -123,6 +124,7 @@ chore: update WP data export
 
 - 物件・会社・スタッフの値は `web/src/config/site.ts` と `web/data/` 以外に書かない。コンポーネントに数値をベタ書きしない
 - `web/src/types/` は `export-wp-data.mjs` の JSON と一致させる。バッジ判定(新着・値下げ)は `lib/` の純関数
+- **`web/src/lib/` の純関数を作る・変える時は、同じコミットに隣の `<name>.test.ts` を含める**(Vitest・1テスト1ルール・見出しは日本語で先頭に根拠 ID・入力は最小のダミー・境界値を含める・`web/data/` は読まない。J-041)。落ちたテストは直す前に SHIN に報告する
 - `fetch` は明示的にキャッシュ戦略を指定する(Next.js の既定はキャッシュなし)
 - 画像は `next/image`。プレースホルダー画像のみ。実写真は使わない
 - スマホ幅(390px)を先に作り、PC(1280px)へ展開する
