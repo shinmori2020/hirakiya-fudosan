@@ -12,7 +12,8 @@ import type { TermMaps } from '@/components/search/FilterPanel';
  *
  * 帯(J-042 条件追加・09/11):md 以上は薄灰の帯(角丸 6・余白 12)で囲い、見出しを同じ幅の列で左端に揃える。
  *   1行目:特集。2行目:駅徒歩 | 築年(細い区切り線)。3行目:設備(1280px で2行目に収まらなかったため単独行・09/11 実測)。
- * スマホ(〜767px):帯を外し、見出しを省いて横スクロールの1行。
+ * スマホ(〜767px・J-042 条件追加 2・09/11):横スクロールは「タグが切れる」ため折り返しに変更。
+ *   帯・見出しは出さず、特集 / 駅徒歩 / 築年 を折り返して並べる(区分の間は広めの間隔)。設備はドロワーの設備チップに任せて出さない。
  */
 export function QuickTabs({ all, q, onChange, terms }: { all: PropertySummary[]; q: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps }) {
 	const groups = quickTabGroups(all, q.type, {
@@ -32,13 +33,15 @@ export function QuickTabs({ all, q, onChange, terms }: { all: PropertySummary[];
 
 	return (
 		<nav aria-label="クイック条件">
-			{/* スマホ:1行の横スクロール(見出しなし・帯なし) */}
-			<div className="-mx-4 flex gap-x-1 overflow-x-auto px-4 md:hidden [scrollbar-width:thin]">
-				{groups.map((g) => (
-					<div key={g.title} className="flex shrink-0 gap-x-1">
-						{chips(g)}
-					</div>
-				))}
+			{/* スマホ:折り返し(見出しなし・帯なし)。設備は出さない(ドロワーに任せる) */}
+			<div className="flex flex-wrap gap-x-4 gap-y-2 md:hidden">
+				{groups
+					.filter((g) => g.title !== '設備')
+					.map((g) => (
+						<div key={g.title} className="flex flex-wrap gap-x-1 gap-y-2">
+							{chips(g)}
+						</div>
+					))}
 			</div>
 
 			{/* md 以上:帯。見出し列は同じ幅(4rem)で左端に揃え、チップの開始位置を揃える */}
