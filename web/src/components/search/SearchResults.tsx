@@ -75,6 +75,17 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 	const countChanged = prevCount !== null && prevCount !== filtered.length;
 
 	const stationName = (slug: string) => terms.station.find((t) => t.slug === slug)?.name ?? slug;
+	// カードの表示名(J-046):種目 / 区+町 / カテゴリータグ
+	const kindName = (slug: string) => terms.kind.find((t) => t.slug === slug)?.name ?? slug;
+	const areaLabel = (slug: string) => {
+		const town = terms.area.find((t) => t.slug === slug);
+		const ward = town?.parent ? terms.area.find((t) => t.slug === town.parent) : undefined;
+		return town ? `${ward?.name ?? ''}${town.name}` : slug;
+	};
+	const tagNames = {
+		collectionName: (slug: string) => terms.collection.find((t) => t.slug === slug)?.name ?? slug,
+		featureName: (slug: string) => terms.feature.find((t) => t.slug === slug)?.name ?? slug,
+	};
 	// J-043:設備はその種別に1件以上あるものだけ左カラム・ドロワーに出す(売買はペット可など賃貸限定の設備を出さない)
 	const featuresFor = (type: SearchQuery['type']) => Array.from(new Set(all.filter((p) => p.type === type).flatMap((p) => p.features)));
 	const availableFeatures = useMemo(() => featuresFor(q.type), [all, q.type]); // eslint-disable-line react-hooks/exhaustive-deps -- featuresFor は all だけに依存
@@ -174,7 +185,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 						<ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-4">
 							{items.map((p, i) => (
 								<li key={p.no} className="animate-list-in motion-reduce:animate-none" style={{ animationDelay: delayFor(i) }}>
-									<PropertyCard p={p} stationName={stationName} now={now} priority={i < 2} />
+									<PropertyCard p={p} stationName={stationName} now={now} priority={i < 2} kindName={kindName} areaLabel={areaLabel} tagNames={tagNames} />
 								</li>
 							))}
 						</ul>

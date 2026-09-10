@@ -41,7 +41,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
-	const [p, all, stations, features, collections] = await Promise.all([getProperty(id), getProperties(), getTerms('station'), getTerms('feature_tag'), getTerms('collection')]);
+	const [p, all, stations, features, collections, kinds, areas] = await Promise.all([
+		getProperty(id),
+		getProperties(),
+		getTerms('station'),
+		getTerms('feature_tag'),
+		getTerms('collection'),
+		getTerms('property_kind'),
+		getTerms('area'),
+	]);
 	if (!p) notFound();
 
 	const nowIso = new Date().toISOString();
@@ -53,6 +61,17 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 	const related = relatedProperties(all, p, 4);
 	const typeLabel = p.type === 'rental' ? '賃貸' : '売買';
 	const collectionName = (slug: string) => collections.find((t) => t.slug === slug)?.name ?? slug;
+	// 関連4件・最近見た物件のカード(J-046)
+	const kindName = (slug: string) => kinds.find((t) => t.slug === slug)?.name ?? slug;
+	const areaLabel = (slug: string) => {
+		const town = areas.find((t) => t.slug === slug);
+		const ward = town?.parent ? areas.find((t) => t.slug === town.parent) : undefined;
+		return town ? `${ward?.name ?? ''}${town.name}` : slug;
+	};
+	const kindNames = Object.fromEntries(kinds.map((t) => [t.slug, t.name]));
+	const areaLabels = Object.fromEntries(areas.filter((t) => t.parent).map((t) => [t.slug, `${areas.find((w) => w.slug === t.parent)?.name ?? ''}${t.name}`]));
+	const featureNames = Object.fromEntries(features.map((t) => [t.slug, t.name]));
+	const collectionNames = Object.fromEntries(collections.map((t) => [t.slug, t.name]));
 	const points = pointChips(p, { featureName, collectionName }, now);
 	const staffInfo = staffList.find((st) => st.name === p.staff);
 	const second = p.stations[1];
@@ -221,7 +240,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 						<ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:gap-4">
 							{related.map((r) => (
 								<li key={r.no}>
-									<PropertyCard p={r} stationName={stationName} now={now} />
+									<PropertyCard p={r} stationName={stationName} now={now} kindName={kindName} areaLabel={areaLabel} tagNames={{ collectionName, featureName }} />
 								</li>
 							))}
 						</ul>
@@ -243,7 +262,16 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 			{/* 9 最近見た物件(Client・localStorage) */}
 			<section className="py-12 lg:py-16">
 				<Container>
-					<RecentlyViewed all={all} currentNo={p.no} stationNames={Object.fromEntries(stations.map((t) => [t.slug, t.name]))} nowIso={nowIso} />
+					<RecentlyViewed
+						all={all}
+						currentNo={p.no}
+						stationNames={Object.fromEntries(stations.map((t) => [t.slug, t.name]))}
+						kindNames={kindNames}
+						areaLabels={areaLabels}
+						featureNames={featureNames}
+						collectionNames={collectionNames}
+						nowIso={nowIso}
+					/>
 				</Container>
 			</section>
 		</>

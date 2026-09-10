@@ -33,6 +33,9 @@ const mk = (over: Partial<PropertySummary> & { no: string }): PropertySummary =>
 	lng: 0,
 	thumb: null,
 	publishedOn: '2026-09-01',
+	photoCount: 3,
+	hasFloorplan: true,
+	floor: null,
 	rent: 80000,
 	...over,
 });
