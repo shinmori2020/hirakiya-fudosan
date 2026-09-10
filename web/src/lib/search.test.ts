@@ -176,4 +176,16 @@ describe('search.ts', () => {
 		expect(isCoveredByQuickTab(q, 'feature', 'reheating')).toBe(false);
 		expect(isCoveredByQuickTab(q, 'collection', 'central-30min')).toBe(true);
 	});
+
+	it('J-043 売買でも walk_max と feature が効く(徒歩11分は落ち、設備 AND)', () => {
+		const sale = (over: Partial<PropertySummary> & { no: string }) => mk({ type: 'sale', rent: undefined, price: 3000, ...over });
+		const list = [
+			sale({ no: 'S1', stations: [{ slug: 'oshiage', walk: 8 }], features: ['autolock', 'parking'] }),
+			sale({ no: 'S2', stations: [{ slug: 'oshiage', walk: 11 }], features: ['autolock', 'parking'] }),
+			sale({ no: 'S3', stations: [{ slug: 'oshiage', walk: 3 }], features: ['autolock'] }),
+		];
+		expect(applyQuery(list, parseQuery(new URLSearchParams('type=sale&walk_max=10')), NOW).map((p) => p.no)).toEqual(['S1', 'S3']);
+		expect(applyQuery(list, parseQuery(new URLSearchParams('type=sale&feature=autolock,parking')), NOW).map((p) => p.no)).toEqual(['S1', 'S2']);
+		expect(applyQuery(list, parseQuery(new URLSearchParams('type=sale&walk_max=10&feature=parking')), NOW).map((p) => p.no)).toEqual(['S1']);
+	});
 });

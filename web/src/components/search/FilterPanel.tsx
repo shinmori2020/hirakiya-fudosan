@@ -44,9 +44,21 @@ const FEATURE_TOP = 6;
  * 構成(PC・ドロワー共通・J-034 A):常時表示 = エリア / 駅 / 家賃or価格 / 間取りor種目。
  * 「詳細条件」(details・初期は閉・選択中の件数を見出しに)= 駅徒歩 / 築年数 / 面積 / 設備・条件。折りたたみの状態は URL に入れない。
  * 駅は沿線6本でグループ化(config/site.ts の lines 順)。複数路線の駅は最初の路線にだけ置く(J-034 B・重複なし)。
+ * 駅徒歩・設備は売買にも出す(J-042・J-043)。設備はその種別に該当のあるものだけ(availableFeatures・02 §4)。
  * 文字サイズ(J-035):項目は 小 13px、区名・沿線名は 最小 11/12px、見出しは H3。
  */
-export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps }) {
+export function FilterPanel({
+	value: q,
+	onChange,
+	terms,
+	availableFeatures,
+}: {
+	value: SearchQuery;
+	onChange: (q: SearchQuery) => void;
+	terms: TermMaps;
+	/** その種別に1件以上ある設備の slug(J-043・データ判定)。省略時は全設備 */
+	availableFeatures?: readonly string[];
+}) {
 	const toggle = (key: 'area' | 'station' | 'layout' | 'feature' | 'kind', v: string) => {
 		const cur = q[key];
 		onChange({ ...q, [key]: cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v] });
@@ -68,11 +80,13 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 	})).filter((g) => g.items.length > 0);
 
 	// 設備:02 §2 の順に並べ、上位6つ+「もっと見る」(J-034 C)
-	const features = [...terms.feature].sort((a, b) => {
+	const features = [...terms.feature]
+		.filter((t) => !availableFeatures || availableFeatures.includes(t.slug))
+		.sort((a, b) => {
 		const ia = FEATURE_ORDER.indexOf(a.slug);
 		const ib = FEATURE_ORDER.indexOf(b.slug);
-		return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-	});
+			return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+		});
 	const [moreFeatures, setMoreFeatures] = useState(false);
 	const hiddenSelected = features.slice(FEATURE_TOP).filter((t) => q.feature.includes(t.slug)).length;
 	const visibleFeatures = moreFeatures ? features : features.slice(0, FEATURE_TOP);

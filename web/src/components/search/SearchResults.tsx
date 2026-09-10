@@ -75,6 +75,9 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 	const countChanged = prevCount !== null && prevCount !== filtered.length;
 
 	const stationName = (slug: string) => terms.station.find((t) => t.slug === slug)?.name ?? slug;
+	// J-043:設備はその種別に1件以上あるものだけ左カラム・ドロワーに出す(売買はペット可など賃貸限定の設備を出さない)
+	const featuresFor = (type: SearchQuery['type']) => Array.from(new Set(all.filter((p) => p.type === type).flatMap((p) => p.features)));
+	const availableFeatures = useMemo(() => featuresFor(q.type), [all, q.type]); // eslint-disable-line react-hooks/exhaustive-deps -- featuresFor は all だけに依存
 	const typeLabel = q.type === 'rental' ? '賃貸' : '売買';
 	const condCount = activeConditionCount(q);
 
@@ -84,7 +87,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 			<aside className="hidden lg:block">
 				{/* ヘッダー直下(compact 時の高さ 61px → top 64)に固定。上限は 画面高 − ヘッダー高 − 余白 16、超える分はカラム内でスクロール(J-034) */}
 				<div className="sticky top-16 max-h-[calc(100dvh-4rem-1rem)] overflow-y-auto rounded-hr border border-line p-3 [scrollbar-width:thin]">
-					<FilterPanel value={q} onChange={change} terms={terms} />
+					<FilterPanel value={q} onChange={change} terms={terms} availableFeatures={availableFeatures} />
 				</div>
 			</aside>
 
@@ -203,7 +206,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 						</button>
 					</div>
 					<div className="flex-1 overflow-y-auto px-4 py-4">
-						<FilterPanel value={draft} onChange={setDraft} terms={terms} />
+						<FilterPanel value={draft} onChange={setDraft} terms={terms} availableFeatures={featuresFor(draft.type)} />
 					</div>
 					<div className="grid grid-cols-[auto_1fr] gap-2 border-t border-line p-3">
 						<button
