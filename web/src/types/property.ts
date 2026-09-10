@@ -39,6 +39,11 @@ export interface PropertySummary {
 	lng: number;
 	thumb: string | null; // images[0] または null(写真0枚)
 	publishedOn: string; // 'YYYY-MM-DD'
+	// 一覧カードに出す項目(J-046 で追加。02 §5)
+	photoCount: number; // 写真の枚数(間取り図は含まない)
+	hasFloorplan: boolean; // 間取り図の有無(写真0枚の時の表示に使う)
+	floor: number | null; // 所在階。戸建・土地は null
+	maintenanceFee?: number; // 管理費・共益費(円・賃貸のみ)
 	rentPrevious?: number;
 	pricePrevious?: number;
 }

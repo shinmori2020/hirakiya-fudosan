@@ -86,9 +86,14 @@ export function toSummary(post, opts = {}) {
 		lng: num(a.lng) ?? 0,
 		thumb: images[0] ?? null,
 		publishedOn: str(a.published_on),
+		// 一覧カードに出す項目(J-046)
+		photoCount: images.length,
+		hasFloorplan: !!str(a.floorplan),
+		floor: num(a.floor),
 	};
 	if (type === 'rental') {
 		s.rent = num(a.rent) ?? 0;
+		s.maintenanceFee = num(a.maintenance_fee) ?? 0;
 		const rp = num(a.rent_previous);
 		if (rp) s.rentPrevious = rp;
 	} else {

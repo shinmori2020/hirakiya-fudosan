@@ -36,6 +36,9 @@
     "lng": 139.814118,
     "thumb": "/wp-uploads/placeholders/HR-S-0003-1.svg",
     "publishedOn": "2026-09-08",
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 10,
     "price": 3070,
     "pricePrevious": 3280
   },
@@ -73,6 +76,9 @@
     "lng": 139.839427,
     "thumb": "/wp-uploads/placeholders/HR-S-0009-1.svg",
     "publishedOn": "2026-09-07",
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 1,
     "price": 3100
   },
   {
@@ -117,7 +123,11 @@
     "lng": 139.828695,
     "thumb": "/wp-uploads/placeholders/HR-R-0025-1.svg",
     "publishedOn": "2026-09-06",
-    "rent": 155000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 155000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0001",
@@ -160,7 +170,11 @@
     "lng": 139.81688,
     "thumb": "/wp-uploads/placeholders/HR-R-0001-1.svg",
     "publishedOn": "2026-09-05",
-    "rent": 82000
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 5,
+    "rent": 82000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-S-0015",
@@ -199,6 +213,9 @@
     "lng": 139.832077,
     "thumb": "/wp-uploads/placeholders/HR-S-0015-1.svg",
     "publishedOn": "2026-09-02",
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 1,
     "price": 5470
   },
   {
@@ -242,7 +259,11 @@
     "lng": 139.816108,
     "thumb": "/wp-uploads/placeholders/HR-R-0019-1.svg",
     "publishedOn": "2026-09-02",
-    "rent": 77000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 8,
+    "rent": 77000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0013",
@@ -288,7 +309,11 @@
     "lng": 139.801445,
     "thumb": "/wp-uploads/placeholders/HR-R-0013-1.svg",
     "publishedOn": "2026-08-31",
-    "rent": 81000
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 7,
+    "rent": 81000,
+    "maintenanceFee": 8000
   },
   {
     "no": "HR-R-0007",
@@ -332,7 +357,11 @@
     "lng": 139.815543,
     "thumb": "/wp-uploads/placeholders/HR-R-0007-1.svg",
     "publishedOn": "2026-08-29",
-    "rent": 104000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 104000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0037",
@@ -372,7 +401,11 @@
     "lng": 139.845992,
     "thumb": "/wp-uploads/placeholders/HR-R-0037-1.svg",
     "publishedOn": "2026-08-28",
-    "rent": 141000
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 141000,
+    "maintenanceFee": 10000
   },
   {
     "no": "HR-R-0031",
@@ -419,7 +452,11 @@
     "lng": 139.855621,
     "thumb": "/wp-uploads/placeholders/HR-R-0031-1.svg",
     "publishedOn": "2026-08-27",
-    "rent": 127000
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 127000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0009",
@@ -465,7 +502,11 @@
     "lng": 139.807061,
     "thumb": "/wp-uploads/placeholders/HR-R-0009-1.svg",
     "publishedOn": "2026-08-24",
-    "rent": 129000
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 8,
+    "rent": 129000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0039",
@@ -508,7 +549,11 @@
     "lng": 139.816262,
     "thumb": "/wp-uploads/placeholders/HR-R-0039-1.svg",
     "publishedOn": "2026-08-21",
-    "rent": 122000
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 122000,
+    "maintenanceFee": 8000
   },
   {
     "no": "HR-S-0013",
@@ -547,6 +592,9 @@
     "lng": 139.846719,
     "thumb": "/wp-uploads/placeholders/HR-S-0013-1.svg",
     "publishedOn": "2026-08-20",
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 2,
     "price": 5230
   },
   {
@@ -591,7 +639,11 @@
     "lng": 139.858402,
     "thumb": "/wp-uploads/placeholders/HR-R-0015-1.svg",
     "publishedOn": "2026-08-16",
-    "rent": 79000
+    "photoCount": 1,
+    "hasFloorplan": true,
+    "floor": 3,
+    "rent": 79000,
+    "maintenanceFee": 10000
   },
   {
     "no": "HR-R-0004",
@@ -632,7 +684,11 @@
     "lng": 139.808721,
     "thumb": null,
     "publishedOn": "2026-08-16",
-    "rent": 92000
+    "photoCount": 0,
+    "hasFloorplan": true,
+    "floor": 12,
+    "rent": 92000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0003",
@@ -672,7 +728,11 @@
     "lng": 139.850743,
     "thumb": "/wp-uploads/placeholders/HR-R-0003-1.svg",
     "publishedOn": "2026-08-16",
-    "rent": 68000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 9,
+    "rent": 68000,
+    "maintenanceFee": 8000
   },
   {
     "no": "HR-S-0016",
@@ -712,6 +772,9 @@
     "lng": 139.824787,
     "thumb": "/wp-uploads/placeholders/HR-S-0016-1.svg",
     "publishedOn": "2026-08-15",
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 2,
     "price": 4450
   },
   {
@@ -752,7 +815,11 @@
     "lng": 139.857778,
     "thumb": "/wp-uploads/placeholders/HR-R-0029-1.svg",
     "publishedOn": "2026-08-14",
-    "rent": 149000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 149000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0005",
@@ -792,7 +859,11 @@
     "lng": 139.86638,
     "thumb": "/wp-uploads/placeholders/HR-R-0005-1.svg",
     "publishedOn": "2026-08-14",
-    "rent": 71000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 5,
+    "rent": 71000,
+    "maintenanceFee": 3000
   },
   {
     "no": "HR-R-0038",
@@ -835,7 +906,11 @@
     "lng": 139.869817,
     "thumb": "/wp-uploads/placeholders/HR-R-0038-1.svg",
     "publishedOn": "2026-08-13",
-    "rent": 121000
+    "photoCount": 1,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 121000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0032",
@@ -875,7 +950,11 @@
     "lng": 139.88246,
     "thumb": "/wp-uploads/placeholders/HR-R-0032-1.svg",
     "publishedOn": "2026-08-13",
-    "rent": 89000
+    "photoCount": 1,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 89000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-S-0005",
@@ -914,6 +993,9 @@
     "lng": 139.860875,
     "thumb": null,
     "publishedOn": "2026-08-11",
+    "photoCount": 0,
+    "hasFloorplan": true,
+    "floor": 1,
     "price": 3230
   },
   {
@@ -952,6 +1034,9 @@
     "lng": 139.846667,
     "thumb": "/wp-uploads/placeholders/HR-S-0004-1.svg",
     "publishedOn": "2026-08-11",
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 3,
     "price": 6090
   },
   {
@@ -992,6 +1077,9 @@
     "lng": 139.818326,
     "thumb": "/wp-uploads/placeholders/HR-S-0006-1.svg",
     "publishedOn": "2026-08-10",
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 3,
     "price": 6110
   },
   {
@@ -1032,7 +1120,11 @@
     "lng": 139.852057,
     "thumb": "/wp-uploads/placeholders/HR-R-0034-1.svg",
     "publishedOn": "2026-08-10",
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 3,
     "rent": 79000,
+    "maintenanceFee": 5000,
     "rentPrevious": 85000
   },
   {
@@ -1071,7 +1163,11 @@
     "lng": 139.859196,
     "thumb": "/wp-uploads/placeholders/HR-R-0011-1.svg",
     "publishedOn": "2026-08-08",
-    "rent": 131000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 3,
+    "rent": 131000,
+    "maintenanceFee": 10000
   },
   {
     "no": "HR-R-0018",
@@ -1113,7 +1209,11 @@
     "lng": 139.878909,
     "thumb": "/wp-uploads/placeholders/HR-R-0018-1.svg",
     "publishedOn": "2026-08-07",
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 8,
     "rent": 110000,
+    "maintenanceFee": 10000,
     "rentPrevious": 119000
   },
   {
@@ -1155,7 +1255,11 @@
     "lng": 139.88143,
     "thumb": "/wp-uploads/placeholders/HR-R-0017-1.svg",
     "publishedOn": "2026-08-07",
-    "rent": 93000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 8,
+    "rent": 93000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-S-0012",
@@ -1195,6 +1299,9 @@
     "lng": 139.849601,
     "thumb": "/wp-uploads/placeholders/HR-S-0012-1.svg",
     "publishedOn": "2026-08-06",
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 2,
     "price": 4930
   },
   {
@@ -1238,7 +1345,11 @@
     "lng": 139.849755,
     "thumb": "/wp-uploads/placeholders/HR-R-0030-1.svg",
     "publishedOn": "2026-08-05",
-    "rent": 109000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 109000,
+    "maintenanceFee": 5000
   },
   {
     "no": "HR-R-0024",
@@ -1280,7 +1391,11 @@
     "lng": 139.845035,
     "thumb": "/wp-uploads/placeholders/HR-R-0024-1.svg",
     "publishedOn": "2026-08-04",
-    "rent": 67000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 67000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0023",
@@ -1321,7 +1436,11 @@
     "lng": 139.802229,
     "thumb": "/wp-uploads/placeholders/HR-R-0023-1.svg",
     "publishedOn": "2026-08-04",
-    "rent": 61000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 61000,
+    "maintenanceFee": 8000
   },
   {
     "no": "HR-R-0002",
@@ -1362,7 +1481,11 @@
     "lng": 139.82264,
     "thumb": "/wp-uploads/placeholders/HR-R-0002-1.svg",
     "publishedOn": "2026-08-04",
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 5,
     "rent": 93000,
+    "maintenanceFee": 0,
     "rentPrevious": 100000
   },
   {
@@ -1395,6 +1518,9 @@
     "lng": 139.832156,
     "thumb": "/wp-uploads/placeholders/HR-S-0017-1.svg",
     "publishedOn": "2026-08-02",
+    "photoCount": 4,
+    "hasFloorplan": false,
+    "floor": null,
     "price": 3850
   },
   {
@@ -1434,7 +1560,11 @@
     "lng": 139.856456,
     "thumb": "/wp-uploads/placeholders/HR-R-0022-1.svg",
     "publishedOn": "2026-08-02",
-    "rent": 108000
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 108000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0020",
@@ -1475,7 +1605,11 @@
     "lng": 139.870533,
     "thumb": "/wp-uploads/placeholders/HR-R-0020-1.svg",
     "publishedOn": "2026-07-30",
-    "rent": 74000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 4,
+    "rent": 74000,
+    "maintenanceFee": 8000
   },
   {
     "no": "HR-R-0035",
@@ -1517,7 +1651,11 @@
     "lng": 139.827346,
     "thumb": "/wp-uploads/placeholders/HR-R-0035-1.svg",
     "publishedOn": "2026-07-29",
-    "rent": 81000
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 81000,
+    "maintenanceFee": 10000
   },
   {
     "no": "HR-S-0020",
@@ -1552,6 +1690,9 @@
     "lng": 139.817116,
     "thumb": "/wp-uploads/placeholders/HR-S-0020-1.svg",
     "publishedOn": "2026-07-27",
+    "photoCount": 4,
+    "hasFloorplan": false,
+    "floor": null,
     "price": 3030
   },
   {
@@ -1599,7 +1740,11 @@
     "lng": 139.879963,
     "thumb": "/wp-uploads/placeholders/HR-R-0036-1.svg",
     "publishedOn": "2026-07-27",
-    "rent": 227000
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 227000,
+    "maintenanceFee": 5000
   },
   {
     "no": "HR-R-0026",
@@ -1636,7 +1781,11 @@
     "lng": 139.884519,
     "thumb": "/wp-uploads/placeholders/HR-R-0026-1.svg",
     "publishedOn": "2026-07-27",
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 3,
     "rent": 110000,
+    "maintenanceFee": 5000,
     "rentPrevious": 119000
   },
   {
@@ -1680,7 +1829,11 @@
     "lng": 139.847146,
     "thumb": "/wp-uploads/placeholders/HR-R-0021-1.svg",
     "publishedOn": "2026-07-27",
-    "rent": 102000
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 102000,
+    "maintenanceFee": 5000
   },
   {
     "no": "HR-R-0040",
@@ -1722,7 +1875,11 @@
     "lng": 139.831564,
     "thumb": "/wp-uploads/placeholders/HR-R-0040-1.svg",
     "publishedOn": "2026-07-26",
-    "rent": 171000
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 171000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0016",
@@ -1765,7 +1922,11 @@
     "lng": 139.84459,
     "thumb": "/wp-uploads/placeholders/HR-R-0016-1.svg",
     "publishedOn": "2026-07-26",
-    "rent": 70000
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 3,
+    "rent": 70000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0008",
@@ -1806,7 +1967,11 @@
     "lng": 139.846235,
     "thumb": "/wp-uploads/placeholders/HR-R-0008-1.svg",
     "publishedOn": "2026-07-26",
-    "rent": 54000
+    "photoCount": 3,
+    "hasFloorplan": true,
+    "floor": 8,
+    "rent": 54000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-R-0006",
@@ -1849,7 +2014,11 @@
     "lng": 139.882123,
     "thumb": "/wp-uploads/placeholders/HR-R-0006-1.svg",
     "publishedOn": "2026-07-25",
-    "rent": 71000
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 71000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-S-0019",
@@ -1884,6 +2053,9 @@
     "lng": 139.847846,
     "thumb": "/wp-uploads/placeholders/HR-S-0019-1.svg",
     "publishedOn": "2026-07-24",
+    "photoCount": 6,
+    "hasFloorplan": false,
+    "floor": null,
     "price": 4530
   },
   {
@@ -1924,6 +2096,9 @@
     "lng": 139.869795,
     "thumb": "/wp-uploads/placeholders/HR-S-0011-1.svg",
     "publishedOn": "2026-07-23",
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 1,
     "price": 4170,
     "pricePrevious": 4460
   },
@@ -1964,6 +2139,9 @@
     "lng": 139.850723,
     "thumb": "/wp-uploads/placeholders/HR-S-0001-1.svg",
     "publishedOn": "2026-07-23",
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 6,
     "price": 2910
   },
   {
@@ -2002,7 +2180,11 @@
     "lng": 139.823906,
     "thumb": "/wp-uploads/placeholders/HR-R-0010-1.svg",
     "publishedOn": "2026-07-22",
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 2,
     "rent": 137000,
+    "maintenanceFee": 8000,
     "rentPrevious": 148000
   },
   {
@@ -2043,6 +2225,9 @@
     "lng": 139.853141,
     "thumb": "/wp-uploads/placeholders/HR-S-0014-1.svg",
     "publishedOn": "2026-07-21",
+    "photoCount": 1,
+    "hasFloorplan": true,
+    "floor": 1,
     "price": 4140
   },
   {
@@ -2086,7 +2271,11 @@
     "lng": 139.845621,
     "thumb": null,
     "publishedOn": "2026-07-20",
-    "rent": 92000
+    "photoCount": 0,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 92000,
+    "maintenanceFee": 0
   },
   {
     "no": "HR-S-0008",
@@ -2125,6 +2314,9 @@
     "lng": 139.825047,
     "thumb": "/wp-uploads/placeholders/HR-S-0008-1.svg",
     "publishedOn": "2026-07-18",
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 2,
     "price": 2510
   },
   {
@@ -2165,7 +2357,11 @@
     "lng": 139.840815,
     "thumb": "/wp-uploads/placeholders/HR-R-0033-1.svg",
     "publishedOn": "2026-07-17",
-    "rent": 70000
+    "photoCount": 5,
+    "hasFloorplan": true,
+    "floor": 1,
+    "rent": 70000,
+    "maintenanceFee": 10000
   },
   {
     "no": "HR-R-0027",
@@ -2204,7 +2400,11 @@
     "lng": 139.842166,
     "thumb": "/wp-uploads/placeholders/HR-R-0027-1.svg",
     "publishedOn": "2026-07-17",
-    "rent": 151000
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 151000,
+    "maintenanceFee": 8000
   },
   {
     "no": "HR-S-0018",
@@ -2239,6 +2439,9 @@
     "lng": 139.855168,
     "thumb": "/wp-uploads/placeholders/HR-S-0018-1.svg",
     "publishedOn": "2026-07-14",
+    "photoCount": 6,
+    "hasFloorplan": false,
+    "floor": null,
     "price": 3940,
     "pricePrevious": 4220
   },
@@ -2277,6 +2480,9 @@
     "lng": 139.852364,
     "thumb": "/wp-uploads/placeholders/HR-S-0007-1.svg",
     "publishedOn": "2026-07-14",
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 1,
     "price": 4070
   },
   {
@@ -2315,6 +2521,9 @@
     "lng": 139.84536,
     "thumb": "/wp-uploads/placeholders/HR-S-0002-1.svg",
     "publishedOn": "2026-07-14",
+    "photoCount": 1,
+    "hasFloorplan": true,
+    "floor": 2,
     "price": 5590
   },
   {
@@ -2352,6 +2561,9 @@
     "lng": 139.83986,
     "thumb": "/wp-uploads/placeholders/HR-S-0010-1.svg",
     "publishedOn": "2026-07-12",
+    "photoCount": 6,
+    "hasFloorplan": true,
+    "floor": 2,
     "price": 5710
   },
   {
@@ -2394,7 +2606,11 @@
     "lng": 139.807992,
     "thumb": "/wp-uploads/placeholders/HR-R-0014-1.svg",
     "publishedOn": "2026-07-12",
-    "rent": 107000
+    "photoCount": 4,
+    "hasFloorplan": true,
+    "floor": 2,
+    "rent": 107000,
+    "maintenanceFee": 3000
   },
   {
     "no": "HR-R-0012",
@@ -2438,6 +2654,10 @@
     "lng": 139.812899,
     "thumb": "/wp-uploads/placeholders/HR-R-0012-1.svg",
     "publishedOn": "2026-07-10",
-    "rent": 104000
+    "photoCount": 2,
+    "hasFloorplan": true,
+    "floor": 6,
+    "rent": 104000,
+    "maintenanceFee": 0
   }
 ]
