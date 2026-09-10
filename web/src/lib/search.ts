@@ -246,3 +246,92 @@ export function relaxCandidates(all: PropertySummary[], q: SearchQuery, now: Dat
 	}
 	return [];
 }
+
+/* -------------------------------------------------------------------------
+ * クイック条件タブ(J-042)。詳細のポイントタグと同じ語彙を一覧の上に並べ、押すと URL の条件が ON/OFF になる。
+ * 並び(左カラムの区分と同じ):特集 / 駅徒歩(5分以内・10分以内)/ 築年(新築・築浅)/ 設備(上位6つ・J-034 と同じ)
+ * 表示の判定はデータ:その種別に1件以上ある特集・設備だけ出す(固定リストにしない)。駅徒歩・築年は常に出す。
+ * ---------------------------------------------------------------------- */
+export type QuickTab =
+	| { kind: 'collection'; slug: string; label: string }
+	| { kind: 'walk'; max: number; label: string }
+	| { kind: 'built'; max: number; label: string }
+	| { kind: 'feature'; slug: string; label: string };
+
+export interface QuickTabGroup {
+	title: string;
+	tabs: QuickTab[];
+}
+
+/** 02 §2 の特集の並び */
+export const QUICK_COLLECTIONS = ['central-30min', 'zero-deposit', 'pet-ok', 'house-rental', 'near-station', 'new-built'] as const;
+/** 02 §2 の設備の上位6つ(J-034 C と同じ) */
+export const QUICK_FEATURES = ['pet-ok', 'autolock', 'parking', 'delivery-box', 'separate-bath', 'washstand'] as const;
+export const QUICK_WALK: { max: number; label: string }[] = [
+	{ max: 5, label: '駅徒歩5分以内' },
+	{ max: 10, label: '駅徒歩10分以内' },
+];
+export const QUICK_BUILT: { max: number; label: string }[] = [
+	{ max: 1, label: '新築' },
+	{ max: 5, label: '築浅' },
+];
+
+export function quickTabGroups(
+	all: PropertySummary[],
+	type: PropertyType,
+	names: { collectionName: (slug: string) => string; featureName: (slug: string) => string },
+): QuickTabGroup[] {
+	const pool = all.filter((p) => p.type === type);
+	const has = (pick: (p: PropertySummary) => string[], slug: string) => pool.some((p) => pick(p).includes(slug));
+	const groups: QuickTabGroup[] = [];
+	const cols = QUICK_COLLECTIONS.filter((c) => has((p) => p.collections, c)).map<QuickTab>((c) => ({ kind: 'collection', slug: c, label: names.collectionName(c) }));
+	if (cols.length) groups.push({ title: '特集', tabs: cols });
+	groups.push({ title: '駅徒歩', tabs: QUICK_WALK.map<QuickTab>((w) => ({ kind: 'walk', ...w })) });
+	groups.push({ title: '築年', tabs: QUICK_BUILT.map<QuickTab>((b) => ({ kind: 'built', ...b })) });
+	const feats = QUICK_FEATURES.filter((f) => has((p) => p.features, f)).map<QuickTab>((f) => ({ kind: 'feature', slug: f, label: names.featureName(f) }));
+	if (feats.length) groups.push({ title: '設備', tabs: feats });
+	return groups;
+}
+
+export function isQuickTabActive(q: SearchQuery, tab: QuickTab): boolean {
+	switch (tab.kind) {
+		case 'collection':
+			return q.collection.includes(tab.slug);
+		case 'walk':
+			return q.walkMax === tab.max;
+		case 'built':
+			return q.builtMaxYears === tab.max;
+		case 'feature':
+			return q.feature.includes(tab.slug);
+	}
+}
+
+/** タブを押した後の条件。左カラムと同じ URL パラメータに載る(collection / walk_max / built_max / feature)。ページは1に戻す */
+export function toggleQuickTab(q: SearchQuery, tab: QuickTab): SearchQuery {
+	const on = isQuickTabActive(q, tab);
+	const toggleList = (list: string[], slug: string) => (list.includes(slug) ? list.filter((x) => x !== slug) : [...list, slug]);
+	switch (tab.kind) {
+		case 'collection':
+			return { ...q, collection: toggleList(q.collection, tab.slug), page: 1 };
+		case 'walk':
+			return { ...q, walkMax: on ? undefined : tab.max, page: 1 };
+		case 'built':
+			return { ...q, builtMaxYears: on ? undefined : tab.max, page: 1 };
+		case 'feature':
+			return { ...q, feature: toggleList(q.feature, tab.slug), page: 1 };
+	}
+}
+
+/** 条件タグ(×付き)に出すかどうか:タブにある条件は出さない(J-042) */
+export function isCoveredByQuickTab(q: SearchQuery, key: 'collection' | 'walkMax' | 'builtMaxYears' | 'feature', value?: string): boolean {
+	switch (key) {
+		case 'collection':
+			return true;
+		case 'walkMax':
+			return QUICK_WALK.some((w) => w.max === q.walkMax);
+		case 'builtMaxYears':
+			return QUICK_BUILT.some((b) => b.max === q.builtMaxYears);
+		case 'feature':
+			return value != null && (QUICK_FEATURES as readonly string[]).includes(value);
+	}
+}

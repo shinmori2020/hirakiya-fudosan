@@ -2,10 +2,10 @@
 
 import { X } from 'lucide-react';
 import { formatPrice, formatRent } from '@/config/site';
-import type { SearchQuery } from '@/lib/search';
+import { isCoveredByQuickTab, type SearchQuery } from '@/lib/search';
 import type { TermMaps } from '@/components/search/FilterPanel';
 
-/** 現在の条件をタグで表示。× で1つ外す(URL を書き換える・rules/search.md §2) */
+/** 現在の条件をタグで表示。× で1つ外す(URL を書き換える・rules/search.md §2)。クイックタブにある条件(特集・徒歩5/10・築1/5・上位6設備)は出さない(J-042) */
 export function ActiveConditions({ q, onChange, terms }: { q: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps }) {
 	const name = (list: { slug: string; name: string }[], slug: string) => list.find((t) => t.slug === slug)?.name ?? slug;
 	const tags: { label: string; remove: () => void }[] = [];
@@ -14,16 +14,16 @@ export function ActiveConditions({ q, onChange, terms }: { q: SearchQuery; onCha
 	q.area.forEach((v) => tags.push({ label: name(terms.area, v), remove: () => onChange(without('area', v)) }));
 	q.station.forEach((v) => tags.push({ label: `${name(terms.station, v)}駅`, remove: () => onChange(without('station', v)) }));
 	q.kind.forEach((v) => tags.push({ label: name(terms.kind, v), remove: () => onChange(without('kind', v)) }));
-	q.collection.forEach((v) => tags.push({ label: name(terms.collection, v), remove: () => onChange(without('collection', v)) }));
+	q.collection.filter((v) => !isCoveredByQuickTab(q, 'collection', v)).forEach((v) => tags.push({ label: name(terms.collection, v), remove: () => onChange(without('collection', v)) }));
 	if (q.rentMin != null) tags.push({ label: `${formatRent(q.rentMin)}〜`, remove: () => onChange({ ...q, rentMin: undefined }) });
 	if (q.rentMax != null) tags.push({ label: `〜${formatRent(q.rentMax)}`, remove: () => onChange({ ...q, rentMax: undefined }) });
 	if (q.priceMin != null) tags.push({ label: `${formatPrice(q.priceMin)}〜`, remove: () => onChange({ ...q, priceMin: undefined }) });
 	if (q.priceMax != null) tags.push({ label: `〜${formatPrice(q.priceMax)}`, remove: () => onChange({ ...q, priceMax: undefined }) });
 	q.layout.forEach((v) => tags.push({ label: v, remove: () => onChange(without('layout', v)) }));
-	if (q.walkMax != null) tags.push({ label: `徒歩${q.walkMax}分以内`, remove: () => onChange({ ...q, walkMax: undefined }) });
-	if (q.builtMaxYears != null) tags.push({ label: `築${q.builtMaxYears}年以内`, remove: () => onChange({ ...q, builtMaxYears: undefined }) });
+	if (q.walkMax != null && !isCoveredByQuickTab(q, 'walkMax')) tags.push({ label: `徒歩${q.walkMax}分以内`, remove: () => onChange({ ...q, walkMax: undefined }) });
+	if (q.builtMaxYears != null && !isCoveredByQuickTab(q, 'builtMaxYears')) tags.push({ label: `築${q.builtMaxYears}年以内`, remove: () => onChange({ ...q, builtMaxYears: undefined }) });
 	if (q.sqmMin != null) tags.push({ label: `${q.sqmMin}㎡以上`, remove: () => onChange({ ...q, sqmMin: undefined }) });
-	q.feature.forEach((v) => tags.push({ label: name(terms.feature, v), remove: () => onChange(without('feature', v)) }));
+	q.feature.filter((v) => !isCoveredByQuickTab(q, 'feature', v)).forEach((v) => tags.push({ label: name(terms.feature, v), remove: () => onChange(without('feature', v)) }));
 
 	if (tags.length === 0) return null;
 	return (

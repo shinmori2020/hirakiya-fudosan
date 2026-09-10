@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import type { PropertySummary } from '@/types/property';
-import { applyQuery, emptyQuery, parseQuery, relaxCandidates, sortProperties, toSearchParams, type SearchQuery } from '@/lib/search';
+import {
+	applyQuery,
+	emptyQuery,
+	isCoveredByQuickTab,
+	isQuickTabActive,
+	parseQuery,
+	quickTabGroups,
+	relaxCandidates,
+	sortProperties,
+	toggleQuickTab,
+	toSearchParams,
+	type SearchQuery,
+} from '@/lib/search';
 
 /** 最小のダミー。web/data は読まない */
 const mk = (over: Partial<PropertySummary> & { no: string }): PropertySummary => ({
@@ -112,5 +124,56 @@ describe('search.ts', () => {
 		const list = [mk({ no: 'A', features: ['pet-ok', 'autolock'] }), mk({ no: 'B', features: ['pet-ok'] })];
 		const q: SearchQuery = { ...emptyQuery(), feature: ['pet-ok', 'autolock'] };
 		expect(applyQuery(list, q, NOW).map((p) => p.no)).toEqual(['A']);
+	});
+
+	it('J-042 タブの ON は URL パラメータに載り、OFF で消える(collection / walk_max / built_max / feature)', () => {
+		let q = emptyQuery();
+		q = toggleQuickTab(q, { kind: 'collection', slug: 'central-30min', label: '' });
+		q = toggleQuickTab(q, { kind: 'walk', max: 10, label: '' });
+		q = toggleQuickTab(q, { kind: 'built', max: 1, label: '' });
+		q = toggleQuickTab(q, { kind: 'feature', slug: 'pet-ok', label: '' });
+		expect(toSearchParams(q).toString()).toBe('collection=central-30min&walk_max=10&built_max=1&feature=pet-ok');
+		expect(parseQuery(new URLSearchParams(toSearchParams(q).toString()))).toEqual(q);
+		q = toggleQuickTab(q, { kind: 'collection', slug: 'central-30min', label: '' });
+		q = toggleQuickTab(q, { kind: 'walk', max: 10, label: '' });
+		q = toggleQuickTab(q, { kind: 'built', max: 1, label: '' });
+		q = toggleQuickTab(q, { kind: 'feature', slug: 'pet-ok', label: '' });
+		expect(toSearchParams(q).toString()).toBe('');
+	});
+
+	it('J-042 駅徒歩・築年のタブは排他(10分以内を押すと5分以内は外れる)。ページは1に戻る', () => {
+		let q: SearchQuery = { ...emptyQuery(), walkMax: 5, page: 3 };
+		expect(isQuickTabActive(q, { kind: 'walk', max: 5, label: '' })).toBe(true);
+		q = toggleQuickTab(q, { kind: 'walk', max: 10, label: '' });
+		expect(q.walkMax).toBe(10);
+		expect(isQuickTabActive(q, { kind: 'walk', max: 5, label: '' })).toBe(false);
+		expect(q.page).toBe(1);
+	});
+
+	it('J-042 タブの表示はデータ判定:その種別に1件も無い特集・設備は出さない。駅徒歩・築年は常に出す', () => {
+		const list = [
+			mk({ no: 'R', collections: ['central-30min'], features: ['autolock'] }),
+			mk({ no: 'S', type: 'sale', collections: ['near-station'], features: ['parking'], rent: undefined, price: 3000 }),
+		];
+		const names = { collectionName: (x: string) => x, featureName: (x: string) => x };
+		const rental = quickTabGroups(list, 'rental', names);
+		expect(rental.map((g) => g.title)).toEqual(['特集', '駅徒歩', '築年', '設備']);
+		expect(rental[0].tabs.map((t) => (t.kind === 'collection' ? t.slug : ''))).toEqual(['central-30min']);
+		expect(rental[3].tabs.map((t) => (t.kind === 'feature' ? t.slug : ''))).toEqual(['autolock']);
+		const sale = quickTabGroups(list, 'sale', names);
+		expect(sale[0].tabs.map((t) => (t.kind === 'collection' ? t.slug : ''))).toEqual(['near-station']);
+		expect(sale[3].tabs.map((t) => (t.kind === 'feature' ? t.slug : ''))).toEqual(['parking']);
+		expect(quickTabGroups([], 'rental', names).map((g) => g.title)).toEqual(['駅徒歩', '築年']);
+	});
+
+	it('J-042 条件タグ(×付き)はタブにある条件を出さない:特集・徒歩5/10・築1/5・上位6設備は隠れ、徒歩15・築10・7番目以降の設備は出る', () => {
+		const q: SearchQuery = { ...emptyQuery(), walkMax: 15, builtMaxYears: 10 };
+		expect(isCoveredByQuickTab({ ...q, walkMax: 10 }, 'walkMax')).toBe(true);
+		expect(isCoveredByQuickTab(q, 'walkMax')).toBe(false);
+		expect(isCoveredByQuickTab({ ...q, builtMaxYears: 5 }, 'builtMaxYears')).toBe(true);
+		expect(isCoveredByQuickTab(q, 'builtMaxYears')).toBe(false);
+		expect(isCoveredByQuickTab(q, 'feature', 'pet-ok')).toBe(true);
+		expect(isCoveredByQuickTab(q, 'feature', 'reheating')).toBe(false);
+		expect(isCoveredByQuickTab(q, 'collection', 'central-30min')).toBe(true);
 	});
 });

@@ -6,6 +6,7 @@ import type { Term } from '@/types/property';
 import { lines as LINES, serviceAreas } from '@/config/site';
 import { formatPrice, formatRent } from '@/config/site';
 import { BUILT_STEPS, LAYOUTS, PRICE_STEPS, RENT_STEPS, SQM_STEPS, WALK_STEPS, type SearchQuery } from '@/lib/search';
+import { Chip } from '@/components/search/Chip';
 
 export interface TermMaps {
 	area: Term[];
@@ -76,8 +77,7 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 	const hiddenSelected = features.slice(FEATURE_TOP).filter((t) => q.feature.includes(t.slug)).length;
 	const visibleFeatures = moreFeatures ? features : features.slice(0, FEATURE_TOP);
 
-	const advancedCount =
-		[q.walkMax, q.builtMaxYears, q.sqmMin].filter((v) => v != null).length + (q.type === 'rental' ? q.feature.length : 0);
+	const advancedCount = [q.walkMax, q.builtMaxYears, q.sqmMin].filter((v) => v != null).length + q.feature.length;
 
 	return (
 		<div className="space-y-6">
@@ -158,18 +158,17 @@ export function FilterPanel({ value: q, onChange, terms }: { value: SearchQuery;
 					<ChevronDown size={20} aria-hidden="true" className="text-ink-weak transition-transform duration-200 group-open:rotate-180" />
 				</summary>
 				<div className="space-y-6 pt-4">
-					{q.type === 'rental' && (
-						<Group title="駅徒歩">
-							<Select value={q.walkMax} onChange={(v) => setNum('walkMax', v)} blank="指定なし" options={WALK_STEPS.map((n) => [n, `${n}分以内`])} />
-						</Group>
-					)}
+					{/* 駅徒歩・設備は売買にも出す(J-042・クイックタブと連動させるため) */}
+					<Group title="駅徒歩">
+						<Select value={q.walkMax} onChange={(v) => setNum('walkMax', v)} blank="指定なし" options={WALK_STEPS.map((n) => [n, `${n}分以内`])} />
+					</Group>
 					<Group title="築年数">
 						<Select value={q.builtMaxYears} onChange={(v) => setNum('builtMaxYears', v)} blank="指定なし" options={BUILT_STEPS.map((n) => [n, `${n}年以内`])} />
 					</Group>
 					<Group title="面積">
 						<Select value={q.sqmMin} onChange={(v) => setNum('sqmMin', v)} blank="指定なし" options={SQM_STEPS.map((n) => [n, `${n}㎡以上`])} />
 					</Group>
-					{q.type === 'rental' && (
+					{(
 						<Group title="設備・条件">
 							<div className="flex flex-wrap gap-x-3 gap-y-2">
 								{visibleFeatures.map((t) => (
@@ -201,27 +200,6 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 			<legend className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">{title}</legend>
 			{children}
 		</fieldset>
-	);
-}
-
-/** チップ:角丸 6px(03 §5)・高さ 40(スマホ)/ 32(PC)・余白 8(J-035)。選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字。
- *  hover(PC)/ active(スマホ)で枠・文字が青緑、背景は淡い青緑 #E0F2F1(03 §2 新着バッジの背景)。選択中の濃い塗りとは別。
- *  背景・枠・文字色を 150ms・cubic-bezier(0.4,0,0.2,1) で遷移(J-035・03 §8) */
-function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; onClick: () => void }) {
-	return (
-		<button
-			type="button"
-			aria-pressed={pressed}
-			onClick={onClick}
-			data-chip
-			className={`h-10 cursor-pointer rounded-hr border px-2 text-small whitespace-nowrap transition-[background-color,border-color,color] duration-150 motion-reduce:transition-none lg:h-8 ${
-				pressed
-					? 'border-accent bg-accent font-bold text-white'
-					: 'border-line bg-surface text-ink hover:border-accent hover:bg-badge-new-bg hover:text-accent-strong active:border-accent active:bg-badge-new-bg active:text-accent-strong'
-			}`}
-		>
-			{label}
-		</button>
 	);
 }
 

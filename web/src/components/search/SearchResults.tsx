@@ -21,6 +21,7 @@ import { ActiveConditions } from '@/components/search/ActiveConditions';
 import { EmptyState } from '@/components/search/EmptyState';
 import { FilterPanel, type TermMaps } from '@/components/search/FilterPanel';
 import { Pagination } from '@/components/search/Pagination';
+import { QuickTabs } from '@/components/search/QuickTabs';
 
 /**
  * 検索結果(方式③:静的な殻 + Client で index.json を絞る)。これは初案。
@@ -105,7 +106,12 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 					))}
 				</div>
 
+				{/* クイック条件タブ(J-042):詳細のポイントタグと同じ語彙。押すと URL の条件が ON/OFF(左カラムと連動) */}
 				<div className="mt-4">
+					<QuickTabs all={all} q={q} onChange={change} terms={terms} />
+				</div>
+				{/* タブに無い条件(エリア・家賃・間取り・面積など)だけ × 付きで表示 */}
+				<div className="mt-3">
 					<ActiveConditions q={q} onChange={change} terms={terms} />
 				</div>
 
