@@ -6,6 +6,7 @@ import { Badge } from '@/components/property/Badge';
 import { CtaBlock } from '@/components/property/CtaBlock';
 import { Gallery } from '@/components/property/Gallery';
 import { InfoTable } from '@/components/property/InfoTable';
+import { KeySpecBand } from '@/components/property/KeySpecBand';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
@@ -15,6 +16,7 @@ import { builtLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
+import { keySpecs } from '@/lib/summary';
 
 /**
  * 物件詳細(実装順 2・01 §3)。これは初案。
@@ -168,6 +170,10 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">物件概要</h2>
+					{/* キー項目の帯(J-047・案 A)。項目は固定・値のみ・本文より1段大きいだけ */}
+					<div className="mt-6">
+						<KeySpecBand specs={keySpecs(p, stationName, now)} />
+					</div>
 					<div className="mt-6">
 						<InfoTable p={p} stationName={stationName} featureName={featureName} now={now} />
 					</div>

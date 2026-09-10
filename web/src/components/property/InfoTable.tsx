@@ -4,10 +4,12 @@ import { formatPrice, formatRent } from '@/config/site';
 import { builtLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
 
 /**
- * 基本情報表(01 §3-4・03 §6・J-039)。
+ * 基本情報表(01 §3-4・03 §6・J-039・J-047)。
  * 4区分(基本 / 費用 / 建物 / 契約・掲載)の小見出し。区分の間は 24(03 の余白スケール1段)。
  * PC(lg 以上)は左右2ペア×1行、スマホ・タブレットは1列。奇数なら最後のペアは左だけ。
- * 「設備」は非操作チップ(一覧の駅チップと同じ見た目)。家賃(価格)・初期費用の値は一段大きく太字。
+ * 「設備」は非操作チップ(一覧の駅チップと同じ見た目)。
+ * J-047:枠線・ラベル列の背景色をやめ、項目間は細い横線1本のみ。ラベルは薄い小さめの文字、値は本文色。
+ *        家賃・初期費用の強調(J-039)はキー項目の帯(KeySpecBand)へ移したので通常の太さ(emphasis は残すが見た目は同じ)。
  * 取引態様・物件番号・情報更新日・次回更新予定日を必ず含む(決定 2026-09-05)。
  */
 type Row = { k: string; v: ReactNode; emphasis?: boolean };
@@ -122,14 +124,12 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 						{sec.title}
 					</h3>
 					{/* PC は2ペア×1行(奇数なら最後は左だけ)。スマホ・タブレットは1列 */}
-					<dl className="grid grid-cols-1 overflow-hidden rounded-hr border border-line bg-surface lg:grid-cols-2">
-						{sec.rows.map((row, i) => (
-							<div
-								key={row.k}
-								className={`grid grid-cols-[112px_minmax(0,1fr)] border-line lg:grid-cols-[144px_minmax(0,1fr)] ${i > 0 ? 'border-t' : ''} ${i === 1 ? 'lg:border-t-0' : ''} ${i % 2 === 1 ? 'lg:border-l' : ''}`}
-							>
-								<dt className="bg-surface-alt px-3 py-2 text-small font-medium text-ink-weak lg:px-4">{row.k}</dt>
-								<dd className={`px-3 py-2 lg:px-4 ${row.emphasis ? 'tabular text-h3 font-bold text-sumi lg:text-h3-pc' : 'text-body leading-[1.5] lg:text-body-pc'}`}>{row.v}</dd>
+					{/* J-047:枠・ラベル背景なし。項目間は細い横線1本(PC の2ペアは左右とも同じ線) */}
+					<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
+						{sec.rows.map((row) => (
+							<div key={row.k} className="grid grid-cols-[112px_minmax(0,1fr)] border-b border-line py-2 lg:grid-cols-[144px_minmax(0,1fr)]">
+								<dt className="text-small text-ink-weak">{row.k}</dt>
+								<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${row.emphasis ? 'tabular' : ''}`}>{row.v}</dd>
 							</div>
 						))}
 					</dl>
