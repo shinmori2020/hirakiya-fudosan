@@ -9,11 +9,12 @@ import type { TermMaps } from '@/components/search/FilterPanel';
 export function ActiveConditions({ q, onChange, terms }: { q: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps }) {
 	const name = (list: { slug: string; name: string }[], slug: string) => list.find((t) => t.slug === slug)?.name ?? slug;
 	const tags: { label: string; remove: () => void }[] = [];
-	const without = <K extends 'area' | 'station' | 'layout' | 'feature' | 'kind'>(key: K, v: string) => ({ ...q, [key]: q[key].filter((x) => x !== v) });
+	const without = <K extends 'area' | 'station' | 'layout' | 'feature' | 'kind' | 'collection'>(key: K, v: string) => ({ ...q, [key]: q[key].filter((x) => x !== v) });
 
 	q.area.forEach((v) => tags.push({ label: name(terms.area, v), remove: () => onChange(without('area', v)) }));
 	q.station.forEach((v) => tags.push({ label: `${name(terms.station, v)}駅`, remove: () => onChange(without('station', v)) }));
 	q.kind.forEach((v) => tags.push({ label: name(terms.kind, v), remove: () => onChange(without('kind', v)) }));
+	q.collection.forEach((v) => tags.push({ label: name(terms.collection, v), remove: () => onChange(without('collection', v)) }));
 	if (q.rentMin != null) tags.push({ label: `${formatRent(q.rentMin)}〜`, remove: () => onChange({ ...q, rentMin: undefined }) });
 	if (q.rentMax != null) tags.push({ label: `〜${formatRent(q.rentMax)}`, remove: () => onChange({ ...q, rentMax: undefined }) });
 	if (q.priceMin != null) tags.push({ label: `${formatPrice(q.priceMin)}〜`, remove: () => onChange({ ...q, priceMin: undefined }) });

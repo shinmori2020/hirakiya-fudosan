@@ -15,12 +15,13 @@ export const metadata: Metadata = {
  * 条件の解釈・絞り込みは Client(SearchResults)が URL クエリで行う。
  */
 export default async function PropertiesPage() {
-	const [all, area, station, feature, kind] = await Promise.all([
+	const [all, area, station, feature, kind, collection] = await Promise.all([
 		getProperties(),
 		getTerms('area'),
 		getTerms('station'),
 		getTerms('feature_tag'),
 		getTerms('property_kind'),
+		getTerms('collection'),
 	]);
 	// バッジの「新着」判定はビルド時刻を基準にする(静的生成。クライアントと同じ値を使い hydration のズレを防ぐ)
 	const nowIso = new Date().toISOString();
@@ -31,7 +32,7 @@ export default async function PropertiesPage() {
 				<h1 className="text-h1 font-bold lg:text-h1-pc">物件を探す</h1>
 				<div className="mt-6">
 					<Suspense fallback={<p className="text-ink-weak">読み込み中…</p>}>
-						<SearchResults all={all} terms={{ area, station, feature, kind }} nowIso={nowIso} />
+						<SearchResults all={all} terms={{ area, station, feature, kind, collection }} nowIso={nowIso} />
 					</Suspense>
 				</div>
 			</Container>

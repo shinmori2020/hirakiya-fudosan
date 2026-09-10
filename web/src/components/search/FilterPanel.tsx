@@ -12,6 +12,7 @@ export interface TermMaps {
 	station: Term[];
 	feature: Term[];
 	kind: Term[];
+	collection: Term[];
 }
 
 /**

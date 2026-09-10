@@ -34,6 +34,7 @@ describe('search.ts', () => {
 			station: ['aoto'],
 			priceMax: 4000,
 			kind: ['house'],
+			collection: ['central-30min'],
 			builtMaxYears: 10,
 			sqmMin: 50,
 			sort: 'price_asc',
@@ -99,6 +100,12 @@ describe('search.ts', () => {
 		const list = [mk({ no: 'A', stations: [{ slug: 'aoto', walk: 5 }] }), mk({ no: 'B', stations: [{ slug: 'oshiage', walk: 5 }] }), mk({ no: 'C', stations: [{ slug: 'kameari', walk: 5 }] })];
 		const q: SearchQuery = { ...emptyQuery(), station: ['aoto', 'oshiage'] };
 		expect(applyQuery(list, q, NOW).map((p) => p.no)).toEqual(['A', 'B']);
+	});
+
+	it('J-040 collection=<slug> で特集を絞れる。複数は OR', () => {
+		const list = [mk({ no: 'A', collections: ['central-30min'] }), mk({ no: 'B', collections: ['zero-deposit'] }), mk({ no: 'C', collections: [] })];
+		expect(applyQuery(list, parseQuery(new URLSearchParams('collection=central-30min')), NOW).map((p) => p.no)).toEqual(['A']);
+		expect(applyQuery(list, parseQuery(new URLSearchParams('collection=central-30min,zero-deposit')), NOW).map((p) => p.no)).toEqual(['A', 'B']);
 	});
 
 	it('J-041 設備を複数選ぶと AND(すべて持つ物件だけ残る)', () => {

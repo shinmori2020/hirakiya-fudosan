@@ -2,8 +2,9 @@
  * 検索・絞り込みの純関数(rules/search.md)。これは初案。
  * URL クエリ ⇄ SearchQuery ⇄ 絞り込み結果。副作用なし。Client でも Server でも動く。
  *
- * クエリ名(URL):type / area / station / line / kind / rent_min / rent_max / price_min / price_max
+ * クエリ名(URL):type / area / station / line / kind / collection / rent_min / rent_max / price_min / price_max
  *               / layout / walk_max / built_max / sqm_min / feature / sort / page
+ * 複数選択の結合:エリア・駅・沿線・種目・間取り・特集は OR、設備は AND(J-041)。特集は J-040 で追加
  * 複数値はカンマ区切り。既定値と一致する項目は URL に載せない。
  */
 import type { PropertySummary, PropertyType } from '@/types/property';
@@ -16,6 +17,8 @@ export interface SearchQuery {
 	station: string[];
 	line: string[];
 	kind: string[];
+	/** 特集(collection)。複数・OR(J-040) */
+	collection: string[];
 	rentMin?: number;
 	rentMax?: number;
 	priceMin?: number;
@@ -56,6 +59,7 @@ const DEFAULT: SearchQuery = {
 	station: [],
 	line: [],
 	kind: [],
+	collection: [],
 	layout: [],
 	feature: [],
 	sort: 'new',
@@ -84,6 +88,7 @@ export function parseQuery(sp: URLSearchParams): SearchQuery {
 		station: list(sp.get('station')),
 		line: list(sp.get('line')),
 		kind: list(sp.get('kind')),
+		collection: list(sp.get('collection')),
 		rentMin: num(sp.get('rent_min')),
 		rentMax: num(sp.get('rent_max')),
 		priceMin: num(sp.get('price_min')),
@@ -108,6 +113,7 @@ export function toSearchParams(q: SearchQuery): URLSearchParams {
 	setList('station', q.station);
 	setList('line', q.line);
 	setList('kind', q.kind);
+	setList('collection', q.collection);
 	setNum('rent_min', q.rentMin);
 	setNum('rent_max', q.rentMax);
 	setNum('price_min', q.priceMin);
@@ -137,6 +143,7 @@ export function applyQuery(all: PropertySummary[], q: SearchQuery, now: Date = n
 		if (q.station.length && !p.stations.some((s) => q.station.includes(s.slug))) return false;
 		if (q.line.length && !p.lines.some((l) => q.line.includes(l))) return false;
 		if (q.kind.length && !q.kind.includes(p.kind)) return false;
+		if (q.collection.length && !p.collections.some((c) => q.collection.includes(c))) return false;
 		if (q.type === 'rental') {
 			if (q.rentMin != null && (p.rent ?? 0) < q.rentMin) return false;
 			if (q.rentMax != null && (p.rent ?? Infinity) > q.rentMax) return false;
@@ -181,6 +188,7 @@ export function activeConditionCount(q: SearchQuery): number {
 		q.station.length +
 		q.line.length +
 		q.kind.length +
+		q.collection.length +
 		q.layout.length +
 		q.feature.length +
 		[q.rentMin, q.rentMax, q.priceMin, q.priceMax, q.walkMax, q.builtMaxYears, q.sqmMin].filter((v) => v != null).length
@@ -204,6 +212,7 @@ const RELAX_STEPS: { label: string; has: (q: SearchQuery) => boolean; drop: (q: 
 	{ label: '築年数', has: (q) => q.builtMaxYears != null, drop: (q) => ({ ...q, builtMaxYears: undefined }) },
 	{ label: '面積', has: (q) => q.sqmMin != null, drop: (q) => ({ ...q, sqmMin: undefined }) },
 	{ label: '設備', has: (q) => q.feature.length > 0, drop: (q) => ({ ...q, feature: [] }) },
+	{ label: '特集', has: (q) => q.collection.length > 0, drop: (q) => ({ ...q, collection: [] }) },
 	{ label: '間取り', has: (q) => q.layout.length > 0, drop: (q) => ({ ...q, layout: [] }) },
 	{ label: '種目', has: (q) => q.kind.length > 0, drop: (q) => ({ ...q, kind: [] }) },
 	{ label: '家賃', has: (q) => q.rentMin != null || q.rentMax != null, drop: (q) => ({ ...q, rentMin: undefined, rentMax: undefined }) },

@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
-	const [p, all, stations, features] = await Promise.all([getProperty(id), getProperties(), getTerms('station'), getTerms('feature_tag')]);
+	const [p, all, stations, features, collections] = await Promise.all([getProperty(id), getProperties(), getTerms('station'), getTerms('feature_tag'), getTerms('collection')]);
 	if (!p) notFound();
 
 	const nowIso = new Date().toISOString();
@@ -52,7 +52,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 	const sold = p.status === 'sold';
 	const related = relatedProperties(all, p, 4);
 	const typeLabel = p.type === 'rental' ? '賃貸' : '売買';
-	const points = pointChips(p, featureName, now);
+	const collectionName = (slug: string) => collections.find((t) => t.slug === slug)?.name ?? slug;
+	const points = pointChips(p, { featureName, collectionName }, now);
 	const staffInfo = staffList.find((st) => st.name === p.staff);
 	const second = p.stations[1];
 	// 右カラムの要約(J-039):築年 / 向き / 入居可能日(売買は引渡し)/ 最寄2駅目
