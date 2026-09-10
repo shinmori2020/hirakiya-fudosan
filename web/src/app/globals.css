@@ -67,8 +67,8 @@
   --radius-hr: 6px;
   --shadow-panel: 0 4px 16px rgba(43, 47, 51, 0.08);
 
-  /* 幅(§5) */
-  --container-content: 1080px;
+  /* 幅(§5)。1080 → 1280(J-045・09/11) */
+  --container-content: 1280px;
 
   /*
    * 一覧の更新(§8・J-036)。開閉の 150〜200ms とは別枠で 300ms。新規カードのみ:不透明度 0→1 + 8px 上昇。
