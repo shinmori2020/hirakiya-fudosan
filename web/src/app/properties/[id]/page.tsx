@@ -11,8 +11,10 @@ import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
 import { company, formatRent, lines as LINES, staff as staffList } from '@/config/site';
+import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
 import { builtLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
+import { kindHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
@@ -132,13 +134,15 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
 						{/* 2 物件名・価格・バッジ → 3 CTA */}
 						<div className="mt-6 lg:mt-0">
-							{badges.length > 0 && (
-								<div className="flex gap-1">
-									{badges.map((b) => (
-										<Badge key={b} kind={b} />
-									))}
-								</div>
-							)}
+							{/* 状態バッジ(塗り)と種目(枠線のみのリンク)を同じ行に。形を変えて種類の違いを見せる(J-050) */}
+							<div className="flex flex-wrap items-center gap-1">
+								{badges.map((b) => (
+									<Badge key={b} kind={b} />
+								))}
+								<AttrLink href={kindHref(p.type, p.kind)} variant="kind">
+									{kindName(p.kind)}
+								</AttrLink>
+							</div>
 							<h1 className="mt-2 text-h1 font-bold lg:text-h1-pc">{p.title}</h1>
 							<p className="mt-1 text-small text-ink-weak">
 								{p.address} / {p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : ''}
@@ -167,7 +171,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 									</div>
 								))}
 							</dl>
-							<div className="mt-6">
+							{/* 電話を外した分、要約と CTA の間を詰める(J-050:24 → 16) */}
+							<div className="mt-4">
 								<CtaBlock no={p.no} type={p.type} sold={sold} />
 							</div>
 						</div>
