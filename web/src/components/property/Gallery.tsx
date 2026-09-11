@@ -25,6 +25,7 @@ import {
  * - スマホ(〜767):メイン画像もモーダルも scroll-snap の横スワイプ(慣性は端末のまま)。端では止まる
  * 表示中の番号は状態(index)で持ち、スクロール位置からは読み直さない(J-048 の連打の詰まり対策)。
  * 開閉は 200ms / cubic-bezier(0.4, 0, 0.2, 1)(03 §8)。prefers-reduced-motion では無効(globals.css)。
+ * 写真0枚の物件(3件)はメインに写真を出さず「写真準備中」と出す。押すとモーダルが開き、間取り図1枚だけを出す(J-049)。
  * プレースホルダー SVG なので next/image は unoptimized。
  */
 
@@ -87,6 +88,21 @@ function SlideStage({
 	);
 }
 
+/** 写真0枚の物件のメイン。写真の代わりに「写真準備中」、押すと間取り図をモーダルで出す(J-049) */
+function PhotolessMain({ onClick }: { onClick: () => void }) {
+	return (
+		<button
+			type="button"
+			onClick={onClick}
+			aria-label="間取り図を拡大する"
+			className="flex aspect-[3/2] w-full shrink-0 cursor-zoom-in flex-col items-center justify-center gap-1 text-ink-weak"
+		>
+			<span className="text-body lg:text-body-pc">写真準備中</span>
+			<span className="text-small lg:text-small-pc">間取り図を見る</span>
+		</button>
+	);
+}
+
 /** サムネイル行。ページ側(白地)とモーダル側(暗地)で寸法と枠色だけ変える */
 function Thumbs({
 	slides,
@@ -141,6 +157,8 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 	const timerRef = useRef<number | null>(null);
 	const counter = counterLabel(index, count);
 	const arrows = hasArrows(count);
+	/** 写真0枚・間取り図だけの物件。メインには間取り図を出さず「写真準備中」と出す(J-049) */
+	const photoless = images.length === 0 && count > 0;
 
 	useEffect(() => {
 		return () => {
@@ -223,6 +241,8 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 				>
 					{count === 0 ? (
 						<div className="flex aspect-[3/2] w-full items-center justify-center text-body text-ink-weak">写真準備中</div>
+					) : photoless ? (
+						<PhotolessMain onClick={openModal} />
 					) : (
 						slides.map((s, i) => (
 							<button
@@ -250,6 +270,8 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 				<div className="hidden overflow-hidden rounded-hr border border-line bg-surface-alt lg:block">
 					{count === 0 ? (
 						<div className="flex aspect-[3/2] w-full items-center justify-center text-body text-ink-weak">写真準備中</div>
+					) : photoless ? (
+						<PhotolessMain onClick={openModal} />
 					) : (
 						<button
 							type="button"
@@ -262,11 +284,6 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 					)}
 				</div>
 
-				{images.length === 0 && count > 0 && (
-					<span className="pointer-events-none absolute top-2 left-2 rounded-hr bg-badge-negotiating-bg px-2 py-0.5 text-xs text-badge-negotiating-fg lg:text-xs-pc">
-						写真準備中(間取り図のみ)
-					</span>
-				)}
 			</div>
 
 			{count > 1 && <Thumbs slides={slides} index={index} variant="page" onSelect={go} />}
