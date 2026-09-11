@@ -10,7 +10,7 @@ import { KeySpecBand } from '@/components/property/KeySpecBand';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
-import { company, formatRent, staff as staffList } from '@/config/site';
+import { company, formatRent, lines as LINES, staff as staffList } from '@/config/site';
 import { badgesFor } from '@/lib/badges';
 import { builtLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
 import { pointChips } from '@/lib/points';
@@ -75,6 +75,15 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 	const featureNames = Object.fromEntries(features.map((t) => [t.slug, t.name]));
 	const collectionNames = Object.fromEntries(collections.map((t) => [t.slug, t.name]));
 	const points = pointChips(p, { featureName, collectionName }, now);
+	// 所在地・沿線のリンク用(J-051)
+	const lineName = (slug: string) => LINES.find((l) => l.slug === slug)?.name ?? slug;
+	const townTerm = areas.find((t) => t.slug === p.area);
+	const wardTerm = townTerm?.parent ? areas.find((t) => t.slug === townTerm.parent) : undefined;
+	const addressArea = {
+		wardName: wardTerm?.name ?? '',
+		townName: townTerm?.name ?? '',
+		wardTownSlugs: wardTerm ? areas.filter((t) => t.parent === wardTerm.slug).map((t) => t.slug) : [],
+	};
 	const staffInfo = staffList.find((st) => st.name === p.staff);
 	const second = p.stations[1];
 	// 右カラムの要約(J-039):築年 / 向き / 入居可能日(売買は引渡し)/ 最寄2駅目
@@ -175,7 +184,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 						<KeySpecBand specs={keySpecs(p, stationName, now)} />
 					</div>
 					<div className="mt-6">
-						<InfoTable p={p} stationName={stationName} featureName={featureName} now={now} />
+						<InfoTable p={p} stationName={stationName} featureName={featureName} lineName={lineName} area={addressArea} now={now} />
 					</div>
 				</Container>
 			</section>

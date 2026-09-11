@@ -9,10 +9,11 @@
  *           特集「ペット可」があれば設備「ペット可」を出さない(同じ意味を同じ物件に2つ出さない)。
  * 出さないもの(SHIN 決定):値下げ・種目・間取り・費用系・2駅利用可。
  * 合うものが3つ未満なら少ないまま。
- * 各チップは同じ条件の一覧へのリンク。URL は lib/search.ts のクエリ名(collection / walk_max / built_max / feature)。
+ * 各チップは同じ条件の一覧へのリンク。URL は lib/links.ts の listHref(J-051 で他の属性リンクと同じ仕組みに統一)。
  * 新築は built_max=1。売買は type=sale を付ける。
  */
 import type { PropertySummary, PropertyType } from '@/types/property';
+import { listHref } from '@/lib/links';
 import { builtYears } from '@/lib/search';
 
 export const POINT_MAX = 3;
@@ -59,12 +60,7 @@ export function pointChips(
 	now: Date = new Date(),
 ): PointChip[] {
 	const out: PointChip[] = [];
-	const href = (params: Record<string, string | number>) => {
-		const sp = new URLSearchParams();
-		if ((p.type as PropertyType) === 'sale') sp.set('type', 'sale');
-		for (const [k, v] of Object.entries(params)) sp.set(k, String(v));
-		return `/properties?${sp.toString()}`;
-	};
+	const href = (params: Record<string, string | number>) => listHref(p.type as PropertyType, params);
 
 	// 1 特集(02 §2 の順)
 	const cols = COLLECTION_ORDER.filter((c) => p.collections.includes(c));

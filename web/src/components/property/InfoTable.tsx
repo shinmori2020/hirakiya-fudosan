@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import type { PropertyDetail } from '@/types/property';
+import { AttrLink } from '@/components/property/AttrLink';
 import { formatPrice, formatRent } from '@/config/site';
 import { builtLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
+import { addressParts, featureHref, layoutHref, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
  * 基本情報表(01 §3-4・03 §6・J-039・J-047)。
@@ -11,11 +13,28 @@ import { builtLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
  * J-047:枠線・ラベル列の背景色をやめ、項目間は細い横線1本のみ。ラベルは薄い小さめの文字、値は本文色。
  *        家賃・初期費用の強調(J-039)はキー項目の帯(KeySpecBand)へ移したので通常の太さ(emphasis は残すが見た目は同じ)。
  * 取引態様・物件番号・情報更新日・次回更新予定日を必ず含む(決定 2026-09-05)。
+ * J-051:所在地(区・町)・交通(駅)・沿線・間取り・設備を、その条件で絞った一覧へのリンクにする。
+ *        リンクにしないのは 向き・入居可能日・階・面積・築年・金額(一覧の左カラムに絞り込みが無い項目)。
  */
 type Row = { k: string; v: ReactNode; emphasis?: boolean };
 type Section = { title: string; rows: Row[] };
 
-export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDetail; stationName: (s: string) => string; featureName: (s: string) => string; now: Date }) {
+export function InfoTable({
+	p,
+	stationName,
+	featureName,
+	lineName,
+	area,
+	now,
+}: {
+	p: PropertyDetail;
+	stationName: (s: string) => string;
+	featureName: (s: string) => string;
+	lineName: (s: string) => string;
+	/** 所在地のリンク用:区名・町名と、その区に属する町の slug すべて(区の絞り込みは一覧に無いため OR で並べる) */
+	area: { wardName: string; townName: string; wardTownSlugs: string[] };
+	now: Date;
+}) {
 	const ym = (v: string) => {
 		const m = /^(\d{4})-(\d{2})$/.exec(v);
 		return m ? `${m[1]}年${Number(m[2])}月` : '—';
@@ -25,7 +44,48 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 		return m ? `${m[1]}年${Number(m[2])}月${Number(m[3])}日` : v || '—';
 	};
 	const built = p.builtYm ? `${ym(p.builtYm)}(${builtLabel(p.builtYm, now) ?? '—'})` : '—';
-	const traffic = p.stations.map((s) => `${stationName(s.slug)}駅 ${walkLabel(s.walk)}`).join(' / ') || '—';
+	// 交通:駅名だけリンク(徒歩分はリンクにしない)
+	const traffic =
+		p.stations.length > 0 ? (
+			<span>
+				{p.stations.map((s, i) => (
+					<span key={s.slug}>
+						{i > 0 && ' / '}
+						<AttrLink href={stationHref(p.type, s.slug)}>{stationName(s.slug)}駅</AttrLink> {walkLabel(s.walk)}
+					</span>
+				))}
+			</span>
+		) : (
+			'—'
+		);
+	const linesRow =
+		p.lines.length > 0 ? (
+			<span>
+				{p.lines.map((l, i) => (
+					<span key={l}>
+						{i > 0 && ' / '}
+						<AttrLink href={lineHref(p.type, l)}>{lineName(l)}</AttrLink>
+					</span>
+				))}
+			</span>
+		) : (
+			'—'
+		);
+	// 所在地:区と町だけリンク
+	const addressRow = (
+		<span>
+			{addressParts(p.address, area.wardName, area.townName).map((part, i) =>
+				part.link === null ? (
+					<span key={i}>{part.text}</span>
+				) : (
+					<AttrLink key={i} href={part.link === 'ward' ? wardHref(p.type, area.wardTownSlugs) : townHref(p.type, p.area)}>
+						{part.text}
+					</AttrLink>
+				),
+			)}
+		</span>
+	);
+	const layoutRow = p.layout ? <AttrLink href={layoutHref(p.type, p.layout)}>{p.layout}</AttrLink> : '—';
 	const floor = p.floor != null ? `${p.floor}階${p.floorsTotal != null ? ` / ${p.floorsTotal}階建` : ''}` : p.floorsTotal != null ? `${p.floorsTotal}階建` : '—';
 	const months = (n: number) => (n === 0 ? 'なし' : `${n}ヶ月`);
 	const yen = (n: number) => `${n.toLocaleString('ja-JP')}円`;
@@ -34,8 +94,10 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 		p.features.length > 0 ? (
 			<ul className="flex flex-wrap gap-x-1 gap-y-2" aria-label="設備">
 				{p.features.map((f) => (
-					<li key={f} className="h-8 rounded-hr border border-line bg-surface px-2 text-small leading-8 whitespace-nowrap text-ink">
-						{featureName(f)}
+					<li key={f}>
+						<AttrLink href={featureHref(p.type, f)} variant="chip">
+							{featureName(f)}
+						</AttrLink>
 					</li>
 				))}
 			</ul>
@@ -47,7 +109,16 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 	if (p.type === 'rental' && p.rental) {
 		const r = p.rental;
 		sections.push(
-			{ title: '基本', rows: [{ k: '所在地', v: p.address }, { k: '交通', v: traffic }, { k: '間取り', v: p.layout || '—' }, { k: '専有面積', v: sqmLabel(p.areaSqm) }] },
+			{
+				title: '基本',
+				rows: [
+					{ k: '所在地', v: addressRow },
+					{ k: '交通', v: traffic },
+					{ k: '沿線', v: linesRow },
+					{ k: '間取り', v: layoutRow },
+					{ k: '専有面積', v: sqmLabel(p.areaSqm) },
+				],
+			},
 			{
 				title: '費用',
 				rows: [
@@ -83,10 +154,14 @@ export function InfoTable({ p, stationName, featureName, now }: { p: PropertyDet
 		);
 	} else if (p.sale) {
 		const s = p.sale;
-		const basic: Row[] = [{ k: '所在地', v: p.address }, { k: '交通', v: traffic }];
+		const basic: Row[] = [
+			{ k: '所在地', v: addressRow },
+			{ k: '交通', v: traffic },
+			{ k: '沿線', v: linesRow },
+		];
 		if (p.kind === 'land') basic.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
 		else {
-			basic.push({ k: '間取り', v: p.layout || '—' }, { k: '専有面積', v: sqmLabel(p.areaSqm) });
+			basic.push({ k: '間取り', v: layoutRow }, { k: '専有面積', v: sqmLabel(p.areaSqm) });
 			if (s.landSqm != null) basic.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
 			if (s.buildingSqm != null) basic.push({ k: '建物面積', v: sqmLabel(s.buildingSqm) });
 		}
