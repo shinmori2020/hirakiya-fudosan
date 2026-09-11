@@ -1,51 +1,41 @@
-import { Calendar, FileText, JapaneseYen, Receipt, Square, TrainFront, type LucideIcon } from 'lucide-react';
+import { JapaneseYen, LayoutGrid, MapPin, Square, TrainFront, type LucideIcon } from 'lucide-react';
 import type { KeySpec } from '@/lib/summary';
 
 /**
- * 物件概要のキー項目のカード(J-047・案 A → 条件追加 09/11)。「物件概要」見出しの直下。
- * 初案は薄灰の帯だったが、セクションの薄灰に溶けて項目が離れて見えたため、白い角丸カード(灰線・影なし)に変更。
- * PC(lg 以上):5等分のグリッド。セルの間に細い縦線。高さは 80px 前後。
- * スマホ(〜767):同じカードのまま2列×3行。セルの区切りは横線のみ(縦線なし)。
- * 各セルは ラベル(最小・灰・左に lucide 16px)+ 値(H3・1段大)を左揃えで上下に。
- * 誇張回避の3条件(項目固定・値のみ・1段だけ)は lib/summary.ts のとおり変えない。
+ * 物件概要の決め手の3項目(J-059。J-047 の5項目の帯を置き換えたもの)。「物件概要」見出しの直下。
+ * PC(lg 以上):3等分のグリッド(1項目 約400px)。セルの間に細い縦線。
+ * スマホ(〜767):1列に積み、区切りは横線のみ。
+ * 各セルは ラベル(最小・灰・左に lucide 20px)+ 値(H2・1行)+ 補足(小・灰)を左揃えで上下に。
+ * 白い角丸カード(灰線・影なし)は J-047 のまま残す:セクションの薄灰の上に置くので、
+ * 地色の帯だと背景に溶けて項目が離れて見える(J-047 の2回目の条件追加で直した点)。
+ * 誇張回避は lib/summary.ts のとおり(種別ごとに項目固定・値のみ)。
  */
 const ICONS: Record<string, LucideIcon> = {
+	交通: TrainFront,
+	所在地: MapPin,
 	家賃: JapaneseYen,
 	価格: JapaneseYen,
-	初期費用: Receipt,
-	'管理費・修繕': Receipt,
-	専有面積: Square,
+	'間取り・専有面積': LayoutGrid,
+	'間取り・建物面積': LayoutGrid,
 	土地面積: Square,
-	'土地・建物': Square,
-	築年: Calendar,
-	最寄駅: TrainFront,
-	土地権利: FileText,
 };
 
 export function KeySpecBand({ specs }: { specs: KeySpec[] }) {
 	return (
-		<dl
-			className="grid grid-cols-2 overflow-hidden rounded-hr border border-line bg-surface lg:grid-cols-5"
-			aria-label="物件概要のキー項目"
-		>
+		<dl className="grid grid-cols-1 overflow-hidden rounded-hr border border-line bg-surface lg:grid-cols-3" aria-label="この物件の決め手">
 			{specs.map((s, i) => {
 				const Icon = ICONS[s.label];
 				return (
 					<div
 						key={s.label}
-						className={`min-w-0 px-3 py-2 lg:px-4 lg:py-3 ${
-							// スマホ:2列×3行なので上の行との間に横線。PC:2列目以降の左に縦線
-							i >= 2 ? 'border-t border-line' : ''
-						} ${i % 2 === 1 ? 'border-l border-line' : ''} lg:border-t-0 ${i > 0 ? 'lg:border-l' : 'lg:border-l-0'}`}
+						className={`min-w-0 px-4 py-3 lg:px-6 lg:py-4 ${i > 0 ? 'border-t border-line lg:border-t-0 lg:border-l' : ''}`}
 					>
 						<dt className="flex items-center gap-1 text-xs text-ink-weak lg:text-xs-pc">
-							{Icon && <Icon size={16} aria-hidden="true" className="shrink-0" />}
+							{Icon && <Icon size={20} aria-hidden="true" className="shrink-0 text-accent" />}
 							{s.label}
 						</dt>
-						<dd className="tabular mt-0.5 truncate text-h3 font-bold text-sumi lg:text-h3-pc">
-							{s.value}
-							{s.note && <span className="ml-1 text-xs font-normal text-ink-weak lg:text-xs-pc">{s.note}</span>}
-						</dd>
+						<dd className="tabular mt-1 truncate text-h2 font-bold text-sumi lg:text-h2-pc">{s.value}</dd>
+						{s.note && <dd className="mt-0.5 truncate text-small text-ink-weak lg:text-small-pc">{s.note}</dd>}
 					</div>
 				);
 			})}

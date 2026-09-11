@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { PropertyDetail } from '@/types/property';
-import { initialCostLabel, keySpecs, monthlyFeeLabel } from '@/lib/summary';
+import { initialCostLabel, keySpecs, layoutAreaLabel, monthlyFeeLabel, monthlyTotalLabel } from '@/lib/summary';
 
-const NOW = new Date('2026-09-11T00:00:00+09:00');
-const stationName = (s: string) => ({ hikifune: '曳舟', oshiage: '押上' })[s] ?? s;
+const names = {
+	stationName: (s: string) => ({ hikifune: '曳舟', oshiage: '押上' })[s] ?? s,
+	areaLabel: (s: string) => ({ hikifune: '墨田区曳舟', aoto: '葛飾区青戸' })[s] ?? s,
+};
 
 const base: PropertyDetail = {
 	no: 'HR-R-0001',
@@ -43,47 +45,112 @@ const base: PropertyDetail = {
 	comment: '',
 	images: [],
 	floorplan: null,
-	rental: { maintenanceFee: 0, depositMonths: 2, keyMoneyMonths: 1, brokerageFee: '家賃1ヶ月', contractTerm: '2年', renewalFee: 'なし', guarantorRequired: true, availableFrom: '即入居可' },
+	rental: {
+		maintenanceFee: 0,
+		depositMonths: 2,
+		keyMoneyMonths: 1,
+		brokerageFee: '家賃1ヶ月',
+		contractTerm: '2年',
+		renewalFee: 'なし',
+		guarantorRequired: true,
+		availableFrom: '即入居可',
+	},
 };
+
 const sale = (over: Partial<PropertyDetail>): PropertyDetail => ({
 	...base,
+	area: 'aoto',
 	type: 'sale',
+	layout: '3LDK',
+	areaSqm: 75,
 	rent: undefined,
 	maintenanceFee: undefined,
 	rental: undefined,
 	price: 3070,
-	sale: { landSqm: null, buildingSqm: null, mgmtFee: 12000, repairFund: 14000, landRights: '所有権', zoning: '第一種住居', bcr: 60, far: 200, roadAccess: '北 4.0m 私道', handover: '即時' },
+	sale: {
+		landSqm: null,
+		buildingSqm: null,
+		mgmtFee: 12000,
+		repairFund: 6000,
+		landRights: '所有権',
+		zoning: '第一種住居',
+		bcr: 60,
+		far: 200,
+		roadAccess: '北 4.0m 私道',
+		handover: '即時',
+	},
 	...over,
 });
-const labels = (list: { label: string }[]) => list.map((x) => x.label);
 
 describe('summary.ts', () => {
-	it('J-047 賃貸は 家賃 / 初期費用 / 専有面積 / 築年 / 最寄駅 の5項目(順序固定)', () => {
-		const out = keySpecs(base, stationName, NOW);
-		expect(labels(out)).toEqual(['家賃', '初期費用', '専有面積', '築年', '最寄駅']);
-		expect(out.map((x) => x.value)).toEqual(['8.2万円', '敷2・礼1・仲1', '35㎡', '築18年', '曳舟駅 徒歩8分']);
-		expect(out[0].note).toBe('管理費 なし');
+	it('J-059 賃貸は 交通 / 家賃 / 間取り・専有面積 の3項目(順序固定)', () => {
+		const out = keySpecs(base, names);
+		expect(out.map((x) => x.label)).toEqual(['交通', '家賃', '間取り・専有面積']);
+		expect(out.map((x) => x.value)).toEqual(['曳舟駅 徒歩8分', '8.2万円', '1LDK / 35㎡']);
 	});
 
-	it('J-047 売買(マンション)は 価格 / 専有面積 / 築年 / 最寄駅 / 管理費・修繕 の5項目', () => {
-		const out = keySpecs(sale({}), stationName, NOW);
-		expect(labels(out)).toEqual(['価格', '専有面積', '築年', '最寄駅', '管理費・修繕']);
-		expect(out.map((x) => x.value)).toEqual(['3,070万円', '35㎡', '築18年', '曳舟駅 徒歩8分', '管理費 1.2万円']);
+	it('J-059 賃貸の補足:交通の下に町、家賃の下に 敷2・礼1・仲1', () => {
+		const out = keySpecs(base, names);
+		expect(out[0].note).toBe('墨田区曳舟');
+		expect(out[1].note).toBe('敷2・礼1・仲1');
+		expect(out[2].note).toBeUndefined();
 	});
 
-	it('J-047 マンションの5項目目は管理費と修繕積立金を合算せず併記する', () => {
-		const out = keySpecs(sale({}), stationName, NOW);
-		expect(out[4]).toEqual({ label: '管理費・修繕', value: '管理費 1.2万円', note: '修繕 1.4万円' });
+	it('J-059 売買(マンション)は 所在地 / 価格 / 間取り・専有面積。所在地の下に最寄駅', () => {
+		const out = keySpecs(sale({}), names);
+		expect(out.map((x) => x.label)).toEqual(['所在地', '価格', '間取り・専有面積']);
+		expect(out.map((x) => x.value)).toEqual(['葛飾区青戸', '3,070万円', '3LDK / 75㎡']);
+		expect(out[0].note).toBe('曳舟駅 徒歩8分');
 	});
 
-	it('J-047 マンションの管理費・修繕が無ければ「—」(項目は消さない・条件 a)', () => {
-		const out = keySpecs(sale({ sale: { ...sale({}).sale!, mgmtFee: null, repairFund: null } }), stationName, NOW);
-		expect(out[4]).toEqual({ label: '管理費・修繕', value: '管理費 —', note: '修繕 —' });
+	it('J-059 売買(マンション)の価格の下は管理費と修繕積立金の月額合計(内訳は情報表に残す)', () => {
+		expect(keySpecs(sale({}), names)[1].note).toBe('管理費・修繕 月18,000円');
 	});
 
-	it('J-047 戸建・土地の5項目目は土地権利のまま', () => {
-		expect(keySpecs(sale({ kind: 'house' }), stationName, NOW)[4]).toEqual({ label: '土地権利', value: '所有権' });
-		expect(keySpecs(sale({ kind: 'land' }), stationName, NOW)[4]).toEqual({ label: '土地権利', value: '所有権' });
+	it('J-059 管理費も修繕積立金も無いマンションは価格の補足を出さない', () => {
+		const out = keySpecs(sale({ sale: { ...sale({}).sale!, mgmtFee: null, repairFund: null } }), names);
+		expect(out[1].note).toBeUndefined();
+		expect(out).toHaveLength(3);
+	});
+
+	it('J-059 戸建は 間取り・建物面積 で、補足に土地面積(管理費は無いので価格の補足も出さない)', () => {
+		const out = keySpecs(sale({ kind: 'house', sale: { ...sale({}).sale!, landSqm: 90, buildingSqm: 100 } }), names);
+		expect(out.map((x) => x.label)).toEqual(['所在地', '価格', '間取り・建物面積']);
+		expect(out[2].value).toBe('3LDK / 100㎡');
+		expect(out[2].note).toBe('土地 90㎡');
+		expect(out[1].note).toBeUndefined();
+	});
+
+	it('J-059 土地は 土地面積 で、補足に建ぺい率・容積率', () => {
+		const out = keySpecs(sale({ kind: 'land', layout: '', areaSqm: null, sale: { ...sale({}).sale!, landSqm: 120 } }), names);
+		expect(out.map((x) => x.label)).toEqual(['所在地', '価格', '土地面積']);
+		expect(out[2].value).toBe('120㎡');
+		expect(out[2].note).toBe('建ぺい率 60% / 容積率 200%');
+	});
+
+	it('J-059 データが無い項目は「—」で、項目数は3のまま(J-047 の条件 a を引き継ぐ)', () => {
+		const out = keySpecs({ ...base, stations: [], areaSqm: null, layout: '', rent: undefined, rental: undefined }, names);
+		expect(out).toHaveLength(3);
+		expect(out.map((x) => x.value)).toEqual(['—', '—', '—']);
+	});
+
+	it('J-059 値に形容を付けない(条件 b):徒歩3分でも「徒歩3分」のまま', () => {
+		const out = keySpecs({ ...base, stations: [{ slug: 'hikifune', walk: 3 }] }, names);
+		expect(out[0].value).toBe('曳舟駅 徒歩3分');
+	});
+
+	it('J-059 間取りと面積は「1LDK / 35㎡」。欠けた方は出さない', () => {
+		expect(layoutAreaLabel('1LDK', 35)).toBe('1LDK / 35㎡');
+		expect(layoutAreaLabel('', 35)).toBe('35㎡');
+		expect(layoutAreaLabel('1LDK', null)).toBe('1LDK');
+		expect(layoutAreaLabel('', null)).toBe('—');
+	});
+
+	it('J-059 月額の合計は「管理費・修繕 月18,000円」。片方だけでも出し、0 と null は出さない', () => {
+		expect(monthlyTotalLabel(12000, 6000)).toBe('管理費・修繕 月18,000円');
+		expect(monthlyTotalLabel(12000, null)).toBe('管理費・修繕 月12,000円');
+		expect(monthlyTotalLabel(0, 0)).toBeNull();
+		expect(monthlyTotalLabel(null, null)).toBeNull();
 	});
 
 	it('J-047 月額の費用は万円表記(12,000 → 1.2万円、10,000 → 1万円、0 と null は —)', () => {
@@ -91,30 +158,6 @@ describe('summary.ts', () => {
 		expect(monthlyFeeLabel(10000)).toBe('1万円');
 		expect(monthlyFeeLabel(0)).toBe('—');
 		expect(monthlyFeeLabel(null)).toBe('—');
-	});
-
-	it('J-047 戸建は面積が「土地・建物」の2値', () => {
-		const out = keySpecs(sale({ kind: 'house', sale: { ...sale({}).sale!, landSqm: 90, buildingSqm: 100 } }), stationName, NOW);
-		expect(out[1]).toEqual({ label: '土地・建物', value: '90㎡ / 100㎡' });
-	});
-
-	it('J-047 土地は面積が「土地面積」、築年は「—」(項目は消さない・条件 a)', () => {
-		const out = keySpecs(sale({ kind: 'land', layout: '', areaSqm: null, builtYm: '', sale: { ...sale({}).sale!, landSqm: 120 } }), stationName, NOW);
-		expect(labels(out)).toEqual(['価格', '土地面積', '築年', '最寄駅', '土地権利']);
-		expect(out[1].value).toBe('120㎡');
-		expect(out[2].value).toBe('—');
-	});
-
-	it('J-047 データが無い項目は「—」で項目数は変えない(条件 a)', () => {
-		const out = keySpecs({ ...base, stations: [], areaSqm: null, builtYm: '', rent: undefined, rental: undefined }, stationName, NOW);
-		expect(out).toHaveLength(5);
-		expect(out.map((x) => x.value)).toEqual(['—', '—', '—', '—', '—']);
-	});
-
-	it('J-047 値に形容を付けない(条件 b):築5年でも「築5年」、徒歩3分でも「徒歩3分」', () => {
-		const out = keySpecs({ ...base, builtYm: '2021-09', stations: [{ slug: 'hikifune', walk: 3 }] }, stationName, NOW);
-		expect(out[3].value).toBe('築5年');
-		expect(out[4].value).toBe('曳舟駅 徒歩3分');
 	});
 
 	it('J-047 初期費用の仲介手数料は月数で:1ヶ月 → 仲1、0.5ヶ月 → 仲0.5、無料 → 仲0', () => {
