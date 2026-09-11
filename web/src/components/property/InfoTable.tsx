@@ -14,6 +14,8 @@ import { addressParts, featureHref, layoutHref, lineHref, stationHref, townHref,
  *        B「土地・建物の仕様」C「掲載情報」
  *   A は帯(J-047)と同じ白い角丸カードに入れて先に読ませ、B・C はカードなし・見出しを薄い文字色にして確認用と分かるようにする。
  *   設備ブロックは A の直下(選ぶ条件なので確認用より上)。項目は減らさない・折りたたまない。
+ * J-055:入居可能日(売買は引渡し)は A の右列の末尾へ。沿線は独立した行をやめ、交通の値の下に小さい文字で添える(行は増やさない)。
+ *        保証人は値にかかわらず太字。
  * 区分の間は 24(03 の余白スケール1段)。
  * PC(lg 以上)は左右2ペア×1行、スマホ・タブレットは1列。奇数なら最後のペアは左だけ。
  * 「設備」は非操作チップ(一覧の駅チップと同じ見た目)。
@@ -28,7 +30,8 @@ import { addressParts, featureHref, layoutHref, lineHref, stationHref, townHref,
  *        「契約・掲載」は 左 = 契約(契約期間 / 入居可能日 / 保証人 / 取引態様)、右 = 掲載(物件番号 / 情報更新日 / 次回更新予定日)に分ける。
  *        ラベル列は 6.5em 前後の固定幅(「管理費・共益費」「次回更新予定日」が折り返さない最小幅)。
  */
-type Row = { k: string; v: ReactNode; emphasis?: boolean };
+/** strong = 値にかかわらず太字にする項目(J-055:保証人。有無そのものが判断に効く) */
+type Row = { k: string; v: ReactNode; emphasis?: boolean; strong?: boolean };
 /**
  * rows = 左→右へ順に流す。left / right を持つ区分は列を固定する(J-052)。
  * lead = 帯の直下に置く「条件」の区分(J-054)。白カードに入れて先に読ませる。
@@ -87,6 +90,13 @@ export function InfoTable({
 		) : (
 			'—'
 		);
+	// J-055:沿線は独立した行をやめ、交通の値の下に小さい文字で添える(1行の中で2段。リンクは維持)
+	const trafficWithLines = (
+		<>
+			{traffic}
+			{p.lines.length > 0 && <span className="mt-0.5 block text-small text-ink-weak">{linesRow}</span>}
+		</>
+	);
 	// 所在地:区と町だけリンク
 	const addressRow = (
 		<span>
@@ -129,27 +139,25 @@ export function InfoTable({
 				title: '入居の条件',
 				lead: true,
 				left: [
-					{ k: '交通', v: traffic },
+					{ k: '交通', v: trafficWithLines },
 					{ k: '間取り', v: layoutRow },
 					{ k: '専有面積', v: sqmLabel(p.areaSqm) },
 					{ k: '階数', v: floor },
 					{ k: '向き', v: p.direction || '—' },
 					{ k: '駐車場', v: p.parking || '—' },
-					{ k: '入居可能日', v: r.availableFrom || '—' },
 				],
 				right: [
 					{ k: '家賃', v: formatRent(p.rent ?? 0), emphasis: true },
 					{ k: '管理費・共益費', v: feeLabel(r.maintenanceFee) },
 					{ k: '初期費用', v: `敷金 ${months(r.depositMonths)} / 礼金 ${months(r.keyMoneyMonths)} / 仲介手数料 ${r.brokerageFee}`, emphasis: true },
 					{ k: '更新料', v: r.renewalFee || '—' },
+					// 入居可能日は「いつ入れるか」= 費用と同じ検討材料なので右の末尾へ(J-055)
+					{ k: '入居可能日', v: r.availableFrom || '—' },
 				],
 			},
 			{
 				title: '建物と所在地',
-				left: [
-					{ k: '所在地', v: addressRow },
-					{ k: '沿線', v: linesRow },
-				],
+				left: [{ k: '所在地', v: addressRow }],
 				right: [
 					{ k: '築年月', v: built },
 					{ k: '構造', v: p.structure || '—' },
@@ -159,7 +167,8 @@ export function InfoTable({
 				title: '契約と掲載',
 				left: [
 					{ k: '契約期間', v: r.contractTerm || '—' },
-					{ k: '保証人', v: r.guarantorRequired ? '必要(保証会社利用可・架空)' : '不要' },
+					// 保証人は有無そのものが判断に効くので、値にかかわらず太字(J-055)
+					{ k: '保証人', v: r.guarantorRequired ? '必要(保証会社利用可・架空)' : '不要', strong: true },
 					{ k: '取引態様', v: p.transactionType || '—' },
 				],
 				right: [
@@ -172,7 +181,7 @@ export function InfoTable({
 	} else if (p.sale) {
 		const s = p.sale;
 		// A「購入の条件」の左:交通 / 間取り / 面積 / 階数 / 向き / 駐車場 / 引渡し
-		const cond: Row[] = [{ k: '交通', v: traffic }];
+		const cond: Row[] = [{ k: '交通', v: trafficWithLines }];
 		if (p.kind === 'land') cond.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
 		else {
 			cond.push({ k: '間取り', v: layoutRow }, { k: '専有面積', v: sqmLabel(p.areaSqm) });
@@ -180,16 +189,15 @@ export function InfoTable({
 			if (s.buildingSqm != null) cond.push({ k: '建物面積', v: sqmLabel(s.buildingSqm) });
 			cond.push({ k: '階数', v: floor }, { k: '向き', v: p.direction || '—' });
 		}
-		cond.push({ k: '駐車場', v: p.parking || '—' }, { k: '引渡し', v: s.handover || '—' });
+		cond.push({ k: '駐車場', v: p.parking || '—' });
 		// A の右:価格まわり
 		const cost: Row[] = [{ k: '価格', v: formatPrice(p.price ?? 0), emphasis: true }];
 		if (s.mgmtFee != null) cost.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) cost.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
+		// 賃貸の「入居可能日」にあたる項目(いつ手に入るか)なので右の末尾へ(J-055)
+		cost.push({ k: '引渡し', v: s.handover || '—' });
 		// B「土地・建物の仕様」の左右
-		const specLeft: Row[] = [
-			{ k: '所在地', v: addressRow },
-			{ k: '沿線', v: linesRow },
-		];
+		const specLeft: Row[] = [{ k: '所在地', v: addressRow }];
 		if (p.kind !== 'land') specLeft.push({ k: '築年月', v: built }, { k: '構造', v: p.structure || '—' });
 		const specRight: Row[] = [
 			{ k: '権利', v: s.landRights || '—' },
@@ -221,7 +229,7 @@ export function InfoTable({
 			<dt className="text-small text-ink-weak">{row.k}</dt>
 			<dd
 				className={`text-body leading-[1.5] text-ink lg:text-body-pc ${row.emphasis ? 'tabular' : ''} ${
-					row.v === 'なし' || row.v === '不要' ? 'font-bold' : ''
+					row.strong || row.v === 'なし' || row.v === '不要' ? 'font-bold' : ''
 				}`}
 			>
 				{row.v}
