@@ -14,7 +14,7 @@ import { RecentlyViewed } from '@/components/property/RecentlyViewed';
 import { company, formatRent, lines as LINES, staff as staffList } from '@/config/site';
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
-import { builtLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
 import { kindHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
@@ -93,7 +93,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 	const summary: [string, string][] = [
 		['築年', p.builtYm ? (builtLabel(p.builtYm, now) ?? '—') : '—'],
 		['向き', p.direction || '—'],
-		[p.type === 'rental' ? '入居可能日' : '引渡し', (p.type === 'rental' ? p.rental?.availableFrom : p.sale?.handover) || '—'],
+		[p.type === 'rental' ? '入居可能日' : '引渡し', dateLabel(p.type === 'rental' ? p.rental?.availableFrom : p.sale?.handover)],
 		['2駅目', second ? `${stationName(second.slug)}駅 ${walkLabel(second.walk)}` : '—'],
 	];
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { PropertySummary } from '@/types/property';
-import { builtLabel, feeLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, feeLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
 
 const base: PropertySummary = {
 	no: 'X',
@@ -63,5 +63,16 @@ describe('format.ts', () => {
 	it('03 §6 面積は「35㎡」、無ければ「—」', () => {
 		expect(sqmLabel(35)).toBe('35㎡');
 		expect(sqmLabel(null)).toBe('—');
+	});
+
+	it('J-057 日付はサイト全体で「2026年9月8日」。月日の先頭の0は落とす', () => {
+		expect(dateLabel('2026-09-08')).toBe('2026年9月8日');
+		expect(dateLabel('2026-10-29')).toBe('2026年10月29日');
+	});
+
+	it('J-057 日付でない値(即入居可・相談)はそのまま出す。空は「—」', () => {
+		expect(dateLabel('即入居可')).toBe('即入居可');
+		expect(dateLabel('')).toBe('—');
+		expect(dateLabel(null)).toBe('—');
 	});
 });

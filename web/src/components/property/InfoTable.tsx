@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { PropertyDetail } from '@/types/property';
 import { AttrLink } from '@/components/property/AttrLink';
 import { formatPrice, formatRent } from '@/config/site';
-import { builtLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
 import { addressParts, featureHref, layoutHref, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
@@ -57,10 +57,6 @@ export function InfoTable({
 	const ym = (v: string) => {
 		const m = /^(\d{4})-(\d{2})$/.exec(v);
 		return m ? `${m[1]}年${Number(m[2])}月` : '—';
-	};
-	const ymd = (v: string) => {
-		const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
-		return m ? `${m[1]}年${Number(m[2])}月${Number(m[3])}日` : v || '—';
 	};
 	const built = p.builtYm ? `${ym(p.builtYm)}(${builtLabel(p.builtYm, now) ?? '—'})` : '—';
 	// 交通:駅名だけリンク(徒歩分はリンクにしない)
@@ -152,7 +148,7 @@ export function InfoTable({
 					{ k: '初期費用', v: `敷金 ${months(r.depositMonths)} / 礼金 ${months(r.keyMoneyMonths)} / 仲介手数料 ${r.brokerageFee}`, emphasis: true },
 					{ k: '更新料', v: r.renewalFee || '—' },
 					// 入居可能日は「いつ入れるか」= 費用と同じ検討材料なので右の末尾へ(J-055)
-					{ k: '入居可能日', v: r.availableFrom || '—' },
+					{ k: '入居可能日', v: dateLabel(r.availableFrom) },
 				],
 			},
 			{
@@ -173,8 +169,8 @@ export function InfoTable({
 				],
 				right: [
 					{ k: '物件番号', v: p.no },
-					{ k: '情報更新日', v: ymd(p.updatedOn) },
-					{ k: '次回更新予定日', v: ymd(p.nextUpdateOn) },
+					{ k: '情報更新日', v: dateLabel(p.updatedOn) },
+					{ k: '次回更新予定日', v: dateLabel(p.nextUpdateOn) },
 				],
 			},
 		);
@@ -195,7 +191,7 @@ export function InfoTable({
 		if (s.mgmtFee != null) cost.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) cost.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
 		// 賃貸の「入居可能日」にあたる項目(いつ手に入るか)なので右の末尾へ(J-055)
-		cost.push({ k: '引渡し', v: s.handover || '—' });
+		cost.push({ k: '引渡し', v: dateLabel(s.handover) });
 		// B「土地・建物の仕様」の左右
 		const specLeft: Row[] = [{ k: '所在地', v: addressRow }];
 		if (p.kind !== 'land') specLeft.push({ k: '築年月', v: built }, { k: '構造', v: p.structure || '—' });
@@ -215,8 +211,8 @@ export function InfoTable({
 					{ k: '物件番号', v: p.no },
 				],
 				right: [
-					{ k: '情報更新日', v: ymd(p.updatedOn) },
-					{ k: '次回更新予定日', v: ymd(p.nextUpdateOn) },
+					{ k: '情報更新日', v: dateLabel(p.updatedOn) },
+					{ k: '次回更新予定日', v: dateLabel(p.nextUpdateOn) },
 				],
 			},
 		);

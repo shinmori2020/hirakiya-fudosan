@@ -5,6 +5,7 @@ import { Container } from '@/components/layout/Container';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
+import { dateLabel } from '@/lib/format';
 import { latestProperties } from '@/lib/home';
 import { listHref } from '@/lib/links';
 import { getProperties, getTerms } from '@/lib/properties';
@@ -208,9 +209,10 @@ export default async function Home() {
 						{voices.map((v) => (
 							<li key={v.who} className="rounded-hr border border-line bg-surface p-4 lg:p-6">
 								<p className="text-small text-ink-weak lg:text-small-pc">
-									{v.town} / {v.kind}
+									{v.town} / {v.kind} / {v.attr}
 								</p>
 								<p className="mt-2 text-small text-ink lg:text-small-pc">{v.text}</p>
+								{/* 実在の方と誤認されないよう、名乗りは記号だけにして架空表記を必ず添える(J-057・00 §7-9) */}
 								<p className="mt-2 text-xs text-ink-weak lg:text-xs-pc">{v.who}(架空)</p>
 							</li>
 						))}
@@ -234,8 +236,11 @@ export default async function Home() {
 									href={`/news/${n.slug}`}
 									className="flex flex-col gap-1 py-3 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:flex-row lg:items-center lg:gap-4"
 								>
-									<span className="tabular text-small text-ink-weak lg:text-small-pc">{n.date.replace(/-/g, '/')}</span>
-									<span className="text-xs text-ink-weak lg:text-xs-pc">{n.category}</span>
+									<span className="tabular text-small text-ink-weak lg:text-small-pc">{dateLabel(n.date)}</span>
+									{/* お知らせのカテゴリーは押せないタグ(灰枠・灰文字)。物件の属性タグ(青緑・リンク)とは別系統(J-057) */}
+									<span className="inline-block shrink-0 self-start rounded-hr border border-line px-2 py-0.5 text-xs text-ink-weak lg:text-xs-pc">
+										{n.category}
+									</span>
 									<span className="text-body lg:text-body-pc">{n.title}</span>
 								</Link>
 							</li>

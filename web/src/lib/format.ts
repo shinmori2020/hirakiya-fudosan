@@ -29,3 +29,14 @@ export function walkLabel(minutes: number): string {
 export function feeLabel(yen: number | null | undefined): string {
 	return yen != null && yen > 0 ? `${yen.toLocaleString('ja-JP')}円` : 'なし';
 }
+
+/**
+ * 日付の表示(J-057)。サイト全体で「2026年9月8日」に揃える。
+ * YYYY-MM-DD 以外(「即入居可」「相談」など)はそのまま返す。空なら「—」。
+ */
+export function dateLabel(value: string | null | undefined): string {
+	const v = (value ?? '').trim();
+	if (v === '') return '—';
+	const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+	return m ? `${m[1]}年${Number(m[2])}月${Number(m[3])}日` : v;
+}
