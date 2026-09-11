@@ -134,11 +134,16 @@ details.hr-accordion::details-content {
   height: 0;
   overflow: clip;
   transition:
-    height 200ms ease,
+    height 200ms cubic-bezier(0.4, 0, 0.2, 1),
     content-visibility 200ms allow-discrete;
 }
 details.hr-accordion[open]::details-content {
   height: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  details.hr-accordion::details-content {
+    transition: none;
+  }
 }
 
 /* 数字は桁を揃える(§3) */
