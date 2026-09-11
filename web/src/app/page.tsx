@@ -1,3 +1,4 @@
+import { Building2, Handshake, Store } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
@@ -74,14 +75,23 @@ export default async function Home() {
 		return town ? `${ward?.name ?? ''}${town.name}` : slug;
 	};
 
-	// 強み3点(01 §1-4)。数値は config から
+	// 強み3点(01 §1-4)。数値は config から。アイコンは lucide(J-047 の帯と同じ系統・J-058)
 	const strengths = [
-		{ head: `管理${company.managedUnits}戸・入居率${company.occupancyRate}%`, text: '貸すところまで見ているので、部屋の状態や入居後の話を実物ベースで説明できます。' },
 		{
+			icon: Building2,
+			head: `管理${company.managedUnits}戸・入居率${company.occupancyRate}%`,
+			text: '貸すところまで見ているので、部屋の状態や入居後の話を実物ベースで説明できます。',
+		},
+		{
+			icon: Store,
 			head: `青砥・立石で創業${now.getFullYear() - Number(company.founded.slice(0, 4))}年`,
 			text: '2店舗とも駅から徒歩3分以内。地元の物件を、地元で見てきた担当が案内します。',
 		},
-		{ head: '賃貸・売買・管理を一社で', text: 'オーナー様も入居者様も同じ窓口。引越し・売却・管理の相談が別々の会社に分かれません。' },
+		{
+			icon: Handshake,
+			head: '賃貸・売買・管理を一社で',
+			text: 'オーナー様も入居者様も同じ窓口。引越し・売却・管理の相談が別々の会社に分かれません。',
+		},
 	];
 
 	const guides = [
@@ -166,11 +176,13 @@ export default async function Home() {
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">ヒラキヤ不動産の3つの強み</h2>
-					<ul className="mt-6 grid gap-4 lg:grid-cols-3">
+					{/* 会社の説明なので枠も背景も持たせない。下の3枚(導線)とは役割が違うので形を分ける(J-058) */}
+					<ul className="mt-6 grid gap-6 lg:grid-cols-3 lg:gap-8">
 						{strengths.map((s) => (
-							<li key={s.head} className="rounded-hr border border-line bg-surface p-4 lg:p-6">
-								<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{s.head}</p>
-								<p className="mt-2 text-small text-ink lg:text-small-pc">{s.text}</p>
+							<li key={s.head}>
+								<s.icon size={24} aria-hidden="true" className="text-accent" />
+								<p className="mt-2 text-h3 font-bold text-sumi lg:text-h3-pc">{s.head}</p>
+								<p className="mt-1 text-small text-ink lg:text-small-pc">{s.text}</p>
 							</li>
 						))}
 					</ul>
@@ -236,9 +248,10 @@ export default async function Home() {
 									href={`/news/${n.slug}`}
 									className="flex flex-col gap-1 py-3 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:flex-row lg:items-center lg:gap-4"
 								>
-									<span className="tabular text-small text-ink-weak lg:text-small-pc">{dateLabel(n.date)}</span>
+									<span className="tabular shrink-0 text-small text-ink-weak lg:w-[7.5em] lg:text-small-pc">{dateLabel(n.date)}</span>
 									{/* お知らせのカテゴリーは押せないタグ(灰枠・灰文字)。物件の属性タグ(青緑・リンク)とは別系統(J-057) */}
-									<span className="inline-block shrink-0 self-start rounded-hr border border-line px-2 py-0.5 text-xs text-ink-weak lg:text-xs-pc">
+									{/* 幅を最長の「部屋探しのコツ」(6文字)に固定し、3行ともタイトルの左端を揃える(J-058) */}
+									<span className="inline-block w-[8.5em] shrink-0 self-start rounded-hr border border-line px-2 py-0.5 text-center text-xs whitespace-nowrap text-ink-weak lg:text-xs-pc">
 										{n.category}
 									</span>
 									<span className="text-body lg:text-body-pc">{n.title}</span>
