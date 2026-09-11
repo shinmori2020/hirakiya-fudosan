@@ -210,20 +210,22 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							))}
 						</ul>
 					)}
-					<p className="mt-6 whitespace-pre-line">{p.comment}</p>
+					{/* 本文は 760px までで左揃え(J-052。1行が長くなりすぎないように右に余白を残す) */}
+					<p className="mt-6 max-w-[760px] whitespace-pre-line">{p.comment}</p>
 					{/* 担当者カード:イニシャル枠+氏名+役職・資格(config/site.ts)。一言はデータに無いので出さない */}
-					<div className="mt-6 flex items-center gap-4 rounded-hr border border-line bg-surface p-4">
-						<div aria-hidden="true" className="flex size-12 shrink-0 items-center justify-center rounded-hr bg-surface-alt text-h3 font-bold text-ink-weak">
+					{/* 担当者カード(J-039)。J-052:幅を本文に揃え、アイコンと行間を詰めて高さを下げる */}
+					<div className="mt-6 flex max-w-[760px] items-center gap-3 rounded-hr border border-line bg-surface px-4 py-3">
+						<div aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-hr bg-surface-alt text-body font-bold text-ink-weak">
 							{p.staff.trim().charAt(0)}
 						</div>
-						<div>
-							<p className="text-small text-ink-weak">担当</p>
+						<div className="leading-tight">
 							<p className="font-bold text-sumi">
+								<span className="mr-2 text-xs font-normal text-ink-weak lg:text-xs-pc">担当</span>
 								{p.staff}
 								<span className="ml-1 text-xs font-normal text-ink-weak lg:text-xs-pc">(架空)</span>
 							</p>
 							{staffInfo && (
-								<p className="text-small text-ink-weak">
+								<p className="mt-0.5 text-small text-ink-weak">
 									{staffInfo.role}
 									{staffInfo.qualifications.length > 0 ? ' / ' + staffInfo.qualifications.join('・') : ''}
 								</p>
