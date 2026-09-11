@@ -112,6 +112,56 @@ export const lines = [
 	{ slug: 'tobu-skytree', name: '東武スカイツリーライン' },
 ] as const;
 
+/**
+ * お客様の声(架空)。トップは抜粋3件、実装順 6 の /voice でも同じ配列を参照する(J-056 項目9)。
+ * 氏名は架空の姓のみ(架空 / 見本 / 仮名)。町・駅は13町・13駅の中だけ。
+ */
+export interface Voice {
+	/** 架空の名乗り。実在しうる氏名は使わない */
+	who: string;
+	/** 賃貸 / 売買 / 管理 のどれか */
+	kind: '賃貸' | '売買' | '管理';
+	/** 対応した町(13町の中) */
+	town: string;
+	text: string;
+}
+export const voices: readonly Voice[] = [
+	{
+		who: '仮名 様(30代・ご夫婦)',
+		kind: '賃貸',
+		town: '曳舟',
+		text: '希望の家賃で見つかるか不安でしたが、駅からの距離と間取りの優先順位を一緒に整理してもらえました。内見の日程も早く、決めるまで迷わずに済みました。',
+	},
+	{
+		who: '見本 様(40代)',
+		kind: '売買',
+		town: '青戸',
+		text: '相場の説明が数字と条件つきで分かりやすく、値付けの理由に納得できました。引渡しまでの段取りも先に示してもらえたので、予定を立てやすかったです。',
+	},
+	{
+		who: '架空 様(60代・オーナー)',
+		kind: '管理',
+		town: '立石',
+		text: '空室が続いていた部屋について、家賃を下げる前にできることから提案してもらえました。入居後の連絡も同じ担当なので、やり取りが途切れません。',
+	},
+] as const;
+
+/**
+ * お知らせ(架空)。トップは最新3件、実装順 7 の /news でも同じ配列を参照する(J-056 項目9)。
+ * 日付は新しい順に並べる。本文は実装順 7 で足す。
+ */
+export interface NewsItem {
+	slug: string;
+	date: string;
+	category: 'お知らせ' | '営業' | 'コラム';
+	title: string;
+}
+export const news: readonly NewsItem[] = [
+	{ slug: 'summer-holiday', date: '2026-09-08', category: '営業', title: '水曜定休日と営業時間のご案内' },
+	{ slug: 'rental-tips', date: '2026-09-02', category: 'コラム', title: 'お部屋探しで先に決めておくと早い3つのこと' },
+	{ slug: 'tateishi-open', date: '2026-08-25', category: 'お知らせ', title: '立石支店の内見受付について' },
+] as const;
+
 /** 数値表示の共通フォーマット */
 export function formatRent(yen: number) {
 	return `${(yen / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円`;
