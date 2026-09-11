@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { PropertyDetail } from '@/types/property';
 import { AttrLink } from '@/components/property/AttrLink';
@@ -108,12 +108,13 @@ export function InfoTable({
 
 	if (p.type === 'rental' && p.rental) {
 		const r = p.rental;
+		// 左 = お金(J-061)、右 = 住まいの条件と時期
 		checkLeft.push(
 			{ k: '管理費・共益費', v: feeLabel(r.maintenanceFee) },
 			{ k: '更新料', v: r.renewalFee || '—' },
-			{ k: '入居可能日', v: dateLabel(r.availableFrom) },
+			{ k: '駐車場', v: p.parking || '—' },
 		);
-		checkRight.push({ k: '向き', v: p.direction || '—' }, { k: '駐車場', v: p.parking || '—' });
+		checkRight.push({ k: '向き', v: p.direction || '—' }, { k: '入居可能日', v: dateLabel(r.availableFrom) });
 		detail.push(
 			{
 				title: '建物',
@@ -146,11 +147,12 @@ export function InfoTable({
 		const s = p.sale;
 		checkTitle = '購入前に確認すること';
 		// 管理費・修繕積立金はマンションだけ(戸建・土地には無い項目なので出さない)
+		// 左 = お金(J-061)、右 = 住まいの条件と時期
 		if (s.mgmtFee != null) checkLeft.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) checkLeft.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
-		checkLeft.push({ k: '引渡し', v: dateLabel(s.handover) });
+		checkLeft.push({ k: '駐車場', v: p.parking || '—' });
 		if (p.kind !== 'land') checkRight.push({ k: '向き', v: p.direction || '—' });
-		checkRight.push({ k: '駐車場', v: p.parking || '—' });
+		checkRight.push({ k: '引渡し', v: dateLabel(s.handover) });
 
 		const left: Row[] = [
 			{ k: '所在地', v: addressRow },
@@ -219,14 +221,21 @@ export function InfoTable({
 			)}
 
 			{/* 詳細:素の details(JS なし)。初期は閉じるが中身は HTML に存在するのでクロールと構造化データに影響しない */}
+			{/*
+			 * 開閉する見出しは、常時表示の見出し(設備・確認)と見た目を分ける(J-061):
+			 *   ・見出しの左に開閉の印(ChevronRight。開くと 90 度回って下を向く)
+			 *   ・行全体が押せることを示すため、summary の全幅に hover の背景(淡い青緑・150ms・J-035 と同じ規則)
+			 * 右端にあった矢印は外した。1280px では見出しから 1170px 離れていて見出しとの関係が見えず、
+			 * 矢印だけを押すものに見えるため。印は左の1つに絞る
+			 */}
 			<details className="hr-accordion group border-t border-line">
-				<summary className="flex cursor-pointer list-none items-center justify-between py-3 text-h3 font-bold text-sumi transition-colors duration-150 hover:text-accent-strong motion-reduce:transition-none lg:text-h3-pc">
-					詳細情報
-					<ChevronDown
+				<summary className="-mx-2 flex cursor-pointer list-none items-center gap-2 rounded-hr px-2 py-3 text-h3 font-bold text-sumi transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:text-h3-pc">
+					<ChevronRight
 						size={20}
 						aria-hidden="true"
-						className="shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
+						className="shrink-0 text-ink-weak transition-transform duration-200 group-open:rotate-90 motion-reduce:transition-none"
 					/>
+					詳細情報
 				</summary>
 				<div className="space-y-6 pb-4">
 					{detail.map((g) => (
