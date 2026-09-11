@@ -1,6 +1,6 @@
 /**
  * ギャラリーのスライダー位置計算(J-048)。純関数。
- * 写真の後に間取り図を最後の1枚として並べる。末尾は循環しない(最後の次は最後のまま、最初の前は最初のまま)。
+ * 写真の後に間取り図を最後の1枚として並べる。端は巡回する(最後の次は最初、最初の前は最後。J-049。J-048 では止めていた)。
  */
 export interface Slide {
 	src: string;
@@ -20,14 +20,16 @@ export function clampIndex(index: number, count: number): number {
 	return Math.min(Math.max(Math.floor(index), 0), count - 1);
 }
 
-/** 次へ。最後なら最後のまま(循環しない) */
+/** 次へ。最後の次は最初に戻る(J-049。送りの向きは変えずに巡回する) */
 export function nextIndex(index: number, count: number): number {
-	return clampIndex(index + 1, count);
+	if (count <= 0) return 0;
+	return (clampIndex(index, count) + 1) % count;
 }
 
-/** 前へ。最初なら最初のまま(循環しない) */
+/** 前へ。最初の前は最後に回る(J-049) */
 export function prevIndex(index: number, count: number): number {
-	return clampIndex(index - 1, count);
+	if (count <= 0) return 0;
+	return (clampIndex(index, count) + count - 1) % count;
 }
 
 /** 「3 / 6」。1枚以下なら空文字(表示しない) */

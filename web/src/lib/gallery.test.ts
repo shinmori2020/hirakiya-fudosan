@@ -14,14 +14,39 @@ describe('gallery.ts', () => {
 		expect(buildSlides([], null)).toEqual([]);
 	});
 
-	it('J-048 次へ:最後の次は最後のまま(循環しない)', () => {
+	it('J-049 次へ:最後の次は最初に戻る(J-048 の「端で止まる」を改訂)', () => {
 		expect(nextIndex(0, 6)).toBe(1);
-		expect(nextIndex(5, 6)).toBe(5);
+		expect(nextIndex(5, 6)).toBe(0);
 	});
 
-	it('J-048 前へ:最初の前は最初のまま(循環しない)', () => {
+	it('J-049 前へ:最初の前は最後に回る', () => {
 		expect(prevIndex(3, 6)).toBe(2);
-		expect(prevIndex(0, 6)).toBe(0);
+		expect(prevIndex(0, 6)).toBe(5);
+	});
+
+	it('J-049 → を10回押し切ると 6 → 1 → 2 と巡回する(6枚)', () => {
+		let i = 0;
+		const seen = [i];
+		for (let n = 0; n < 10; n++) {
+			i = nextIndex(i, 6);
+			seen.push(i);
+		}
+		expect(seen).toEqual([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4]);
+	});
+
+	it('J-049 ← を10回押し切ると 1 → 6 → 5 と逆に巡回する(6枚)', () => {
+		let i = 0;
+		const seen = [i];
+		for (let n = 0; n < 10; n++) {
+			i = prevIndex(i, 6);
+			seen.push(i);
+		}
+		expect(seen).toEqual([0, 5, 4, 3, 2, 1, 0, 5, 4, 3, 2]);
+	});
+
+	it('J-049 1枚だけの時はどちらを押しても動かない(写真0枚+間取り図1枚)', () => {
+		expect(nextIndex(0, 1)).toBe(0);
+		expect(prevIndex(0, 1)).toBe(0);
 	});
 
 	it('J-048 枚数表示は「3 / 6」。1枚なら出さない', () => {

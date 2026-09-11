@@ -186,3 +186,57 @@ dialog.hr-dialog::backdrop {
     transition: none;
   }
 }
+
+/*
+ * ギャラリーの送り(J-049・PC のみ)。次へ = 新しい画像が右から入り、今の画像は左へ抜ける。
+ * 前へ = その逆。200ms・cubic-bezier(0.4, 0, 0.2, 1)(03 §8 の開閉と同じ値)。
+ * 端も同じ向きのまま巡回させるので、画像の複製は持たない。
+ */
+@keyframes hr-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes hr-slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes hr-slide-out-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes hr-slide-out-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+.hr-slide-in-right,
+.hr-slide-in-left,
+.hr-slide-out-left,
+.hr-slide-out-right {
+  animation-duration: 200ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+.hr-slide-in-right {
+  animation-name: hr-slide-in-right;
+}
+.hr-slide-in-left {
+  animation-name: hr-slide-in-left;
+}
+.hr-slide-out-left {
+  animation-name: hr-slide-out-left;
+}
+.hr-slide-out-right {
+  animation-name: hr-slide-out-right;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hr-slide-in-right,
+  .hr-slide-in-left,
+  .hr-slide-out-left,
+  .hr-slide-out-right {
+    animation: none;
+  }
+}
