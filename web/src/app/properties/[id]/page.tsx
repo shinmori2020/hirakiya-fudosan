@@ -281,8 +281,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">{sold ? 'お問い合わせ' : 'この物件を見てみる'}</h2>
+					{/* 下部の CTA は 640 以上で2列(J-064)。注意書きはその下に全幅で残す */}
 					<div className="mt-6">
-						<CtaBlock no={p.no} type={p.type} sold={sold} />
+						<CtaBlock no={p.no} type={p.type} sold={sold} layout="row" />
 					</div>
 					<p className="mt-4 text-xs text-ink-weak lg:text-xs-pc">{company.formNotice}</p>
 				</Container>
