@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import type { PropertyDetail } from '@/types/property';
 import { initialCostLabel, keySpecs, layoutAreaLabel, monthlyFeeLabel, monthlyTotalLabel } from '@/lib/summary';
 
+const NOW = new Date('2026-09-12T00:00:00+09:00');
+
 const names = {
 	stationName: (s: string) => ({ hikifune: '曳舟', oshiage: '押上' })[s] ?? s,
 	areaLabel: (s: string) => ({ hikifune: '墨田区曳舟', aoto: '葛飾区青戸' })[s] ?? s,
@@ -90,10 +92,20 @@ describe('summary.ts', () => {
 	});
 
 	it('J-059 賃貸の補足:交通の下に町、家賃の下に 敷2・礼1・仲1', () => {
-		const out = keySpecs(base, names);
+		const out = keySpecs(base, names, NOW);
 		expect(out[0].note).toBe('墨田区曳舟');
 		expect(out[1].note).toBe('敷2・礼1・仲1');
-		expect(out[2].note).toBeUndefined();
+	});
+
+	it('J-063 3項目目の補足は築年(賃貸・売買マンション)。値は「1LDK / 35㎡」のまま変えない', () => {
+		expect(keySpecs(base, names, NOW)[2]).toEqual({ label: '間取り・専有面積', value: '1LDK / 35㎡', note: '築18年' });
+		expect(keySpecs(sale({}), names, NOW)[2]).toEqual({ label: '間取り・専有面積', value: '3LDK / 75㎡', note: '築18年' });
+	});
+
+	it('J-063 築年が取れない物件(土地)は3項目目の補足を築年にしない', () => {
+		const out = keySpecs(sale({ kind: 'land', layout: '', areaSqm: null, builtYm: '', sale: { ...sale({}).sale!, landSqm: 120 } }), names, NOW);
+		expect(out[2].label).toBe('土地面積');
+		expect(out[2].note).toBe('建ぺい率 60% / 容積率 200%');
 	});
 
 	it('J-059 売買(マンション)は 所在地 / 価格 / 間取り・専有面積。所在地の下に最寄駅', () => {

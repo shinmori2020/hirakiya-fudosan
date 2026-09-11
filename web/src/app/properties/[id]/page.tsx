@@ -187,7 +187,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 					<h2 className="text-h2 font-bold lg:text-h2-pc">物件概要</h2>
 					{/* キー項目の帯(J-047・案 A)。項目は固定・値のみ・本文より1段大きいだけ */}
 					<div className="mt-6">
-						<KeySpecBand specs={keySpecs(p, { stationName, areaLabel })} />
+						<KeySpecBand specs={keySpecs(p, { stationName, areaLabel }, now)} />
 					</div>
 					<div className="mt-6">
 						<InfoTable p={p} stationName={stationName} featureName={featureName} lineName={lineName} area={addressArea} now={now} />
