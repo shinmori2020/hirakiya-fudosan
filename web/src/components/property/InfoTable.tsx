@@ -13,14 +13,16 @@ import { addressParts, featureHref, lineHref, stationHref, townHref, wardHref } 
  *      賃貸 = 管理費・共益費 / 更新料 / 入居可能日 / 向き / 駐車場
  *      売買 = 管理費 / 修繕積立金 / 引渡し / 向き / 駐車場(戸建・土地に無い項目は出さない)
  *      向きを残すのは日当たりが重視条件の上位に入るため。階数は内見で見る情報なので詳細へ送る(J-060)
- *  - 「詳細情報」:素の <details> / <summary> で畳む。初期状態は閉じる。JavaScript は使わない(J-056 項目4 と同じ理由)
- *      中は小見出しで 建物(売買は 土地・建物)と 契約・掲載(売買は 掲載)に分ける
+ *  - 詳細:素の <details> / <summary> のアコーディオンを**2つ**置く(J-062。1つに 11項目をまとめると開いた時に量が減らないため)。
+ *      賃貸 = 「建物」と「契約・掲載」、売買 = 「土地・建物」と「掲載」。どちらも初期状態は閉じる。JavaScript は使わない(J-056 項目4 と同じ理由)。
+ *      閉じている時も中身が分かるよう、見出しの右に小さな説明(hint)を添える
  * 決め手の3項目に出した値(交通の1駅目・家賃・間取り・専有面積・町・初期費用 / 売買は町・価格・管理費+修繕の合計)は表から外す。
  * 沿線と2駅目は 交通 の行ごと消えるため、詳細情報の「建物」に残した(J-060 の重複確認で見つけた穴)。
  * ラベル幅 6.5em(J-052)・保証人の太字(J-055)・リンク(J-051)は畳んだ中でも同じ。
  */
 type Row = { k: string; v: ReactNode; strong?: boolean };
-type Group = { title: string; left: Row[]; right: Row[] };
+/** hint = 閉じている時に見出しの右へ小さく添える中身の説明(J-062) */
+type Group = { title: string; hint: string; left: Row[]; right: Row[] };
 
 export function InfoTable({
 	p,
@@ -118,6 +120,7 @@ export function InfoTable({
 		detail.push(
 			{
 				title: '建物',
+				hint: '所在地・築年月・構造など',
 				left: [
 					{ k: '所在地', v: addressRow },
 					{ k: '交通', v: traffic },
@@ -131,6 +134,7 @@ export function InfoTable({
 			},
 			{
 				title: '契約・掲載',
+				hint: '契約期間・保証人・取引態様など',
 				left: [
 					{ k: '契約期間', v: r.contractTerm || '—' },
 					{ k: '保証人', v: r.guarantorRequired ? '必要(保証会社利用可・架空)' : '不要', strong: true },
@@ -167,9 +171,15 @@ export function InfoTable({
 		if (s.bcr != null || s.far != null) right.push({ k: '建ぺい率 / 容積率', v: `${s.bcr ?? '—'}% / ${s.far ?? '—'}%` });
 		right.push({ k: '接道', v: s.roadAccess || '—' });
 		detail.push(
-			{ title: '土地・建物', left, right },
+			{
+				title: '土地・建物',
+				hint: p.kind === 'land' ? '所在地・土地権利・用途地域など' : '所在地・築年月・土地権利など',
+				left,
+				right,
+			},
 			{
 				title: '掲載',
+				hint: '取引態様・物件番号・情報更新日など',
 				left: [
 					{ k: '取引態様', v: p.transactionType || '—' },
 					{ k: '物件番号', v: p.no },
@@ -220,34 +230,28 @@ export function InfoTable({
 				</section>
 			)}
 
-			{/* 詳細:素の details(JS なし)。初期は閉じるが中身は HTML に存在するのでクロールと構造化データに影響しない */}
 			{/*
-			 * 開閉する見出しは、常時表示の見出し(設備・確認)と見た目を分ける(J-061):
-			 *   ・見出しの左に開閉の印(ChevronRight。開くと 90 度回って下を向く)
-			 *   ・行全体が押せることを示すため、summary の全幅に hover の背景(淡い青緑・150ms・J-035 と同じ規則)
-			 * 右端にあった矢印は外した。1280px では見出しから 1170px 離れていて見出しとの関係が見えず、
-			 * 矢印だけを押すものに見えるため。印は左の1つに絞る
+			 * 詳細:素の details(JS なし)を2つ。初期は閉じるが中身は HTML に存在するので
+			 * クロールと構造化データに影響しない。見たい方だけ開ける(J-062)。
+			 * 開閉する見出しの作り(左の印・行全体の hover)は J-061 のまま。
+			 * 見出しの右の小さな説明で、閉じていても中身が分かるようにする。
 			 */}
-			<details className="hr-accordion group border-t border-line">
-				<summary className="-mx-2 flex cursor-pointer list-none items-center gap-2 rounded-hr px-2 py-3 text-h3 font-bold text-sumi transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:text-h3-pc">
-					<ChevronRight
-						size={20}
-						aria-hidden="true"
-						className="shrink-0 text-ink-weak transition-transform duration-200 group-open:rotate-90 motion-reduce:transition-none"
-					/>
-					詳細情報
-				</summary>
-				<div className="space-y-6 pb-4">
-					{detail.map((g) => (
-						<section key={g.title} aria-labelledby={`info-${g.title}`}>
-							<h4 id={`info-${g.title}`} className="mb-2 text-small font-bold text-ink-weak">
-								{g.title}
-							</h4>
-							{twoColumns(g.left, g.right)}
-						</section>
-					))}
-				</div>
-			</details>
+			<div>
+				{detail.map((g) => (
+					<details key={g.title} className="hr-accordion group border-t border-line last:border-b">
+						<summary className="-mx-2 flex cursor-pointer list-none items-baseline gap-2 rounded-hr px-2 py-3 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none">
+							<ChevronRight
+								size={20}
+								aria-hidden="true"
+								className="shrink-0 translate-y-0.5 text-ink-weak transition-transform duration-200 group-open:rotate-90 motion-reduce:transition-none"
+							/>
+							<span className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</span>
+							<span className="min-w-0 truncate text-small text-ink-weak lg:text-small-pc">{g.hint}</span>
+						</summary>
+						<div className="pb-4">{twoColumns(g.left, g.right)}</div>
+					</details>
+				))}
+			</div>
 		</div>
 	);
 }
