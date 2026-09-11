@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
@@ -210,15 +211,23 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							))}
 						</ul>
 					)}
-					{/* 本文は 760px までで左揃え(J-052。1行が長くなりすぎないように右に余白を残す) */}
-					<p className="mt-6 max-w-[760px] whitespace-pre-line">{p.comment}</p>
-					{/* 担当者カード:イニシャル枠+氏名+役職・資格(config/site.ts)。一言はデータに無いので出さない */}
-					{/* 担当者カード(J-039)。J-052:幅を本文に揃え、アイコンと行間を詰めて高さを下げる */}
-					<div className="mt-6 flex max-w-[760px] items-center gap-3 rounded-hr border border-line bg-surface px-4 py-3">
-						<div aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-hr bg-surface-alt text-body font-bold text-ink-weak">
-							{p.staff.trim().charAt(0)}
+					{/*
+					 * 担当者コメント(J-053)。本文を担当者カードの中に入れて1枚にまとめる。
+					 * カードは全幅。PC(sm 以上)は左に顔写真(プレースホルダー・3:4・幅 240)、右に 氏名・役職・資格 と紹介文。
+					 * スマホ(〜639)は上下に積み、写真は幅 160(3:4)。右のテキストに最大幅は付けない。
+					 */}
+					<div className="mt-6 flex flex-col gap-4 rounded-hr border border-line bg-surface p-4 sm:flex-row sm:gap-6 lg:p-6">
+						<div className="relative aspect-[3/4] w-40 shrink-0 overflow-hidden rounded-hr bg-surface-alt sm:w-60">
+							<Image
+								src={staffInfo?.photo ?? '/placeholders/staff/staff-1.svg'}
+								alt={`${p.staff}(架空)`}
+								fill
+								sizes="(min-width: 40rem) 240px, 160px"
+								className="object-cover"
+								unoptimized
+							/>
 						</div>
-						<div className="leading-tight">
+						<div className="min-w-0">
 							<p className="font-bold text-sumi">
 								<span className="mr-2 text-xs font-normal text-ink-weak lg:text-xs-pc">担当</span>
 								{p.staff}
@@ -230,6 +239,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 									{staffInfo.qualifications.length > 0 ? ' / ' + staffInfo.qualifications.join('・') : ''}
 								</p>
 							)}
+							<p className="mt-3 border-t border-line pt-3 whitespace-pre-line">{p.comment}</p>
 						</div>
 					</div>
 				</Container>

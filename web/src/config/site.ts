@@ -80,16 +80,18 @@ export interface Staff {
 	qualifications: string[];
 	/** フォームの宛先になる担当(3本のフォームがそれぞれ別のスタッフに紐づく) */
 	formTarget?: 'contact' | 'sell' | 'owner';
+	/** 顔写真のプレースホルダー(3:4・架空表記入り。物件写真と同じ作りの SVG。J-053) */
+	photo: string;
 }
 export const staff: readonly Staff[] = [
-	{ name: '架空 太郎', role: '代表取締役', qualifications: ['宅建士'] },
-	{ name: '見本 花子', role: '賃貸部長', qualifications: ['宅建士', '賃貸不動産経営管理士'], formTarget: 'contact' },
-	{ name: '仮名 一郎', role: '売買主任', qualifications: ['宅建士', 'FP2級'], formTarget: 'sell' },
-	{ name: '架空 次郎', role: '管理部主任', qualifications: ['賃貸不動産経営管理士'], formTarget: 'owner' },
-	{ name: '見本 三郎', role: '賃貸営業', qualifications: ['宅建士'] },
-	{ name: '仮名 美咲', role: '賃貸営業', qualifications: [] },
-	{ name: '架空 恵', role: '管理事務', qualifications: [] },
-	{ name: '見本 健', role: '総務経理', qualifications: [] },
+	{ name: '架空 太郎', role: '代表取締役', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-1.svg' },
+	{ name: '見本 花子', role: '賃貸部長', qualifications: ['宅建士', '賃貸不動産経営管理士'], formTarget: 'contact', photo: '/placeholders/staff/staff-2.svg' },
+	{ name: '仮名 一郎', role: '売買主任', qualifications: ['宅建士', 'FP2級'], formTarget: 'sell', photo: '/placeholders/staff/staff-3.svg' },
+	{ name: '架空 次郎', role: '管理部主任', qualifications: ['賃貸不動産経営管理士'], formTarget: 'owner', photo: '/placeholders/staff/staff-4.svg' },
+	{ name: '見本 三郎', role: '賃貸営業', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-5.svg' },
+	{ name: '仮名 美咲', role: '賃貸営業', qualifications: [], photo: '/placeholders/staff/staff-6.svg' },
+	{ name: '架空 恵', role: '管理事務', qualifications: [], photo: '/placeholders/staff/staff-7.svg' },
+	{ name: '見本 健', role: '総務経理', qualifications: [], photo: '/placeholders/staff/staff-8.svg' },
 ] as const;
 
 /** 対応エリア(13町・4区)。タクソノミー area と一致させる。表示順もこの順 */
