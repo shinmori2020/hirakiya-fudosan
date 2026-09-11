@@ -145,3 +145,44 @@ details.hr-accordion[open]::details-content {
 .tabular {
   font-variant-numeric: tabular-nums;
 }
+
+/* 横スクロールのバーを隠す(ギャラリーのスワイプ・J-048) */
+.hr-scroll-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hr-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * ギャラリーのモーダル(J-048・§8 の開閉 200ms / cubic-bezier(0.4, 0, 0.2, 1))。
+ * dialog は display が切り替わるので allow-discrete と @starting-style で開く時も閉じる時も効かせる。
+ */
+dialog.hr-dialog,
+dialog.hr-dialog::backdrop {
+  opacity: 0;
+  transition:
+    opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    display 200ms allow-discrete,
+    overlay 200ms allow-discrete;
+}
+dialog.hr-dialog[open],
+dialog.hr-dialog[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  dialog.hr-dialog[open],
+  dialog.hr-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+dialog.hr-dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.72);
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.hr-dialog,
+  dialog.hr-dialog::backdrop {
+    transition: none;
+  }
+}
