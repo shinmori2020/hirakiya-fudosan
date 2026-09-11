@@ -45,3 +45,25 @@ export function indexFromScroll(scrollLeft: number, slideWidth: number, count: n
 	if (slideWidth <= 0) return 0;
 	return clampIndex(Math.round(scrollLeft / slideWidth), count);
 }
+
+/**
+ * object-contain の画像で、クリック位置が「絵が描かれている範囲」の中かどうか(F-007)。
+ * img の箱はスライド全体に広がるので、上下左右の余白(絵のない部分)も img に当たる。
+ * 元画像の寸法が取れない時(naturalW/H が 0)は絵の中とみなす = 閉じない。
+ */
+export function isInsideContained(
+	x: number,
+	y: number,
+	boxW: number,
+	boxH: number,
+	naturalW: number,
+	naturalH: number,
+): boolean {
+	if (naturalW <= 0 || naturalH <= 0 || boxW <= 0 || boxH <= 0) return true;
+	const scale = Math.min(boxW / naturalW, boxH / naturalH);
+	const w = naturalW * scale;
+	const h = naturalH * scale;
+	const left = (boxW - w) / 2;
+	const top = (boxH - h) / 2;
+	return x >= left && x <= left + w && y >= top && y <= top + h;
+}

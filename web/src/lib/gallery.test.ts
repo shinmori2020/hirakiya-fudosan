@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSlides, clampIndex, counterLabel, hasArrows, indexFromScroll, nextIndex, prevIndex } from '@/lib/gallery';
+import { buildSlides, clampIndex, counterLabel, hasArrows, indexFromScroll, isInsideContained, nextIndex, prevIndex } from '@/lib/gallery';
 
 describe('gallery.ts', () => {
 	it('J-048 間取り図はギャラリーの最後の1枚(サムネイル行と同じ順)', () => {
@@ -38,6 +38,23 @@ describe('gallery.ts', () => {
 		expect(clampIndex(-1, 6)).toBe(0);
 		expect(clampIndex(9, 6)).toBe(5);
 		expect(clampIndex(2, 0)).toBe(0);
+	});
+
+	it('F-007 object-contain の余白(絵のない部分)はクリックで閉じる側。絵の中は閉じない', () => {
+		// 1248×750 の箱に 3:2(1200×800)を contain → 絵は 1125×750・左右に 61.5 の余白
+		expect(isInsideContained(30, 375, 1248, 750, 1200, 800)).toBe(false); // 左の余白
+		expect(isInsideContained(1220, 375, 1248, 750, 1200, 800)).toBe(false); // 右の余白
+		expect(isInsideContained(624, 375, 1248, 750, 1200, 800)).toBe(true); // 中央
+		expect(isInsideContained(62, 10, 1248, 750, 1200, 800)).toBe(true); // 絵の左端
+	});
+
+	it('F-007 上下に余白が出る向きでも同じ(正方形の箱に横長の画像)', () => {
+		expect(isInsideContained(500, 10, 1000, 1000, 800, 500)).toBe(false); // 上の余白
+		expect(isInsideContained(500, 500, 1000, 1000, 800, 500)).toBe(true);
+	});
+
+	it('F-007 元画像の寸法が取れない時は絵の中とみなす(閉じない)', () => {
+		expect(isInsideContained(10, 10, 1248, 750, 0, 0)).toBe(true);
 	});
 
 	it('J-048 スワイプ後のスクロール位置からスライド番号を求める(1枚幅で四捨五入・端で止まる)', () => {

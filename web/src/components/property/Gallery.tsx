@@ -3,7 +3,7 @@
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { buildSlides, counterLabel, hasArrows, indexFromScroll, nextIndex, prevIndex } from '@/lib/gallery';
+import { buildSlides, counterLabel, hasArrows, indexFromScroll, isInsideContained, nextIndex, prevIndex } from '@/lib/gallery';
 
 /**
  * 写真ギャラリー(01 §3-1 / J-048)。メイン(3:2)+サムネイル行の並びは J-033 のまま。
@@ -143,9 +143,16 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 				ref={dialogRef}
 				onClose={() => setOpen(false)}
 				onClick={(e) => {
-					// 画像そのものと操作ボタン以外(余白・背景)を押したら閉じる
+					// 絵の外(背景・余白)を押したら閉じる。操作ボタンと絵の上は閉じない。
+					// img の箱はスライド全体に広がるので、object-contain の余白も img に当たる(F-007)
 					const t = e.target as HTMLElement;
-					if (!t.closest('button') && t.tagName !== 'IMG') dialogRef.current?.close();
+					if (t.closest('button')) return;
+					if (t.tagName === 'IMG') {
+						const img = t as HTMLImageElement;
+						const r = img.getBoundingClientRect();
+						if (isInsideContained(e.clientX - r.left, e.clientY - r.top, r.width, r.height, img.naturalWidth, img.naturalHeight)) return;
+					}
+					dialogRef.current?.close();
 				}}
 				aria-label={`${title} の写真`}
 				className="hr-dialog m-auto max-h-dvh w-dvw max-w-none bg-sumi/95 p-0 text-surface"
