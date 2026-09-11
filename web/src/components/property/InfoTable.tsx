@@ -6,8 +6,15 @@ import { builtLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
 import { addressParts, featureHref, layoutHref, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
- * 基本情報表(01 §3-4・03 §6・J-039・J-047)。
- * 4区分(基本 / 費用 / 建物 / 契約・掲載)の小見出し。区分の間は 24(03 の余白スケール1段)。
+ * 基本情報表(01 §3-4・03 §6・J-039・J-047・J-054)。
+ * J-054:区分をデータの種類別(基本 / 費用 / 建物 / 契約・掲載)から、読む人の関心順に組み替えた。
+ *   賃貸 A「入居の条件」(左 = 交通 / 間取り / 専有面積 / 階数 / 向き / 駐車場 / 入居可能日、右 = 家賃 / 管理費・共益費 / 初期費用 / 更新料)
+ *        B「建物と所在地」(所在地 / 沿線 / 築年月 / 構造)C「契約と掲載」(左 = 契約 / 右 = 掲載)
+ *   売買 A「購入の条件」(左 = 交通 / 間取り / 面積 / 階数 / 向き / 駐車場 / 引渡し、右 = 価格 / 管理費 / 修繕積立金)
+ *        B「土地・建物の仕様」C「掲載情報」
+ *   A は帯(J-047)と同じ白い角丸カードに入れて先に読ませ、B・C はカードなし・見出しを薄い文字色にして確認用と分かるようにする。
+ *   設備ブロックは A の直下(選ぶ条件なので確認用より上)。項目は減らさない・折りたたまない。
+ * 区分の間は 24(03 の余白スケール1段)。
  * PC(lg 以上)は左右2ペア×1行、スマホ・タブレットは1列。奇数なら最後のペアは左だけ。
  * 「設備」は非操作チップ(一覧の駅チップと同じ見た目)。
  * J-047:枠線・ラベル列の背景色をやめ、項目間は細い横線1本のみ。ラベルは薄い小さめの文字、値は本文色。
@@ -22,8 +29,11 @@ import { addressParts, featureHref, layoutHref, lineHref, stationHref, townHref,
  *        ラベル列は 6.5em 前後の固定幅(「管理費・共益費」「次回更新予定日」が折り返さない最小幅)。
  */
 type Row = { k: string; v: ReactNode; emphasis?: boolean };
-/** rows = 左→右へ順に流す。left / right を持つ区分は列を固定する(J-052 の「契約・掲載」) */
-type Section = { title: string; rows?: Row[]; left?: Row[]; right?: Row[] };
+/**
+ * rows = 左→右へ順に流す。left / right を持つ区分は列を固定する(J-052)。
+ * lead = 帯の直下に置く「条件」の区分(J-054)。白カードに入れて先に読ませる。
+ */
+type Section = { title: string; rows?: Row[]; left?: Row[]; right?: Row[]; lead?: boolean };
 
 export function InfoTable({
 	p,
@@ -116,17 +126,18 @@ export function InfoTable({
 		const r = p.rental;
 		sections.push(
 			{
-				title: '基本',
-				rows: [
-					{ k: '所在地', v: addressRow },
+				title: '入居の条件',
+				lead: true,
+				left: [
 					{ k: '交通', v: traffic },
-					{ k: '沿線', v: linesRow },
 					{ k: '間取り', v: layoutRow },
+					{ k: '専有面積', v: sqmLabel(p.areaSqm) },
+					{ k: '階数', v: floor },
+					{ k: '向き', v: p.direction || '—' },
+					{ k: '駐車場', v: p.parking || '—' },
+					{ k: '入居可能日', v: r.availableFrom || '—' },
 				],
-			},
-			{
-				title: '費用',
-				rows: [
+				right: [
 					{ k: '家賃', v: formatRent(p.rent ?? 0), emphasis: true },
 					{ k: '管理費・共益費', v: feeLabel(r.maintenanceFee) },
 					{ k: '初期費用', v: `敷金 ${months(r.depositMonths)} / 礼金 ${months(r.keyMoneyMonths)} / 仲介手数料 ${r.brokerageFee}`, emphasis: true },
@@ -134,21 +145,20 @@ export function InfoTable({
 				],
 			},
 			{
-				title: '建物',
-				rows: [
-					{ k: '専有面積', v: sqmLabel(p.areaSqm) },
+				title: '建物と所在地',
+				left: [
+					{ k: '所在地', v: addressRow },
+					{ k: '沿線', v: linesRow },
+				],
+				right: [
 					{ k: '築年月', v: built },
-					{ k: '階数', v: floor },
 					{ k: '構造', v: p.structure || '—' },
-					{ k: '向き', v: p.direction || '—' },
-					{ k: '駐車場', v: p.parking || '—' },
 				],
 			},
 			{
-				title: '契約・掲載',
+				title: '契約と掲載',
 				left: [
 					{ k: '契約期間', v: r.contractTerm || '—' },
-					{ k: '入居可能日', v: r.availableFrom || '—' },
 					{ k: '保証人', v: r.guarantorRequired ? '必要(保証会社利用可・架空)' : '不要' },
 					{ k: '取引態様', v: p.transactionType || '—' },
 				],
@@ -161,40 +171,42 @@ export function InfoTable({
 		);
 	} else if (p.sale) {
 		const s = p.sale;
-		const basic: Row[] = [
-			{ k: '所在地', v: addressRow },
-			{ k: '交通', v: traffic },
-			{ k: '沿線', v: linesRow },
-		];
-		// 面積は「建物・土地」側へ(J-052)
-		const areaRows: Row[] = [];
-		if (p.kind === 'land') areaRows.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
+		// A「購入の条件」の左:交通 / 間取り / 面積 / 階数 / 向き / 駐車場 / 引渡し
+		const cond: Row[] = [{ k: '交通', v: traffic }];
+		if (p.kind === 'land') cond.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
 		else {
-			basic.push({ k: '間取り', v: layoutRow });
-			areaRows.push({ k: '専有面積', v: sqmLabel(p.areaSqm) });
-			if (s.landSqm != null) areaRows.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
-			if (s.buildingSqm != null) areaRows.push({ k: '建物面積', v: sqmLabel(s.buildingSqm) });
+			cond.push({ k: '間取り', v: layoutRow }, { k: '専有面積', v: sqmLabel(p.areaSqm) });
+			if (s.landSqm != null) cond.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
+			if (s.buildingSqm != null) cond.push({ k: '建物面積', v: sqmLabel(s.buildingSqm) });
+			cond.push({ k: '階数', v: floor }, { k: '向き', v: p.direction || '—' });
 		}
+		cond.push({ k: '駐車場', v: p.parking || '—' }, { k: '引渡し', v: s.handover || '—' });
+		// A の右:価格まわり
 		const cost: Row[] = [{ k: '価格', v: formatPrice(p.price ?? 0), emphasis: true }];
 		if (s.mgmtFee != null) cost.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) cost.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
-		const building: Row[] = [...areaRows];
-		if (p.kind !== 'land') building.push({ k: '築年月', v: built }, { k: '階数', v: floor }, { k: '構造', v: p.structure || '—' }, { k: '向き', v: p.direction || '—' });
-		building.push({ k: '駐車場', v: p.parking || '—' }, { k: '権利', v: s.landRights || '—' }, { k: '用途地域', v: s.zoning || '—' });
-		if (s.bcr != null || s.far != null) building.push({ k: '建ぺい率 / 容積率', v: `${s.bcr ?? '—'}% / ${s.far ?? '—'}%` });
-		building.push({ k: '接道', v: s.roadAccess || '—' });
+		// B「土地・建物の仕様」の左右
+		const specLeft: Row[] = [
+			{ k: '所在地', v: addressRow },
+			{ k: '沿線', v: linesRow },
+		];
+		if (p.kind !== 'land') specLeft.push({ k: '築年月', v: built }, { k: '構造', v: p.structure || '—' });
+		const specRight: Row[] = [
+			{ k: '権利', v: s.landRights || '—' },
+			{ k: '用途地域', v: s.zoning || '—' },
+		];
+		if (s.bcr != null || s.far != null) specRight.push({ k: '建ぺい率 / 容積率', v: `${s.bcr ?? '—'}% / ${s.far ?? '—'}%` });
+		specRight.push({ k: '接道', v: s.roadAccess || '—' });
 		sections.push(
-			{ title: '基本', rows: basic },
-			{ title: '費用', rows: cost },
-			{ title: '建物・土地', rows: building },
+			{ title: '購入の条件', lead: true, left: cond, right: cost },
+			{ title: '土地・建物の仕様', left: specLeft, right: specRight },
 			{
-				title: '契約・掲載',
+				title: '掲載情報',
 				left: [
-					{ k: '引渡し', v: s.handover || '—' },
 					{ k: '取引態様', v: p.transactionType || '—' },
+					{ k: '物件番号', v: p.no },
 				],
 				right: [
-					{ k: '物件番号', v: p.no },
 					{ k: '情報更新日', v: ymd(p.updatedOn) },
 					{ k: '次回更新予定日', v: ymd(p.nextUpdateOn) },
 				],
@@ -203,42 +215,61 @@ export function InfoTable({
 	}
 
 	// J-052:ラベル列は 6.5em 固定。「管理費・共益費」「次回更新予定日」が折り返さない最小幅
+	// J-054:「なし」は見落としやすいので太字にする。色は付けない(リンクの青緑と紛らわしくなるため)
 	const rowEl = (row: Row) => (
 		<div key={row.k} className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
 			<dt className="text-small text-ink-weak">{row.k}</dt>
-			<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${row.emphasis ? 'tabular' : ''}`}>{row.v}</dd>
+			<dd
+				className={`text-body leading-[1.5] text-ink lg:text-body-pc ${row.emphasis ? 'tabular' : ''} ${
+					row.v === 'なし' || row.v === '不要' ? 'font-bold' : ''
+				}`}
+			>
+				{row.v}
+			</dd>
 		</div>
 	);
+	const sectionBody = (sec: Section) =>
+		sec.rows ? (
+			<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">{sec.rows.map(rowEl)}</dl>
+		) : (
+			// 左右で中身を分ける区分(J-052・J-054)
+			<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
+				<div>{(sec.left ?? []).map(rowEl)}</div>
+				<div>{(sec.right ?? []).map(rowEl)}</div>
+			</dl>
+		);
+	const lead = sections.find((sec) => sec.lead);
+	const rest = sections.filter((sec) => !sec.lead);
 
 	return (
-		<div className="space-y-6">
-			{sections.map((sec) => (
-				<section key={sec.title} aria-labelledby={`info-${sec.title}`}>
-					<h3 id={`info-${sec.title}`} className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">
-						{sec.title}
+		<div>
+			{/* A:条件の区分。帯(J-047)と同じ白い角丸カードに入れて先に読ませる(J-054)。設備もこの中の最後に置く */}
+			{lead && (
+				<section aria-labelledby={`info-${lead.title}`} className="rounded-hr border border-line bg-surface p-4">
+					<h3 id={`info-${lead.title}`} className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">
+						{lead.title}
 					</h3>
-					{/* PC は2ペア×1行(奇数なら最後は左だけ)。スマホ・タブレットは1列 */}
-					{/* J-047:枠・ラベル背景なし。項目間は細い横線1本(PC の2ペアは左右とも同じ線) */}
-					{sec.rows ? (
-						<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">{sec.rows.map(rowEl)}</dl>
-					) : (
-						// 左右の中身を分ける区分(J-052:左 = 契約 / 右 = 掲載)
-						<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-							<div>{(sec.left ?? []).map(rowEl)}</div>
-							<div>{(sec.right ?? []).map(rowEl)}</div>
-						</dl>
+					{/* PC は左右2列、スマホ・タブレットは1列。J-047:枠・ラベル背景なし、項目間は細い横線1本 */}
+					{sectionBody(lead)}
+					{p.features.length > 0 && (
+						<div className="mt-4">
+							<h4 className="mb-2 text-small font-bold text-sumi">設備</h4>
+							{featureChips}
+						</div>
 					)}
 				</section>
-			))}
-			{/* 設備は2列の表に収まらないので表の外へ(J-052)。全幅で横に流して折り返す */}
-			{p.features.length > 0 && (
-				<section aria-labelledby="info-設備">
-					<h3 id="info-設備" className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">
-						設備
-					</h3>
-					{featureChips}
-				</section>
 			)}
+			{/* B・C:確認用の区分。カードに入れず、見出しを薄い文字色にして強弱をつける(J-054) */}
+			<div className="mt-8 space-y-6">
+				{rest.map((sec) => (
+					<section key={sec.title} aria-labelledby={`info-${sec.title}`}>
+						<h3 id={`info-${sec.title}`} className="mb-2 text-h3 font-bold text-ink-weak lg:text-h3-pc">
+							{sec.title}
+						</h3>
+						{sectionBody(sec)}
+					</section>
+				))}
+			</div>
 		</div>
 	);
 }
