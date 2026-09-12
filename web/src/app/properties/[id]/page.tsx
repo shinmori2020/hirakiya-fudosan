@@ -149,14 +149,18 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							 * J-070:決め手は右カラムに集約する(物件概要の3項目は廃止)。
 							 * 駅徒歩を先、住所を後(探す段階で効くのは駅徒歩。番地は一段薄く)。
 							 * 駅徒歩・家賃・スペックに lucide のアイコン(J-063 と同じ選定)。物件名には付けない。
+							 * J-071:アイコンは隣の文字の大きさに合わせる。本文の行は 16px、価格の行は 20(スマホ)/ 28(PC)。
+							 *   数値をそのまま文字サイズに合わせると線の太さの分だけ大きく見えるので、価格は文字の7〜8割にする。
+							 *   行は items-baseline にして、アイコンの下端を文字のベースラインに載せる。
+							 *   住所は区・町までにする(番地は 0-0-0 の架空表記で情報量が無く、探す段階では使わない)。完全な住所は詳細情報に残す。
 							 */}
-							<p className="mt-2 flex items-center gap-1 text-body font-bold text-sumi lg:text-body-pc">
-								<TrainFront size={16} aria-hidden="true" className="shrink-0 text-accent" />
+							<p className="mt-2 flex items-baseline gap-1 text-body font-bold text-sumi lg:text-body-pc">
+								<TrainFront aria-hidden="true" className="size-4 shrink-0 text-accent" />
 								{p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : '—'}
 							</p>
-							<p className="mt-0.5 text-small text-ink-weak">{p.address}</p>
-							<p className="tabular mt-4 flex items-center gap-1 text-price-detail font-bold text-sumi lg:text-price-detail-pc">
-								<JapaneseYen size={20} aria-hidden="true" className="shrink-0 text-accent" />
+							<p className="mt-0.5 text-small text-ink-weak">{areaLabel(p.area)}</p>
+							<p className="tabular mt-4 flex items-baseline gap-2 text-price-detail font-bold text-sumi lg:text-price-detail-pc">
+								<JapaneseYen aria-hidden="true" className="size-5 shrink-0 text-accent lg:size-7" />
 								{mainPrice(p)}
 							</p>
 							{p.type === 'rental' && p.rental && (
@@ -175,8 +179,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							{p.type === 'sale' && p.price != null && p.pricePrevious != null && p.pricePrevious > p.price && (
 								<p className="text-small text-badge-discount-fg">値下げ前 {formatPrice(p.pricePrevious)}</p>
 							)}
-							<p className="mt-3 flex items-center gap-1 text-body font-bold text-sumi lg:text-body-pc">
-								<LayoutGrid size={16} aria-hidden="true" className="shrink-0 text-accent" />
+							<p className="mt-3 flex items-baseline gap-1 text-body font-bold text-sumi lg:text-body-pc">
+								<LayoutGrid aria-hidden="true" className="size-4 shrink-0 text-accent" />
 								{p.kind === 'land'
 									? `土地 ${sqmLabel(p.sale?.landSqm ?? null)}`
 									: `${p.layout}${p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}${p.floor != null ? ` / ${p.floor}階` : ''}`}
