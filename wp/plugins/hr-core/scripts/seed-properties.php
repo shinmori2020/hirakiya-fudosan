@@ -13,6 +13,8 @@
  *   docker compose exec -u www-data wordpress php wp-content/plugins/hr-core/scripts/seed-properties.php
  * 全消しして入れ直す:
  *   docker compose exec -u www-data wordpress php wp-content/plugins/hr-core/scripts/seed-properties.php --reset
+ * 既存はそのままで担当者コメントだけ作り直す(J-078):
+ *   docker compose exec -u www-data wordpress php wp-content/plugins/hr-core/scripts/seed-properties.php --comments
  * (-u www-data:生成する SVG の所有者を Apache と揃えるため)
  */
 
@@ -116,18 +118,20 @@ $STATUS = array( 'open' => '公開中', 'negotiating' => '商談中', 'sold' => 
 $STAFF     = array( '架空 太郎', '見本 花子', '仮名 一郎', '架空 次郎', '見本 三郎', '仮名 美咲', '架空 恵', '見本 健' );
 $BUILDINGS = array( 'ハイツ', 'コーポ', 'レジデンス', 'メゾン', 'テラス', 'ハウス' );
 
-// 担当者コメント:冒頭(立地)/ 中間(設備・間取り)/ 末尾(呼びかけ)各4(02 §6)
+// 担当者コメント(J-078):立地 / 建物 / 間取り・設備 / 条件 / 呼びかけ の5文。150〜200字。
+// 値はすべて ACF に入れるものと同じデータから作る(データに無い事実・誇張は書かない)。
+// 引数は番号付き:1 = 区名 / 2 = 町名 / 3 = 駅名 / 4 = 徒歩分
 $COMMENT_HEAD = array(
-	'%s駅から徒歩%d分、平坦な道のりで通勤にも便利な立地です。',
-	'%s駅が最寄り。周辺にはスーパーやコンビニがそろい、日常の買い物に困りません。',
-	'%s駅まで徒歩%d分。静かな住宅街の一角にあります。',
-	'%s駅利用可。都心へのアクセスと落ち着いた住環境を両立できるエリアです。',
+	'%1$s%2$sにあり、%3$s駅まで徒歩%4$d分です。',
+	'%3$s駅から徒歩%4$d分、%1$s%2$sの物件です。',
+	'%1$s%2$s、最寄りは%3$s駅で徒歩%4$d分です。',
+	'%3$s駅徒歩%4$d分、%1$s%2$sに位置します。',
 );
 $COMMENT_MID = array(
 	'%sの間取りで、収納も確保されています。',
-	'%s・%s㎡。室内は明るく、家具の配置もしやすい形です。',
-	'%sタイプ。設備面では%sが備わっています。',
-	'%sのお部屋です。%sで、暮らしやすさを重視した造りになっています。',
+	'%s・%s㎡の広さです。',
+	'%sタイプ。設備は%sが付いています。',
+	'%sのお部屋で、%sが付いています。',
 );
 $COMMENT_TAIL = array(
 	'内見のご希望はお気軽にお問い合わせください。',
@@ -139,13 +143,32 @@ $COMMENT_TAIL_SALE = array(
 	'資料請求・現地見学のご希望はお気軽にお問い合わせください。',
 	'住宅ローンのご相談も承ります。まずはお問い合わせを。',
 	'価格のご相談は担当までご連絡ください。',
-	'周辺の成約事例もご案内できます。お気軽にどうぞ。',
+	'現地のご案内も承ります。お気軽にどうぞ。',
 );
 
+/** 築年月を「2008年5月」の形に(空なら空) */
+function hr_built_ja( $ym ) {
+	if ( ! $ym ) { return ''; }
+	list( $y, $m ) = array_map( 'intval', explode( '-', $ym ) );
+	return sprintf( '%d年%d月', $y, $m );
+}
+/** 日付を「2026年10月5日」の形に(03 §6 の日付表記・J-057 と同じ) */
+function hr_date_ja( $d ) {
+	if ( ! $d || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ) { return $d; }
+	list( $y, $m, $dd ) = array_map( 'intval', explode( '-', $d ) );
+	return sprintf( '%d年%d月%d日', $y, $m, $dd );
+}
+/** 構造の言い方(RC / SRC は「造」を付ける。木造・軽量鉄骨はそのまま) */
+function hr_structure_ja( $st ) {
+	return in_array( $st, array( 'RC', 'SRC' ), true ) ? $st . '造' : $st;
+}
 /* =========================================================================
  * 2. --reset(既存の物件とプレースホルダーを削除)
  * ====================================================================== */
 $reset = in_array( '--reset', $argv ?? array(), true );
+// --comments:既存の物件の担当者コメントだけを作り直す(J-078。日付・価格・写真は触らない)
+$only_comments = in_array( '--comments', $argv ?? array(), true );
+$updated_cnt   = 0;
 if ( $reset ) {
 	$ids = get_posts( array( 'post_type' => 'property', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids' ) );
 	foreach ( $ids as $id ) { wp_delete_post( $id, true ); }
@@ -417,9 +440,80 @@ foreach ( $plan as $i => [ $type, $kind ] ) {
 		);
 	}
 
+	/* コメント(J-078):立地 / 建物 / 間取り・設備 / 条件 / 呼びかけ の5文。
+	 * 乱数は従来と同じ3回($mid_i・冒頭・末尾)のままにして、他の値がずれないようにする。
+	 * 建物と条件の文は乱数を使わず、この物件の値だけから組み立てる。 */
+	$st1_name = $STATIONS[ $st1 ][0];
+	$feat_ja  = array_map( fn( $s ) => $FEATURES[ $s ], array_slice( array_diff( $features, array( 'aircon' ) ), 0, 2 ) );
+	$mid_i    = hr_rand( 0, 3 );
+	$c_head   = sprintf( hr_pick( $COMMENT_HEAD ), $WARDS[ $ward ], $town, $st1_name, $walk );
+	$c_tail   = hr_pick( 'rental' === $type ? $COMMENT_TAIL : $COMMENT_TAIL_SALE );
+
+	// 2文目:建物(築年月・構造・階数)。土地は建物が無いので空
+	if ( 'land' === $kind ) {
+		$c_build = '';
+	} elseif ( $floor && $floors_tot > 2 ) {
+		$c_build = sprintf( '%s築の%s、%d階建ての%d階部分です。', hr_built_ja( $built_ym ), hr_structure_ja( $structure ), $floors_tot, $floor );
+	} else {
+		$c_build = sprintf( '%s築の%s%d階建てです。', hr_built_ja( $built_ym ), hr_structure_ja( $structure ), $floors_tot );
+	}
+
+	// 3文目:間取り・面積・設備
+	$c_mid = 'land' === $kind ? '' : sprintf(
+		$COMMENT_MID[ $mid_i ],
+		$layout,
+		$mid_i === 1 ? $sqm : ( $feat_ja ? implode( '・', $feat_ja ) : '基本設備' )
+	);
+
+	// 4文目:条件(賃貸 = 初期費用と入居時期 / 売買 = 費用・権利・引渡し)
+	if ( 'rental' === $type ) {
+		$c_cost = ( 0 === $extra['deposit_months'] && 0 === $extra['key_money_months'] )
+			? '敷金・礼金はかかりません'
+			: sprintf( '敷金%dヶ月・礼金%dヶ月', $extra['deposit_months'], $extra['key_money_months'] );
+		$c_when = '即入居可' === $extra['available_from'] ? '即入居が可能です' : sprintf( '%sから入居できます', hr_date_ja( $extra['available_from'] ) );
+		$c_term = sprintf( '%s、仲介手数料は%sです。%s。', $c_cost, $extra['brokerage_fee'], $c_when );
+	} elseif ( 'mansion' === $kind ) {
+		$c_term = sprintf(
+			'管理費は月%s円、修繕積立金は月%s円です。土地権利は%s、引渡しは%sです。',
+			number_format( $extra['mgmt_fee'] ), number_format( $extra['repair_fund'] ), $extra['land_rights'], $extra['handover']
+		);
+	} elseif ( 'house' === $kind ) {
+		$c_term = sprintf(
+			'土地面積%s㎡・建物面積%s㎡、土地権利は%sです。用途地域は%s、建ぺい率%d%%・容積率%d%%、引渡しは%sです。',
+			$extra['land_sqm'], $extra['building_sqm'], $extra['land_rights'], $extra['zoning'], $extra['bcr'], $extra['far'], $extra['handover']
+		);
+	} else {
+		$c_term = sprintf(
+			'土地面積は%s㎡、土地権利は%sです。用途地域は%s、建ぺい率%d%%・容積率%d%%。接道は%s、引渡しは%sです。',
+			$extra['land_sqm'], $extra['land_rights'], $extra['zoning'], $extra['bcr'], $extra['far'], $extra['road_access'], $extra['handover']
+		);
+	}
+
+	// 5文目:2駅目(ある物件だけ)
+	$c_st2 = $st2 ? sprintf( '%s駅も徒歩%d分で利用できます。', $STATIONS[ $st2 ][0], $walk2 ) : '';
+
+	// 6文目:賃貸は契約の条件、売買は価格
+	if ( 'rental' === $type ) {
+		$c_more = sprintf(
+			'契約期間は%s、更新料は%s、保証会社の利用は%sです。',
+			$extra['contract_term'],
+			'なし' === $extra['renewal_fee'] ? 'なし' : $extra['renewal_fee'],
+			$extra['guarantor_required'] ? '必要' : '不要'
+		);
+	} else {
+		$c_more = sprintf( '価格は%s万円です。', number_format( $price ) );
+	}
+
+	$comment = $c_head . $c_build . $c_mid . $c_term . $c_st2 . $c_more . $c_tail;
+
 	// 既存判定(冪等)
 	$exists = get_posts( array( 'name' => $slug, 'post_type' => 'property', 'post_status' => 'any', 'numberposts' => 1, 'fields' => 'ids' ) );
-	if ( $exists ) { $skipped++; continue; }
+	if ( $exists ) {
+		// --comments:既存の物件の担当者コメントだけを書き換える(他の値・日付は触らない・J-078)
+		if ( $only_comments ) { update_field( 'comment', $comment, $exists[0] ); $updated_cnt++; }
+		$skipped++;
+		continue;
+	}
 
 	$post_id = wp_insert_post(
 		array(
@@ -450,17 +544,6 @@ foreach ( $plan as $i => [ $type, $kind ] ) {
 		hr_placeholder_svg( $ph_dir . '/' . $file, $no, $KINDS[ $kind ] . ( $p > 1 ? " ($p)" : '' ), $color );
 		$img_paths[] = $ph_url_base . $file;
 	}
-
-	// コメント
-	$st1_name = $STATIONS[ $st1 ][0];
-	$feat_ja  = array_map( fn( $s ) => $FEATURES[ $s ], array_slice( array_diff( $features, array( 'aircon' ) ), 0, 2 ) );
-	$mid_i    = hr_rand( 0, 3 );
-	$mid      = 'land' === $kind ? sprintf( '%s㎡の整形地。', $extra['land_sqm'] ) : sprintf(
-		$COMMENT_MID[ $mid_i ],
-		$layout,
-		$mid_i === 1 ? $sqm : ( $feat_ja ? implode( '・', $feat_ja ) : '基本設備' )
-	);
-	$comment = sprintf( hr_pick( $COMMENT_HEAD ), $st1_name, $walk ) . $mid . hr_pick( 'rental' === $type ? $COMMENT_TAIL : $COMMENT_TAIL_SALE );
 
 	// ACF(共通)
 	$common = array(
@@ -497,5 +580,5 @@ foreach ( $plan as $i => [ $type, $kind ] ) {
 	hr_log( sprintf( '  + %s %-14s %s %s %s %s枚 %s', $no, $title, $TYPES[ $type ], $KINDS[ $kind ], $rent ? number_format( $rent ) . '円' : number_format( $price ) . '万円', $photos, $STATUS[ $status ] ) );
 }
 
-hr_log( sprintf( '== 完了: 作成 %d / スキップ %d(既存)', $created, $skipped ) );
+hr_log( sprintf( '== 完了: 作成 %d / スキップ %d(既存)%s', $created, $skipped, $only_comments ? sprintf( ' / コメント更新 %d', $updated_cnt ) : '' ) );
 hr_log( '次: web/ で pnpm run export-wp(または /export-wp)' );
