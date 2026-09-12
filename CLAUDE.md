@@ -57,6 +57,14 @@ pnpm exec playwright test                 # web/e2e(フォーム3本・検索 UR
 
 `/export-wp` で「Docker 起動確認 → export → 差分確認 → コミット」を一括で行う。
 
+```bash
+# web/ で(見た目の確認・実測)
+DATA_SOURCE=static pnpm build && DATA_SOURCE=static pnpm start -p 3001   # 3001 で本番相当を起動
+node scripts/measure.mjs properties/HR-R-0001 1280 768 390               # ラベル幅・下端・折り返し・アイコンのずれ・当たり判定
+```
+
+手順の詳細(起動待ち・3001 の落とし方・Playwright の書き方・撮り方)は `.claude/rules/verification.md`。
+
 ## 環境変数(`web/.env.local`・Git 管理外。雛形は `web/.env.example`)
 
 | 変数 | 既定値 / 用途 |
@@ -93,6 +101,14 @@ docs: add week-02 progress log
 chore: update WP data export
 ```
 
+## コマンドの実行単位(AI が守る)
+
+- **`git commit` は単独のコマンドで実行する。** hook(`check-jid.mjs`)は PreToolUse で **Bash 呼び出し全体** を検査するため、`node docs更新.mjs && git add -A && git commit` のように混ぜると、hook が止めた時に**前段のドキュメント更新も実行されない**。記録の更新 → 確認 → コミット、で呼び出しを分ける(このセッションで2回踏んだ)
+- **コミットメッセージはファイルに書いて `git commit -F <file>` で渡す。** ヒアドキュメントを同じ呼び出しに混ぜると上記に巻き込まれる。使い終わったメッセージファイルを再利用すると**前のメッセージでコミットしてしまう**ので、毎回書き直す(1回踏んで `--amend` で直した)
+- **ドキュメント(記録シート・03・04)の編集は scratchpad に `.mjs` を書いて `node` で実行する。** 置換する文字列に日本語・バックティック・`${}`・引用符が混ざるため、ヒアドキュメントや `sed` では壊れる(2回壊した)。スクリプトは「見つからなければ例外を投げる」形にして、意図した箇所以外を書き換えないようにする
+- Playwright のスクリプトも同じ理由で Write ツールでファイルに書く(`\\:` のエスケープがヒアドキュメントで落ちる)
+- Git Bash は先頭が `/` の引数を Windows のパスに書き換える(`/properties/...` → `C:/Program Files/Git/properties/...`)。URL のパスを引数で渡す時は先頭の `/` を付けない
+
 ## rules / skills / commands / hooks の役割
 
 | 層 | 何をするか |
@@ -102,6 +118,7 @@ chore: update WP data export
 | `rules/forms.md` | `web/src/components/forms/**` `web/src/app/actions/**` |
 | `rules/search.md` | `web/src/components/search/**` `web/src/lib/search.ts` |
 | `rules/static-rendering.md` | `web/src/app/**`。cookie を読まない・動的化しない |
+| `rules/verification.md` | `web/**`。3001 での確認手順・Playwright の書き方・実測の5種類・スクショの撮り方 |
 | `skills/record-judgment` | AI が判断の発生を検知したら、記録シートの下書き行を提案する(自動) |
 | `/log-judgment` | SHIN が判断を記録する時に呼ぶ。行の追加と `docs/decisions/J-xxx.md` の生成 |
 | `/export-wp` | Docker の WP → JSON の書き出しとコミット |
