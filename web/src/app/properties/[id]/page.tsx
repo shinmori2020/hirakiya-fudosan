@@ -164,13 +164,19 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 								{p.floor != null ? ` / ${p.floor}階` : ''}
 							</p>
 							{/*
-							 * 要約(J-039 → J-068)。PC(lg 以上)は縦1列にして拾い読みできるようにする。
+							 * 要約(J-039 → J-068 → J-069)。PC(lg 以上)は縦1列にして拾い読みできるようにする。
 							 * ラベルは 6.5em の固定幅(情報表と同じ規則・J-052)。値はその右に詰める。
-							 * スマホ(〜1023)は従来どおり2列×2行のまま(縦に伸ばすと CTA が下に押されるため)。行間は 8 のまま(03 の余白スケール)。
+							 * J-069:各行の下に細い横線(情報表と同じ border-line 1px)。最終行の下にも引くので4本。
+							 *   行の高さは情報表と同じ上下 8 にし、行間(gap)は 0 にする(線と余白が二重にならないように)。
+							 * スマホ(〜1023)は従来どおり2列×2行のまま(縦に伸ばすと CTA が下に押されるため)。
+							 *   2列のままで各セルに線を引くと横に2本並んで表に見えるので、線は縦1列の時だけ引く。
 							 */}
-							<dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-4 text-small lg:grid-cols-1">
+							<dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-4 text-small lg:grid-cols-1 lg:gap-y-0">
 								{summary.map(([k, v]) => (
-									<div key={k} className="flex gap-2 lg:grid lg:grid-cols-[6.5em_minmax(0,1fr)] lg:gap-x-2">
+									<div
+										key={k}
+										className="flex gap-2 lg:grid lg:grid-cols-[6.5em_minmax(0,1fr)] lg:gap-x-2 lg:border-b lg:border-line lg:py-2"
+									>
 										<dt className="shrink-0 text-ink-weak">{k}</dt>
 										<dd className="text-ink">{v}</dd>
 									</div>
