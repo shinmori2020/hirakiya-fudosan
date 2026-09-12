@@ -26,6 +26,8 @@ import {
  * 表示中の番号は状態(index)で持ち、スクロール位置からは読み直さない(J-048 の連打の詰まり対策)。
  * 開閉は 200ms / cubic-bezier(0.4, 0, 0.2, 1)(03 §8)。prefers-reduced-motion では無効(globals.css)。
  * 写真0枚の物件(3件)はメインに写真を出さず「写真準備中」と出す。押すとモーダルが開き、間取り図1枚だけを出す(J-049)。
+ * F-008:サムネイルとメイン画像のボタンは select-none。矢印の連打やダブルクリックでテキスト選択が走ると、
+ *   選択ハイライト(青)がサムネイルの画像の上に乗るため。フォーカスの表示(:focus-visible)には触らない。
  * プレースホルダー SVG なので next/image は unoptimized。
  */
 
@@ -135,7 +137,7 @@ function Thumbs({
 						onClick={() => onSelect(i, i > index ? 1 : -1)}
 						aria-pressed={i === index}
 						aria-label={s.label}
-						className={`group relative block cursor-pointer overflow-hidden rounded-hr border-2 transition-colors duration-150 motion-reduce:transition-none ${
+						className={`group relative block cursor-pointer overflow-hidden rounded-hr border-2 transition-colors duration-150 select-none motion-reduce:transition-none ${
 							variant === 'page' ? 'h-14 w-21 lg:h-16 lg:w-24' : 'h-12 w-18 lg:h-14 lg:w-21'
 						} ${
 							i === index ? 'border-accent' : variant === 'page' ? 'border-line hover:border-accent' : 'border-surface/40 hover:border-surface'
@@ -263,7 +265,7 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 								type="button"
 								onClick={openModal}
 								aria-label={`${s.label}を拡大する`}
-								className="relative aspect-[3/2] w-full shrink-0 snap-center cursor-zoom-in"
+								className="relative aspect-[3/2] w-full shrink-0 snap-center cursor-zoom-in select-none"
 							>
 								<Image
 									src={s.src}
@@ -290,7 +292,7 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 							type="button"
 							onClick={openModal}
 							aria-label={`${slides[index]?.label ?? '写真'}を拡大する`}
-							className="relative block aspect-[3/2] w-full cursor-zoom-in"
+							className="relative block aspect-[3/2] w-full cursor-zoom-in select-none"
 						>
 							<SlideStage slides={slides} index={index} anim={anim} title={title} sizes="720px" priority />
 						</button>
