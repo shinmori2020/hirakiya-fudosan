@@ -163,10 +163,14 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 								{p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}
 								{p.floor != null ? ` / ${p.floor}階` : ''}
 							</p>
-							{/* 要約(J-039):2列×2行 */}
-							<dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-4 text-small">
+							{/*
+							 * 要約(J-039 → J-068)。PC(lg 以上)は縦1列にして拾い読みできるようにする。
+							 * ラベルは 6.5em の固定幅(情報表と同じ規則・J-052)。値はその右に詰める。
+							 * スマホ(〜1023)は従来どおり2列×2行のまま(縦に伸ばすと CTA が下に押されるため)。行間は 8 のまま(03 の余白スケール)。
+							 */}
+							<dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-4 text-small lg:grid-cols-1">
 								{summary.map(([k, v]) => (
-									<div key={k} className="flex gap-2">
+									<div key={k} className="flex gap-2 lg:grid lg:grid-cols-[6.5em_minmax(0,1fr)] lg:gap-x-2">
 										<dt className="shrink-0 text-ink-weak">{k}</dt>
 										<dd className="text-ink">{v}</dd>
 									</div>
