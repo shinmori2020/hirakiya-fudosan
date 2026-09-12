@@ -223,9 +223,10 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 			{/* 4 基本情報表(J-039:4区分・PC 2ペア) */}
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
-					<h2 className="text-h2 font-bold lg:text-h2-pc">物件概要</h2>
+					{/* J-076:見出しは「物件データ」。概要は右カラムが担い、ここは数値と条件の置き場 */}
+					<h2 className="text-h2 font-bold lg:text-h2-pc">物件データ</h2>
 					{/* J-070:決め手の3項目(J-047 の帯 → J-059 の3項目)は廃止。決め手は右カラムに集約した */}
-					<div className="mt-6">
+					<div className="mt-4">
 						<InfoTable p={p} stationName={stationName} lineName={lineName} area={addressArea} now={now} />
 					</div>
 				</Container>

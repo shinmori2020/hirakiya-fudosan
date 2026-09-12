@@ -9,11 +9,12 @@ import { addressParts, lineHref, stationHref, townHref, wardHref } from '@/lib/l
  * 物件概要の表(01 §3-4・03 §6)。J-060 で「決め手 → 設備 → 確認 → 詳細」の4段に整理した。
  *  - 決め手は右カラムに集約したので、ここには出さない(J-070。J-047 の帯・J-059 の3項目は廃止)
  *  - 設備:J-074 で右カラム(スペックの下)へ移した。ここには出さない
- *  - 「入居前に確認すること」(売買は「購入前に確認すること」):開いたまま・2列
+ *  - 「入居前に確認すること」(売買は「購入前に確認すること」):J-076 でアコーディオンに揃えた。初期状態だけ開いておく。2列
  *      賃貸 = 管理費・共益費 / 更新料 / 入居可能日 / 向き / 駐車場
  *      売買 = 管理費 / 修繕積立金 / 引渡し / 向き / 駐車場(戸建・土地に無い項目は出さない)
  *      向きを残すのは日当たりが重視条件の上位に入るため。階数は内見で見る情報なので詳細へ送る(J-060)
- *  - 詳細:素の <details> / <summary> のアコーディオンを**2つ**置く(J-062。1つに 11項目をまとめると開いた時に量が減らないため)。
+ *  - 詳細:素の <details> / <summary> のアコーディオンを置く(J-062。1つに 11項目をまとめると開いた時に量が減らないため)。
+ *    J-076 で「確認」も同じ形にし、**3つが同列に並ぶ**(確認 / 建物 / 契約・掲載)。見出しの階層は1つだけにする。
  *      賃貸 = 「建物」と「契約・掲載」、売買 = 「土地・建物」と「掲載」。どちらも初期状態は閉じる。JavaScript は使わない(J-056 項目4 と同じ理由)。
  *      閉じている時も中身が分かるよう、見出しの右に小さな説明(hint)を添える
  * 決め手の3項目に出した値(交通の1駅目・家賃・間取り・専有面積・町・初期費用 / 売買は町・価格・管理費+修繕の合計)は表から外す。
@@ -21,8 +22,11 @@ import { addressParts, lineHref, stationHref, townHref, wardHref } from '@/lib/l
  * ラベル幅 6.5em(J-052)・保証人の太字(J-055)・リンク(J-051)は畳んだ中でも同じ。
  */
 type Row = { k: string; v: ReactNode; strong?: boolean };
-/** hint = 閉じている時に見出しの右へ小さく添える中身の説明(J-062) */
-type Group = { title: string; hint: string; left: Row[]; right: Row[] };
+/**
+ * hint = 閉じている時に見出しの右へ小さく添える中身の説明(J-062)
+ * open = 初期状態で開いておく(J-076。確認の区分だけ true)
+ */
+type Group = { title: string; hint: string; left: Row[]; right: Row[]; open?: boolean };
 
 export function InfoTable({
 	p,
@@ -87,8 +91,9 @@ export function InfoTable({
 			'—'
 		);
 
-	// ---- 確認(開いたまま)と詳細(畳む)を種別ごとに組み立てる
+	// ---- 3つのアコーディオン(確認 / 建物 / 契約・掲載)を種別ごとに組み立てる(J-076)
 	let checkTitle = '入居前に確認すること';
+	let checkHint = '管理費・更新料・駐車場など';
 	const checkLeft: Row[] = [];
 	const checkRight: Row[] = [];
 	const detail: Group[] = [];
@@ -135,6 +140,8 @@ export function InfoTable({
 	} else if (p.sale) {
 		const s = p.sale;
 		checkTitle = '購入前に確認すること';
+		// 補足は中身に合わせる(管理費・修繕積立金はマンションだけ、向きは建物がある種別だけ)
+		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・駐車場など' : p.kind === 'land' ? '駐車場・引渡しなど' : '駐車場・向き・引渡しなど';
 		// 管理費・修繕積立金はマンションだけ(戸建・土地には無い項目なので出さない)
 		// 左 = お金(J-061)、右 = 住まいの条件と時期
 		if (s.mgmtFee != null) checkLeft.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
@@ -197,27 +204,22 @@ export function InfoTable({
 		</dl>
 	);
 
-	return (
-		<div className="space-y-8">
-			{/* 確認:開いたまま。左 = お金と時期 / 右 = 部屋まわり(J-060) */}
-			{(checkLeft.length > 0 || checkRight.length > 0) && (
-				<section aria-labelledby="info-確認">
-					<h3 id="info-確認" className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">
-						{checkTitle}
-					</h3>
-					{twoColumns(checkLeft, checkRight)}
-				</section>
-			)}
+	// 確認を先頭に置き、3つとも同じアコーディオンにする(J-076)。確認だけ初期状態で開く
+	const groups: Group[] =
+		checkLeft.length > 0 || checkRight.length > 0
+			? [{ title: checkTitle, hint: checkHint, left: checkLeft, right: checkRight, open: true }, ...detail]
+			: detail;
 
+	return (
+		<div>
 			{/*
-			 * 詳細:素の details(JS なし)を2つ。初期は閉じるが中身は HTML に存在するので
-			 * クロールと構造化データに影響しない。見たい方だけ開ける(J-062)。
-			 * 開閉する見出しの作り(左の印・行全体の hover)は J-061 のまま。
-			 * 見出しの右の小さな説明で、閉じていても中身が分かるようにする。
+			 * 素の details(JS なし)を3つ。初期は確認だけ開き、他は閉じる。
+			 * 閉じていても中身は HTML に存在するので、クロールと構造化データに影響しない(J-060)。
+			 * 開閉する見出しの作り(左の印・行全体の hover)は J-061、閉じた時の説明は J-062 のまま。
 			 */}
 			<div>
-				{detail.map((g) => (
-					<details key={g.title} className="hr-accordion group border-t border-line last:border-b">
+				{groups.map((g) => (
+					<details key={g.title} open={g.open} className="hr-accordion group border-t border-line last:border-b">
 						<summary className="-mx-2 flex cursor-pointer list-none items-baseline gap-2 rounded-hr px-2 py-3 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none">
 							<ChevronRight
 								size={20}
