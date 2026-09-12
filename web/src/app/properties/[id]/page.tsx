@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
 import { Badge } from '@/components/property/Badge';
 import { CtaBlock } from '@/components/property/CtaBlock';
+import { FeatureChips } from '@/components/property/FeatureChips';
 import { Gallery } from '@/components/property/Gallery';
 import { InfoTable } from '@/components/property/InfoTable';
 import { MapLoader } from '@/components/property/MapLoader';
@@ -180,12 +181,16 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							{p.type === 'sale' && p.price != null && p.pricePrevious != null && p.pricePrevious > p.price && (
 								<p className="text-small text-badge-discount-fg">値下げ前 {formatPrice(p.pricePrevious)}</p>
 							)}
-							<p className="mt-3 flex items-baseline gap-1 text-body font-bold text-sumi lg:text-body-pc">
+							<p className="mt-3 flex items-center gap-1 text-body font-bold text-sumi lg:text-body-pc">
 								<LayoutGrid aria-hidden="true" className="size-4 shrink-0 text-accent" />
 								{p.kind === 'land'
 									? `土地 ${sqmLabel(p.sale?.landSqm ?? null)}`
 									: `${p.layout}${p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}${p.floor != null ? ` / ${p.floor}階` : ''}`}
 							</p>
+							{/* J-074:設備のチップを物件概要から右カラム(スペックの下・要約の上)へ移した */}
+							<div className="mt-3">
+								<FeatureChips features={p.features} type={p.type} featureName={featureName} />
+							</div>
 							{/*
 							 * 要約(J-039 → J-068 → J-069)。PC(lg 以上)は縦1列にして拾い読みできるようにする。
 							 * ラベルは 6.5em の固定幅(情報表と同じ規則・J-052)。値はその右に詰める。
@@ -221,7 +226,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 					<h2 className="text-h2 font-bold lg:text-h2-pc">物件概要</h2>
 					{/* J-070:決め手の3項目(J-047 の帯 → J-059 の3項目)は廃止。決め手は右カラムに集約した */}
 					<div className="mt-6">
-						<InfoTable p={p} stationName={stationName} featureName={featureName} lineName={lineName} area={addressArea} now={now} />
+						<InfoTable p={p} stationName={stationName} lineName={lineName} area={addressArea} now={now} />
 					</div>
 				</Container>
 			</section>

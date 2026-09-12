@@ -3,12 +3,12 @@ import type { ReactNode } from 'react';
 import type { PropertyDetail } from '@/types/property';
 import { AttrLink } from '@/components/property/AttrLink';
 import { builtLabel, dateLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
-import { addressParts, featureHref, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
+import { addressParts, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
  * 物件概要の表(01 §3-4・03 §6)。J-060 で「決め手 → 設備 → 確認 → 詳細」の4段に整理した。
  *  - 決め手は右カラムに集約したので、ここには出さない(J-070。J-047 の帯・J-059 の3項目は廃止)
- *  - 設備:独立したブロック。アコーディオンには入れない(J-060)
+ *  - 設備:J-074 で右カラム(スペックの下)へ移した。ここには出さない
  *  - 「入居前に確認すること」(売買は「購入前に確認すること」):開いたまま・2列
  *      賃貸 = 管理費・共益費 / 更新料 / 入居可能日 / 向き / 駐車場
  *      売買 = 管理費 / 修繕積立金 / 引渡し / 向き / 駐車場(戸建・土地に無い項目は出さない)
@@ -27,14 +27,12 @@ type Group = { title: string; hint: string; left: Row[]; right: Row[] };
 export function InfoTable({
 	p,
 	stationName,
-	featureName,
 	lineName,
 	area,
 	now,
 }: {
 	p: PropertyDetail;
 	stationName: (s: string) => string;
-	featureName: (s: string) => string;
 	lineName: (s: string) => string;
 	/** 所在地のリンク用:区名・町名と、その区に属する町の slug すべて */
 	area: { wardName: string; townName: string; wardTownSlugs: string[] };
@@ -88,19 +86,6 @@ export function InfoTable({
 		) : (
 			'—'
 		);
-
-	const featureChips =
-		p.features.length > 0 ? (
-			<ul className="flex flex-wrap gap-x-1 gap-y-2" aria-label="設備">
-				{p.features.map((f) => (
-					<li key={f}>
-						<AttrLink href={featureHref(p.type, f)} variant="chip">
-							{featureName(f)}
-						</AttrLink>
-					</li>
-				))}
-			</ul>
-		) : null;
 
 	// ---- 確認(開いたまま)と詳細(畳む)を種別ごとに組み立てる
 	let checkTitle = '入居前に確認すること';
@@ -214,16 +199,6 @@ export function InfoTable({
 
 	return (
 		<div className="space-y-8">
-			{/* 設備:アコーディオンに入れず、独立したブロックのまま(J-060) */}
-			{featureChips && (
-				<section aria-labelledby="info-設備">
-					<h3 id="info-設備" className="mb-2 text-h3 font-bold text-sumi lg:text-h3-pc">
-						設備
-					</h3>
-					{featureChips}
-				</section>
-			)}
-
 			{/* 確認:開いたまま。左 = お金と時期 / 右 = 部屋まわり(J-060) */}
 			{(checkLeft.length > 0 || checkRight.length > 0) && (
 				<section aria-labelledby="info-確認">
