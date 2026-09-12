@@ -26,6 +26,8 @@ import {
  * 表示中の番号は状態(index)で持ち、スクロール位置からは読み直さない(J-048 の連打の詰まり対策)。
  * 開閉は 200ms / cubic-bezier(0.4, 0, 0.2, 1)(03 §8)。prefers-reduced-motion では無効(globals.css)。
  * 写真0枚の物件(3件)はメインに写真を出さず「写真準備中」と出す。押すとモーダルが開き、間取り図1枚だけを出す(J-049)。
+ * J-067:モーダルの矢印・閉じる(×)はカーソルを pointer にし、select-none も揃える。
+ *   メイン画像は cursor-zoom-in(拡大を開くため)、サムネイルは cursor-pointer のまま。
  * F-008:サムネイルとメイン画像のボタンは select-none。矢印の連打やダブルクリックでテキスト選択が走ると、
  *   選択ハイライト(青)がサムネイルの画像の上に乗るため。フォーカスの表示(:focus-visible)には触らない。
  * プレースホルダー SVG なので next/image は unoptimized。
@@ -318,7 +320,7 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 							type="button"
 							onClick={() => dialogRef.current?.close()}
 							aria-label="閉じる"
-							className="rounded-hr border border-surface/40 p-2 transition-colors duration-150 hover:bg-surface/15 motion-reduce:transition-none"
+							className="cursor-pointer rounded-hr border border-surface/40 p-2 transition-colors duration-150 select-none hover:bg-surface/15 motion-reduce:transition-none"
 						>
 							<X size={20} aria-hidden="true" />
 						</button>
@@ -347,7 +349,7 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 									type="button"
 									onClick={() => go(prevIndex(index, count), -1)}
 									aria-label="前の写真"
-									className="absolute top-1/2 left-1 -translate-y-1/2 rounded-hr border border-surface/40 bg-sumi/70 p-2 transition-colors duration-150 hover:bg-sumi motion-reduce:transition-none lg:left-3"
+									className="absolute top-1/2 left-1 -translate-y-1/2 cursor-pointer rounded-hr border border-surface/40 bg-sumi/70 p-2 transition-colors duration-150 select-none hover:bg-sumi motion-reduce:transition-none lg:left-3"
 								>
 									<ChevronLeft size={24} aria-hidden="true" />
 								</button>
@@ -355,7 +357,7 @@ export function Gallery({ images, floorplan, title }: { images: string[]; floorp
 									type="button"
 									onClick={() => go(nextIndex(index, count), 1)}
 									aria-label="次の写真"
-									className="absolute top-1/2 right-1 -translate-y-1/2 rounded-hr border border-surface/40 bg-sumi/70 p-2 transition-colors duration-150 hover:bg-sumi motion-reduce:transition-none lg:right-3"
+									className="absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-hr border border-surface/40 bg-sumi/70 p-2 transition-colors duration-150 select-none hover:bg-sumi motion-reduce:transition-none lg:right-3"
 								>
 									<ChevronRight size={24} aria-hidden="true" />
 								</button>
