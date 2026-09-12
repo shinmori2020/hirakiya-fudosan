@@ -103,7 +103,15 @@ function PhotolessMain({ onClick }: { onClick: () => void }) {
 	);
 }
 
-/** サムネイル行。ページ側(白地)とモーダル側(暗地)で寸法と枠色だけ変える */
+/**
+ * サムネイル行。ページ側(白地)とモーダル側(暗地)で寸法と枠色だけ変える。
+ * J-066:選択中は青緑の太枠(2px)。選択していない枠も同じ 2px(色だけ変える)にして、
+ * 選び直しても画像の大きさが動かないようにする。
+ * ホバー中のサムネイルは不透明度を下げて「押せる・今どれを指しているか」を見せる(150ms・03 §8 のイージング)。
+ * 選択中のサムネイルはホバーしても変化させない(押しても表示が変わらないため)。
+ * モーダルは地色が濃い(墨95%)ので、不透明度を下げると地に沈んで暗くなる。
+ * 同じ「薄くなる」見え方にするため、モーダル側は明度を上げる(brightness)で薄くする。
+ */
 function Thumbs({
 	slides,
 	index,
@@ -127,17 +135,22 @@ function Thumbs({
 						onClick={() => onSelect(i, i > index ? 1 : -1)}
 						aria-pressed={i === index}
 						aria-label={s.label}
-						className={`relative block overflow-hidden rounded-hr border transition-colors duration-150 motion-reduce:transition-none ${
+						className={`group relative block cursor-pointer overflow-hidden rounded-hr border-2 transition-colors duration-150 motion-reduce:transition-none ${
 							variant === 'page' ? 'h-14 w-21 lg:h-16 lg:w-24' : 'h-12 w-18 lg:h-14 lg:w-21'
 						} ${
-							i === index
-								? 'border-accent'
-								: variant === 'page'
-									? 'border-line hover:border-sumi'
-									: 'border-surface/40 hover:border-surface'
+							i === index ? 'border-accent' : variant === 'page' ? 'border-line hover:border-accent' : 'border-surface/40 hover:border-surface'
 						}`}
 					>
-						<Image src={s.src} alt="" fill sizes="96px" className="object-cover" unoptimized />
+						<Image
+							src={s.src}
+							alt=""
+							fill
+							sizes="96px"
+							className={`object-cover transition-[opacity,filter] duration-150 motion-reduce:transition-none ${
+								i === index ? '' : variant === 'page' ? 'group-hover:opacity-60' : 'group-hover:brightness-150'
+							}`}
+							unoptimized
+						/>
 					</button>
 				</li>
 			))}
