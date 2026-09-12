@@ -147,18 +147,19 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							<h1 className="mt-2 text-h1 font-bold lg:text-h1-pc">{p.title}</h1>
 							{/*
 							 * J-070:決め手は右カラムに集約する(物件概要の3項目は廃止)。
-							 * 駅徒歩を先、住所を後(探す段階で効くのは駅徒歩。番地は一段薄く)。
+							 * 駅徒歩と町名は1行(J-073)。探す段階で効くのは駅徒歩で、町名はその補足。
 							 * 駅徒歩・家賃・スペックに lucide のアイコン(J-063 と同じ選定)。物件名には付けない。
 							 * J-071:アイコンは隣の文字の大きさに合わせる(本文の行は 16px)。行は items-baseline にして、
 							 *   アイコンの下端を文字のベースラインに載せる。
 							 * J-072:価格にはアイコンを付けない(大きさを合わせても価格より目立つため)。駅徒歩とスペックの 16px は据え置き。
 							 *   住所は区・町までにする(番地は 0-0-0 の架空表記で情報量が無く、探す段階では使わない)。完全な住所は詳細情報に残す。
 							 */}
-							<p className="mt-2 flex items-baseline gap-1 text-body font-bold text-sumi lg:text-body-pc">
+							{/* J-073:駅徒歩と町名は同じ行に。町名は場所の補足なので薄く・細く、区切りはスペックと同じ「/」 */}
+							<p className="mt-2 flex flex-wrap items-baseline gap-x-1 gap-y-0 text-body font-bold text-sumi lg:text-body-pc">
 								<TrainFront aria-hidden="true" className="size-4 shrink-0 text-accent" />
-								{p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : '—'}
+								<span>{p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : '—'}</span>
+								<span className="text-small font-normal text-ink-weak">/ {areaLabel(p.area)}</span>
 							</p>
-							<p className="mt-0.5 text-small text-ink-weak">{areaLabel(p.area)}</p>
 							{/* J-072:価格の左のアイコンは外す。左端は物件名・住所・内訳・要約と揃える(この列の縦のラインを通す) */}
 							<p className="tabular mt-4 text-price-detail font-bold text-sumi lg:text-price-detail-pc">{mainPrice(p)}</p>
 							{p.type === 'rental' && p.rental && (
