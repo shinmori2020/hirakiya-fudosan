@@ -245,3 +245,17 @@ dialog.hr-dialog::backdrop {
     animation: none;
   }
 }
+
+/*
+ * 地図(Leaflet)の重なり順(F-009)。
+ * Leaflet は自前の z-index(タイル 200 / 地図 pane 400 / マーカー 600 / 属性 800 / コントロール 1000)を
+ * .leaflet-container の子に付けるが、コンテナ自身は position: relative / z-index: auto で
+ * 重ね合わせコンテキストを作らない。そのため子の 400〜1000 がヘッダー(sticky・z-40)と同じ土俵で比較され、
+ * 地図がヘッダーの上に出てしまう。コンテナ側に z-index: 0 を与えて重ね合わせコンテキストを作り、
+ * 中の順序(タイル < マーカー < 属性 < ズームボタン)はそのまま保つ。
+ */
+.leaflet-container {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
