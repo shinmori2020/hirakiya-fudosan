@@ -2,12 +2,12 @@ import { ChevronRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { PropertyDetail } from '@/types/property';
 import { AttrLink } from '@/components/property/AttrLink';
-import { builtLabel, dateLabel, feeLabel, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
 import { addressParts, featureHref, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
  * 物件概要の表(01 §3-4・03 §6)。J-060 で「決め手 → 設備 → 確認 → 詳細」の4段に整理した。
- *  - 決め手の3項目(J-059)は KeySpecBand。ここには出さない
+ *  - 決め手は右カラムに集約したので、ここには出さない(J-070。J-047 の帯・J-059 の3項目は廃止)
  *  - 設備:独立したブロック。アコーディオンには入れない(J-060)
  *  - 「入居前に確認すること」(売買は「購入前に確認すること」):開いたまま・2列
  *      賃貸 = 管理費・共益費 / 更新料 / 入居可能日 / 向き / 駐車場
@@ -164,6 +164,10 @@ export function InfoTable({
 			{ k: '沿線', v: linesRow },
 		];
 		if (p.kind !== 'land') left.push({ k: '築年月', v: built }, { k: '構造', v: p.structure || '—' }, { k: '階数', v: floor });
+		// 面積(J-070):J-059 で決め手の3項目へ移し、J-060 で表から落ちていた。3項目の廃止で行き先が無くなるため表に戻す
+		if (p.kind === 'mansion') left.push({ k: '専有面積', v: sqmLabel(p.areaSqm) });
+		if (p.kind === 'house') left.push({ k: '専有面積', v: sqmLabel(p.areaSqm) }, { k: '建物面積', v: sqmLabel(s.buildingSqm) });
+		if (s.landSqm != null) left.push({ k: '土地面積', v: sqmLabel(s.landSqm) });
 		const right: Row[] = [
 			{ k: '土地権利', v: s.landRights || '—' },
 			{ k: '用途地域', v: s.zoning || '—' },
@@ -173,7 +177,7 @@ export function InfoTable({
 		detail.push(
 			{
 				title: '土地・建物',
-				hint: p.kind === 'land' ? '所在地・土地権利・用途地域など' : '所在地・築年月・土地権利など',
+				hint: p.kind === 'land' ? '所在地・土地面積・用途地域など' : '所在地・築年月・面積など',
 				left,
 				right,
 			},

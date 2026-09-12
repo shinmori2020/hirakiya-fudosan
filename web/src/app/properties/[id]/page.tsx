@@ -1,3 +1,4 @@
+import { JapaneseYen, LayoutGrid, TrainFront } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,19 +8,18 @@ import { Badge } from '@/components/property/Badge';
 import { CtaBlock } from '@/components/property/CtaBlock';
 import { Gallery } from '@/components/property/Gallery';
 import { InfoTable } from '@/components/property/InfoTable';
-import { KeySpecBand } from '@/components/property/KeySpecBand';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
-import { company, formatRent, lines as LINES, staff as staffList } from '@/config/site';
+import { company, formatPrice, formatRent, lines as LINES, staff as staffList } from '@/config/site';
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
-import { builtLabel, dateLabel, feeLabel, mainPrice, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, feeLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
 import { kindHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
-import { keySpecs } from '@/lib/summary';
+import { monthlyTotalLabel } from '@/lib/summary';
 
 /**
  * 物件詳細(実装順 2・01 §3)。これは初案。
@@ -145,23 +145,41 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 								</AttrLink>
 							</div>
 							<h1 className="mt-2 text-h1 font-bold lg:text-h1-pc">{p.title}</h1>
-							<p className="mt-1 text-small text-ink-weak">
-								{p.address} / {p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : ''}
+							{/*
+							 * J-070:決め手は右カラムに集約する(物件概要の3項目は廃止)。
+							 * 駅徒歩を先、住所を後(探す段階で効くのは駅徒歩。番地は一段薄く)。
+							 * 駅徒歩・家賃・スペックに lucide のアイコン(J-063 と同じ選定)。物件名には付けない。
+							 */}
+							<p className="mt-2 flex items-center gap-1 text-body font-bold text-sumi lg:text-body-pc">
+								<TrainFront size={16} aria-hidden="true" className="shrink-0 text-accent" />
+								{p.stations[0] ? `${stationName(p.stations[0].slug)}駅 ${walkLabel(p.stations[0].walk)}` : '—'}
 							</p>
-							<p className="tabular mt-4 text-price-detail font-bold text-sumi lg:text-price-detail-pc">{mainPrice(p)}</p>
+							<p className="mt-0.5 text-small text-ink-weak">{p.address}</p>
+							<p className="tabular mt-4 flex items-center gap-1 text-price-detail font-bold text-sumi lg:text-price-detail-pc">
+								<JapaneseYen size={20} aria-hidden="true" className="shrink-0 text-accent" />
+								{mainPrice(p)}
+							</p>
 							{p.type === 'rental' && p.rental && (
 								<p className="text-small text-ink-weak">
 									管理費・共益費 {feeLabel(p.rental.maintenanceFee)} / 敷金{' '}
 									{p.rental.depositMonths === 0 ? 'なし' : `${p.rental.depositMonths}ヶ月`} / 礼金 {p.rental.keyMoneyMonths === 0 ? 'なし' : `${p.rental.keyMoneyMonths}ヶ月`}
 								</p>
 							)}
+							{/* 売買は毎月の支払いが判断材料なので、価格の下に管理費+修繕積立金の合計を出す(J-059 の考え方を引き継ぐ) */}
+							{p.type === 'sale' && monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund) && (
+								<p className="text-small text-ink-weak">{monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund)}</p>
+							)}
 							{p.type === 'rental' && p.rent != null && p.rentPrevious != null && p.rentPrevious > p.rent && (
 								<p className="text-small text-badge-discount-fg">値下げ前 {formatRent(p.rentPrevious)}</p>
 							)}
-							<p className="mt-2 text-small">
-								{p.layout || (p.kind === 'land' ? '土地' : '')}
-								{p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}
-								{p.floor != null ? ` / ${p.floor}階` : ''}
+							{p.type === 'sale' && p.price != null && p.pricePrevious != null && p.pricePrevious > p.price && (
+								<p className="text-small text-badge-discount-fg">値下げ前 {formatPrice(p.pricePrevious)}</p>
+							)}
+							<p className="mt-3 flex items-center gap-1 text-body font-bold text-sumi lg:text-body-pc">
+								<LayoutGrid size={16} aria-hidden="true" className="shrink-0 text-accent" />
+								{p.kind === 'land'
+									? `土地 ${sqmLabel(p.sale?.landSqm ?? null)}`
+									: `${p.layout}${p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}${p.floor != null ? ` / ${p.floor}階` : ''}`}
 							</p>
 							{/*
 							 * 要約(J-039 → J-068 → J-069)。PC(lg 以上)は縦1列にして拾い読みできるようにする。
@@ -170,8 +188,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							 *   行の高さは情報表と同じ上下 8 にし、行間(gap)は 0 にする(線と余白が二重にならないように)。
 							 * スマホ(〜1023)は従来どおり2列×2行のまま(縦に伸ばすと CTA が下に押されるため)。
 							 *   2列のままで各セルに線を引くと横に2本並んで表に見えるので、線は縦1列の時だけ引く。
+							 * J-070:スペックの下にあった区切り線は削除し、余白(24)で区切る(要約の罫線と役割が混ざるため)。
 							 */}
-							<dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-4 text-small lg:grid-cols-1 lg:gap-y-0">
+							<dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 text-small lg:grid-cols-1 lg:gap-y-0">
 								{summary.map(([k, v]) => (
 									<div
 										key={k}
@@ -195,10 +214,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">物件概要</h2>
-					{/* キー項目の帯(J-047・案 A)。項目は固定・値のみ・本文より1段大きいだけ */}
-					<div className="mt-6">
-						<KeySpecBand specs={keySpecs(p, { stationName, areaLabel }, now)} />
-					</div>
+					{/* J-070:決め手の3項目(J-047 の帯 → J-059 の3項目)は廃止。決め手は右カラムに集約した */}
 					<div className="mt-6">
 						<InfoTable p={p} stationName={stationName} featureName={featureName} lineName={lineName} area={addressArea} now={now} />
 					</div>
