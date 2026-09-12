@@ -211,9 +211,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 									</div>
 								))}
 							</dl>
-							{/* 電話を外した分、要約と CTA の間を詰める(J-050:24 → 16) */}
+							{/* 電話を外した分、要約と CTA の間を詰める(J-050:24 → 16)。1024 以上は2列(J-075) */}
 							<div className="mt-4">
-								<CtaBlock no={p.no} type={p.type} sold={sold} />
+								<CtaBlock no={p.no} type={p.type} sold={sold} layout="sidebar" />
 							</div>
 						</div>
 					</div>
