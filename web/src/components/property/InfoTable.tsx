@@ -195,6 +195,8 @@ export function InfoTable({
 		);
 	}
 
+	// 列の最終行の下線を消す(線の規則・03 §6)
+	const lastRow = '[&>div:last-child]:border-b-0';
 	// 値が「なし」「不要」の行と、有無が判断に効く行(保証人)は太字(J-054・J-055)
 	const rowEl = (row: Row) => (
 		<div key={row.k} className="grid grid-cols-[7.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
@@ -211,20 +213,21 @@ export function InfoTable({
 	 */
 	const twoColumns = (left: Row[], right: Row[], leftNode?: ReactNode) =>
 		// 右が空の区分は1列で描く(J-088:確認はお金だけになったので、右半分を空けない)
+		// 各列の**最終行は下線を引かない**(すぐ下にアコーディオンの線が来て二重に見えるため。lastRow で付ける)
 		leftNode && right.length === 0 ? (
 			<div>{leftNode}</div>
 		) : right.length === 0 ? (
 			// 1列の区分は値の欄が全幅に伸びるので、上限幅(ラベル 7.5em + 値 32em)を付けて左寄せにする(J-090 の修正)
-			<dl className="max-w-[40em]">{left.map(rowEl)}</dl>
+			<dl className={`max-w-[40em] ${lastRow}`}>{left.map(rowEl)}</dl>
 		) : leftNode ? (
 			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
 				<div>{leftNode}</div>
-				<dl>{right.map(rowEl)}</dl>
+				<dl className={lastRow}>{right.map(rowEl)}</dl>
 			</div>
 		) : (
 			<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-				<div>{left.map(rowEl)}</div>
-				<div>{right.map(rowEl)}</div>
+				<div className={lastRow}>{left.map(rowEl)}</div>
+				<div className={lastRow}>{right.map(rowEl)}</div>
 			</dl>
 		);
 

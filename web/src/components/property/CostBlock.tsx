@@ -16,6 +16,8 @@ import type { PropertyDetail } from '@/types/property';
  *   管理費・共益費 → 駐車場 → 敷金 → 礼金 → 仲介手数料 → 更新料 →(区切り)→ 合計
  * 家賃は右カラムの「毎月」(家賃+管理費の合計)に置くのでここには出さない(J-093)。
  *
+ * 線は「行の下線」だけで引き、**まとまりの最後の行は下線を引かない**(下にアコーディオンの線や
+ * 合計の区切り線が来て二重に見えるため)。
  * 合計だけは性質が違う(他は条件、合計は計算結果)ので、**上の細い横線と余白で区切って最後**に置き、
  * 金額を太字にする(J-081)。範囲の注記(含まない項目まで書く・J-087)も値の下に残す。
  * 行の作り(ラベル 7.5em の固定幅・下の細い横線・値は本文サイズ)は情報表の行と揃える(J-052 → J-090)。
@@ -49,14 +51,16 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 
 	return (
 		<dl>
-			{rows.map(([k, v]) => (
-				<div key={k} className={`${row} border-b border-line`}>
+			{rows.map(([k, v], i) => (
+				// 最後の行は下線を引かない(下に合計の区切り線やアコーディオンの線が来て二重に見えるため・03 §6 の線の規則)
+				<div key={k} className={`${row} ${i === rows.length - 1 ? '' : 'border-b border-line'}`}>
 					<dt className="text-small text-ink-weak">{k}</dt>
 					<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
 				</div>
 			))}
+			{/* 合計の区切りは上線と余白で作る。pt は足さない(足すと行の中身が他の行より下にずれる) */}
 			{total && (
-				<div className={`${row} mt-3 border-t border-line pt-3`}>
+				<div className={`${row} mt-3 border-t border-line`}>
 					<dt className="text-small text-ink-weak">入居時の目安合計</dt>
 					<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
 						{total}
