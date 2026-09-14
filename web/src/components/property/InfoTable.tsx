@@ -1,8 +1,9 @@
 import { ChevronRight } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { CostBlock } from '@/components/property/CostBlock';
 import type { PropertyDetail } from '@/types/property';
 import { AttrLink } from '@/components/property/AttrLink';
-import { builtLabel, dateLabel, feeLabel, sqmLabel, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, sqmLabel, walkLabel } from '@/lib/format';
 import { addressParts, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
@@ -26,7 +27,7 @@ type Row = { k: string; v: ReactNode; strong?: boolean };
  * hint = 閉じている時に見出しの右へ小さく添える中身の説明(J-062)
  * open = 初期状態で開いておく(J-076。確認の区分だけ true)
  */
-type Group = { title: string; hint: string; left: Row[]; right: Row[]; open?: boolean };
+type Group = { title: string; hint: string; left: Row[]; right: Row[]; open?: boolean; leftNode?: ReactNode };
 
 export function InfoTable({
 	p,
@@ -93,19 +94,17 @@ export function InfoTable({
 
 	// ---- 3つのアコーディオン(確認 / 建物 / 契約・掲載)を種別ごとに組み立てる(J-076)
 	let checkTitle = '入居前に確認すること';
-	let checkHint = '管理費・更新料・駐車場など';
+	// 補足は中身の先頭に合わせる(J-084 で費用の内訳と合計が入ったため)
+	let checkHint = '家賃・初期費用・駐車場など';
 	const checkLeft: Row[] = [];
+	let checkLeftNode: ReactNode = null;
 	const checkRight: Row[] = [];
 	const detail: Group[] = [];
 
 	if (p.type === 'rental' && p.rental) {
 		const r = p.rental;
-		// 左 = お金(J-061)、右 = 住まいの条件と時期
-		checkLeft.push(
-			{ k: '管理費・共益費', v: feeLabel(r.maintenanceFee) },
-			{ k: '更新料', v: r.renewalFee || '—' },
-			{ k: '駐車場', v: p.parking || '—' },
-		);
+		// 左 = お金(J-061)。賃貸は CostBlock が 毎月 / 最初に必要 / 更新時 / 入居時の目安合計 を時点順に出す(J-084)
+		checkLeftNode = <CostBlock p={p} />;
 		checkRight.push({ k: '向き', v: p.direction || '—' }, { k: '入居可能日', v: dateLabel(r.availableFrom) });
 		detail.push(
 			{
@@ -197,17 +196,18 @@ export function InfoTable({
 			</dd>
 		</div>
 	);
-	const twoColumns = (left: Row[], right: Row[]) => (
+	// leftNode を渡した区分は、左列を行の配列ではなくそのまま描く(J-084:賃貸の費用)
+	const twoColumns = (left: Row[], right: Row[], leftNode?: ReactNode) => (
 		<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-			<div>{left.map(rowEl)}</div>
+			<div>{leftNode ?? left.map(rowEl)}</div>
 			<div>{right.map(rowEl)}</div>
 		</dl>
 	);
 
 	// 確認を先頭に置き、3つとも同じアコーディオンにする(J-076)。確認だけ初期状態で開く
 	const groups: Group[] =
-		checkLeft.length > 0 || checkRight.length > 0
-			? [{ title: checkTitle, hint: checkHint, left: checkLeft, right: checkRight, open: true }, ...detail]
+		checkLeft.length > 0 || checkRight.length > 0 || checkLeftNode
+			? [{ title: checkTitle, hint: checkHint, left: checkLeft, right: checkRight, leftNode: checkLeftNode, open: true }, ...detail]
 			: detail;
 
 	return (
@@ -229,7 +229,7 @@ export function InfoTable({
 							<span className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</span>
 							<span className="min-w-0 truncate text-small text-ink-weak lg:text-small-pc">{g.hint}</span>
 						</summary>
-						<div className="pb-4">{twoColumns(g.left, g.right)}</div>
+						<div className="pb-4">{twoColumns(g.left, g.right, g.leftNode)}</div>
 					</details>
 				))}
 			</div>

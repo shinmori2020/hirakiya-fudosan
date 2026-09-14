@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
 import { Badge } from '@/components/property/Badge';
-import { CostBlock } from '@/components/property/CostBlock';
 import { CtaBlock } from '@/components/property/CtaBlock';
 import { FeatureChips } from '@/components/property/FeatureChips';
 import { Gallery } from '@/components/property/Gallery';
@@ -166,8 +165,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							</p>
 							{/* J-072:価格の左のアイコンは外す。左端は物件名・住所・内訳・要約と揃える(この列の縦のラインを通す) */}
 							<p className="tabular mt-4 text-price-detail font-bold text-sumi lg:text-price-detail-pc">{mainPrice(p)}</p>
-							{/* J-080:費用は 毎月 / 最初に必要 / 入居時の目安合計 の3つに分ける(賃貸のみ。仲介手数料を項目として戻す)*/}
-							{p.type === 'rental' && <CostBlock p={p} />}
+							{/* J-084:費用の内訳と合計は物件データの「入居前に確認すること」へ移した(右カラムに残すのは大きな価格表記だけ)*/}
 							{/* 売買は毎月の支払いが判断材料なので、価格の下に管理費+修繕積立金の合計を出す(J-059 の考え方を引き継ぐ) */}
 							{p.type === 'sale' && monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund) && (
 								<p className="text-small text-ink-weak">{monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund)}</p>
