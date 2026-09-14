@@ -214,7 +214,8 @@ export function InfoTable({
 		leftNode && right.length === 0 ? (
 			<div>{leftNode}</div>
 		) : right.length === 0 ? (
-			<dl>{left.map(rowEl)}</dl>
+			// 1列の区分は値の欄が全幅に伸びるので、上限幅(ラベル 7.5em + 値 32em)を付けて左寄せにする(J-090 の修正)
+			<dl className="max-w-[40em]">{left.map(rowEl)}</dl>
 		) : leftNode ? (
 			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
 				<div>{leftNode}</div>

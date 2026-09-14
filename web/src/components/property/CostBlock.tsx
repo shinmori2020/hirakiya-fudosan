@@ -3,29 +3,24 @@ import { initialCostLabel, monthsLabel } from '@/lib/initial-cost';
 import type { PropertyDetail } from '@/types/property';
 
 /**
- * 費用のまとまり(J-080 → J-084 → J-088 → J-090)。賃貸のみ。
+ * 費用の行(J-080 → J-084 → J-088 → J-090 → J-090 の修正)。賃貸のみ。
  *
- * J-080 では右カラム(価格の下)に置いたが、右カラムが 880px まで伸びて写真の下端(640px)と差が開き、
- * 1280 / 1024 で上部の CTA がファーストビューから出た。内訳と合計は「読み込む情報」で、
- * 一目で確かめる情報が並ぶ右カラムとは性格が違うため、物件データの「入居前に確認すること」へ移した(J-084)。
- * 右カラムに残るのは大きな価格表記だけ。
+ * J-080 では右カラム(価格の下)に置いたが、右カラムが 880px まで伸びて 1280 / 1024 で
+ * 上部の CTA がファーストビューから出た。内訳と合計は読み込む情報なので、
+ * 物件データの「入居前に確認すること」へ移した(J-084)。
  *
- * 並びは**2列**(J-090)。J-088 で1列にしたが、ラベルと値の並びが他の区分(建物 / 契約・掲載)と
- * 揃わなかったため戻した。左 = 毎月 / 最初に必要、右 = 更新時 / 入居時の目安合計。
- * 中身は時点順:
- *   毎月の内訳    管理費・共益費 / 駐車場(月額が発生するので 03 の分類どおりお金側)。
- *                家賃は右カラムの「毎月」(家賃+管理費の合計)に置くので、ここには出さない(J-093)
- *   最初に必要    敷金 / 礼金 / 仲介手数料(01 §3「初期費用は隠さない」)
- *   更新時       更新料
- *   入居時の目安合計  合計(J-081 の純関数)+ 範囲の注記(含まない項目まで書く・J-087)
+ * **まとまりの見出し(毎月の内訳 / 最初に必要 / 更新時 / 入居時の目安合計)は置かない。**
+ * J-090 で h4 にしたが、見出しと項目名が同じ列の同じ位置に並ぶため、どちらが見出しか見分けが付かなかった。
+ * 4つのうち「更新時」と「入居時の目安合計」は見出しと項目が1対1で、項目数も7行程度なので、
+ * 見出しが無くても**時点の順**で追える。
+ *   管理費・共益費 → 駐車場 → 敷金 → 礼金 → 仲介手数料 → 更新料 →(区切り)→ 合計
+ * 家賃は右カラムの「毎月」(家賃+管理費の合計)に置くのでここには出さない(J-093)。
  *
- * 行の作り(ラベル 7.5em・下の細い横線・値は本文サイズ)は情報表の行と揃える
- * (J-052 の 6.5em を J-090 で拡幅。「管理費・共益費」の必要幅 91px に対して余白が 13px しか無かった)。
- * まとまりの最終行は下線を消し、区切りは見出しの上の余白だけにする(J-088。線と余白が二重にならないように)。
- * まとまりの見出しは h4(アコーディオンの見出し h3 の下にぶら下げる。<p> だと読み上げの構造で
- * 行がフラットに並び、どこからが「最初に必要」なのかが分からないため)。文字の大きさは変えない。
- * 見出しは dl の外に置く(dl の中に置けるのは dt / dd / div だけ)。
- * 合計が出せない物件(仲介手数料の文字列が読めない等)は、そのまとまりごと出さない。
+ * 合計だけは性質が違う(他は条件、合計は計算結果)ので、**上の細い横線と余白で区切って最後**に置き、
+ * 金額を太字にする(J-081)。範囲の注記(含まない項目まで書く・J-087)も値の下に残す。
+ * 行の作り(ラベル 7.5em の固定幅・下の細い横線・値は本文サイズ)は情報表の行と揃える(J-052 → J-090)。
+ * 値の欄は 32em を上限にして左寄せにする(全幅に伸ばすとラベルと値が離れて読みにくい)。
+ * 合計が出せない物件(仲介手数料の文字列が読めない等)は、合計の行だけ出さない。
  * 売買は 02 §3-3 に仲介手数料が無いので、このブロック自体を使わない(確認の行は従来のまま)。
  */
 export function CostBlock({ p }: { p: PropertyDetail }) {
@@ -40,59 +35,35 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 		brokerageFee: r.brokerageFee,
 	});
 
-	type Group = { title: string; rows: [string, string][] };
-	const groups: Group[] = [
-		{
-			// 家賃の行は右カラムの「毎月」(合計)と重複するので出さない(J-093)。ここは内訳の置き場
-			title: '毎月の内訳',
-			rows: [
-				['管理費・共益費', feeLabel(r.maintenanceFee)],
-				['駐車場', p.parking || '—'],
-			],
-		},
-		{
-			title: '最初に必要',
-			rows: [
-				['敷金', monthsLabel(r.depositMonths)],
-				['礼金', monthsLabel(r.keyMoneyMonths)],
-				['仲介手数料', r.brokerageFee || '—'],
-			],
-		},
-		{ title: '更新時', rows: [['更新料', r.renewalFee || '—']] },
+	// 時点の順(毎月 → 入居時 → 更新時)。見出しは置かず、この並びで追わせる
+	const rows: [string, string][] = [
+		['管理費・共益費', feeLabel(r.maintenanceFee)],
+		['駐車場', p.parking || '—'],
+		['敷金', monthsLabel(r.depositMonths)],
+		['礼金', monthsLabel(r.keyMoneyMonths)],
+		['仲介手数料', r.brokerageFee || '—'],
+		['更新料', r.renewalFee || '—'],
 	];
 
-	const groupEl = (g: Group) => (
-		<div key={g.title}>
-			<h4 className="pt-3 text-xs text-ink-weak lg:text-xs-pc">{g.title}</h4>
-			<dl className="[&>div:last-child]:border-b-0">
-				{g.rows.map(([k, v]) => (
-					<div key={k} className="grid grid-cols-[7.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
-						<dt className="text-small text-ink-weak">{k}</dt>
-						<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
-					</div>
-				))}
-			</dl>
-		</div>
-	);
+	const row = 'grid grid-cols-[7.5em_minmax(0,32em)] gap-x-2 py-2';
 
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-			<div>{groups.slice(0, 2).map(groupEl)}</div>
-			<div>
-				{groups.slice(2).map(groupEl)}
-				{total && (
-					<div>
-						<h4 className="pt-3 text-xs text-ink-weak lg:text-xs-pc">入居時の目安合計</h4>
-						<dl className="grid grid-cols-[7.5em_minmax(0,1fr)] gap-x-2 py-2">
-							<dt className="text-small text-ink-weak">合計</dt>
-							<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
-								{total}
-								<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">家賃・管理費・敷金・礼金・仲介手数料の合計。保証料・保険料・日割り家賃は含みません</span>
-							</dd>
-						</dl>
-					</div>
-				)}
-			</div>
-		</div>
+		<dl>
+			{rows.map(([k, v]) => (
+				<div key={k} className={`${row} border-b border-line`}>
+					<dt className="text-small text-ink-weak">{k}</dt>
+					<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
+				</div>
+			))}
+			{total && (
+				<div className={`${row} mt-3 border-t border-line pt-3`}>
+					<dt className="text-small text-ink-weak">入居時の目安合計</dt>
+					<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
+						{total}
+						<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">家賃・管理費・敷金・礼金・仲介手数料の合計。保証料・保険料・日割り家賃は含みません</span>
+					</dd>
+				</div>
+			)}
+		</dl>
 	);
 }
