@@ -56,6 +56,8 @@ node scripts/measure.mjs /properties/HR-R-0001 1280 768 390
 
 数値は記録シートの「証拠」欄に、測った条件(幅・物件番号)と一緒に書く。
 
+**表示を整理する判断(項目の移動・統合・削除)の前後では、`node scripts/check-fields.mjs` を必ず実行する**(J-082。データにあるのに画面へ出ていない項目を検出する。J-070 の仲介手数料はこれが無くて見落とした)。
+
 ## 4. スクショ
 
 - 置き場所と命名は `.claude/rules/record-keeping.md` §3(`docs/screenshots/J-NNN-before-1280.png` など)。
