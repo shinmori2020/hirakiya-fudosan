@@ -19,7 +19,8 @@ import type { PropertyDetail } from '@/types/property';
  * 線は「行の下線」だけで引き、**まとまりの最後の行は下線を引かない**(下にアコーディオンの線や
  * 合計の区切り線が来て二重に見えるため)。
  * 合計だけは性質が違う(他は条件、合計は計算結果)ので、**上の細い横線と余白で区切って最後**に置き、
- * 金額を太字にする(J-081)。範囲の注記(含まない項目まで書く・J-087)も値の下に残す。
+ * 金額を太字にする(J-081)。文字の大きさは他の行と同じ「小」にする(本文サイズにすると 13px のラベルと
+ * ベースラインが 1〜2px ずれ、その行だけ揃っていないように見えるため)。目立たせるのは太字と区切り線で足りる。範囲の注記(含まない項目まで書く・J-087)も値の下に残す。
  * 行の作り(ラベル 7.5em の固定幅・下の細い横線・値は本文サイズ)は情報表の行と揃える(J-052 → J-090)。
  * 値の欄は 32em を上限にして左寄せにする(全幅に伸ばすとラベルと値が離れて読みにくい)。
  * 合計が出せない物件(仲介手数料の文字列が読めない等)は、合計の行だけ出さない。
@@ -62,7 +63,7 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 			{total && (
 				<div className={`${row} mt-3 border-t border-line`}>
 					<dt className="text-small text-ink-weak">入居時の目安合計</dt>
-					<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
+					<dd className="tabular text-small font-bold text-sumi">
 						{total}
 						<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">家賃・管理費・敷金・礼金・仲介手数料の合計。保証料・保険料・日割り家賃は含みません</span>
 					</dd>
