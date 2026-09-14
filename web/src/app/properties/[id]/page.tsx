@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
 import { Badge } from '@/components/property/Badge';
+import { CostBlock } from '@/components/property/CostBlock';
 import { CtaBlock } from '@/components/property/CtaBlock';
 import { FeatureChips } from '@/components/property/FeatureChips';
 import { Gallery } from '@/components/property/Gallery';
@@ -15,7 +16,7 @@ import { RecentlyViewed } from '@/components/property/RecentlyViewed';
 import { company, formatPrice, formatRent, lines as LINES, staff as staffList } from '@/config/site';
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
-import { builtLabel, dateLabel, feeLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
+import { builtLabel, dateLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
 import { kindHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
@@ -165,12 +166,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							</p>
 							{/* J-072:価格の左のアイコンは外す。左端は物件名・住所・内訳・要約と揃える(この列の縦のラインを通す) */}
 							<p className="tabular mt-4 text-price-detail font-bold text-sumi lg:text-price-detail-pc">{mainPrice(p)}</p>
-							{p.type === 'rental' && p.rental && (
-								<p className="text-small text-ink-weak">
-									管理費・共益費 {feeLabel(p.rental.maintenanceFee)} / 敷金{' '}
-									{p.rental.depositMonths === 0 ? 'なし' : `${p.rental.depositMonths}ヶ月`} / 礼金 {p.rental.keyMoneyMonths === 0 ? 'なし' : `${p.rental.keyMoneyMonths}ヶ月`}
-								</p>
-							)}
+							{/* J-080:費用は 毎月 / 最初に必要 / 入居時の目安合計 の3つに分ける(賃貸のみ。仲介手数料を項目として戻す)*/}
+							{p.type === 'rental' && <CostBlock p={p} />}
 							{/* 売買は毎月の支払いが判断材料なので、価格の下に管理費+修繕積立金の合計を出す(J-059 の考え方を引き継ぐ) */}
 							{p.type === 'sale' && monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund) && (
 								<p className="text-small text-ink-weak">{monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund)}</p>
