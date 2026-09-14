@@ -149,10 +149,17 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 					</nav>
 
 					{sold && (
-						<div role="status" className="mt-6 rounded-hr border border-line bg-surface-alt p-4 lg:p-6">
-							<p className="text-h3 font-bold text-sumi lg:text-h3-pc">この物件は成約しました</p>
+						/*
+						 * 成約済みのバナー(J-037・J-038)。最初から静的に出ている内容なので、
+						 * 動的な更新を知らせる role="status" は外し、見出し + 本文の構造にする。
+						 * 文字の大きさは 03 §7 のまま H3 の段(text-h3)で、要素は h2(物件名 h1 の前に置く区分の見出し)。
+						 */
+						<section aria-labelledby="sold-heading" className="mt-6 rounded-hr border border-line bg-surface-alt p-4 lg:p-6">
+							<h2 id="sold-heading" className="text-h3 font-bold text-sumi lg:text-h3-pc">
+								この物件は成約しました
+							</h2>
 							<p className="mt-2 text-small text-ink-weak">ご覧いただきありがとうございます。下に同じエリア・条件の物件を表示しています。</p>
-						</div>
+						</section>
 					)}
 
 					<div className="mt-6 lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-8">
