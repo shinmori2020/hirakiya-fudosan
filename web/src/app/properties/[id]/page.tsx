@@ -328,7 +328,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 					<div className="mt-6">
 						<CtaBlock no={p.no} type={p.type} sold={sold} layout="row" />
 					</div>
-					{/* J-086:共有(URL コピー / LINE)。右カラムは J-084 で写真と高さを揃えたので、ここに置いて縦に伸ばさない */}
+					{/* J-086 → J-091:共有(URL コピー / LINE)。〜1023 は本文の中、lg 以上は画面右下に追従(下の floating) */}
 					<ShareLinks url={pageUrl} title={p.title} />
 					<p className="mt-4 text-xs text-ink-weak lg:text-xs-pc">{company.formNotice}</p>
 				</Container>
@@ -354,6 +354,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 					</Container>
 				</section>
 			)}
+
+			{/* J-091:PC(lg 以上)の追従する共有。スマホは固定CTA があるので出さない(浮くものを2つにしない) */}
+			<ShareLinks url={pageUrl} title={p.title} variant="floating" />
 
 			{/* 9 最近見た物件(Client・localStorage) */}
 			<section className="py-12 lg:py-16">
