@@ -1,7 +1,7 @@
 /**
  * 構造化データ(J-083)。純関数。物件詳細ページの2つだけを先行実装する。
  *   - RealEstateListing … 物件そのもの(価格・面積・住所・緯度経度・取引態様・物件番号)
- *   - BreadcrumbList  … 画面のパンくずと同じ3階層
+ *   - BreadcrumbList  … 画面のパンくずと同じ4階層(トップ → 種別の一覧 → エリア → 物件名。J-085 で3階層から変更)
  * Organization / llms.txt / sitemap / noindex / OGP と、サイト全体としての整合の検証は実装順 8。
  *
  * 決めたこと(J-083):
@@ -135,9 +135,16 @@ export interface BreadcrumbContext {
 	siteUrl: string;
 	/** 物件詳細ページの絶対 URL */
 	url: string;
+	/** エリアの表示名(「墨田区曳舟」。J-085) */
+	areaName: string;
+	/** エリアの飛び先(サイト内の相対パス。町で絞った一覧 = J-051 の townHref と同じ) */
+	areaHref: string;
 }
 
-/** パンくず(画面の表示と同じ3階層。ずれると読み手と機械で違う階層になる) */
+/**
+ * パンくず(画面の表示と同じ4階層。ずれると読み手と機械で違う階層になる)。
+ * トップ → 種別の一覧 → エリア(町で絞った一覧)→ 物件名(J-085)。
+ */
 export function breadcrumbList(p: PropertyDetail, ctx: BreadcrumbContext): JsonLd {
 	const listHref = p.type === 'rental' ? '/properties' : '/properties?type=sale';
 	const typeLabel = p.type === 'rental' ? '賃貸' : '売買';
@@ -147,7 +154,8 @@ export function breadcrumbList(p: PropertyDetail, ctx: BreadcrumbContext): JsonL
 		itemListElement: [
 			{ '@type': 'ListItem', position: 1, name: 'トップ', item: `${ctx.siteUrl}/` },
 			{ '@type': 'ListItem', position: 2, name: `${typeLabel}物件を探す`, item: `${ctx.siteUrl}${listHref}` },
-			{ '@type': 'ListItem', position: 3, name: p.title, item: ctx.url },
+			{ '@type': 'ListItem', position: 3, name: ctx.areaName, item: `${ctx.siteUrl}${ctx.areaHref}` },
+			{ '@type': 'ListItem', position: 4, name: p.title, item: ctx.url },
 		],
 	};
 }

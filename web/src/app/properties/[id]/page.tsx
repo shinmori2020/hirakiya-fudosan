@@ -16,7 +16,7 @@ import { company, formatPrice, formatRent, lines as LINES, SITE_URL, staff as st
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
 import { builtLabel, dateLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
-import { kindHref } from '@/lib/links';
+import { kindHref, townHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
@@ -107,7 +107,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 	const pageUrl = `${SITE_URL}/properties/${p.no}`;
 	const jsonLd = [
 		realEstateListing(p, { url: pageUrl, wardName: wardTerm?.name ?? '', stationName: p.stations[0] ? stationName(p.stations[0].slug) : '' }),
-		breadcrumbList(p, { siteUrl: SITE_URL, url: pageUrl }),
+		// パンくずは画面の表示と同じ階層にする(ずれると読み手と機械で違う階層になる・J-085)
+		breadcrumbList(p, { siteUrl: SITE_URL, url: pageUrl, areaName: areaLabel(p.area), areaHref: townHref(p.type, p.area) }),
 	];
 
 	return (
@@ -129,6 +130,14 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							<li>
 								<Link href={p.type === 'rental' ? '/properties' : '/properties?type=sale'} className="hover:underline">
 									{typeLabel}物件を探す
+								</Link>
+							</li>
+							<li aria-hidden="true">/</li>
+							{/* J-085:エリアを1階層足す。物件が属する分類は町(02 の area は町が単位・単一付与)なので、
+							    飛び先は町で絞った一覧(J-051 の townHref と同じ URL)。表示は場所が分かるように区を付ける */}
+							<li>
+								<Link href={townHref(p.type, p.area)} className="hover:underline">
+									{areaLabel(p.area)}
 								</Link>
 							</li>
 							<li aria-hidden="true">/</li>

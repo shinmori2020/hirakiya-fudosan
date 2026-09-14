@@ -150,15 +150,26 @@ describe('schema.ts', () => {
 		expect(about.geo).toMatchObject({ latitude: 35.7182, longitude: 139.8153 });
 	});
 
-	it('J-083 パンくずは画面の3階層と同じ(トップ → 種別の一覧 → 物件名)', () => {
-		const b = breadcrumbList(mk(), { siteUrl: 'https://example.test', url: ctx.url });
+	it('J-083 → J-085 パンくずは画面の4階層と同じ(トップ → 種別の一覧 → エリア → 物件名)', () => {
+		const crumb = { siteUrl: 'https://example.test', url: ctx.url, areaName: '墨田区曳舟', areaHref: '/properties?area=hikifune' };
+		const b = breadcrumbList(mk(), crumb);
 		const items = b.itemListElement as { position: number; name: string; item: string }[];
-		expect(items.map((i) => i.position)).toEqual([1, 2, 3]);
-		expect(items.map((i) => i.name)).toEqual(['トップ', '賃貸物件を探す', '曳舟テラス0-1']);
+		expect(items.map((i) => i.position)).toEqual([1, 2, 3, 4]);
+		expect(items.map((i) => i.name)).toEqual(['トップ', '賃貸物件を探す', '墨田区曳舟', '曳舟テラス0-1']);
 		expect(items[1].item).toBe('https://example.test/properties');
-		const sale = breadcrumbList(mk({ type: 'sale' }), { siteUrl: 'https://example.test', url: ctx.url });
-		const saleItems = sale.itemListElement as { name: string; item: string }[];
-		expect(saleItems[1]).toMatchObject({ name: '売買物件を探す', item: 'https://example.test/properties?type=sale' });
+		expect(items[2].item).toBe('https://example.test/properties?area=hikifune');
+	});
+
+	it('J-085 売買はエリアも種別つきの一覧へ飛ばす(飛び先は J-051 の townHref と同じ URL)', () => {
+		const sale = breadcrumbList(mk({ type: 'sale' }), {
+			siteUrl: 'https://example.test',
+			url: ctx.url,
+			areaName: '墨田区押上',
+			areaHref: '/properties?type=sale&area=oshiage',
+		});
+		const items = sale.itemListElement as { name: string; item: string }[];
+		expect(items[1]).toMatchObject({ name: '売買物件を探す', item: 'https://example.test/properties?type=sale' });
+		expect(items[2]).toMatchObject({ name: '墨田区押上', item: 'https://example.test/properties?type=sale&area=oshiage' });
 	});
 
 	it('J-083 potentialAction は入れない(フォームが未実装で飛び先が 404 のため・実装順 5 で追加)', () => {
