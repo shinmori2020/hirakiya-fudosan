@@ -12,6 +12,7 @@ import { InfoTable } from '@/components/property/InfoTable';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
+import { ShareLinks } from '@/components/property/ShareLinks';
 import { company, formatPrice, formatRent, lines as LINES, SITE_URL, staff as staffList } from '@/config/site';
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
@@ -320,6 +321,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 					<div className="mt-6">
 						<CtaBlock no={p.no} type={p.type} sold={sold} layout="row" />
 					</div>
+					{/* J-086:共有(URL コピー / LINE)。右カラムは J-084 で写真と高さを揃えたので、ここに置いて縦に伸ばさない */}
+					<ShareLinks url={pageUrl} title={p.title} />
 					<p className="mt-4 text-xs text-ink-weak lg:text-xs-pc">{company.formNotice}</p>
 				</Container>
 			</section>
