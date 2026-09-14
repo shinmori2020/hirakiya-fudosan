@@ -12,7 +12,7 @@ import { InfoTable } from '@/components/property/InfoTable';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { RecentlyViewed } from '@/components/property/RecentlyViewed';
-import { company, formatPrice, formatRent, lines as LINES, staff as staffList } from '@/config/site';
+import { company, formatPrice, formatRent, lines as LINES, SITE_URL, staff as staffList } from '@/config/site';
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
 import { builtLabel, dateLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
@@ -20,6 +20,7 @@ import { kindHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
+import { breadcrumbList, realEstateListing } from '@/lib/schema';
 import { monthlyTotalLabel } from '@/lib/summary';
 
 /**
@@ -98,8 +99,22 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 		['2駅目', second ? `${stationName(second.slug)}駅 ${walkLabel(second.walk)}` : '—'],
 	];
 
+	/*
+	 * 構造化データ(J-083)。RealEstateListing と BreadcrumbList の2つだけを先行実装する
+	 * (Organization / sitemap / llms.txt / noindex / OGP と全体の整合の検証は実装順 8)。
+	 * 値の組み立ては lib/schema.ts の純関数。ここでは出力だけを行う。
+	 */
+	const pageUrl = `${SITE_URL}/properties/${p.no}`;
+	const jsonLd = [
+		realEstateListing(p, { url: pageUrl, wardName: wardTerm?.name ?? '', stationName: p.stations[0] ? stationName(p.stations[0].slug) : '' }),
+		breadcrumbList(p, { siteUrl: SITE_URL, url: pageUrl }),
+	];
+
 	return (
 		<>
+			{jsonLd.map((ld) => (
+				<script key={ld['@type'] as string} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+			))}
 			<section className="py-6 lg:py-8">
 				<Container>
 					{/* パンくず(01 共通要素) */}

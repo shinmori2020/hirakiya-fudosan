@@ -49,7 +49,7 @@ const EXCLUDED = {
 	hasFloorplan: '一覧カード用。詳細は間取り図そのものを並べる',
 	// 地図のピンは座標を文字にして出さず、地図自体もクライアント側で描くので静的 HTML には現れない。
 	// 地図の有無は見た目の確認(scripts/measure.mjs の当たり判定・F-009)で見る。
-	lat: '地図のピン。座標は画面に出さず、地図はクライアント側で描く',
+	lat: '地図のピン。座標は画面に出さず、地図はクライアント側で描く(構造化データ ld+json には値として出る。画面には出ない・J-083)',
 	lng: '同上',
 };
 
@@ -66,7 +66,7 @@ const dateJa = (v) => {
  *   values …… 画面に出ているはずの文字列の候補(どれか1つあれば「値あり」)
  *   kind …… 'label'(ラベル+値)/ 'text'(ラベルなし)/ 'media'(画像・地図。別の目印で見る)
  */
-function fieldsFor(p, html) {
+function fieldsFor(p) {
 	const r = p.rental ?? {};
 	const s = p.sale ?? {};
 	const months = (n) => (n === 0 ? ['なし'] : [`${n}ヶ月`]);
@@ -130,7 +130,13 @@ function fieldsFor(p, html) {
 	return list.map(([field, kind, label, values, mode]) => ({ field, kind, label, mode: mode ?? 'some', values: values.filter((v) => v != null && v !== '') }));
 }
 
-/** HTML から「本文のテキスト」と「dt のラベル一覧」を取り出す(タグは見ない) */
+/**
+ * HTML から「本文のテキスト」と「dt のラベル一覧」を取り出す(タグは見ない)。
+ * script を落とすのは、**構造化データ(application/ld+json)を値の探索対象から外すため**(J-083)。
+ * ld+json は機械向けの出力で画面には出ないので、残すと ld+json に入れた項目がすべて
+ * 「値あり・ラベルなし」= 値のみ と判定され、J-070 型の本当の抜け落ちが埋もれる。
+ * 見たいのは「画面に出ているか」なので、ここでは人が読む部分だけを対象にする。
+ */
 function parse(html) {
 	const noScript = html.replace(/<script[\s\S]*?<\/script>/g, '');
 	const labels = new Set();
@@ -183,7 +189,7 @@ for (const file of files) {
 		process.exit(1);
 	}
 	const parsed = parse(await res.text());
-	for (const f of fieldsFor(p, parsed.raw)) rows.push({ no: p.no, ...f, ...judge(f, parsed) });
+	for (const f of fieldsFor(p)) rows.push({ no: p.no, ...f, ...judge(f, parsed) });
 }
 
 const shown = rows.filter((r) => showAll || (r.verdict !== '表示あり' && r.verdict !== '対象外'));
