@@ -14,7 +14,7 @@ import type { PropertyDetail } from '@/types/property';
  *   毎月         家賃 / 管理費・共益費 / 駐車場(月額が発生するので 03 の分類どおりお金側)
  *   最初に必要    敷金 / 礼金 / 仲介手数料(01 §3「初期費用は隠さない」)
  *   更新時       更新料
- *   入居時の目安合計  合計(J-081 の純関数)+ 範囲の注記
+ *   入居時の目安合計  合計(J-081 の純関数)+ 範囲の注記(含まない項目まで書く・J-087)
  * 家賃の行を出すのは、注記が「5項目の合計」と書いている以上、内訳に家賃が無いと検算できないため。
  * 行の作り(ラベル 6.5em・下の細い横線・値は本文サイズ)は情報表の行と揃える(J-052)。
  * まとまりの見出しは h4(アコーディオンの見出し h3 の下にぶら下げる。<p> だと読み上げの構造で
@@ -77,7 +77,7 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 						<dt className="text-small text-ink-weak">合計</dt>
 						<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
 							{total}
-							<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">家賃・管理費・敷金・礼金・仲介手数料の5項目の合計</span>
+							<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">家賃・管理費・敷金・礼金・仲介手数料の合計。保証料・保険料・日割り家賃は含みません</span>
 						</dd>
 					</dl>
 				</div>
