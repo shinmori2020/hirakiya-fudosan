@@ -9,7 +9,11 @@ import Link from 'next/link';
  * hover / active は 150ms・cubic-bezier(0.4,0,0.2,1)・cursor pointer(J-035 と同じ規則)。
  * 塗りのバッジ(新着・値下げ)は「状態」なので変えない。線は「分類かつリンク」。
  */
-export function AttrLink({ href, variant = 'text', children }: { href: string; variant?: 'text' | 'chip' | 'kind'; children: React.ReactNode }) {
+/**
+ * 見た目だけを使いたい時のための class(J-089:共有導線のテキストリンクが同じ見た目になるように)。
+ * next/link 以外(button・外部リンク)からも呼ぶので、AttrLink の中に閉じ込めない。
+ */
+export function attrClass(variant: 'text' | 'chip' | 'kind' = 'text'): string {
 	const base =
 		'cursor-pointer rounded-hr text-accent-strong transition-[background-color,text-decoration-color] duration-150 hover:bg-badge-new-bg active:bg-badge-new-bg motion-reduce:transition-none';
 	const style = {
@@ -17,8 +21,12 @@ export function AttrLink({ href, variant = 'text', children }: { href: string; v
 		kind: 'inline-block border border-accent bg-surface px-2 py-0.5 text-xs font-bold lg:text-xs-pc',
 		text: '-mx-0.5 px-0.5 no-underline hover:underline hover:decoration-accent hover:underline-offset-2',
 	}[variant];
+	return `${base} ${style}`;
+}
+
+export function AttrLink({ href, variant = 'text', children }: { href: string; variant?: 'text' | 'chip' | 'kind'; children: React.ReactNode }) {
 	return (
-		<Link href={href} className={`${base} ${style}`}>
+		<Link href={href} className={attrClass(variant)}>
 			{children}
 		</Link>
 	);
