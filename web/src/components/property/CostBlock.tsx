@@ -17,6 +17,8 @@ import type { PropertyDetail } from '@/types/property';
  *   入居時の目安合計  合計(J-081 の純関数)+ 範囲の注記
  * 家賃の行を出すのは、注記が「5項目の合計」と書いている以上、内訳に家賃が無いと検算できないため。
  * 行の作り(ラベル 6.5em・下の細い横線・値は本文サイズ)は情報表の行と揃える(J-052)。
+ * まとまりの見出しは h4(アコーディオンの見出し h3 の下にぶら下げる。<p> だと読み上げの構造で
+ * 10行がフラットに並び、どこからが「最初に必要」なのかが分からないため)。文字の大きさは変えない。
  * 合計が出せない物件(仲介手数料の文字列が読めない等)は、そのまとまりごと出さない。
  * 売買は 02 §3-3 に仲介手数料が無いので、このブロック自体を使わない(確認の左列は従来の行のまま)。
  */
@@ -56,25 +58,28 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 		<div>
 			{groups.map((g) => (
 				<div key={g.title}>
-					<p className="pt-3 text-xs text-ink-weak lg:text-xs-pc">{g.title}</p>
-					{g.rows.map(([k, v]) => (
-						<div key={k} className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
-							<dt className="text-small text-ink-weak">{k}</dt>
-							<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
-						</div>
-					))}
+					<h4 className="pt-3 text-xs text-ink-weak lg:text-xs-pc">{g.title}</h4>
+					{/* 見出しは dl の外に置く(dl の中に置けるのは dt / dd / div だけ)。まとまりごとに dl を閉じる */}
+					<dl>
+						{g.rows.map(([k, v]) => (
+							<div key={k} className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
+								<dt className="text-small text-ink-weak">{k}</dt>
+								<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
+							</div>
+						))}
+					</dl>
 				</div>
 			))}
 			{total && (
 				<div>
-					<p className="pt-3 text-xs text-ink-weak lg:text-xs-pc">入居時の目安合計</p>
-					<div className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
+					<h4 className="pt-3 text-xs text-ink-weak lg:text-xs-pc">入居時の目安合計</h4>
+					<dl className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
 						<dt className="text-small text-ink-weak">合計</dt>
 						<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
 							{total}
 							<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">家賃・管理費・敷金・礼金・仲介手数料の5項目の合計</span>
 						</dd>
-					</div>
+					</dl>
 				</div>
 			)}
 		</div>

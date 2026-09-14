@@ -196,13 +196,23 @@ export function InfoTable({
 			</dd>
 		</div>
 	);
-	// leftNode を渡した区分は、左列を行の配列ではなくそのまま描く(J-084:賃貸の費用)
-	const twoColumns = (left: Row[], right: Row[], leftNode?: ReactNode) => (
-		<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-			<div>{leftNode ?? left.map(rowEl)}</div>
-			<div>{right.map(rowEl)}</div>
-		</dl>
-	);
+	/*
+	 * leftNode を渡した区分は、左列を行の配列ではなくそのまま描く(J-084:賃貸の費用)。
+	 * その場合の外枠は dl ではなく div にする。左は CostBlock が「見出し h4 + dl」を繰り返す形で、
+	 * dl の中に見出しは置けないため(dl に置けるのは dt / dd / div だけ)。右列は自前の dl で包む。
+	 */
+	const twoColumns = (left: Row[], right: Row[], leftNode?: ReactNode) =>
+		leftNode ? (
+			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
+				<div>{leftNode}</div>
+				<dl>{right.map(rowEl)}</dl>
+			</div>
+		) : (
+			<dl className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
+				<div>{left.map(rowEl)}</div>
+				<div>{right.map(rowEl)}</div>
+			</dl>
+		);
 
 	// 確認を先頭に置き、3つとも同じアコーディオンにする(J-076)。確認だけ初期状態で開く
 	const groups: Group[] =
