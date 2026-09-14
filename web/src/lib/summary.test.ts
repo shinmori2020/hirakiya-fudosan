@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { monthlyCost, monthlyCostLabel, monthlyFeeLabel, monthlyTotalLabel } from '@/lib/summary';
+import { monthlyCost, monthlyCostLabel, monthlyFeeLabel, monthlyTotalLabel, showsMonthlyCost } from '@/lib/summary';
 
 describe('summary.ts', () => {
 	it('J-059 → J-070 月額の合計は「管理費・修繕 月18,000円」。片方だけでも出し、0 と null は出さない', () => {
@@ -29,5 +29,15 @@ it('J-093 賃貸の毎月は 家賃 + 管理費・共益費(管理費が 0 な�
 
 	it('J-093 家賃が無い物件は毎月を出さない(欠損を 0 円と見せない)', () => {
 		expect(monthlyCost({ type: 'rental', rent: null, rental: { maintenanceFee: 5000 } })).toBeNull();
+	});
+it('J-093 残件 賃貸の毎月の行は管理費・共益費がある時だけ出す(0 円の行を作らない)', () => {
+		expect(showsMonthlyCost({ type: 'rental', rent: 82000, rental: { maintenanceFee: 5000 } })).toBe(true);
+		expect(showsMonthlyCost({ type: 'rental', rent: 82000, rental: { maintenanceFee: 0 } })).toBe(false);
+	});
+
+	it('J-093 残件 売買は管理費・修繕のどちらかがある時だけ出す(戸建・土地は出ない)', () => {
+		expect(showsMonthlyCost({ type: 'sale', sale: { mgmtFee: 11000, repairFund: 9000 } })).toBe(true);
+		expect(showsMonthlyCost({ type: 'sale', sale: { mgmtFee: 11000, repairFund: null } })).toBe(true);
+		expect(showsMonthlyCost({ type: 'sale', sale: { mgmtFee: null, repairFund: null } })).toBe(false);
 	});
 });

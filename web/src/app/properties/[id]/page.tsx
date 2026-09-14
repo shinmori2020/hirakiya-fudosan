@@ -22,7 +22,7 @@ import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
 import { breadcrumbList, realEstateListing } from '@/lib/schema';
-import { monthlyCostLabel } from '@/lib/summary';
+import { monthlyCostLabel, showsMonthlyCost } from '@/lib/summary';
 
 /**
  * 物件詳細(実装順 2・01 §3)。これは初案。
@@ -193,8 +193,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							 * 毎月かかる費用(J-092 の基準 → J-093)。価格の直下に1行。内訳は物件データの「毎月の内訳」に置く。
 							 * 賃貸 =「毎月」家賃+管理費・共益費、売買マンション =「毎月の維持費」管理費+修繕積立金。
 							 * 「毎月の支払い」とは呼ばない(ローンが含まれると誤解される)。戸建・土地は行ごと出さない(性質であって欠損ではない)。
+							 * 管理費・共益費が無い賃貸も出さない(合計が家賃と同額になり、価格のすぐ下に同じ金額が別の書式で並ぶだけになるため・J-093 の残件)。
 							 */}
-							{monthlyCostLabel(p) && (
+							{showsMonthlyCost(p) && (
 								<p className="text-small text-ink-weak">
 									{p.type === 'rental' ? '毎月' : '毎月の維持費'} {monthlyCostLabel(p)}
 								</p>

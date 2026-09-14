@@ -51,3 +51,14 @@ export function monthlyCostLabel(p: Parameters<typeof monthlyCost>[0]): string |
 	const total = monthlyCost(p);
 	return total == null ? null : `${total.toLocaleString('ja-JP')}円`;
 }
+
+/**
+ * 「毎月」の行を出すかどうか(J-093 の残件)。計算(monthlyCost)は変えず、出す条件だけをここに持つ。
+ * 管理費・共益費が無い賃貸では合計が家賃と同額になり、大きな価格表記のすぐ下に同じ金額が
+ * 別の書式で並ぶだけで情報が増えない。J-092 の「戸建・土地は行ごと出さない(「—」も出さない)」と
+ * 同じ考え方で、**値がある時だけ出す**(0円の行を作らない)。
+ */
+export function showsMonthlyCost(p: Parameters<typeof monthlyCost>[0]): boolean {
+	if (p.type === 'rental') return (p.rental?.maintenanceFee ?? 0) > 0;
+	return monthlyCost(p) != null;
+}
