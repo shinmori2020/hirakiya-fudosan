@@ -4,6 +4,7 @@ import { CostBlock } from '@/components/property/CostBlock';
 import type { PropertyDetail } from '@/types/property';
 import { AttrLink } from '@/components/property/AttrLink';
 import { builtLabel, dateLabel, sqmLabel, walkLabel } from '@/lib/format';
+import { brokerageCapLabel } from '@/lib/brokerage';
 import { addressParts, lineHref, stationHref, townHref, wardHref } from '@/lib/links';
 
 /**
@@ -146,12 +147,31 @@ export function InfoTable({
 		const s = p.sale;
 		checkTitle = '購入前に確認すること';
 		// 補足は中身に合わせる(管理費・修繕積立金はマンションだけ、向きは建物がある種別だけ)
-		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・駐車場など' : '駐車場など';
+		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・仲介手数料など' : '駐車場・仲介手数料など';
 		// 管理費・修繕積立金はマンションだけ(戸建・土地には無い項目なので出さない)
 		// 左 = お金(J-061)、右 = 住まいの条件と時期
 		if (s.mgmtFee != null) checkLeft.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) checkLeft.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
 		checkLeft.push({ k: '駐車場', v: p.parking || '—' });
+		/*
+		 * 売買の仲介手数料(J-094)。02 §3-3 にフィールドは無く、価格から法定の上限額を計算して出す。
+		 * 01 §3「初期費用(敷金・礼金・仲介手数料)は隠さない」に対応する項目で、売買は金額が大きい。
+		 * 上限額であることをラベルと注記の両方で示す(実額は仲介会社との合意で決まるため)。
+		 */
+		const brokerage = brokerageCapLabel(p.price);
+		if (brokerage) {
+			checkLeft.push({
+				k: '仲介手数料(上限)',
+				v: (
+					<>
+						{brokerage}
+						<span className="mt-1 block text-xs font-normal text-ink-weak lg:text-xs-pc">
+							宅地建物取引業法の上限額(価格の3%+6万円+消費税)。実際の額は異なる場合があります
+						</span>
+					</>
+				),
+			});
+		}
 		// 確認は1列(お金だけ)。向き → 土地・建物、引渡し → 契約・掲載 へ移す(J-088)
 
 		const left: Row[] = [
