@@ -76,7 +76,9 @@ function fieldsFor(p) {
 		['address', 'label', '所在地', [p.address, p.address?.replace(/^東京都/, '')]],
 		['stations', 'label', '交通', p.stations?.[0] ? [`${NAMES.station[p.stations[0].slug] ?? ''}駅`] : []],
 		['area', 'text', null, NAMES.area[p.area] ? [NAMES.area[p.area]] : []],
-		['walkMinutes2', 'label', '2駅目', p.walkMinutes2 ? [`徒歩${p.walkMinutes2}分`] : []],
+		// 2駅目は右カラムの要約(J-039)が「2駅目」のラベルで出していたが、J-093 で要約を廃止した。
+		// いまは物件データ「建物」の交通の欄に2駅とも入る(画面で確認:「曳舟駅 徒歩8分 / 押上駅 徒歩18分」)
+		['walkMinutes2', 'label', '交通', p.walkMinutes2 ? [`徒歩${p.walkMinutes2}分`] : []],
 		['lines', 'label', '沿線', (p.lines ?? []).map((l) => NAMES.line[l]).filter(Boolean), 'every'],
 		['features', 'text', null, (p.features ?? []).map((f) => NAMES.feature[f]).filter(Boolean), 'every'],
 		['layout', 'text', null, p.layout ? [p.layout] : []],

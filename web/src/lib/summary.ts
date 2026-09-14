@@ -24,3 +24,30 @@ export function monthlyFeeLabel(yen: number | null | undefined): string {
 	if (yen == null || yen <= 0) return NONE;
 	return `${(yen / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円`;
 }
+
+/**
+ * 毎月かかる費用の合計(J-092 の基準 → J-093)。右カラムの価格の直下に1行で出す。
+ *   賃貸           家賃 + 管理費・共益費
+ *   売買マンション   管理費 + 修繕積立金(「毎月の維持費」。ローンは含めないので「支払い」とは呼ばない)
+ *   戸建・土地      無い(null を返し、行ごと出さない。欠損ではなく性質)
+ * 内訳は物件データの「毎月の内訳」に置く(同じ項目を2箇所に出さない・J-092)。
+ */
+export function monthlyCost(p: {
+	type: 'rental' | 'sale';
+	rent?: number | null;
+	rental?: { maintenanceFee: number } | null;
+	sale?: { mgmtFee: number | null; repairFund: number | null } | null;
+}): number | null {
+	if (p.type === 'rental') {
+		if (p.rent == null || p.rent <= 0) return null;
+		return p.rent + (p.rental?.maintenanceFee ?? 0);
+	}
+	const total = (p.sale?.mgmtFee ?? 0) + (p.sale?.repairFund ?? 0);
+	return total > 0 ? total : null;
+}
+
+/** 上の合計の表示。「87,000円」。出せない時は null(行ごと出さない) */
+export function monthlyCostLabel(p: Parameters<typeof monthlyCost>[0]): string | null {
+	const total = monthlyCost(p);
+	return total == null ? null : `${total.toLocaleString('ja-JP')}円`;
+}

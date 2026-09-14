@@ -16,13 +16,13 @@ import { ShareLinks } from '@/components/property/ShareLinks';
 import { company, formatPrice, formatRent, lines as LINES, SITE_URL, staff as staffList } from '@/config/site';
 import { AttrLink } from '@/components/property/AttrLink';
 import { badgesFor } from '@/lib/badges';
-import { builtLabel, dateLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
+import { builtLabel, mainPrice, sqmLabel, walkLabel } from '@/lib/format';
 import { kindHref, townHref } from '@/lib/links';
 import { pointChips } from '@/lib/points';
 import { getProperties, getProperty, getTerms } from '@/lib/properties';
 import { relatedProperties } from '@/lib/related';
 import { breadcrumbList, realEstateListing } from '@/lib/schema';
-import { monthlyTotalLabel } from '@/lib/summary';
+import { monthlyCostLabel } from '@/lib/summary';
 
 /**
  * 物件詳細(実装順 2・01 §3)。これは初案。
@@ -91,14 +91,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 		wardTownSlugs: wardTerm ? areas.filter((t) => t.parent === wardTerm.slug).map((t) => t.slug) : [],
 	};
 	const staffInfo = staffList.find((st) => st.name === p.staff);
-	const second = p.stations[1];
-	// 右カラムの要約(J-039):築年 / 向き / 入居可能日(売買は引渡し)/ 最寄2駅目
-	const summary: [string, string][] = [
-		['築年', p.builtYm ? (builtLabel(p.builtYm, now) ?? '—') : '—'],
-		['向き', p.direction || '—'],
-		[p.type === 'rental' ? '入居可能日' : '引渡し', dateLabel(p.type === 'rental' ? p.rental?.availableFrom : p.sale?.handover)],
-		['2駅目', second ? `${stationName(second.slug)}駅 ${walkLabel(second.walk)}` : '—'],
-	];
 
 	/*
 	 * 構造化データ(J-083)。RealEstateListing と BreadcrumbList の2つだけを先行実装する
@@ -197,10 +189,15 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 							</p>
 							{/* J-072:価格の左のアイコンは外す。左端は物件名・住所・内訳・要約と揃える(この列の縦のラインを通す) */}
 							<p className="tabular mt-4 text-price-detail font-bold text-sumi lg:text-price-detail-pc">{mainPrice(p)}</p>
-							{/* J-084:費用の内訳と合計は物件データの「入居前に確認すること」へ移した(右カラムに残すのは大きな価格表記だけ)*/}
-							{/* 売買は毎月の支払いが判断材料なので、価格の下に管理費+修繕積立金の合計を出す(J-059 の考え方を引き継ぐ) */}
-							{p.type === 'sale' && monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund) && (
-								<p className="text-small text-ink-weak">{monthlyTotalLabel(p.sale?.mgmtFee, p.sale?.repairFund)}</p>
+							{/*
+							 * 毎月かかる費用(J-092 の基準 → J-093)。価格の直下に1行。内訳は物件データの「毎月の内訳」に置く。
+							 * 賃貸 =「毎月」家賃+管理費・共益費、売買マンション =「毎月の維持費」管理費+修繕積立金。
+							 * 「毎月の支払い」とは呼ばない(ローンが含まれると誤解される)。戸建・土地は行ごと出さない(性質であって欠損ではない)。
+							 */}
+							{monthlyCostLabel(p) && (
+								<p className="text-small text-ink-weak">
+									{p.type === 'rental' ? '毎月' : '毎月の維持費'} {monthlyCostLabel(p)}
+								</p>
 							)}
 							{p.type === 'rental' && p.rent != null && p.rentPrevious != null && p.rentPrevious > p.rent && (
 								<p className="text-small text-badge-discount-fg">値下げ前 {formatRent(p.rentPrevious)}</p>
@@ -212,34 +209,23 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 								<LayoutGrid aria-hidden="true" className="size-4 shrink-0 text-accent" />
 								{p.kind === 'land'
 									? `土地 ${sqmLabel(p.sale?.landSqm ?? null)}`
-									: `${p.layout}${p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}${p.floor != null ? ` / ${p.floor}階` : ''}`}
+									: `${p.layout}${p.areaSqm != null ? ` / ${p.areaSqm}㎡` : ''}${p.floor != null ? ` / ${p.floor}階` : ''}${
+											builtLabel(p.builtYm, now) ? ` / ${builtLabel(p.builtYm, now)}` : ''
+										}`}
 							</p>
 							{/* J-074:設備のチップを物件概要から右カラム(スペックの下・要約の上)へ移した */}
 							<div className="mt-3">
 								<FeatureChips features={p.features} type={p.type} featureName={featureName} />
 							</div>
 							{/*
-							 * 要約(J-039 → J-068 → J-069)。PC(lg 以上)は縦1列にして拾い読みできるようにする。
-							 * ラベルは 6.5em の固定幅(情報表と同じ規則・J-052)。値はその右に詰める。
-							 * J-069:各行の下に細い横線(情報表と同じ border-line 1px)。最終行の下にも引くので4本。
-							 *   行の高さは情報表と同じ上下 8 にし、行間(gap)は 0 にする(線と余白が二重にならないように)。
-							 * スマホ(〜1023)は従来どおり2列×2行のまま(縦に伸ばすと CTA が下に押されるため)。
-							 *   2列のままで各セルに線を引くと横に2本並んで表に見えるので、線は縦1列の時だけ引く。
-							 * J-070:スペックの下にあった区切り線は削除し、余白(24)で区切る(要約の罫線と役割が混ざるため)。
+							 * 要約4行(築年 / 向き / 入居可能日 / 2駅目)は J-093 で廃止した。
+							 * 向き・入居可能日・2駅目は J-092 の基準の条件2(候補を外す / 残すの判断に直接使う)を満たさず、
+							 * さらに向き・入居可能日は物件データにも同じ行があり二重だった(J-088 で下へ移した時の見落とし)。
+							 * 2駅目は物件データの「建物」の交通の欄に2駅とも入っているので、右カラム側を消すだけでよい。
+							 * 築年は条件を満たすのでスペックの行に「/ 築18年」として残した。
 							 */}
-							<dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 text-small lg:grid-cols-1 lg:gap-y-0">
-								{summary.map(([k, v]) => (
-									<div
-										key={k}
-										className="flex gap-2 lg:grid lg:grid-cols-[6.5em_minmax(0,1fr)] lg:gap-x-2 lg:border-b lg:border-line lg:py-2"
-									>
-										<dt className="shrink-0 text-ink-weak">{k}</dt>
-										<dd className="text-ink">{v}</dd>
-									</div>
-								))}
-							</dl>
-							{/* 電話を外した分、要約と CTA の間を詰める(J-050:24 → 16)。1024 以上は2列(J-075) */}
-							<div className="mt-4">
+							{/* 要約を廃止した(J-093)ので、設備チップと CTA の間は 24 に戻す。1024 以上は2列(J-075) */}
+							<div className="mt-6">
 								<CtaBlock no={p.no} type={p.type} sold={sold} layout="sidebar" />
 							</div>
 						</div>
