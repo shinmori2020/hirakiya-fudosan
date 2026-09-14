@@ -216,6 +216,7 @@ export function InfoTable({
 			 * 素の details(JS なし)を3つ。初期は確認だけ開き、他は閉じる。
 			 * 閉じていても中身は HTML に存在するので、クロールと構造化データに影響しない(J-060)。
 			 * 開閉する見出しの作り(左の印・行全体の hover)は J-061、閉じた時の説明は J-062 のまま。
+			 * 見出しは h3(h1 物件名 → h2 セクション → h3 区分 と繋げる。読み上げの見出しジャンプで3区分に飛べるようにする)。
 			 */}
 			<div>
 				{groups.map((g) => (
@@ -226,7 +227,7 @@ export function InfoTable({
 								aria-hidden="true"
 								className="shrink-0 translate-y-0.5 text-ink-weak transition-transform duration-200 group-open:rotate-90 motion-reduce:transition-none"
 							/>
-							<span className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</span>
+							<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</h3>
 							<span className="min-w-0 truncate text-small text-ink-weak lg:text-small-pc">{g.hint}</span>
 						</summary>
 						<div className="pb-4">{twoColumns(g.left, g.right, g.leftNode)}</div>
