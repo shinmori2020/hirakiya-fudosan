@@ -54,10 +54,12 @@ export function PropertyCard({
 			<Link href={`/properties/${p.no}`} className="block">
 				<div className="relative aspect-[3/2] bg-surface-alt">
 					{p.thumb ? (
-						// プレースホルダー SVG は next/image の最適化を通らないため unoptimized
+						// プレースホルダー SVG は next/image の最適化を通らないため unoptimized。
+						// 代替テキストは物件名(カード内の文字と重なるが、画像だけを拾う読み方でも物件が分かるようにする)。
+						// 写真0枚(J-049)は画像を出さず「写真準備中」の文字を出すので、この分岐には入らない。
 						<Image
 							src={p.thumb}
-							alt=""
+							alt={`${p.title} の写真`}
 							fill
 							sizes="(min-width: 64rem) 400px, (min-width: 48rem) 50vw, 100vw"
 							className="object-cover"
