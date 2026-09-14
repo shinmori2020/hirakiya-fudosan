@@ -201,7 +201,7 @@ export function InfoTable({
 	const rowEl = (row: Row) => (
 		<div key={row.k} className="grid grid-cols-[7.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
 			<dt className="text-small text-ink-weak">{row.k}</dt>
-			<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${row.strong || row.v === 'なし' || row.v === '不要' ? 'font-bold' : ''}`}>
+			<dd className={`text-small leading-[1.6] text-ink ${row.strong || row.v === 'なし' || row.v === '不要' ? 'font-bold' : ''}`}>
 				{row.v}
 			</dd>
 		</div>
