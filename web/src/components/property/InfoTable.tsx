@@ -20,7 +20,7 @@ import { addressParts, lineHref, stationHref, townHref, wardHref } from '@/lib/l
  *      閉じている時も中身が分かるよう、見出しの右に小さな説明(hint)を添える
  * 決め手の3項目に出した値(交通の1駅目・家賃・間取り・専有面積・町・初期費用 / 売買は町・価格・管理費+修繕の合計)は表から外す。
  * 沿線と2駅目は 交通 の行ごと消えるため、詳細情報の「建物」に残した(J-060 の重複確認で見つけた穴)。
- * ラベル幅 6.5em(J-052)・保証人の太字(J-055)・リンク(J-051)は畳んだ中でも同じ。
+  * ラベル幅 7.5em(J-052 の 6.5em を J-090 で拡幅)・保証人の太字(J-055)・リンク(J-051)は畳んだ中でも同じ。
  */
 type Row = { k: string; v: ReactNode; strong?: boolean };
 /**
@@ -197,7 +197,7 @@ export function InfoTable({
 
 	// 値が「なし」「不要」の行と、有無が判断に効く行(保証人)は太字(J-054・J-055)
 	const rowEl = (row: Row) => (
-		<div key={row.k} className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
+		<div key={row.k} className="grid grid-cols-[7.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
 			<dt className="text-small text-ink-weak">{row.k}</dt>
 			<dd className={`text-body leading-[1.5] text-ink lg:text-body-pc ${row.strong || row.v === 'なし' || row.v === '不要' ? 'font-bold' : ''}`}>
 				{row.v}
