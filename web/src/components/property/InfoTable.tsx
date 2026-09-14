@@ -103,13 +103,17 @@ export function InfoTable({
 
 	if (p.type === 'rental' && p.rental) {
 		const r = p.rental;
-		// 左 = お金(J-061)。賃貸は CostBlock が 毎月 / 最初に必要 / 更新時 / 入居時の目安合計 を時点順に出す(J-084)
+		/*
+		 * 確認は**1列**にする(J-088)。中身はお金だけで、CostBlock が
+		 * 毎月 / 最初に必要 / 更新時 / 入居時の目安合計 を時点順に出す(J-084)。
+		 * 右にあった 向き は建物の属性(02 §3-1)なので「建物」へ、
+		 * 入居可能日 は契約系(02 §3-2)なので「契約・掲載」へ移す。
+		 */
 		checkLeftNode = <CostBlock p={p} />;
-		checkRight.push({ k: '向き', v: p.direction || '—' }, { k: '入居可能日', v: dateLabel(r.availableFrom) });
 		detail.push(
 			{
 				title: '建物',
-				hint: '所在地・築年月・構造など',
+				hint: '所在地・築年月・構造・向きなど',
 				left: [
 					{ k: '所在地', v: addressRow },
 					{ k: '交通', v: traffic },
@@ -119,13 +123,15 @@ export function InfoTable({
 					{ k: '築年月', v: built },
 					{ k: '構造', v: p.structure || '—' },
 					{ k: '階数', v: floor },
+					{ k: '向き', v: p.direction || '—' },
 				],
 			},
 			{
 				title: '契約・掲載',
-				hint: '契約期間・保証人・取引態様など',
+				hint: '契約期間・入居可能日・保証人など',
 				left: [
 					{ k: '契約期間', v: r.contractTerm || '—' },
+					{ k: '入居可能日', v: dateLabel(r.availableFrom) },
 					{ k: '保証人', v: r.guarantorRequired ? '必要(保証会社利用可・架空)' : '不要', strong: true },
 					{ k: '取引態様', v: p.transactionType || '—' },
 				],
@@ -140,14 +146,13 @@ export function InfoTable({
 		const s = p.sale;
 		checkTitle = '購入前に確認すること';
 		// 補足は中身に合わせる(管理費・修繕積立金はマンションだけ、向きは建物がある種別だけ)
-		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・駐車場など' : p.kind === 'land' ? '駐車場・引渡しなど' : '駐車場・向き・引渡しなど';
+		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・駐車場など' : '駐車場など';
 		// 管理費・修繕積立金はマンションだけ(戸建・土地には無い項目なので出さない)
 		// 左 = お金(J-061)、右 = 住まいの条件と時期
 		if (s.mgmtFee != null) checkLeft.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) checkLeft.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
 		checkLeft.push({ k: '駐車場', v: p.parking || '—' });
-		if (p.kind !== 'land') checkRight.push({ k: '向き', v: p.direction || '—' });
-		checkRight.push({ k: '引渡し', v: dateLabel(s.handover) });
+		// 確認は1列(お金だけ)。向き → 土地・建物、引渡し → 契約・掲載 へ移す(J-088)
 
 		const left: Row[] = [
 			{ k: '所在地', v: addressRow },
@@ -165,6 +170,7 @@ export function InfoTable({
 		];
 		if (s.bcr != null || s.far != null) right.push({ k: '建ぺい率 / 容積率', v: `${s.bcr ?? '—'}% / ${s.far ?? '—'}%` });
 		right.push({ k: '接道', v: s.roadAccess || '—' });
+		if (p.kind !== 'land') right.push({ k: '向き', v: p.direction || '—' });
 		detail.push(
 			{
 				title: '土地・建物',
@@ -173,9 +179,11 @@ export function InfoTable({
 				right,
 			},
 			{
-				title: '掲載',
-				hint: '取引態様・物件番号・情報更新日など',
+				// 引渡しが入るので「掲載」から「契約・掲載」に改名(賃貸と同じ形・J-088)
+				title: '契約・掲載',
+				hint: '引渡し・取引態様・物件番号など',
 				left: [
+					{ k: '引渡し', v: dateLabel(s.handover) },
 					{ k: '取引態様', v: p.transactionType || '—' },
 					{ k: '物件番号', v: p.no },
 				],
@@ -202,7 +210,12 @@ export function InfoTable({
 	 * dl の中に見出しは置けないため(dl に置けるのは dt / dd / div だけ)。右列は自前の dl で包む。
 	 */
 	const twoColumns = (left: Row[], right: Row[], leftNode?: ReactNode) =>
-		leftNode ? (
+		// 右が空の区分は1列で描く(J-088:確認はお金だけになったので、右半分を空けない)
+		leftNode && right.length === 0 ? (
+			<div>{leftNode}</div>
+		) : right.length === 0 ? (
+			<dl>{left.map(rowEl)}</dl>
+		) : leftNode ? (
 			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
 				<div>{leftNode}</div>
 				<dl>{right.map(rowEl)}</dl>

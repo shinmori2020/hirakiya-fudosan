@@ -17,6 +17,8 @@ import type { PropertyDetail } from '@/types/property';
  *   入居時の目安合計  合計(J-081 の純関数)+ 範囲の注記(含まない項目まで書く・J-087)
  * 家賃の行を出すのは、注記が「5項目の合計」と書いている以上、内訳に家賃が無いと検算できないため。
  * 行の作り(ラベル 6.5em・下の細い横線・値は本文サイズ)は情報表の行と揃える(J-052)。
+ * まとまりの最終行は下線を消し、まとまりの区切りは見出しの上の余白だけにする(J-088。
+ * 線と余白が二重にならないように)。
  * まとまりの見出しは h4(アコーディオンの見出し h3 の下にぶら下げる。<p> だと読み上げの構造で
  * 10行がフラットに並び、どこからが「最初に必要」なのかが分からないため)。文字の大きさは変えない。
  * 合計が出せない物件(仲介手数料の文字列が読めない等)は、そのまとまりごと出さない。
@@ -60,7 +62,8 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 				<div key={g.title}>
 					<h4 className="pt-3 text-xs text-ink-weak lg:text-xs-pc">{g.title}</h4>
 					{/* 見出しは dl の外に置く(dl の中に置けるのは dt / dd / div だけ)。まとまりごとに dl を閉じる */}
-					<dl>
+					{/* まとまりの最終行は下線を消す(次の見出しの余白と二重に見えるため・J-088) */}
+					<dl className="[&>div:last-child]:border-b-0">
 						{g.rows.map(([k, v]) => (
 							<div key={k} className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
 								<dt className="text-small text-ink-weak">{k}</dt>
@@ -73,7 +76,7 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 			{total && (
 				<div>
 					<h4 className="pt-3 text-xs text-ink-weak lg:text-xs-pc">入居時の目安合計</h4>
-					<dl className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 border-b border-line py-2">
+					<dl className="grid grid-cols-[6.5em_minmax(0,1fr)] gap-x-2 py-2">
 						<dt className="text-small text-ink-weak">合計</dt>
 						<dd className="tabular text-body font-bold text-sumi lg:text-body-pc">
 							{total}
