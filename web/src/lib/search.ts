@@ -70,6 +70,29 @@ export function emptyQuery(type: PropertyType = 'rental'): SearchQuery {
 	return { ...DEFAULT, type };
 }
 
+/* -------------------------------------------------------------------------
+ * 条件固定ページ(実装順 4・J-095)。/area/[slug] /line/[slug] /station/[slug] /feature/[slug] は
+ * URL のパスが1つの条件を固定し、残りの条件だけをクエリに持つ。
+ *   applyFixed:URL から読んだ条件に固定分を足す(画面に効かせる)
+ *   stripFixed:URL に書く前に固定分を落とす(パスと二重に持たない)
+ * 固定した条件は左カラムから変えられず、0件時の緩和でも最後まで外さない(J-095 判断5)。
+ * ---------------------------------------------------------------------- */
+export type FixedKey = 'area' | 'station' | 'line' | 'collection';
+export interface FixedCondition {
+	key: FixedKey;
+	slug: string;
+}
+
+export function applyFixed(q: SearchQuery, fixed?: FixedCondition): SearchQuery {
+	if (!fixed) return q;
+	return { ...q, [fixed.key]: [fixed.slug] };
+}
+
+export function stripFixed(q: SearchQuery, fixed?: FixedCondition): SearchQuery {
+	if (!fixed) return q;
+	return { ...q, [fixed.key]: [] };
+}
+
 const list = (v: string | null) => (v ? v.split(',').filter(Boolean) : []);
 const num = (v: string | null) => {
 	if (v == null || v === '') return undefined;
@@ -207,24 +230,28 @@ export interface RelaxCandidate {
  * 1. まず条件を1つだけ外した候補を、この順で出す(件数 1 以上のもの)
  * 2. どれを1つ外しても0件なら、この順に累積して外し、初めて 1 件以上になった組み合わせを1つ出す
  */
-const RELAX_STEPS: { label: string; has: (q: SearchQuery) => boolean; drop: (q: SearchQuery) => SearchQuery }[] = [
+const RELAX_STEPS: { label: string; key?: FixedKey; has: (q: SearchQuery) => boolean; drop: (q: SearchQuery) => SearchQuery }[] = [
 	{ label: '駅徒歩', has: (q) => q.walkMax != null, drop: (q) => ({ ...q, walkMax: undefined }) },
 	{ label: '築年数', has: (q) => q.builtMaxYears != null, drop: (q) => ({ ...q, builtMaxYears: undefined }) },
 	{ label: '面積', has: (q) => q.sqmMin != null, drop: (q) => ({ ...q, sqmMin: undefined }) },
 	{ label: '設備', has: (q) => q.feature.length > 0, drop: (q) => ({ ...q, feature: [] }) },
-	{ label: '特集', has: (q) => q.collection.length > 0, drop: (q) => ({ ...q, collection: [] }) },
+	{ label: '特集', key: 'collection', has: (q) => q.collection.length > 0, drop: (q) => ({ ...q, collection: [] }) },
 	{ label: '間取り', has: (q) => q.layout.length > 0, drop: (q) => ({ ...q, layout: [] }) },
 	{ label: '種目', has: (q) => q.kind.length > 0, drop: (q) => ({ ...q, kind: [] }) },
 	{ label: '家賃', has: (q) => q.rentMin != null || q.rentMax != null, drop: (q) => ({ ...q, rentMin: undefined, rentMax: undefined }) },
 	{ label: '価格', has: (q) => q.priceMin != null || q.priceMax != null, drop: (q) => ({ ...q, priceMin: undefined, priceMax: undefined }) },
-	{ label: 'エリア', has: (q) => q.area.length > 0, drop: (q) => ({ ...q, area: [] }) },
-	{ label: '駅', has: (q) => q.station.length > 0, drop: (q) => ({ ...q, station: [] }) },
-	{ label: '沿線', has: (q) => q.line.length > 0, drop: (q) => ({ ...q, line: [] }) },
+	{ label: 'エリア', key: 'area', has: (q) => q.area.length > 0, drop: (q) => ({ ...q, area: [] }) },
+	{ label: '駅', key: 'station', has: (q) => q.station.length > 0, drop: (q) => ({ ...q, station: [] }) },
+	{ label: '沿線', key: 'line', has: (q) => q.line.length > 0, drop: (q) => ({ ...q, line: [] }) },
 ];
 
-export function relaxCandidates(all: PropertySummary[], q: SearchQuery, now: Date = new Date()): RelaxCandidate[] {
+/**
+ * fixed を渡すと、その条件は候補から外さない(条件固定ページで「青戸」を外す提案をしない・J-095)。
+ * 固定条件しか残っていない 0件は候補なし(= 近隣エリアか、条件をすべてクリアの案内に任せる)。
+ */
+export function relaxCandidates(all: PropertySummary[], q: SearchQuery, now: Date = new Date(), fixed?: FixedCondition): RelaxCandidate[] {
 	const count = (query: SearchQuery) => applyQuery(all, { ...query, page: 1 }, now).length;
-	const steps = RELAX_STEPS.filter((s) => s.has(q));
+	const steps = RELAX_STEPS.filter((s) => s.has(q) && !(fixed && s.key === fixed.key));
 
 	// 1. 単独で外す
 	const single = steps
@@ -245,6 +272,39 @@ export function relaxCandidates(all: PropertySummary[], q: SearchQuery, now: Dat
 		if (n > 0) return [{ label: `${dropped.join('・')}の条件を外す`, query: cur, count: n }];
 	}
 	return [];
+}
+
+/**
+ * 0件時の近隣エリア(01 §2-7・F-001 の対処)。選択中の町と**同じ区の他の町**だけを、他の条件を保ったまま数える。
+ * 13町の外には出ない(wards = config/site.ts の serviceAreas を渡す。町名でしか持っていないので slug は terms で引く)。
+ * J-095 で EmptyState から純関数に切り出した。
+ */
+export interface NearbyArea {
+	slug: string;
+	name: string;
+	count: number;
+}
+export function nearbyAreas(
+	all: PropertySummary[],
+	q: SearchQuery,
+	areaTerms: { slug: string; name: string; parent: string | null }[],
+	wards: readonly { ward: string; towns: readonly string[] }[],
+	now: Date = new Date(),
+): NearbyArea[] {
+	if (q.area.length === 0) return [];
+	const selectedNames = new Set(q.area.map((s) => areaTerms.find((t) => t.slug === s)?.name));
+	const out: NearbyArea[] = [];
+	for (const w of wards) {
+		if (!w.towns.some((t) => selectedNames.has(t))) continue;
+		for (const town of w.towns) {
+			if (selectedNames.has(town)) continue;
+			const term = areaTerms.find((t) => t.name === town && t.parent);
+			if (!term) continue;
+			const count = applyQuery(all, { ...q, area: [term.slug], page: 1 }, now).length;
+			if (count > 0) out.push({ slug: term.slug, name: term.name, count });
+		}
+	}
+	return out;
 }
 
 /* -------------------------------------------------------------------------

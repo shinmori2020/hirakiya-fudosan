@@ -1,14 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import type { PropertySummary } from '@/types/property';
 import {
+	applyFixed,
 	applyQuery,
 	emptyQuery,
 	isCoveredByQuickTab,
 	isQuickTabActive,
+	nearbyAreas,
 	parseQuery,
 	quickTabGroups,
 	relaxCandidates,
 	sortProperties,
+	stripFixed,
 	toggleQuickTab,
 	toSearchParams,
 	type SearchQuery,
@@ -109,6 +112,49 @@ describe('search.ts', () => {
 		const list = [mk({ no: 'A', type: 'sale' })]; // 賃貸で探すと何も無い
 		const q: SearchQuery = { ...emptyQuery('rental'), walkMax: 10, layout: ['1K'] };
 		expect(relaxCandidates(list, q, NOW)).toEqual([]);
+	});
+
+	it('J-095 条件固定ページ:固定した条件は URL に書かず、読む時に足す(applyFixed / stripFixed)', () => {
+		const fixed = { key: 'area', slug: 'aoto' } as const;
+		const fromUrl = parseQuery(new URLSearchParams('rent_max=90000'));
+		const q = applyFixed(fromUrl, fixed);
+		expect(q.area).toEqual(['aoto']);
+		expect(q.rentMax).toBe(90000);
+		// 書き戻す時は固定分を落とす(パスと二重に持たない)
+		expect(toSearchParams(stripFixed(q, fixed)).toString()).toBe('rent_max=90000');
+		// fixed が無ければ何もしない
+		expect(applyFixed(fromUrl)).toEqual(fromUrl);
+	});
+
+	it('J-095 0件時の緩和:固定した条件(エリア)は最後まで外さない', () => {
+		// 青戸には徒歩15分の物件しか無い。立石には徒歩5分の物件がある
+		const list = [mk({ no: 'A', area: 'aoto', stations: [{ slug: 'aoto', walk: 15 }] }), mk({ no: 'B', area: 'tateishi', stations: [{ slug: 'keisei-tateishi', walk: 5 }] })];
+		const q: SearchQuery = { ...emptyQuery(), area: ['aoto'], walkMax: 10 };
+		// 固定なし:エリアを外す候補も出る
+		expect(relaxCandidates(list, q, NOW).map((c) => c.label)).toEqual(['駅徒歩の条件を外す', 'エリアの条件を外す']);
+		// 固定あり:エリアは外さない
+		expect(relaxCandidates(list, q, NOW, { key: 'area', slug: 'aoto' }).map((c) => c.label)).toEqual(['駅徒歩の条件を外す']);
+		// 固定条件しか残っていなければ候補なし(近隣エリアの案内に任せる)
+		expect(relaxCandidates([mk({ no: 'C', area: 'tateishi' })], { ...emptyQuery(), area: ['aoto'] }, NOW, { key: 'area', slug: 'aoto' })).toEqual([]);
+	});
+
+	it('J-095 近隣エリアは同じ区の他の町だけ。他の条件は保ったまま数え、0件の町は出さない', () => {
+		const terms = [
+			{ slug: 'katsushika', name: '葛飾区', parent: null },
+			{ slug: 'aoto', name: '青戸', parent: 'katsushika' },
+			{ slug: 'tateishi', name: '立石', parent: 'katsushika' },
+			{ slug: 'kameari', name: '亀有', parent: 'katsushika' },
+			{ slug: 'hirai', name: '平井', parent: 'edogawa' },
+		];
+		const wards = [
+			{ ward: '葛飾区', towns: ['青戸', '立石', '亀有'] },
+			{ ward: '江戸川区', towns: ['平井'] },
+		];
+		const list = [mk({ no: 'A', area: 'tateishi', rent: 80000 }), mk({ no: 'B', area: 'kameari', rent: 120000 }), mk({ no: 'C', area: 'hirai', rent: 80000 })];
+		const q: SearchQuery = { ...emptyQuery(), area: ['aoto'], rentMax: 90000 };
+		// 立石は家賃条件を満たす、亀有は満たさない(0件なので出ない)、平井は区が違う
+		expect(nearbyAreas(list, q, terms, wards, NOW)).toEqual([{ slug: 'tateishi', name: '立石', count: 1 }]);
+		expect(nearbyAreas(list, emptyQuery(), terms, wards, NOW)).toEqual([]);
 	});
 
 	it('J-041 駅を複数選ぶと OR(どちらかの駅に一致すれば残る)', () => {
