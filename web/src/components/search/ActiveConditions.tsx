@@ -2,19 +2,26 @@
 
 import { X } from 'lucide-react';
 import { formatPrice, formatRent } from '@/config/site';
-import { isCoveredByQuickTab, type SearchQuery } from '@/lib/search';
+import { isCoveredByQuickTab, type FixedCondition, type SearchQuery } from '@/lib/search';
 import type { TermMaps } from '@/components/search/FilterPanel';
 
-/** 現在の条件をタグで表示。× で1つ外す(URL を書き換える・rules/search.md §2)。クイックタブにある条件(特集・徒歩5/10・築1/5・上位6設備)は出さない(J-042) */
-export function ActiveConditions({ q, onChange, terms }: { q: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps }) {
+/**
+ * 現在の条件をタグで表示。× で1つ外す(URL を書き換える・rules/search.md §2)。クイックタブにある条件(特集・徒歩5/10・築1/5・上位6設備)は出さない(J-042)。
+ * 条件固定の一覧(J-095)では、固定した条件は外せないのでタグに出さない(左カラムの固定表示に任せる)。
+ */
+export function ActiveConditions({ q, onChange, terms, fixed }: { q: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps; fixed?: FixedCondition }) {
 	const name = (list: { slug: string; name: string }[], slug: string) => list.find((t) => t.slug === slug)?.name ?? slug;
 	const tags: { label: string; remove: () => void }[] = [];
 	const without = <K extends 'area' | 'station' | 'layout' | 'feature' | 'kind' | 'collection'>(key: K, v: string) => ({ ...q, [key]: q[key].filter((x) => x !== v) });
+	const notFixed = (key: FixedCondition['key']) => (v: string) => !(fixed?.key === key && fixed.slug === v);
 
-	q.area.forEach((v) => tags.push({ label: name(terms.area, v), remove: () => onChange(without('area', v)) }));
-	q.station.forEach((v) => tags.push({ label: `${name(terms.station, v)}駅`, remove: () => onChange(without('station', v)) }));
+	q.area.filter(notFixed('area')).forEach((v) => tags.push({ label: name(terms.area, v), remove: () => onChange(without('area', v)) }));
+	q.station.filter(notFixed('station')).forEach((v) => tags.push({ label: `${name(terms.station, v)}駅`, remove: () => onChange(without('station', v)) }));
 	q.kind.forEach((v) => tags.push({ label: name(terms.kind, v), remove: () => onChange(without('kind', v)) }));
-	q.collection.filter((v) => !isCoveredByQuickTab(q, 'collection', v)).forEach((v) => tags.push({ label: name(terms.collection, v), remove: () => onChange(without('collection', v)) }));
+	q.collection
+		.filter(notFixed('collection'))
+		.filter((v) => !isCoveredByQuickTab(q, 'collection', v))
+		.forEach((v) => tags.push({ label: name(terms.collection, v), remove: () => onChange(without('collection', v)) }));
 	if (q.rentMin != null) tags.push({ label: `${formatRent(q.rentMin)}〜`, remove: () => onChange({ ...q, rentMin: undefined }) });
 	if (q.rentMax != null) tags.push({ label: `〜${formatRent(q.rentMax)}`, remove: () => onChange({ ...q, rentMax: undefined }) });
 	if (q.priceMin != null) tags.push({ label: `${formatPrice(q.priceMin)}〜`, remove: () => onChange({ ...q, priceMin: undefined }) });

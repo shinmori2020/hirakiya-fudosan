@@ -1,12 +1,14 @@
 'use client';
 
 import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 import type { Term } from '@/types/property';
 import { lines as LINES, serviceAreas } from '@/config/site';
 import { formatPrice, formatRent } from '@/config/site';
-import { BUILT_STEPS, LAYOUTS, PRICE_STEPS, RENT_STEPS, SQM_STEPS, WALK_STEPS, type SearchQuery } from '@/lib/search';
+import { BUILT_STEPS, LAYOUTS, PRICE_STEPS, RENT_STEPS, SQM_STEPS, WALK_STEPS, type FixedCondition, type SearchQuery } from '@/lib/search';
 import { Chip } from '@/components/search/Chip';
+import { attrClass } from '@/components/property/AttrLink';
 
 export interface TermMaps {
 	area: Term[];
@@ -46,18 +48,26 @@ const FEATURE_TOP = 6;
  * 駅は沿線6本でグループ化(config/site.ts の lines 順)。複数路線の駅は最初の路線にだけ置く(J-034 B・重複なし)。
  * 駅徒歩・設備は売買にも出す(J-042・J-043)。設備はその種別に該当のあるものだけ(availableFeatures・02 §4)。
  * 文字サイズ(J-035):項目は 小 13px、区名・沿線名は 最小 11/12px、見出しは H3。
+ *
+ * 条件固定の一覧(J-095 判断4・初案「固定として表示し、変更不可」):
+ *   エリア固定 = エリアの区分を「青戸(このページの条件)」+ 入口へのリンクに置き換える。駅の区分はそのまま
+ *   駅固定   = 駅の区分を同じ形に置き換える。エリアの区分はそのまま
+ *   沿線固定 = 駅の区分をその沿線の駅だけにし、沿線名の下に固定の注記。J-034 の「最初の沿線にだけ置く」は沿線が1本なので効かない
+ *   特集固定 = 左カラムに特集は無いので変えない(クイックタブ側でそのタブを消す)
  */
 export function FilterPanel({
 	value: q,
 	onChange,
 	terms,
 	availableFeatures,
+	fixed,
 }: {
 	value: SearchQuery;
 	onChange: (q: SearchQuery) => void;
 	terms: TermMaps;
 	/** その種別に1件以上ある設備の slug(J-043・データ判定)。省略時は全設備 */
 	availableFeatures?: readonly string[];
+	fixed?: FixedCondition;
 }) {
 	const toggle = (key: 'area' | 'station' | 'layout' | 'feature' | 'kind', v: string) => {
 		const cur = q[key];
@@ -67,9 +77,22 @@ export function FilterPanel({
 		onChange({ ...q, [key]: v === '' ? undefined : Number(v) });
 	const areaSlugByName = (name: string) => terms.area.find((t) => t.slug === name || (t.name === name && t.parent))?.slug;
 
-	// 駅を沿線でグループ化。複数路線の駅は lines 順で最初の路線にだけ置く(J-034 B)
+	// 固定条件の表示名(エリア = 区+町 / 駅 = 駅名+駅 / 沿線 = 沿線名)
+	const fixedName = (() => {
+		if (!fixed) return '';
+		if (fixed.key === 'area') {
+			const town = terms.area.find((t) => t.slug === fixed.slug);
+			const ward = town?.parent ? terms.area.find((t) => t.slug === town.parent) : undefined;
+			return town ? `${ward?.name ?? ''}${town.name}` : fixed.slug;
+		}
+		if (fixed.key === 'station') return `${terms.station.find((t) => t.slug === fixed.slug)?.name ?? fixed.slug}駅`;
+		if (fixed.key === 'line') return LINES.find((l) => l.slug === fixed.slug)?.name ?? fixed.slug;
+		return '';
+	})();
+
+	// 駅を沿線でグループ化。複数路線の駅は lines 順で最初の路線にだけ置く(J-034 B)。沿線固定ならその沿線だけ
 	const placed = new Set<string>();
-	const stationGroups = LINES.map((line) => ({
+	const stationGroups = LINES.filter((line) => fixed?.key !== 'line' || line.slug === fixed.slug).map((line) => ({
 		line,
 		items: terms.station.filter((t) => {
 			if (placed.has(t.slug)) return false;
@@ -96,7 +119,10 @@ export function FilterPanel({
 	return (
 		<div className="space-y-6">
 			<Group title="エリア">
-				{serviceAreas.map((w) => (
+				{fixed?.key === 'area' ? (
+					<Fixed name={fixedName} href="/area" linkLabel="他のエリアから探す" />
+				) : (
+					serviceAreas.map((w) => (
 					<div key={w.ward} className="mb-3 last:mb-0">
 						<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">{w.ward}</p>
 						<div className="flex flex-wrap gap-x-3 gap-y-2">
@@ -107,21 +133,36 @@ export function FilterPanel({
 							})}
 						</div>
 					</div>
-				))}
+					))
+				)}
 			</Group>
 
 			{/* 駅はチップ(トグルボタン)。沿線ごとに横流し。選択中は青緑の塗り、未選択は枠のみ(J-034) */}
 			<Group title="駅">
-				{stationGroups.map((g) => (
-					<div key={g.line.slug} className="mb-3 last:mb-0">
-						<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">{g.line.name}</p>
-						<div className="flex flex-wrap gap-x-1 gap-y-2">
-							{g.items.map((t) => (
-								<Chip key={t.slug} label={t.name} pressed={q.station.includes(t.slug)} onClick={() => toggle('station', t.slug)} />
-							))}
+				{fixed?.key === 'station' ? (
+					<Fixed name={fixedName} href="/line" linkLabel="他の沿線・駅から探す" />
+				) : (
+					stationGroups.map((g) => (
+						<div key={g.line.slug} className="mb-3 last:mb-0">
+							<p className="mb-1 text-xs text-ink-weak lg:text-xs-pc">
+								{g.line.name}
+								{fixed?.key === 'line' && <span className="ml-1">(このページの条件)</span>}
+							</p>
+							<div className="flex flex-wrap gap-x-1 gap-y-2">
+								{g.items.map((t) => (
+									<Chip key={t.slug} label={t.name} pressed={q.station.includes(t.slug)} onClick={() => toggle('station', t.slug)} />
+								))}
+							</div>
+							{fixed?.key === 'line' && (
+								<p className="mt-2">
+									<Link href="/line" className={`${attrClass('text')} text-small`}>
+										他の沿線・駅から探す
+									</Link>
+								</p>
+							)}
 						</div>
-					</div>
-				))}
+					))
+				)}
 			</Group>
 
 			{q.type === 'rental' ? (
@@ -204,6 +245,26 @@ export function FilterPanel({
 					)}
 				</div>
 			</details>
+		</div>
+	);
+}
+
+/**
+ * 固定条件の表示(J-095 判断4)。チェック・チップの代わりに「このページの条件」として名前を出し、変えたい人は入口ページへ。
+ * 文字は項目と同じ 小 13px。リンクは押せる文字(J-052 → J-096 で一覧側にも適用)
+ */
+function Fixed({ name, href, linkLabel }: { name: string; href: string; linkLabel: string }) {
+	return (
+		<div className="text-small">
+			<p className="font-bold text-sumi">
+				{name}
+				<span className="ml-1 font-normal text-ink-weak">(このページの条件)</span>
+			</p>
+			<p className="mt-2">
+				<Link href={href} className={attrClass('text')}>
+					{linkLabel}
+				</Link>
+			</p>
 		</div>
 	);
 }

@@ -7,12 +7,15 @@ import { useEffect, useMemo, useState } from 'react';
 import type { PropertySummary } from '@/types/property';
 import {
 	activeConditionCount,
+	applyFixed,
 	applyQuery,
 	paginate,
 	parseQuery,
 	SORT_OPTIONS,
 	sortProperties,
+	stripFixed,
 	toSearchParams,
+	type FixedCondition,
 	type SearchQuery,
 	type SortKey,
 } from '@/lib/search';
@@ -27,23 +30,33 @@ import { QuickTabs } from '@/components/search/QuickTabs';
  * 検索結果(方式③:静的な殻 + Client で index.json を絞る)。これは初案。
  * 条件・並び・ページはすべて URL(router.push)に載せ、戻るで復元される(rules/search.md §2)。
  * PC:左に絞り込み(常時・即時反映)+ 右にカード2列。スマホ:1列、絞り込みはドロワー(適用ボタンに件数)。
+ *
+ * fixed(J-095・条件固定の一覧):/area/[slug] などは URL のパスが1条件を持つ。読む時に足し(applyFixed)、
+ * 書く時に落とす(stripFixed)ので、パスとクエリに同じ条件を二重に持たない。固定条件は左カラムで変更不可・
+ * 条件タグに出さない・0件時の緩和で外さない(判断4・5)。クリアの操作でも固定条件は残す。
  */
-export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; terms: TermMaps; nowIso: string }) {
+export function SearchResults({ all, terms, nowIso, fixed }: { all: PropertySummary[]; terms: TermMaps; nowIso: string; fixed?: FixedCondition }) {
 	const sp = useSearchParams();
 	const router = useRouter();
 	const pathname = usePathname();
 	const now = useMemo(() => new Date(nowIso), [nowIso]);
-	const q = useMemo(() => parseQuery(new URLSearchParams(sp.toString())), [sp]);
+	const q = useMemo(() => applyFixed(parseQuery(new URLSearchParams(sp.toString())), fixed), [sp, fixed]);
 
 	const filtered = useMemo(() => applyQuery(all, q, now), [all, q, now]);
 	const sorted = useMemo(() => sortProperties(filtered, q.sort), [filtered, q.sort]);
 	const { items, page, totalPages } = paginate(sorted, q.page);
 
 	const update = (next: SearchQuery) => {
-		const s = toSearchParams(next).toString();
+		const s = toSearchParams(stripFixed(next, fixed)).toString();
 		router.push(s ? `${pathname}?${s}` : pathname, { scroll: false });
 	};
 	const change = (next: SearchQuery) => update({ ...next, page: 1 });
+	/** 条件のクリア(ドロワー・0件時)。固定条件は残す */
+	const cleared = (base: SearchQuery): SearchQuery =>
+		applyFixed(
+			{ ...base, area: [], station: [], line: [], kind: [], layout: [], feature: [], rentMin: undefined, rentMax: undefined, priceMin: undefined, priceMax: undefined, walkMax: undefined, builtMaxYears: undefined, sqmMin: undefined },
+			fixed,
+		);
 
 	// スマホのドロワー:下書きを持ち、適用で URL に反映
 	const [drawer, setDrawer] = useState(false);
@@ -90,7 +103,8 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 	const featuresFor = (type: SearchQuery['type']) => Array.from(new Set(all.filter((p) => p.type === type).flatMap((p) => p.features)));
 	const availableFeatures = useMemo(() => featuresFor(q.type), [all, q.type]); // eslint-disable-line react-hooks/exhaustive-deps -- featuresFor は all だけに依存
 	const typeLabel = q.type === 'rental' ? '賃貸' : '売買';
-	const condCount = activeConditionCount(q);
+	// 絞り込みボタンの件数は、利用者が変えられる条件だけを数える(固定条件は含めない)
+	const condCount = activeConditionCount(stripFixed(q, fixed));
 
 	return (
 		<div className="lg:grid lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-8">
@@ -98,7 +112,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 			<aside className="hidden lg:block">
 				{/* ヘッダー直下(compact 時の高さ 61px → top 64)に固定。上限は 画面高 − ヘッダー高 − 余白 16、超える分はカラム内でスクロール(J-034) */}
 				<div className="sticky top-16 max-h-[calc(100dvh-4rem-1rem)] overflow-y-auto rounded-hr border border-line p-3 [scrollbar-width:thin]">
-					<FilterPanel value={q} onChange={change} terms={terms} availableFeatures={availableFeatures} />
+					<FilterPanel value={q} onChange={change} terms={terms} availableFeatures={availableFeatures} fixed={fixed} />
 				</div>
 			</aside>
 
@@ -122,11 +136,11 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 
 				{/* クイック条件タブ(J-042):詳細のポイントタグと同じ語彙。押すと URL の条件が ON/OFF(左カラムと連動) */}
 				<div className="mt-4">
-					<QuickTabs all={all} q={q} onChange={change} terms={terms} />
+					<QuickTabs all={all} q={q} onChange={change} terms={terms} fixed={fixed} />
 				</div>
 				{/* タブに無い条件(エリア・家賃・間取り・面積など)だけ × 付きで表示 */}
 				<div className="mt-3">
-					<ActiveConditions q={q} onChange={change} terms={terms} />
+					<ActiveConditions q={q} onChange={change} terms={terms} fixed={fixed} />
 				</div>
 
 				{/* 件数・並び替え・(スマホ)絞り込みボタン */}
@@ -178,7 +192,7 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 				<div key={queryKey} className="mt-6">
 					{filtered.length === 0 ? (
 						<div className="animate-list-in motion-reduce:animate-none">
-							<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} />
+							<EmptyState all={all} q={q} onChange={change} terms={terms} now={now} fixed={fixed} onClear={() => change(cleared(q))} />
 						</div>
 					) : (
 						// 〜767px 1列 / 768px〜 2列(03 §7 v0.5)。左カラムは lg から
@@ -217,12 +231,12 @@ export function SearchResults({ all, terms, nowIso }: { all: PropertySummary[]; 
 						</button>
 					</div>
 					<div className="flex-1 overflow-y-auto px-4 py-4">
-						<FilterPanel value={draft} onChange={setDraft} terms={terms} availableFeatures={featuresFor(draft.type)} />
+						<FilterPanel value={draft} onChange={setDraft} terms={terms} availableFeatures={featuresFor(draft.type)} fixed={fixed} />
 					</div>
 					<div className="grid grid-cols-[auto_1fr] gap-2 border-t border-line p-3">
 						<button
 							type="button"
-							onClick={() => setDraft({ ...draft, area: [], station: [], line: [], kind: [], layout: [], feature: [], rentMin: undefined, rentMax: undefined, priceMin: undefined, priceMax: undefined, walkMax: undefined, builtMaxYears: undefined, sqmMin: undefined })}
+							onClick={() => setDraft(cleared(draft))}
 							className="h-12 rounded-hr border border-sumi px-4 text-body font-medium text-sumi"
 						>
 							クリア
