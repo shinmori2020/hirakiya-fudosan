@@ -375,6 +375,21 @@ export const SAME_AS_COLLECTION: Readonly<Record<string, readonly TabRef[]>> = {
 };
 
 /**
+ * 条件固定の一覧で、左カラムのセレクトの**先頭(空の値)に出すラベル**(J-101)。
+ * 「指定なし」のままだと、左カラムを見ただけでは何で絞られているかが読めない(J-098 と同じ理由)。
+ * 空の値の意味が「追加の指定なし」から「**このページの条件のまま**」に変わるだけで、送る値も URL も変えない。
+ * セレクト全体は変更不可にしない(より狭い条件への絞り込みは残す)。どのセレクトに何と出すかは
+ * SAME_AS_COLLECTION(J-100)から決まるので、対応表を2つ持たない。
+ */
+export function fixedSelectLabel(kind: 'walk' | 'built', fixed?: FixedCondition): string | undefined {
+	if (fixed?.key !== 'collection') return undefined;
+	const ref = (SAME_AS_COLLECTION[fixed.slug] ?? []).find((r) => r.kind === kind);
+	if (!ref) return undefined;
+	const text = ref.kind === 'walk' ? `駅徒歩${ref.max}分以内` : ref.kind === 'built' ? `築${ref.max}年以内` : '';
+	return `${text}(このページの条件)`;
+}
+
+/**
  * 条件固定の一覧で、固定条件と同じ条件のタブを落とす(J-097・J-100)。落とすのは2種類:
  *   1 固定した特集そのもののタブ(押しても外せない)
  *   2 SAME_AS_COLLECTION に載っている、同じ条件のタブ(押しても件数が1件も変わらない)

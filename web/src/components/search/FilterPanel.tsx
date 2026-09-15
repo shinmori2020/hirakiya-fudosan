@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { Term } from '@/types/property';
 import { lines as LINES, serviceAreas } from '@/config/site';
 import { formatPrice, formatRent } from '@/config/site';
-import { BUILT_STEPS, LAYOUTS, PRICE_STEPS, RENT_STEPS, SQM_STEPS, WALK_STEPS, type FixedCondition, type SearchQuery } from '@/lib/search';
+import { BUILT_STEPS, fixedSelectLabel, LAYOUTS, PRICE_STEPS, RENT_STEPS, SQM_STEPS, WALK_STEPS, type FixedCondition, type SearchQuery } from '@/lib/search';
 import { Chip } from '@/components/search/Chip';
 import { attrClass } from '@/components/property/AttrLink';
 
@@ -224,10 +224,10 @@ export function FilterPanel({
 				<div className="space-y-6 pt-4">
 					{/* 駅徒歩・設備は売買にも出す(J-042・クイックタブと連動させるため) */}
 					<Group title="駅徒歩">
-						<Select value={q.walkMax} onChange={(v) => setNum('walkMax', v)} blank="指定なし" options={WALK_STEPS.map((n) => [n, `${n}分以内`])} />
+						<Select value={q.walkMax} onChange={(v) => setNum('walkMax', v)} blank={fixedSelectLabel('walk', fixed) ?? '指定なし'} options={WALK_STEPS.map((n) => [n, `${n}分以内`])} />
 					</Group>
 					<Group title="築年数">
-						<Select value={q.builtMaxYears} onChange={(v) => setNum('builtMaxYears', v)} blank="指定なし" options={BUILT_STEPS.map((n) => [n, `${n}年以内`])} />
+						<Select value={q.builtMaxYears} onChange={(v) => setNum('builtMaxYears', v)} blank={fixedSelectLabel('built', fixed) ?? '指定なし'} options={BUILT_STEPS.map((n) => [n, `${n}年以内`])} />
 					</Group>
 					<Group title="面積">
 						<Select value={q.sqmMin} onChange={(v) => setNum('sqmMin', v)} blank="指定なし" options={SQM_STEPS.map((n) => [n, `${n}㎡以上`])} />

@@ -4,6 +4,7 @@ import {
 	applyFixed,
 	applyQuery,
 	emptyQuery,
+	fixedSelectLabel,
 	hideFixedTabs,
 	isCoveredByQuickTab,
 	isQuickTabActive,
@@ -255,6 +256,18 @@ describe('search.ts', () => {
 		const other = hideFixedTabs(groups, { key: 'collection', slug: 'house-rental' });
 		expect(labels(other, '駅徒歩')).toEqual(['駅徒歩5分以内', '駅徒歩10分以内']);
 		expect(labels(other, '設備')).toEqual(['autolock']);
+	});
+
+	it('J-101 左カラムのセレクトの先頭は、対応表にある特集でだけ固定条件の文言になる', () => {
+		expect(fixedSelectLabel('walk', { key: 'collection', slug: 'near-station' })).toBe('駅徒歩5分以内(このページの条件)');
+		expect(fixedSelectLabel('built', { key: 'collection', slug: 'new-built' })).toBe('築5年以内(このページの条件)');
+		// 同じ特集でも、対応する条件が無いセレクトは変えない
+		expect(fixedSelectLabel('built', { key: 'collection', slug: 'near-station' })).toBeUndefined();
+		expect(fixedSelectLabel('walk', { key: 'collection', slug: 'new-built' })).toBeUndefined();
+		// 対応表に無い特集・エリアなどの固定・固定なしは変えない
+		expect(fixedSelectLabel('walk', { key: 'collection', slug: 'pet-ok' })).toBeUndefined();
+		expect(fixedSelectLabel('walk', { key: 'area', slug: 'aoto' })).toBeUndefined();
+		expect(fixedSelectLabel('built')).toBeUndefined();
 	});
 
 	it('J-042 条件タグ(×付き)はタブにある条件を出さない:特集・徒歩5/10・築1/5・上位6設備は隠れ、徒歩15・築10・7番目以降の設備は出る', () => {
