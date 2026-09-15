@@ -111,8 +111,17 @@ export function FilterPanel({
 			return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
 		});
 	const [moreFeatures, setMoreFeatures] = useState(false);
-	const hiddenSelected = features.slice(FEATURE_TOP).filter((t) => q.feature.includes(t.slug)).length;
-	const visibleFeatures = moreFeatures ? features : features.slice(0, FEATURE_TOP);
+	/**
+	 * 固定した特集と slug が同じ設備(特集 pet-ok と設備 pet-ok・特集 zero-deposit と設備 敷金礼金ゼロ)。
+	 * 同じ条件なので選び直せないが、**消さずにチェック済み・変更不可で出す**(消すと左カラムから何で絞られているか読めなくなる。J-098)。
+	 * 上位6つの外にある設備(敷金礼金ゼロ は12番目)でも、固定なら「もっと見る」を開かずに出す。
+	 */
+	const fixedFeature = fixed?.key === 'collection' && features.some((t) => t.slug === fixed.slug) ? fixed.slug : undefined;
+	const isFixedFeature = (slug: string) => slug === fixedFeature;
+	const top = features.slice(0, FEATURE_TOP);
+	const visibleFeatures = moreFeatures ? features : top.concat(fixedFeature && !top.some((t) => t.slug === fixedFeature) ? features.filter((t) => t.slug === fixedFeature) : []);
+	const hiddenSelected = features.filter((t) => !visibleFeatures.includes(t) && q.feature.includes(t.slug)).length;
+	const hiddenCount = features.length - visibleFeatures.length;
 
 	const advancedCount = [q.walkMax, q.builtMaxYears, q.sqmMin].filter((v) => v != null).length + q.feature.length;
 
@@ -227,17 +236,23 @@ export function FilterPanel({
 						<Group title="設備・条件">
 							<div className="flex flex-wrap gap-x-3 gap-y-2">
 								{visibleFeatures.map((t) => (
-									<Check key={t.slug} label={t.name} checked={q.feature.includes(t.slug)} onChange={() => toggle('feature', t.slug)} />
+									<Check
+										key={t.slug}
+										label={t.name}
+										checked={q.feature.includes(t.slug) || isFixedFeature(t.slug)}
+										fixed={isFixedFeature(t.slug)}
+										onChange={() => toggle('feature', t.slug)}
+									/>
 								))}
 							</div>
-							{features.length > FEATURE_TOP && (
+							{hiddenCount > 0 && (
 								<button
 									type="button"
 									onClick={() => setMoreFeatures((v) => !v)}
 									aria-expanded={moreFeatures}
 									className="mt-2 flex h-8 cursor-pointer items-center gap-1 text-small text-accent-strong underline"
 								>
-									{moreFeatures ? '閉じる' : `もっと見る(他 ${features.length - FEATURE_TOP} 件${hiddenSelected > 0 ? `・選択中 ${hiddenSelected}` : ''})`}
+									{moreFeatures ? '閉じる' : `もっと見る(他 ${hiddenCount} 件${hiddenSelected > 0 ? `・選択中 ${hiddenSelected}` : ''})`}
 									<ChevronDown size={16} aria-hidden="true" className={`transition-transform duration-200 ${moreFeatures ? 'rotate-180' : ''}`} />
 								</button>
 							)}
@@ -279,17 +294,27 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 }
 
 /** チェックボックスは項目文字(小 13px)と同じ高さ(J-035 条件追加)。色・角丸はブラウザ既定+accent のまま。
- *  hover / active で枠を一段濃く見せる(native の border は CSS で変えられないため、同位置に 1px の outline を重ねる。focus-visible の輪郭は変えない) */
-function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
+ *  hover / active で枠を一段濃く見せる(native の border は CSS で変えられないため、同位置に 1px の outline を重ねる。focus-visible の輪郭は変えない)
+ *  fixed(J-098):このページで固定している条件。`disabled` で外せなくし(Tab でも止まらない)、
+ *  ラベルの後ろに「(このページの条件)」を添えて読み上げでも理由が分かるようにする。hover の反応も出さない */
+function Check({ label, checked, onChange, fixed = false }: { label: string; checked: boolean; onChange: () => void; fixed?: boolean }) {
 	return (
-		<label className="flex min-h-11 cursor-pointer items-center gap-2 rounded-hr text-small transition-[background-color] duration-150 motion-reduce:transition-none hover:bg-badge-new-bg active:bg-badge-new-bg lg:min-h-0">
+		<label
+			className={`flex min-h-11 items-center gap-2 rounded-hr text-small transition-[background-color] duration-150 motion-reduce:transition-none lg:min-h-0 ${
+				fixed ? 'cursor-default' : 'cursor-pointer hover:bg-badge-new-bg active:bg-badge-new-bg'
+			}`}
+		>
 			<input
 				type="checkbox"
 				checked={checked}
 				onChange={onChange}
-				className="size-[13px] cursor-pointer accent-accent transition-[outline-color] duration-150 outline-1 -outline-offset-1 outline-transparent motion-reduce:transition-none [&:hover:not(:focus-visible)]:outline-ink-weak [&:active:not(:focus-visible)]:outline-ink-weak"
+				disabled={fixed}
+				className={`size-[13px] accent-accent transition-[outline-color] duration-150 outline-1 -outline-offset-1 outline-transparent motion-reduce:transition-none ${
+					fixed ? 'cursor-default' : 'cursor-pointer [&:hover:not(:focus-visible)]:outline-ink-weak [&:active:not(:focus-visible)]:outline-ink-weak'
+				}`}
 			/>
 			{label}
+			{fixed && <span className="text-ink-weak">(このページの条件)</span>}
 		</label>
 	);
 }
