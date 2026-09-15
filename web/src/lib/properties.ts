@@ -89,24 +89,7 @@ export async function getExportMeta(): Promise<ExportMeta | null> {
 	return USE_STATIC ? readJson<ExportMeta>('meta.json') : null;
 }
 
-// ---- よく使う絞り込み(純粋な配列操作。検索の本体は lib/search.ts に置く) ----
-
-export function byType(list: PropertySummary[], type: PropertySummary['type']) {
-	return list.filter((p) => p.type === type);
-}
-export function byArea(list: PropertySummary[], area: string) {
-	return list.filter((p) => p.area === area);
-}
-export function byLine(list: PropertySummary[], line: string) {
-	return list.filter((p) => p.lines.includes(line));
-}
-export function byStation(list: PropertySummary[], station: string) {
-	return list.filter((p) => p.stations.some((s) => s.slug === station));
-}
-export function byCollection(list: PropertySummary[], collection: string) {
-	return list.filter((p) => p.collections.includes(collection));
-}
-/** 掲載中(成約済みを除く) */
-export function onlyListed(list: PropertySummary[]) {
-	return list.filter((p) => p.status !== 'sold');
-}
+// 絞り込みはすべて lib/search.ts の applyQuery を通す。
+// ここにあった byType / byArea / byLine / byStation / byCollection / onlyListed は
+// **どこからも呼ばれていなかったので削除した(09/15)**。同じ判定が2か所にあると、
+// 次に使う人が applyQuery とのずれ(成約済みの扱い・特集の計算 J-099 など)に気づかないまま使うため。
