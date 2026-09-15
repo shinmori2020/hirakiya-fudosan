@@ -11,7 +11,8 @@ import Link from 'next/link';
  * 文言(J-075):問い合わせは「問い合わせる」の1語にする。1024〜1080px の右カラム(ボタン幅 182〜193px)で
  *   「この物件を問い合わせる」が2行になり、高さ 44px のボタンからはみ出したため。物件詳細ページにいるので
  *   「この物件を」は自明。上下2箇所で同じ文言にする(同じ操作の呼び名を1つに保つ)。
- * 物件 ID は URL パラメータで引き継ぐ(J-037:/reserve?property=HR-R-0001)。
+ * 物件 ID は URL パラメータで引き継ぐ(J-037 → J-102:入口は /contact 1本。内見予約は ?kind=viewing で種別を初期選択、
+ * 問い合わせは kind なし。J-037 の例 URL /reserve は廃止)。
  * 成約済みは内見予約を出さない(J-038 判断1)。2列でも残る1つが全幅になるだけで崩れない。
  */
 export function CtaBlock({
@@ -33,7 +34,7 @@ export function CtaBlock({
 	return (
 		<div className={`grid gap-2 ${two ? cols : ''}`}>
 			{!sold && (
-				<Link href={`/reserve${q}`} className="flex h-12 items-center justify-center rounded-hr bg-accent text-body font-bold text-white hover:bg-accent-strong lg:h-11 lg:text-body-pc">
+				<Link href={`/contact${q}&kind=viewing`} className="flex h-12 items-center justify-center rounded-hr bg-accent text-body font-bold text-white hover:bg-accent-strong lg:h-11 lg:text-body-pc">
 					{reserveLabel}
 				</Link>
 			)}
