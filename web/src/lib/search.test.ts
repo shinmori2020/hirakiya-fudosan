@@ -4,6 +4,7 @@ import {
 	applyFixed,
 	applyQuery,
 	emptyQuery,
+	hideFixedTabs,
 	isCoveredByQuickTab,
 	isQuickTabActive,
 	nearbyAreas,
@@ -213,6 +214,25 @@ describe('search.ts', () => {
 		expect(sale[0].tabs.map((t) => (t.kind === 'collection' ? t.slug : ''))).toEqual(['near-station']);
 		expect(sale[3].tabs.map((t) => (t.kind === 'feature' ? t.slug : ''))).toEqual(['parking']);
 		expect(quickTabGroups([], 'rental', names).map((g) => g.title)).toEqual(['駅徒歩', '築年']);
+	});
+
+	it('J-097 特集で固定した一覧では、その特集のタブと slug が同じ設備のタブを出さない', () => {
+		const names = { collectionName: (x: string) => x, featureName: (x: string) => x };
+		const list = [mk({ no: 'A', collections: ['pet-ok'], features: ['pet-ok', 'autolock'] })];
+		const groups = quickTabGroups(list, 'rental', names);
+		expect(groups.map((g) => g.title)).toEqual(['特集', '駅徒歩', '築年', '設備']);
+
+		const hidden = hideFixedTabs(groups, { key: 'collection', slug: 'pet-ok' });
+		// 特集の区分はタブが無くなるので区分ごと消える。設備は「ペット可」だけ落ちて「オートロック」は残る
+		expect(hidden.map((g) => g.title)).toEqual(['駅徒歩', '築年', '設備']);
+		expect(hidden[2].tabs.map((t) => (t.kind === 'feature' ? t.slug : ''))).toEqual(['autolock']);
+
+		// 同じ slug の設備が無い特集(戸建賃貸)では、設備のタブは減らない
+		const other = hideFixedTabs(groups, { key: 'collection', slug: 'house-rental' });
+		expect(other[3].tabs.map((t) => (t.kind === 'feature' ? t.slug : ''))).toEqual(['pet-ok', 'autolock']);
+		// エリア・駅・沿線の固定では何も落とさない
+		expect(hideFixedTabs(groups, { key: 'area', slug: 'aoto' })).toEqual(groups);
+		expect(hideFixedTabs(groups)).toEqual(groups);
 	});
 
 	it('J-042 条件タグ(×付き)はタブにある条件を出さない:特集・徒歩5/10・築1/5・上位6設備は隠れ、徒歩15・築10・7番目以降の設備は出る', () => {

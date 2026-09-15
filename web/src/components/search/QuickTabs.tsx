@@ -1,7 +1,7 @@
 'use client';
 
 import type { PropertySummary } from '@/types/property';
-import { isQuickTabActive, quickTabGroups, toggleQuickTab, type FixedCondition, type QuickTabGroup, type SearchQuery } from '@/lib/search';
+import { hideFixedTabs, isQuickTabActive, quickTabGroups, toggleQuickTab, type FixedCondition, type QuickTabGroup, type SearchQuery } from '@/lib/search';
 import { Chip } from '@/components/search/Chip';
 import type { TermMaps } from '@/components/search/FilterPanel';
 
@@ -16,13 +16,14 @@ import type { TermMaps } from '@/components/search/FilterPanel';
  *   帯・見出しは出さず、特集 / 駅徒歩 / 築年 を折り返して並べる(区分の間は広めの間隔)。設備はドロワーの設備チップに任せて出さない。
  */
 export function QuickTabs({ all, q, onChange, terms, fixed }: { all: PropertySummary[]; q: SearchQuery; onChange: (q: SearchQuery) => void; terms: TermMaps; fixed?: FixedCondition }) {
-	const groups = quickTabGroups(all, q.type, {
-		collectionName: (slug) => terms.collection.find((t) => t.slug === slug)?.name ?? slug,
-		featureName: (slug) => terms.feature.find((t) => t.slug === slug)?.name ?? slug,
-	})
-		// 特集で固定した一覧(/feature/[slug])では、その特集のタブは押せない(外せない)ので出さない(J-095 判断4)
-		.map((g) => ({ ...g, tabs: g.tabs.filter((t) => !(fixed?.key === 'collection' && t.kind === 'collection' && t.slug === fixed.slug)) }))
-		.filter((g) => g.tabs.length > 0);
+	// 特集で固定した一覧(/feature/[slug])では、その特集のタブと、同じ条件の設備タブを出さない(J-095 判断4・J-097)
+	const groups = hideFixedTabs(
+		quickTabGroups(all, q.type, {
+			collectionName: (slug) => terms.collection.find((t) => t.slug === slug)?.name ?? slug,
+			featureName: (slug) => terms.feature.find((t) => t.slug === slug)?.name ?? slug,
+		}),
+		fixed,
+	);
 	if (groups.length === 0) return null;
 	const byTitle = (t: string) => groups.find((g) => g.title === t);
 	const collection = byTitle('特集');

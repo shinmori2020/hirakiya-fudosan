@@ -353,6 +353,22 @@ export function quickTabGroups(
 	return groups;
 }
 
+/**
+ * 条件固定の一覧で、固定条件と同じ条件のタブを落とす(J-097)。
+ * 落とすのは2種類だけ:
+ *   1 固定した特集そのもののタブ(押しても外せない)
+ *   2 **固定した特集と slug が一致する設備**のタブ(特集 pet-ok と設備 pet-ok、特集 zero-deposit と設備 zero-deposit)。
+ *     タクソノミーは別だが条件は同じで、押しても件数が1件も減らない
+ * 「その集合の全件が持つ設備」では判定しない(戸建賃貸5件が全件 駐車場 を持つのは60件のシードの偶然で、条件としては別物。
+ * 物件が増えると判定が変わる)。駅徒歩・築年のタブは触らない(特集「駅徒歩5分」との重なりは未決)。
+ * タブが全部消えた区分は区分ごと落とす。
+ */
+export function hideFixedTabs(groups: QuickTabGroup[], fixed?: FixedCondition): QuickTabGroup[] {
+	if (fixed?.key !== 'collection') return groups;
+	const same = (t: QuickTab) => (t.kind === 'collection' || t.kind === 'feature') && t.slug === fixed.slug;
+	return groups.map((g) => ({ ...g, tabs: g.tabs.filter((t) => !same(t)) })).filter((g) => g.tabs.length > 0);
+}
+
 export function isQuickTabActive(q: SearchQuery, tab: QuickTab): boolean {
 	switch (tab.kind) {
 		case 'collection':
