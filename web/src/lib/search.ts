@@ -354,18 +354,38 @@ export function quickTabGroups(
 }
 
 /**
- * 条件固定の一覧で、固定条件と同じ条件のタブを落とす(J-097)。
- * 落とすのは2種類だけ:
+ * 特集と**条件の定義が一致する**タブ(J-097 → J-100 で対応表に)。
+ * 入れてよいのは「同じ物件の集合になることが定義から言えるもの」だけで、**件数では判定しない**
+ * (戸建賃貸5件が全件 駐車場 を持つのは60件のシードの偶然。物件が増えると変わる)。
+ *
+ *   pet-ok       … 特集の付与条件が「設備 pet-ok を持つ」(seed-properties.php hr_collections_for)
+ *   zero-deposit … 同上
+ *   near-station … 特集の付与条件が「1駅目の徒歩 5分以内」。walk_max=5 の判定と同じ値・同じ境界
+ *   new-built    … 読み込み時に「築5年以内」で判定する(J-099)。built_max=5 と同じ関数(builtYears)
+ *
+ * 「駅徒歩10分以内」「新築(築1年以内)」は**入れない**。5分以内の物件はすべて10分以内に含まれるので
+ * いまは件数が変わらないが、条件としては別物で、特集の定義が変われば差が出る。
+ */
+type TabRef = { kind: 'feature'; slug: string } | { kind: 'walk'; max: number } | { kind: 'built'; max: number };
+export const SAME_AS_COLLECTION: Readonly<Record<string, readonly TabRef[]>> = {
+	'pet-ok': [{ kind: 'feature', slug: 'pet-ok' }],
+	'zero-deposit': [{ kind: 'feature', slug: 'zero-deposit' }],
+	'near-station': [{ kind: 'walk', max: 5 }],
+	'new-built': [{ kind: 'built', max: 5 }],
+};
+
+/**
+ * 条件固定の一覧で、固定条件と同じ条件のタブを落とす(J-097・J-100)。落とすのは2種類:
  *   1 固定した特集そのもののタブ(押しても外せない)
- *   2 **固定した特集と slug が一致する設備**のタブ(特集 pet-ok と設備 pet-ok、特集 zero-deposit と設備 zero-deposit)。
- *     タクソノミーは別だが条件は同じで、押しても件数が1件も減らない
- * 「その集合の全件が持つ設備」では判定しない(戸建賃貸5件が全件 駐車場 を持つのは60件のシードの偶然で、条件としては別物。
- * 物件が増えると判定が変わる)。駅徒歩・築年のタブは触らない(特集「駅徒歩5分」との重なりは未決)。
- * タブが全部消えた区分は区分ごと落とす。
+ *   2 SAME_AS_COLLECTION に載っている、同じ条件のタブ(押しても件数が1件も変わらない)
+ * タブが全部消えた区分は区分ごと落とす。エリア・駅・沿線で固定したページのタブは減らさない。
  */
 export function hideFixedTabs(groups: QuickTabGroup[], fixed?: FixedCondition): QuickTabGroup[] {
 	if (fixed?.key !== 'collection') return groups;
-	const same = (t: QuickTab) => (t.kind === 'collection' || t.kind === 'feature') && t.slug === fixed.slug;
+	const refs = SAME_AS_COLLECTION[fixed.slug] ?? [];
+	const same = (t: QuickTab) =>
+		(t.kind === 'collection' && t.slug === fixed.slug) ||
+		refs.some((r) => (r.kind === 'feature' ? t.kind === 'feature' && t.slug === r.slug : t.kind === r.kind && t.max === r.max));
 	return groups.map((g) => ({ ...g, tabs: g.tabs.filter((t) => !same(t)) })).filter((g) => g.tabs.length > 0);
 }
 

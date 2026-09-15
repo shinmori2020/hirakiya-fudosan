@@ -235,6 +235,28 @@ describe('search.ts', () => {
 		expect(hideFixedTabs(groups)).toEqual(groups);
 	});
 
+	it('J-100 対応表にある特集では、slug が違っても同じ条件のタブを落とす(駅徒歩5分・新築築浅)', () => {
+		const names = { collectionName: (x: string) => x, featureName: (x: string) => x };
+		const list = [mk({ no: 'A', collections: ['near-station', 'new-built'], features: ['autolock'] })];
+		const groups = quickTabGroups(list, 'rental', names);
+		const labels = (gs: ReturnType<typeof quickTabGroups>, title: string) => gs.find((g) => g.title === title)?.tabs.map((t) => t.label) ?? [];
+
+		// 駅徒歩5分 → walk 5 だけ消える。10分以内は残す(5分以内は10分以内に含まれるが条件は別物)
+		const near = hideFixedTabs(groups, { key: 'collection', slug: 'near-station' });
+		expect(labels(near, '駅徒歩')).toEqual(['駅徒歩10分以内']);
+		expect(labels(near, '築年')).toEqual(['新築', '築浅']);
+
+		// 新築・築浅 → built 5(築浅)だけ消える。新築(築1年以内)は残す
+		const built = hideFixedTabs(groups, { key: 'collection', slug: 'new-built' });
+		expect(labels(built, '築年')).toEqual(['新築']);
+		expect(labels(built, '駅徒歩')).toEqual(['駅徒歩5分以内', '駅徒歩10分以内']);
+
+		// 対応表に無い特集は、その特集のタブだけが消える
+		const other = hideFixedTabs(groups, { key: 'collection', slug: 'house-rental' });
+		expect(labels(other, '駅徒歩')).toEqual(['駅徒歩5分以内', '駅徒歩10分以内']);
+		expect(labels(other, '設備')).toEqual(['autolock']);
+	});
+
 	it('J-042 条件タグ(×付き)はタブにある条件を出さない:特集・徒歩5/10・築1/5・上位6設備は隠れ、徒歩15・築10・7番目以降の設備は出る', () => {
 		const q: SearchQuery = { ...emptyQuery(), walkMax: 15, builtMaxYears: 10 };
 		expect(isCoveredByQuickTab({ ...q, walkMax: 10 }, 'walkMax')).toBe(true);
