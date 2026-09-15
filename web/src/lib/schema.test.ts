@@ -172,7 +172,17 @@ describe('schema.ts', () => {
 		expect(items[2]).toMatchObject({ name: '墨田区押上', item: 'https://example.test/properties?type=sale&area=oshiage' });
 	});
 
-	it('J-083 potentialAction は入れない(フォームが未実装で飛び先が 404 のため・実装順 5 で追加)', () => {
-		expect(realEstateListing(mk(), ctx).potentialAction).toBeUndefined();
+	it('J-102 potentialAction は内見予約の入口。飛び先は画面の CTA と同じ /contact?property=ID&kind=viewing', () => {
+		const pa = realEstateListing(mk(), ctx).potentialAction as { '@type': string; name: string; target: { urlTemplate: string } };
+		expect(pa['@type']).toBe('ReserveAction');
+		expect(pa.name).toBe('内見を予約する');
+		expect(pa.target.urlTemplate).toBe('https://example.test/contact?property=HR-R-0001&kind=viewing');
+		// 売買は「見学」
+		const sale = realEstateListing(mk({ type: 'sale', kind: 'house', rent: undefined, price: 3100, sale: undefined }), ctx).potentialAction as { name: string };
+		expect(sale.name).toBe('見学を予約する');
+	});
+
+	it('J-102 成約済みには potentialAction を出さない(画面でも内見予約を出さない・J-038 と整合)', () => {
+		expect(realEstateListing(mk({ status: 'sold' }), ctx).potentialAction).toBeUndefined();
 	});
 });

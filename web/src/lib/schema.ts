@@ -12,7 +12,8 @@
  *   - **売買は同じ Offer に price(円)** を書く。JSON は万円なので 10,000 倍する。businessFunction は既定(売却)。
  *   - **成約済みも出す**。J-037 でページを残すと決めた以上、画面と機械可読の内容を食い違わせない。
  *     状態は availability(公開中 InStock / 商談中 LimitedAvailability / 成約済み SoldOut)で示す。
- *   - potentialAction(内見予約)は入れない。フォームが未実装で、飛び先が 404 の URL を書くことになるため(実装順 5)。
+ *   - potentialAction(内見予約)は J-083 では保留(フォーム未実装で飛び先が 404 だったため)。J-102 で /contact ができたので
+ *     ReserveAction として追加。成約済みには出さない。
  *   - 架空表記はそのまま出す。住所の番地は 0-0-0(制作計画 §7-9)。電話・免許番号はこの2つの型に含まれない。
  */
 import type { PropertyDetail, PropertyKind, Status } from '@/types/property';
@@ -115,7 +116,7 @@ export function realEstateListing(p: PropertyDetail, ctx: ListingContext): JsonL
 	if (ctx.stationName) extras.push({ '@type': 'PropertyValue', name: '最寄駅', value: `${ctx.stationName}駅 徒歩${p.walkMinutes}分` });
 	if (p.layout) extras.push({ '@type': 'PropertyValue', name: '間取り', value: p.layout });
 
-	return {
+	const ld: JsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'RealEstateListing',
 		name: p.title,
@@ -128,6 +129,20 @@ export function realEstateListing(p: PropertyDetail, ctx: ListingContext): JsonL
 		offers,
 		additionalProperty: extras.filter((e) => e.value !== '' && e.value != null),
 	};
+	// 内見(見学)予約の入口(J-083 の保留 → J-102 g で解消)。飛び先は画面の CTA と同じ /contact?property=ID&kind=viewing。
+	// 成約済みは画面でも内見予約を出さない(J-038)ので、ここにも出さない
+	if (p.status !== 'sold') {
+		ld.potentialAction = {
+			'@type': 'ReserveAction',
+			name: p.type === 'sale' ? '見学を予約する' : '内見を予約する',
+			target: {
+				'@type': 'EntryPoint',
+				urlTemplate: `${new URL(ctx.url).origin}/contact?property=${encodeURIComponent(p.no)}&kind=viewing`,
+				actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'],
+			},
+		};
+	}
+	return ld;
 }
 
 export interface BreadcrumbContext {
