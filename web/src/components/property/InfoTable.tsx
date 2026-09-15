@@ -96,7 +96,7 @@ export function InfoTable({
 	// ---- 3つのアコーディオン(確認 / 建物 / 契約・掲載)を種別ごとに組み立てる(J-076)
 	let checkTitle = '入居前に確認すること';
 	// 補足は中身の先頭に合わせる(J-084 で費用の内訳と合計が入ったため)
-	let checkHint = '家賃・初期費用・駐車場など';
+	let checkHint = '家賃・初期費用・駐車場の状況など';
 	const checkLeft: Row[] = [];
 	let checkLeftNode: ReactNode = null;
 	const checkRight: Row[] = [];
@@ -147,12 +147,12 @@ export function InfoTable({
 		const s = p.sale;
 		checkTitle = '購入前に確認すること';
 		// 補足は中身に合わせる(管理費・修繕積立金はマンションだけ、向きは建物がある種別だけ)
-		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・仲介手数料など' : '駐車場・仲介手数料など';
+		checkHint = s.mgmtFee != null ? '管理費・修繕積立金・仲介手数料など' : '駐車場の状況・仲介手数料など';
 		// 管理費・修繕積立金はマンションだけ(戸建・土地には無い項目なので出さない)
 		// 左 = お金(J-061)、右 = 住まいの条件と時期
 		if (s.mgmtFee != null) checkLeft.push({ k: '管理費', v: `${yen(s.mgmtFee)}/月` });
 		if (s.repairFund != null) checkLeft.push({ k: '修繕積立金', v: `${yen(s.repairFund)}/月` });
-		checkLeft.push({ k: '駐車場', v: p.parking || '—' });
+		checkLeft.push({ k: '駐車場の状況', v: p.parking || '—' });
 		/*
 		 * 売買の仲介手数料(J-094)。02 §3-3 にフィールドは無く、価格から法定の上限額を計算して出す。
 		 * 01 §3「初期費用(敷金・礼金・仲介手数料)は隠さない」に対応する項目で、売買は金額が大きい。

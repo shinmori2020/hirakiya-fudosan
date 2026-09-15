@@ -41,7 +41,7 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 	// 時点の順(毎月 → 入居時 → 更新時)。見出しは置かず、この並びで追わせる
 	const rows: [string, string][] = [
 		['管理費・共益費', feeLabel(r.maintenanceFee)],
-		['駐車場', p.parking || '—'],
+		['駐車場の状況', p.parking || '—'],
 		['敷金', monthsLabel(r.depositMonths)],
 		['礼金', monthsLabel(r.keyMoneyMonths)],
 		['仲介手数料', r.brokerageFee || '—'],

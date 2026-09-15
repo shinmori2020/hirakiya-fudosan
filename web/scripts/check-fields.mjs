@@ -88,7 +88,8 @@ function fieldsFor(p) {
 		['builtYm', 'label', '築年月', p.builtYm ? [`${Number(p.builtYm.slice(5, 7))}月`] : []],
 		['structure', 'label', '構造', p.structure ? [p.structure] : []],
 		['direction', 'label', '向き', p.direction ? [p.direction] : []],
-		['parking', 'label', '駐車場', p.parking ? [p.parking] : []],
+		// ラベルは『駐車場の状況』(設備チップの『駐車場』と意味が違うので文言で区別する・03 §6 の J-092 の基準)
+		['parking', 'label', '駐車場の状況', p.parking ? [p.parking] : []],
 		['transactionType', 'label', '取引態様', p.transactionType ? [p.transactionType] : []],
 		['updatedOn', 'label', '情報更新日', [dateJa(p.updatedOn)]],
 		['nextUpdateOn', 'label', '次回更新予定日', [dateJa(p.nextUpdateOn)]],
