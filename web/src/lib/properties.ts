@@ -10,6 +10,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { REST_BASE, toDetail, toSummary, toTerms } from '@/lib/wp-map.mjs';
+import { withComputedCollections } from '@/lib/collections';
 import type { ExportMeta, PropertyDetail, PropertySummary, TaxonomyName, Term } from '@/types/property';
 
 const USE_STATIC = process.env.DATA_SOURCE === 'static';
@@ -54,17 +55,27 @@ async function wpFetchAll(resource: string): Promise<unknown[]> {
 }
 const mapOpts = { uploadsPrefix: new URL(API_URL).origin };
 
-/** 全件の一覧用サブセット */
+/**
+ * 全件の一覧用サブセット。
+ * 読んだ直後に**計算で絞る特集**(新築・築浅)を判定し直す(J-099)。ここで1回通すので、
+ * 絞り込み・件数・タブ・カードのタグ・ポイントタグはどれも `collections` を見るだけでよい。
+ */
 export async function getProperties(): Promise<PropertySummary[]> {
-	if (USE_STATIC) return (await readJson<PropertySummary[]>('properties/index.json')) ?? [];
-	return (await wpFetchAll('properties')).map((p) => toSummary(p, mapOpts));
+	const list = USE_STATIC
+		? ((await readJson<PropertySummary[]>('properties/index.json')) ?? [])
+		: (await wpFetchAll('properties')).map((p) => toSummary(p, mapOpts));
+	return withComputedCollections(list, new Date());
 }
 
-/** 物件番号(HR-R-0001)で1件 */
+/** 物件番号(HR-R-0001)で1件。特集は getProperties と同じ扱い(J-099) */
 export async function getProperty(no: string): Promise<PropertyDetail | null> {
-	if (USE_STATIC) return readJson<PropertyDetail>(`properties/${no}.json`);
-	const data = await wpFetch<unknown[]>(`properties?slug=${no.toLowerCase()}`);
-	return data && data[0] ? toDetail(data[0], mapOpts) : null;
+	const p = USE_STATIC
+		? await readJson<PropertyDetail>(`properties/${no}.json`)
+		: await (async () => {
+				const data = await wpFetch<unknown[]>(`properties?slug=${no.toLowerCase()}`);
+				return data && data[0] ? toDetail(data[0], mapOpts) : null;
+			})();
+	return p ? withComputedCollections([p], new Date())[0] : null;
 }
 
 /** タクソノミーの用語一覧 */

@@ -354,7 +354,9 @@ function hr_collections_for( $type, $kind, $features, $walk, $year, array $stati
 		if ( 'house_rental' === $kind ) { $c[] = 'house-rental'; }
 	}
 	if ( $walk <= 5 ) { $c[] = 'near-station'; }
-	if ( $year >= 2021 ) { $c[] = 'new-built'; }
+	// new-built(新築・築浅)は付与しない。**時間の経過だけで対象が出入りする**ので、
+	// 書き出した日の判定を保存すると画面に残り続ける(2021年築を「築浅」と出し続ける)。
+	// 画面側が築年月から判定する(web/src/lib/collections.ts・J-099)。用語そのものはタクソノミーに残す。
 	if ( array_intersect( $stations, $central ) ) { $c[] = 'central-30min'; }
 	return $c;
 }
