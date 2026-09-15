@@ -3,14 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { footerArrows } from '@/config/nav';
+import { showsSideTab } from '@/lib/side-tab';
 
 /**
  * PC 右端に固定の縦タブ「物件を探す」(J-027)。墨背景・白文字(J-029)。PC のみ。
- * 一覧ページ(/properties 配下)では自分自身への導線なので出さない(J-033)。
+ * **探す画面では自分自身への導線になるので出さない**(J-033 項目11)。
+ * 対象のパスは lib/side-tab.ts に1か所でまとめている(一覧・詳細・入口3ページ・条件固定38ページ)。
  */
 export function SideTab() {
 	const pathname = usePathname();
-	if (pathname.startsWith('/properties')) return null;
+	if (!showsSideTab(pathname)) return null;
 	const search = footerArrows[0];
 	return (
 		<Link
