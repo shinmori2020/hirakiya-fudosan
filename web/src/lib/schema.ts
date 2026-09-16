@@ -129,7 +129,7 @@ export function realEstateListing(p: PropertyDetail, ctx: ListingContext): JsonL
 		offers,
 		additionalProperty: extras.filter((e) => e.value !== '' && e.value != null),
 	};
-	// 内見(見学)予約の入口(J-083 の保留 → J-102 g で解消)。飛び先は画面の CTA と同じ /contact?property=ID&kind=viewing。
+	// 内見(見学)予約の入口(J-083 の保留 → J-102 g で解消 → J-105 で /viewing に)。飛び先は画面の CTA と同じ /viewing?property=ID。
 	// 成約済みは画面でも内見予約を出さない(J-038)ので、ここにも出さない
 	if (p.status !== 'sold') {
 		ld.potentialAction = {
@@ -137,7 +137,7 @@ export function realEstateListing(p: PropertyDetail, ctx: ListingContext): JsonL
 			name: p.type === 'sale' ? '見学を予約する' : '内見を予約する',
 			target: {
 				'@type': 'EntryPoint',
-				urlTemplate: `${new URL(ctx.url).origin}/contact?property=${encodeURIComponent(p.no)}&kind=viewing`,
+				urlTemplate: `${new URL(ctx.url).origin}/viewing?property=${encodeURIComponent(p.no)}`,
 				actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'],
 			},
 		};

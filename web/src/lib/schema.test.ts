@@ -172,11 +172,11 @@ describe('schema.ts', () => {
 		expect(items[2]).toMatchObject({ name: '墨田区押上', item: 'https://example.test/properties?type=sale&area=oshiage' });
 	});
 
-	it('J-102 potentialAction は内見予約の入口。飛び先は画面の CTA と同じ /contact?property=ID&kind=viewing', () => {
+	it('J-102 → J-105 potentialAction は内見予約の入口。飛び先は画面の CTA と同じ /viewing?property=ID', () => {
 		const pa = realEstateListing(mk(), ctx).potentialAction as { '@type': string; name: string; target: { urlTemplate: string } };
 		expect(pa['@type']).toBe('ReserveAction');
 		expect(pa.name).toBe('内見を予約する');
-		expect(pa.target.urlTemplate).toBe('https://example.test/contact?property=HR-R-0001&kind=viewing');
+		expect(pa.target.urlTemplate).toBe('https://example.test/viewing?property=HR-R-0001');
 		// 売買は「見学」
 		const sale = realEstateListing(mk({ type: 'sale', kind: 'house', rent: undefined, price: 3100, sale: undefined }), ctx).potentialAction as { name: string };
 		expect(sale.name).toBe('見学を予約する');

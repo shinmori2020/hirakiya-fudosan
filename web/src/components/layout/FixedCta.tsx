@@ -9,16 +9,18 @@ import { footerColumns, lineDummy } from '@/config/nav';
  * スマホ固定CTA(03 §7・J-030)。下部・3ボタン。順序は 電話 / LINE(ダミー)/ 内見予約(右端=親指側)。
  * 青緑は主CTA(内見予約)だけ。電話は墨、LINE は副ボタン(白・墨枠)。
  * 高さは layout の下余白(h-16 = 64px)と合わせる。
- * 物件詳細(/properties/HR-…)では内見予約に物件 ID を引き継ぐ(J-037 → J-102:/contact?property=ID&kind=viewing。/reserve は廃止)。それ以外は /contact。
+ * 物件詳細(/properties/HR-…)では内見予約に物件 ID を引き継ぐ(J-037 → J-102 → J-105:/viewing?property=ID。/reserve は廃止)。
+ * **それ以外のページではラベルを「問い合わせ」にして /contact へ直行**(J-105 判断4。/viewing は物件が必須なので、
+ * 物件の無いページから「内見予約」で飛ばすと /contact へ戻されて遠回りになる。01 §共通要素の「内見予約(または問い合わせ)」の切り替え)。
  * 成約済み物件(soldNos・layout が index.json から渡す)では内見予約を隠し、電話・LINE の2列(J-038 判断 1)。売買は「見学予約」(判断 3)。
  */
 export function FixedCta({ soldNos = [] }: { soldNos?: string[] }) {
 	const pathname = usePathname();
 	const m = /^\/properties\/([A-Za-z0-9-]+)$/.exec(pathname);
-	const contact = footerColumns[4].items[0]; // 内見予約・お問い合わせ
-	const reserveHref = m ? `/contact?property=${encodeURIComponent(m[1])}&kind=viewing` : contact.href;
+	const contact = footerColumns[4].items[0]; // お問い合わせ(/contact)
+	const reserveHref = m ? `/viewing?property=${encodeURIComponent(m[1])}` : contact.href;
 	const sold = !!m && soldNos.includes(m[1]);
-	const reserveLabel = m && m[1].startsWith('HR-S-') ? '見学予約' : '内見予約';
+	const reserveLabel = m ? (m[1].startsWith('HR-S-') ? '見学予約' : '内見予約') : '問い合わせ';
 	return (
 		<div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface lg:hidden">
 			<div className={`grid h-16 gap-2 px-2 py-2 ${sold ? 'grid-cols-2' : 'grid-cols-3'}`}>

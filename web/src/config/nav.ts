@@ -59,9 +59,11 @@ export const footerColumns: readonly { heading: string; items: readonly NavItem[
 	{
 		heading: 'お問い合わせ',
 		items: [
-			{ label: '内見予約・お問い合わせ', href: '/contact' },
-			{ label: '査定依頼', href: '/sell/request' },
-			{ label: '管理のご相談', href: '/owner/request' },
+			// 内見予約(/viewing)は物件が必須なのでフッターからは張らない(J-105)。物件詳細の CTA から入る
+			{ label: 'お問い合わせ', href: '/contact' },
+			// 説明とフォームを同じページに置く(J-105 判断3)。#form はフォームの位置
+			{ label: '査定依頼', href: '/sell#form' },
+			{ label: '管理のご相談', href: '/owner#form' },
 		],
 	},
 ];
