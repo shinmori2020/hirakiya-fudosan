@@ -14,11 +14,11 @@ paths:
 | フォーム | ルート | Server Action | 固有項目 | 宛先(担当) |
 |---|---|---|---|---|
 | 内見予約 | `(inquiry)/viewing` | `actions/viewing.ts` | 対象物件(`?property=` で引き継ぎ・**必須**。無い・不正・成約済みは `/contact` へリダイレクト)/ 希望日時 第1(必須)〜第2 | 見本 花子(賃貸部長) |
-| 問い合わせ | `(inquiry)/contact` | `actions/contact.ts` | 種別(空室確認・質問・来店予約・法人・採用。`?kind=` で初期選択:vacancy / question / visit / corporate / recruit。config に置く)。**内見希望は含めない**(J-105) | 見本 花子(賃貸部長) |
+| 問い合わせ | `(inquiry)/contact` | `actions/contact.ts` | **対象物件(あれば。`?property=` で引き継ぎ・任意。無ければ「物件を指定せずに送ります」)**/ 種別(空室確認・質問・来店予約・法人・採用。`?kind=` で初期選択:vacancy / question / visit / corporate / recruit。config に置く)。**内見希望は含めない**(J-105) | 見本 花子(賃貸部長) |
 | 査定依頼 | `(inquiry)/sell`(説明とフォームを同じページに。フッターは `/sell#form`) | `actions/sell.ts` | 物件種別 / 所在地 / 面積 / 築年 / 間取り / 現況 / 売却希望時期 | 仮名 一郎(売買主任) |
 | 管理・空室相談 | `(inquiry)/owner`(同上。フッターは `/owner#form`) | `actions/owner.ts` | 相談内容(管理委託・空室・売却)/ 所在地 / 戸数 / 現在の管理状況 | 架空 次郎(管理部主任) |
 
-作る順序は ① /viewing → ② /contact → ③ /sell → ④ /owner(J-105)。**ロジック(電話・メール・同意の検証、確認行の整形)は `web/src/lib/` で共通化してよい。UI と Server Action は別実装**(J-007 の出所は工程の比較なので、ロジックの共通化は記録に影響しない・J-105)。スマホ固定CTA の右端は、物件詳細では「内見予約」→ `/viewing?property=ID`、それ以外は「問い合わせ」→ `/contact`(J-105)。
+作る順序は ① /viewing → ② /contact → ③ /sell → ④ /owner(J-105)。**ロジック(電話・メール・同意の検証、確認行の整形)と I/O(Turnstile の検証・Resend の送信)は `web/src/lib/` で共通化してよい。UI と Server Action の流れは別実装**(J-007 の出所は工程の比較なので、ロジック・I/O の共通化は記録に影響しない・J-105)。共通項目の検証は部分スキーマとして持ち、各フォームが固有項目を足す。確認行の並びは 03 §6 フォーム部品 7 のまま。スマホ固定CTA の右端は、物件詳細では「内見予約」→ `/viewing?property=ID`、それ以外は「問い合わせ」→ `/contact`(J-105)。
 
 共通項目:氏名 / ふりがな / 電話 / メール / 希望連絡方法(電話・メール・LINE)/ 備考 / プライバシーポリシー同意。
 必須は **氏名・電話・同意・(内見のみ)対象物件と第1希望日時** に絞る。メールは任意(入力があれば自動返信)。項目を増やす時は SHIN の判断(J-ID)。
