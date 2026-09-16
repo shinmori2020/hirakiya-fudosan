@@ -12,9 +12,15 @@ export const metadata: Metadata = {
 };
 
 /**
- * 内見予約・問い合わせ(実装順 5・01 §4・J-102)。フォーム3本の1本目。
+ * 内見予約・問い合わせ(実装順 5・01 §4・J-102 → 骨格は J-103)。フォーム3本の1本目。
  * page.tsx では searchParams を読まない(static-rendering.md §2。読むとこのルートが Dynamic になる)。
  * `?property` `?kind` は Client(ContactForm)が useSearchParams で読む(Suspense で包む)。
+ *
+ * レイアウト(03 §7 フォームページ・J-103):lg 以上は物件詳細と同じ 3fr / 2fr・gap 32。
+ * 列の中身は ContactForm が3つの子(H1と注記 / 対象物件 / フォーム)として返し、ここではその置き場所だけを決める。
+ * Suspense は DOM を作らないので、3つの子がそのままグリッドの子になる。
+ * 〜1023 は grid を効かせず、DOM の順(注記 → 対象物件 → フォーム)で縦に積む。
+ *
  * 対象物件の表示用に、index.json の必要最小の項目(番号 / 名前 / 家賃(価格)/ 写真1枚 / 種別 / 成約済みか)を
  * props で渡す。Action 側では ID から読み直して再解決する(クライアントの表示を信用しない)。
  */
@@ -33,7 +39,7 @@ export default async function ContactPage() {
 	return (
 		<section className="py-6 lg:py-8">
 			<Container>
-				<div className="max-w-[760px]">
+				<div className="lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-8">
 					<Suspense fallback={<p className="text-ink-weak">読み込み中…</p>}>
 						<ContactForm options={options} turnstileSiteKey={turnstileSiteKey} />
 					</Suspense>
