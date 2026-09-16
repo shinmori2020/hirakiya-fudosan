@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useActionState, useEffect, useId, useRef } from 'react';
+import { useActionState, useEffect, useId, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { contactAction, type ContactState } from '@/app/actions/contact';
 import { TargetProperty, type PropertyNames, type PropertyOption } from '@/components/forms/TargetProperty';
 import { Turnstile } from '@/components/forms/Turnstile';
-import { CONTACT_KINDS } from '@/config/contact';
+import { CONTACT_KINDS, type ContactKind } from '@/config/contact';
 import { CONTACT_METHODS, DEPARTMENT, REPLY_BY } from '@/config/forms';
 import { company, mainOffice } from '@/config/site';
-import { confirmRows, EMPTY_INPUT, isPropertyNo, kindFromQuery, type ContactInput } from '@/lib/contact';
+import { confirmRows, EMPTY_INPUT, isPropertyNo, kindFromQuery, noteField, type ContactInput } from '@/lib/contact';
 import { targetPropertyRows } from '@/lib/target-property';
 
 /** 互換のための別名(page.tsx が使う)。中身は TargetProperty の PropertyOption */
@@ -90,7 +90,7 @@ export function ContactForm({ options, turnstileSiteKey, names, nowIso }: { opti
 
 			{/* B:対象物件(右・追従。〜1023 は注記とフォームの間に入る) */}
 			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-h-[calc(100dvh-4rem-1rem)] lg:self-start lg:overflow-y-auto">
-				<TargetProperty property={property} sold={sold} rows={rows} />
+				<TargetProperty property={property} sold={sold} rows={rows} emptyNote="特定の物件についてのお問い合わせは、物件ページの「問い合わせる」からお進みください。物件の情報が引き継がれます。" />
 			</div>
 
 			{/* C:フォーム(左・2行目)。入力欄の読み幅 760 はここに残す */}
@@ -103,6 +103,9 @@ export function ContactForm({ options, turnstileSiteKey, names, nowIso }: { opti
 
 function Input({ state, action, propertyNo }: { state: Extract<ContactState, { step: 'input' }>; action: (fd: FormData) => void; propertyNo: string }) {
 	const { values, errors } = state;
+	// 備考のラベル・必須・補足は種別で変わるので、種別は state で持つ(J-105 ②)
+	const [kind, setKind] = useState<ContactKind>(values.kind);
+	const note = noteField(kind);
 	const uid = useId();
 	const id = (k: string) => `${uid}-${k}`;
 	const formRef = useRef<HTMLFormElement>(null);
@@ -135,7 +138,7 @@ function Input({ state, action, propertyNo }: { state: Extract<ContactState, { s
 					<div className="flex flex-wrap gap-x-3 gap-y-2">
 						{CONTACT_KINDS.map((k) => (
 							<label key={k.slug} className={CHOICE}>
-								<input type="radio" name="kind" value={k.slug} defaultChecked={values.kind === k.slug} className="size-4 accent-accent" />
+								<input type="radio" name="kind" value={k.slug} checked={kind === k.slug} onChange={() => setKind(k.slug)} className="size-4 accent-accent" />
 								{k.label}
 							</label>
 						))}
@@ -168,8 +171,9 @@ function Input({ state, action, propertyNo }: { state: Extract<ContactState, { s
 						))}
 					</div>
 				</fieldset>
-				<Field id={id('note')} label="備考" error={errors.note}>
-					<textarea rows={4} {...inputProps('note')} defaultValue={values.note} className={`${INPUT} h-auto resize-y py-3 ${border(errors.note)}`} />
+				{/* 備考のラベル・必須・補足は種別で変わる(質問「ご質問の内容」・来店予約「ご希望の日時」は必須・J-105 ②) */}
+				<Field id={id('note')} label={note.label} required={note.required} hint={note.hint} error={errors.note}>
+					<textarea rows={4} {...inputProps('note', note.hint ? 'hint' : undefined)} defaultValue={values.note} className={`${INPUT} h-auto resize-y py-3 ${border(errors.note)}`} />
 				</Field>
 			</section>
 

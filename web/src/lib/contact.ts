@@ -6,7 +6,7 @@
  * 種別ごとの備考のラベル・必須(項目表)は ② の着手時に入れる。
  */
 import { z } from 'zod';
-import { CONTACT_KINDS, DEFAULT_KIND, type ContactKind } from '@/config/contact';
+import { CONTACT_KINDS, DEFAULT_KIND, NOTE_FIELD, type ContactKind } from '@/config/contact';
 import { commonRows, commonSchema, EMPTY_COMMON, firstErrors, normalizeCommon, readCommon, str, type CommonInput, type ConfirmRow, type FormLike } from '@/lib/forms/common';
 import { isPropertyNo } from '@/lib/viewing';
 
@@ -38,10 +38,21 @@ export function readInput(fd: FormLike): ContactInput {
 
 export type FieldErrors = Partial<Record<keyof ContactInput, string>>;
 
-export const contactSchema = commonSchema.extend({
-	property: z.string().refine((v) => v === '' || isPropertyNo(v), '物件番号の形が違います'),
-	kind: z.enum(KIND_SLUGS),
-});
+/** 備考のラベル・必須・補足(種別で変わる・J-105 ②) */
+export function noteField(kind: ContactKind): { label: string; required: boolean; hint?: string } {
+	return NOTE_FIELD[kind];
+}
+
+export const contactSchema = commonSchema
+	.extend({
+		property: z.string().refine((v) => v === '' || isPropertyNo(v), '物件番号の形が違います'),
+		kind: z.enum(KIND_SLUGS),
+	})
+	// 用件を書く欄になる種別(質問・来店予約)では備考を必須にする。文言はその種別のラベルで言う
+	.superRefine((v, ctx) => {
+		const f = noteField(v.kind);
+		if (f.required && v.note.trim() === '') ctx.addIssue({ code: 'custom', path: ['note'], message: `${f.label}を入力してください` });
+	});
 
 /** 検証。通れば正規化した値、通らなければ欄ごとのエラー */
 export function validateContact(input: ContactInput): { ok: true; values: ContactInput } | { ok: false; errors: FieldErrors } {
@@ -50,9 +61,12 @@ export function validateContact(input: ContactInput): { ok: true; values: Contac
 	return { ok: true, values: normalizeCommon(r.data as ContactInput) };
 }
 
-/** 確認画面・メールの行(並びは 03 §6 フォーム部品 7:対象物件 → 種別 → 連絡先) */
+/**
+ * 確認画面・メールの行(並びは 03 §6 フォーム部品 7:対象物件 → 種別 → 連絡先)。
+ * 備考の行は入力画面と同じラベルにする(「ご質問の内容」で書いたものが確認で「備考」になると別の項目に見えるため)。
+ */
 export function confirmRows(v: ContactInput, propertyName?: string): ConfirmRow[] {
-	return [{ label: '対象物件', value: propertyName ? `${propertyName}(${v.property})` : '指定なし' }, { label: '種別', value: kindLabel(v.kind) }, ...commonRows(v)];
+	return [{ label: '対象物件', value: propertyName ? `${propertyName}(${v.property})` : '指定なし' }, { label: '種別', value: kindLabel(v.kind) }, ...commonRows(v, noteField(v.kind).label)];
 }
 
 /** メールの件名。頭に種別、物件があれば番号 */
