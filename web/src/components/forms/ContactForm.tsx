@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -11,10 +11,18 @@ import { Turnstile } from '@/components/forms/Turnstile';
 import { CONTACT_DEPARTMENT, CONTACT_KINDS, CONTACT_METHODS, CONTACT_REPLY_BY, TIME_SLOTS, type ContactKind } from '@/config/contact';
 import { company, mainOffice } from '@/config/site';
 import { confirmRows, EMPTY_INPUT, isPropertyNo, kindFromQuery, type ContactInput } from '@/lib/contact';
+import { targetPropertyRows, type TargetPropertyFields } from '@/lib/target-property';
+import { attrClass } from '@/components/property/AttrLink';
 
-/** page.tsx が index.json から渡す最小の項目(表示用。Action は ID から読み直す) */
-export interface ContactPropertyOption extends ContactProperty {
+/** page.tsx が index.json から渡す項目(表示用。Action は ID から読み直す)。要約の分は J-104 で追加 */
+export interface ContactPropertyOption extends ContactProperty, TargetPropertyFields {
 	sold: boolean;
+}
+
+/** 要約の名前の対応表(区+町 / 駅名)。page.tsx がタクソノミーから作って渡す */
+export interface ContactNames {
+	areaLabels: Record<string, string>;
+	stationNames: Record<string, string>;
 }
 
 /* -------------------------------------------------------------------------
@@ -65,28 +73,48 @@ function Select({ id, name, value, error, blank, options }: { id: string; name: 
 }
 
 /**
- * 右カラムの「対象物件」(03 §7 フォームページ・J-103)。
+ * 右カラムの「対象物件」(03 §7 フォームページ・J-103 → 密度は J-104)。
  * 骨格は物件の有無で変えない:枠は必ず出し、中身だけを 物件 / 指定なし / 成約済み で替える。
- * 中の物件カードは一覧カードと同じ要素(写真1枚・家賃(価格)・物件名)。**枠の中なので自前の線は引かない**(線の二重)。
- * リンクにはしない(いま送ろうとしている相手なので、ここから離脱させない)。
+ * 物件ありは**詳細の右カラムと同じ密度**(J-104):枠の幅いっぱいの写真 3:2 → 価格・物件名・番号 → 要約5項目 →「物件ページに戻る」。
+ * 要約は J-068 の規則(ラベル 6.5em・各行の下に線・**最終行の下にも引く**・上下 8・gap 0)。この下に押せる文字が続くため。
+ * 写真・カードはリンクにしない。末尾だけ押せる文字にする(主用件はフォームの送信・J-089 と同じ理由)。
  */
-function TargetProperty({ property, sold }: { property: ContactProperty | null; sold: boolean }) {
+function TargetProperty({ property, sold, rows }: { property: ContactPropertyOption | null; sold: boolean; rows: { label: string; value: string }[] }) {
 	return (
 		<section aria-labelledby="target-property" className="rounded-hr border border-line bg-surface p-4 lg:p-6">
 			<h2 id="target-property" className="text-h3 font-bold text-sumi lg:text-h3-pc">
 				対象物件
 			</h2>
 			{property ? (
-				<div className="mt-3 flex gap-4">
-					<div className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden rounded-hr bg-surface-alt">
-						{property.thumb && <Image src={property.thumb} alt="" fill unoptimized className="object-cover" />}
+				<>
+					{/* 写真は詳細のギャラリーのメインと同じ 3:2。プレースホルダー SVG なので unoptimized(J-049) */}
+					<div className="relative mt-3 aspect-[3/2] w-full overflow-hidden rounded-hr bg-surface-alt">
+						{property.thumb ? (
+							<Image src={property.thumb} alt={`${property.title} の写真`} fill sizes="(min-width: 64rem) 480px, 100vw" unoptimized className="object-cover" />
+						) : (
+							<div className="flex h-full items-center justify-center text-body text-ink-weak lg:text-body-pc">写真準備中</div>
+						)}
 					</div>
-					<div className="min-w-0">
-						<p className="text-price-card font-bold text-sumi lg:text-price-card-pc">{property.priceLabel}</p>
-						<p className="mt-1 text-small text-ink">{property.title}</p>
-						<p className="tabular text-xs text-ink-weak lg:text-xs-pc">{property.no}</p>
-					</div>
-				</div>
+					<p className="tabular mt-3 text-price-card font-bold text-sumi lg:text-price-card-pc">{property.priceLabel}</p>
+					<p className="mt-1 text-small text-ink">{property.title}</p>
+					<p className="tabular text-xs text-ink-weak lg:text-xs-pc">{property.no}</p>
+					{rows.length > 0 && (
+						<dl className="mt-4">
+							{rows.map((r) => (
+								<div key={r.label} className="flex border-b border-line py-2">
+									<dt className="w-[6.5em] shrink-0 text-small text-ink-weak">{r.label}</dt>
+									<dd className="min-w-0 text-small text-ink">{r.value}</dd>
+								</div>
+							))}
+						</dl>
+					)}
+					<p className="mt-4">
+						<Link href={`/properties/${property.no}`} className={`${attrClass('text')} inline-flex items-center gap-1 text-small`}>
+							<ArrowLeft size={16} aria-hidden="true" />
+							物件ページに戻る
+						</Link>
+					</p>
+				</>
 			) : (
 				<>
 					<p className="mt-3 text-body text-ink lg:text-body-pc">{sold ? 'この物件は成約しています。物件を指定しないお問い合わせとして受け付けます。' : '物件を指定せずに送ります。'}</p>
@@ -112,13 +140,17 @@ function SubmitButton({ idle, busy, intent, className }: { idle: string; busy: s
  * 本体。入力 → 確認 → 完了 は同一 URL・同じ骨格。状態は Server Action が返す(J-102 c)
  * 3つの子(H1と注記 / 対象物件 / フォーム)を返し、置き場所は page.tsx のグリッドが決める(J-103)
  * ---------------------------------------------------------------------- */
-export function ContactForm({ options, turnstileSiteKey }: { options: ContactPropertyOption[]; turnstileSiteKey: string }) {
+export function ContactForm({ options, turnstileSiteKey, names, nowIso }: { options: ContactPropertyOption[]; turnstileSiteKey: string; names: ContactNames; nowIso: string }) {
 	const sp = useSearchParams();
 	// URL は3画面を通して変わらないので、対象物件は**クエリだけ**から決める(左右で二重に解決しない)
 	const queryNo = sp.get('property') ?? '';
 	const option = isPropertyNo(queryNo) ? options.find((o) => o.no === queryNo) : undefined;
 	const property = option && !option.sold ? option : null;
 	const sold = !!option?.sold;
+	// 築年の基準はビルド時刻(nowIso)。クライアントで new Date() を使うと静的な HTML と食い違う
+	const rows = property
+		? targetPropertyRows(property, { stationName: (s) => names.stationNames[s] ?? s, areaLabel: (s) => names.areaLabels[s] ?? s }, new Date(nowIso))
+		: [];
 
 	const initial: ContactState = {
 		step: 'input',
@@ -139,7 +171,7 @@ export function ContactForm({ options, turnstileSiteKey }: { options: ContactPro
 
 			{/* B:対象物件(右・追従。〜1023 は注記とフォームの間に入る) */}
 			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-h-[calc(100dvh-4rem-1rem)] lg:self-start lg:overflow-y-auto">
-				<TargetProperty property={property} sold={sold} />
+				<TargetProperty property={property} sold={sold} rows={rows} />
 			</div>
 
 			{/* C:フォーム(左・2行目)。入力欄の読み幅 760 はここに残す */}
