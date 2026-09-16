@@ -18,6 +18,8 @@ DATA_SOURCE=static pnpm start -p 3001 &  # 3000 は SHIN の dev サーバー。
 for i in $(seq 1 40); do curl -s -o /dev/null -w '%{http_code}' http://localhost:3001/properties/HR-R-0001 | grep -q 200 && break; sleep 1; done
 ```
 
+**pnpm・git などのコマンドは実行ディレクトリを確認してから実行する。失敗したコマンドの再試行では特に確認する**(F-010:再試行をルートで実行し、ルートに package.json を作った)。
+
 終わったら **3001 の LISTENING だけを落とす**。ポート番号を確認せずに `taskkill /IM node.exe` のような一括停止をしない。
 
 ```bash
