@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 /**
  * プライバシーポリシー(01「プライバシーポリシー / 404」・forms.md §2)。実装順 7 から前倒し(J-102 f)。
- * 静的な文章ページ。部品は使わず、本文幅 760(03 §6 フォーム部品 1 と同じ)。
+ * 静的な文章ページ(03 §7 文章ページ・J-103):部品は使わず、最大幅 760 を中央に置く。H1 も列の中。
  * 中身は forms.md §2 の3点(取得する情報 / 保存しない旨 / 架空である旨)+ Turnstile の分。
  * noindex は実装順 8 でまとめて扱うので、ここでは触らない。
  */
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
 	return (
 		<section className="py-6 lg:py-8">
 			<Container>
-				<div className="max-w-[760px]">
+				<div className="mx-auto max-w-[760px]">
 					<h1 className="text-h1 font-bold lg:text-h1-pc">プライバシーポリシー</h1>
 					<p className="mt-4 text-body text-ink lg:text-body-pc">
 						{company.name}(以下「当社」)は、このサイトのお問い合わせフォームで受け取る情報を次のとおり扱います。
