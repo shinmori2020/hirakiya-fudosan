@@ -37,6 +37,7 @@ paths:
 - Resend + React Email(`web/src/emails/` に3本分のテンプレート)。`RESEND_API_KEY` / `CONTACT_EMAIL_FROM` / `CONTACT_EMAIL_TO`
 - 入力 → **確認画面** → 完了。確認画面を挟む(不動産の慣習)。確認画面は Server Action が返す(検証 → 確認 / 送信 の2段・同一 URL・J-102)
 - 二重送信防止(送信中はボタン無効)/ 送信中の表示 / エラー時の表示(何が起きたか・どう直すか。謝らない)
+- **Turnstile のトークンが入るまで送信ボタンを無効にする**(J-106)。トークンは確認画面が出てから1〜2秒遅れて入るので、その前に押せると「確認に失敗しました」が出る(F-011)。待機中の文言は「確認を準備しています…」。失効・失敗(`expired-callback` / `error-callback` / `timeout-callback`)では待機中に戻す。site key が無い開発時は待たない。二重送信防止(送信中の無効化)はそのまま残す
 - スパム対策は Cloudflare Turnstile。トークンが無い・検証に失敗した送信は拒否する(J-102)。ハニーポットだけで済ませない
 - 物件情報の引き継ぎ(内見予約)は URL パラメータ(`?property=HR-R-0001`)で行う。ブラウザ側には持たせない(J-102)
 - Turnstile が JS 前提のため、JS 無効時は送信できない(J-102 で決定)。`<noscript>` で「送信には JavaScript が必要です」と出す

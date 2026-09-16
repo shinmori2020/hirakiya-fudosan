@@ -49,11 +49,17 @@ function Field({ id, label, required, hint, error, children }: { id: string; lab
 	);
 }
 
-function SubmitButton({ idle, busy, intent, className }: { idle: string; busy: string; intent: string; className: string }) {
+/**
+ * 進む操作の主ボタン(03 §6 フォーム部品 6)。状態は文言で示し、色・不透明度は変えない。
+ *  送信中(useFormStatus.pending)… 二重送信を止める(J-102)
+ *  待機中(waiting)… Turnstile のトークンがまだ無い間。押せると「確認に失敗しました」になるため(J-106)
+ */
+function SubmitButton({ idle, busy, waiting, intent, className }: { idle: string; busy: string; waiting?: string; intent: string; className: string }) {
 	const { pending } = useFormStatus();
+	const isWaiting = !!waiting && !pending;
 	return (
-		<button type="submit" name="intent" value={intent} disabled={pending} aria-busy={pending} className={className}>
-			{pending ? busy : idle}
+		<button type="submit" name="intent" value={intent} disabled={pending || isWaiting} aria-busy={pending || isWaiting} className={className}>
+			{pending ? busy : isWaiting ? waiting : idle}
 		</button>
 	);
 }
@@ -204,6 +210,9 @@ function Input({ state, action, propertyNo }: { state: Extract<ContactState, { s
 function Confirm({ state, action, siteKey }: { state: Extract<ContactState, { step: 'confirm' }>; action: (fd: FormData) => void; siteKey: string }) {
 	const { values, property, message } = state;
 	const rows = confirmRows(values, property?.title);
+	// Turnstile のトークンが入るまで「送信する」を押せなくする(J-106)。site key が無い開発時は待たない
+	const [token, setToken] = useState('');
+	const waiting = siteKey && !token ? '確認を準備しています…' : undefined;
 	return (
 		<>
 			<h2 className="text-h2 font-bold lg:text-h2-pc">入力内容の確認</h2>
@@ -229,11 +238,11 @@ function Confirm({ state, action, siteKey }: { state: Extract<ContactState, { st
 				<noscript>
 					<p className="mb-4 rounded-hr border border-line bg-surface-alt p-4 text-body">送信には JavaScript が必要です。</p>
 				</noscript>
-				<Turnstile siteKey={siteKey} />
+				<Turnstile siteKey={siteKey} onToken={setToken} />
 				{/* 640 以上は2列(左=修正する・右=送信する)、〜639 は縦積みで送信するが上 */}
 				<div className="mt-4 grid gap-2 sm:grid-cols-2">
 					<div className="sm:order-2">
-						<SubmitButton idle="送信する" busy="送信しています…" intent="send" className={PRIMARY} />
+						<SubmitButton idle="送信する" busy="送信しています…" waiting={waiting} intent="send" className={PRIMARY} />
 					</div>
 					<div className="sm:order-1">
 						<button type="submit" name="intent" value="back" formNoValidate className={SECONDARY}>
