@@ -267,11 +267,12 @@ function Done() {
 					{mainOffice.tel}
 				</a>
 			</p>
-			<div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-				<Link href="/properties" className={`${SECONDARY} sm:w-auto sm:px-6`}>
+			{/* 導線は2つとも同じボタンの形にする(主 = 物件を探す / 副 = トップへ戻る)。並びは詳細ページの CTA と同じ 640 以上で2列(J-105 残件) */}
+			<div className="mt-8 grid gap-2 sm:grid-cols-2">
+				<Link href="/properties" className={PRIMARY}>
 					物件を探す
 				</Link>
-				<Link href="/" className="text-body text-accent-strong underline lg:text-body-pc">
+				<Link href="/" className={SECONDARY}>
 					トップへ戻る
 				</Link>
 			</div>
