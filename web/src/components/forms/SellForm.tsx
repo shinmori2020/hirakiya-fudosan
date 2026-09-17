@@ -19,6 +19,8 @@ const PRIMARY = 'flex h-12 w-full items-center justify-center rounded-hr bg-acce
 const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
 const CHOICE = 'flex min-h-11 cursor-pointer items-center gap-2 rounded-hr px-1 text-body transition-[background-color] duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:text-body-pc';
 const REQUIRED = <span className="ml-1 text-xs font-bold text-badge-discount-fg lg:text-xs-pc">必須</span>;
+/** 必須の欄(J-111)。見た目の「必須」だけでは読み上げに伝わらないので aria-required を足す。required は入れない(既定の検証を使わない設計) */
+const REQUIRED_KEYS: readonly string[] = ['name', 'phone', 'kind', 'ward', 'address', 'condition', 'assessment'];
 
 function Field({ id, label, required, hint, error, children }: { id: string; label: string; required?: boolean; hint?: string; error?: string; children: React.ReactNode }) {
 	return (
@@ -155,6 +157,7 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 	const inputProps = (k: keyof SellInput, extra?: string) => ({
 		id: id(k),
 		name: k,
+		'aria-required': REQUIRED_KEYS.includes(k) ? true : undefined,
 		'aria-invalid': !!errors[k],
 		'aria-describedby': errors[k] ? `${id(k)}-error` : extra ? `${id(k)}-hint` : undefined,
 		className: `${INPUT} ${border(errors[k])}`,
@@ -308,7 +311,7 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 
 			<section className="mt-8">
 				<label className={`${CHOICE} ${errors.agree ? 'text-badge-discount-fg' : ''}`}>
-					<input type="checkbox" name="agree" defaultChecked={values.agree} aria-invalid={!!errors.agree} aria-describedby={errors.agree ? `${id('agree')}-error` : undefined} className="size-4 accent-accent" />
+					<input type="checkbox" name="agree" defaultChecked={values.agree} aria-required aria-invalid={!!errors.agree} aria-describedby={errors.agree ? `${id('agree')}-error` : undefined} className="size-4 accent-accent" />
 					<span className="text-ink">
 						<Link href="/privacy" className="text-accent-strong underline">
 							プライバシーポリシー
