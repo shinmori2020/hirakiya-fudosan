@@ -15,8 +15,10 @@ export type ContactMethod = (typeof CONTACT_METHODS)[number]['slug'];
 /** 折り返しの目安(一律・J-102 d) */
 export const REPLY_BY = '翌営業日まで';
 
-/** 送信元の部署名(完了画面・自動返信。担当者名は出さない・J-102 d)。/sell /owner は着手時に足す */
+/** 送信元の部署名(完了画面・自動返信。担当者名は出さない・J-102 d) */
 export const DEPARTMENT = {
 	viewing: '賃貸部',
 	contact: '賃貸部',
+	sell: '売買部', // 担当は売買主任(仮名 一郎)だが担当者名は出さない
+	owner: '管理部', // 同上(架空 次郎・管理部主任)。使うのは ④ 着手時
 } as const;
