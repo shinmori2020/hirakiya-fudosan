@@ -1,3 +1,5 @@
+import type { Ward } from '@/config/forms';
+
 /**
  * 査定依頼フォーム(/sell)の選択肢と文言(実装順 5・J-105 ③)。
  * 共通の選択肢は config/forms.ts。slug は Zod の enum に使う。
@@ -22,15 +24,9 @@ export const AREA_LABEL: Readonly<Record<SellKind, string>> = {
 /** 土地では築年・間取りの欄を出さない(SHIN の項目表・J-105) */
 export const hasBuiltAndLayout = (kind: SellKind): boolean => kind !== 'land';
 
-/** 所在地の区。対応エリア外も受けるので other を置く(自由入力側に町名以下を書いてもらう) */
-export const SELL_WARDS = [
-	{ slug: 'katsushika', label: '葛飾区' },
-	{ slug: 'edogawa', label: '江戸川区' },
-	{ slug: 'adachi', label: '足立区' },
-	{ slug: 'sumida', label: '墨田区' },
-	{ slug: 'other', label: 'その他' },
-] as const;
-export type SellWard = (typeof SELL_WARDS)[number]['slug'];
+/** 所在地の区は /owner と共通(config/forms.ts の WARDS・J-108)。別名だけ残す */
+export { WARDS as SELL_WARDS } from '@/config/forms';
+export type SellWard = Ward;
 
 export const SELL_CONDITIONS = [
 	{ slug: 'live', label: '居住中' },

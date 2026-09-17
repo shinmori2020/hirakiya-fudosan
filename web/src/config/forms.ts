@@ -12,6 +12,19 @@ export const CONTACT_METHODS = [
 ] as const;
 export type ContactMethod = (typeof CONTACT_METHODS)[number]['slug'];
 
+/**
+ * 所在地の区(査定 /sell・管理相談 /owner で共通。J-107 で ③ に作り、④ の着手時にここへ移した)。
+ * slug はタクソノミー area の親(4区)に合わせ、対応エリア外を受けるため other を足す。
+ */
+export const WARDS = [
+	{ slug: 'katsushika', label: '葛飾区' },
+	{ slug: 'edogawa', label: '江戸川区' },
+	{ slug: 'adachi', label: '足立区' },
+	{ slug: 'sumida', label: '墨田区' },
+	{ slug: 'other', label: 'その他' },
+] as const;
+export type Ward = (typeof WARDS)[number]['slug'];
+
 /** 折り返しの目安(一律・J-102 d) */
 export const REPLY_BY = '翌営業日まで';
 
