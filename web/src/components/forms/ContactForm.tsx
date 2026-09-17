@@ -137,7 +137,8 @@ function Input({ state, action, propertyNo }: { state: Extract<ContactState, { s
 	// 確認に進めなかった時は最初のエラー欄へフォーカスを移す(上部にエラー一覧は出さない・03 §6 フォーム部品 4)
 	useEffect(() => {
 		if (Object.keys(errors).length === 0) return;
-		formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+		// fieldset にも aria-invalid が付くので(J-112)、フォーカスできる欄だけを拾う
+		formRef.current?.querySelector<HTMLElement>('input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"], [data-invalid="true"]')?.focus();
 	}, [errors]);
 
 	const inputProps = (k: keyof ContactInput, extra?: string) => ({
@@ -158,8 +159,15 @@ function Input({ state, action, propertyNo }: { state: Extract<ContactState, { s
 
 			<section>
 				<h2 tabIndex={-1} className="text-h3 font-bold text-sumi focus:outline-none lg:text-h3-pc">ご用件</h2>
-				<fieldset className="mt-4">
-					<legend className="mb-1 text-small text-ink-weak">種別{REQUIRED}</legend>
+				<fieldset className="mt-4" role="radiogroup" aria-required aria-invalid={!!errors.kind} aria-describedby={errors.kind ? `${id('kind')}-error` : undefined}>
+					<legend className="mb-1 text-small text-ink-weak">
+						種別{REQUIRED}
+						{errors.kind && (
+							<span id={`${id('kind')}-error`} className="ml-2 text-badge-discount-fg">
+								{errors.kind}
+							</span>
+						)}
+					</legend>
 					<div className="flex flex-wrap gap-x-3 gap-y-2">
 						{CONTACT_KINDS.map((k) => (
 							<label key={k.slug} className={CHOICE}>

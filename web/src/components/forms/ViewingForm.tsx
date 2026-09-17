@@ -150,7 +150,8 @@ function Input({ state, action, propertyNo, word }: { state: Extract<ViewingStat
 	// 確認に進めなかった時は最初のエラー欄へフォーカス(上部に一覧は出さない・03 §6 フォーム部品 4)
 	useEffect(() => {
 		if (Object.keys(errors).length === 0) return;
-		formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+		// fieldset にも aria-invalid が付くので(J-112)、フォーカスできる欄だけを拾う
+		formRef.current?.querySelector<HTMLElement>('input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"], [data-invalid="true"]')?.focus();
 	}, [errors]);
 
 	const inputProps = (k: keyof ViewingInput, extra?: string) => ({

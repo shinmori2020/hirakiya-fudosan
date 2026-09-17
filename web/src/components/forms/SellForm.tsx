@@ -151,7 +151,8 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 	useEffect(() => {
 		if (Object.keys(errors).length === 0) return;
 		// ラジオは aria-invalid を持てない(role=radio では無効)ので、グループの先頭に data-invalid を立てて拾う
-		formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"], [data-invalid="true"]')?.focus();
+		// fieldset にも aria-invalid が付くので(J-112)、フォーカスできる欄だけを拾う
+		formRef.current?.querySelector<HTMLElement>('input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"], [data-invalid="true"]')?.focus();
 	}, [errors]);
 
 	const inputProps = (k: keyof SellInput, extra?: string) => ({
@@ -171,7 +172,7 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 
 			<section className="space-y-4">
 				<h2 tabIndex={-1} className="text-h3 font-bold text-sumi focus:outline-none lg:text-h3-pc">物件について</h2>
-				<fieldset>
+				<fieldset role="radiogroup" aria-required aria-invalid={!!errors.kind} aria-describedby={errors.kind ? `${id('kind')}-error` : undefined}>
 					<legend className="mb-1 text-small text-ink-weak">
 						物件種別{REQUIRED}
 						{errors.kind && (
@@ -228,7 +229,7 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 					</>
 				)}
 
-				<fieldset>
+				<fieldset role="radiogroup" aria-required aria-invalid={!!errors.condition} aria-describedby={errors.condition ? `${id('condition')}-error` : undefined}>
 					<legend className="mb-1 text-small text-ink-weak">
 						現況{REQUIRED}
 						{errors.condition && (
@@ -258,7 +259,7 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 					</select>
 				</Field>
 
-				<fieldset>
+				<fieldset role="radiogroup" aria-required aria-invalid={!!errors.assessment} aria-describedby={errors.assessment ? `${id('assessment')}-error` : undefined}>
 					<legend className="mb-1 text-small text-ink-weak">
 						査定の種類{REQUIRED}
 						{errors.assessment && (

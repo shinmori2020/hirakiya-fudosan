@@ -154,7 +154,8 @@ function Input({ state, action }: { state: Extract<OwnerState, { step: 'input' }
 	useEffect(() => {
 		if (Object.keys(errors).length === 0) return;
 		// ラジオは aria-invalid を持てないので、グループの先頭に data-invalid を立てて拾う(J-107)
-		formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"], [data-invalid="true"]')?.focus();
+		// fieldset にも aria-invalid が付くので(J-112)、フォーカスできる欄だけを拾う
+		formRef.current?.querySelector<HTMLElement>('input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"], [data-invalid="true"]')?.focus();
 	}, [errors]);
 
 	const inputProps = (k: keyof OwnerInput, extra?: string) => ({
@@ -174,7 +175,7 @@ function Input({ state, action }: { state: Extract<OwnerState, { step: 'input' }
 
 			<section className="space-y-4">
 				<h2 tabIndex={-1} className="text-h3 font-bold text-sumi focus:outline-none lg:text-h3-pc">ご相談の内容</h2>
-				<fieldset>
+				<fieldset role="radiogroup" aria-required aria-invalid={!!errors.topic} aria-describedby={errors.topic ? `${id('topic')}-error` : undefined}>
 					<legend className="mb-1 text-small text-ink-weak">
 						ご相談の種類{REQUIRED}
 						{errors.topic && (
