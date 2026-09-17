@@ -89,6 +89,22 @@ export function ViewingForm({ options, names, nowIso, turnstileSiteKey }: { opti
 	const initial: ViewingState = { step: 'input', values: { ...EMPTY_VIEWING, property: property?.no ?? '' }, errors: {} };
 	const [state, action] = useActionState(viewingAction, initial);
 
+	/**
+	 * 段(入力 → 確認 → 完了)が変わったら見出しへフォーカスを移す(J-110)。
+	 * 読み上げは画面の差し替えを自分から知らせないので、移さないと「送信しました」が伝わらない(実測:focus が body のまま)。
+	 * 完了は h1、確認と入力は左カラムの先頭の見出し。入力にエラーがある時は Input 側が最初のエラー欄へ移すので、ここでは触らない。
+	 */
+	const h1Ref = useRef<HTMLHeadingElement>(null);
+	const colRef = useRef<HTMLDivElement>(null);
+	const prevStep = useRef(state.step);
+	useEffect(() => {
+		if (prevStep.current === state.step) return;
+		prevStep.current = state.step;
+		if (state.step === 'input' && Object.keys(state.errors).length > 0) return;
+		if (state.step === 'done') h1Ref.current?.focus();
+		else colRef.current?.querySelector<HTMLElement>('h2')?.focus();
+	}, [state]);
+
 	// 対象物件が無い・不正・成約済み → 問い合わせへ(◆1:注記は出さない)。Action がそう判定した時も同じ
 	const redirect = !property || (state.step === 'input' && state.redirect);
 	useEffect(() => {
@@ -108,7 +124,7 @@ export function ViewingForm({ options, names, nowIso, turnstileSiteKey }: { opti
 	return (
 		<>
 			<div className="lg:col-start-1 lg:row-start-1">
-				<h1 className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : `${word}予約`}</h1>
+				<h1 ref={h1Ref} tabIndex={-1} className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : `${word}予約`}</h1>
 				<p className="mt-4 rounded-hr border border-line bg-surface-alt p-4 text-body lg:p-6 lg:text-body-pc" role="note">
 					{company.formNotice}
 				</p>
@@ -116,7 +132,7 @@ export function ViewingForm({ options, names, nowIso, turnstileSiteKey }: { opti
 			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-h-[calc(100dvh-4rem-1rem)] lg:self-start lg:overflow-y-auto">
 				<TargetProperty property={property} sold={false} rows={rows} />
 			</div>
-			<div className="mt-8 max-w-[760px] lg:col-start-1 lg:row-start-2 lg:mt-0">
+			<div ref={colRef} className="mt-8 max-w-[760px] lg:col-start-1 lg:row-start-2 lg:mt-0">
 				{state.step === 'done' ? <Done word={word} /> : state.step === 'confirm' ? <Confirm state={state} action={action} siteKey={turnstileSiteKey} /> : <Input state={state} action={action} propertyNo={property.no} word={word} />}
 			</div>
 		</>
@@ -151,7 +167,7 @@ function Input({ state, action, propertyNo, word }: { state: Extract<ViewingStat
 			<input type="hidden" name="property" value={propertyNo} />
 
 			<section className="space-y-4">
-				<h2 className="text-h3 font-bold text-sumi lg:text-h3-pc">{word}のご希望</h2>
+				<h2 tabIndex={-1} className="text-h3 font-bold text-sumi focus:outline-none lg:text-h3-pc">{word}のご希望</h2>
 				{([1, 2] as const).map((n) => {
 					const dk = `date${n}` as 'date1' | 'date2';
 					const sk = `slot${n}` as 'slot1' | 'slot2';
@@ -231,7 +247,7 @@ function Confirm({ state, action, siteKey }: { state: Extract<ViewingState, { st
 	const waiting = siteKey && !token ? '確認を準備しています…' : undefined;
 	return (
 		<>
-			<h2 className="text-h2 font-bold lg:text-h2-pc">入力内容の確認</h2>
+			<h2 tabIndex={-1} className="text-h2 font-bold lg:text-h2-pc focus:outline-none">入力内容の確認</h2>
 			{message && (
 				<p className="mt-2 text-small text-badge-discount-fg" role="alert">
 					{message}

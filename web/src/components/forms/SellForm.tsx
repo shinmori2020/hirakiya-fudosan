@@ -60,11 +60,27 @@ export function SellForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 	const initial: SellState = { step: 'input', values: EMPTY_SELL, errors: {} };
 	const [state, action] = useActionState(sellAction, initial);
 
+	/**
+	 * 段(入力 → 確認 → 完了)が変わったら見出しへフォーカスを移す(J-110)。
+	 * 読み上げは画面の差し替えを自分から知らせないので、移さないと「送信しました」が伝わらない(実測:focus が body のまま)。
+	 * 完了は h1、確認と入力は左カラムの先頭の見出し。入力にエラーがある時は Input 側が最初のエラー欄へ移すので、ここでは触らない。
+	 */
+	const h1Ref = useRef<HTMLHeadingElement>(null);
+	const colRef = useRef<HTMLDivElement>(null);
+	const prevStep = useRef(state.step);
+	useEffect(() => {
+		if (prevStep.current === state.step) return;
+		prevStep.current = state.step;
+		if (state.step === 'input' && Object.keys(state.errors).length > 0) return;
+		if (state.step === 'done') h1Ref.current?.focus();
+		else colRef.current?.querySelector<HTMLElement>('h2')?.focus();
+	}, [state]);
+
 	return (
 		<>
 			{/* A:見出しと説明(左・1行目)。売却の流れ・当社で売る理由・売却事例は実装順 6 でここより下に足す */}
 			<div className="lg:col-start-1 lg:row-start-1">
-				<h1 className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : '売却・査定のご相談'}</h1>
+				<h1 ref={h1Ref} tabIndex={-1} className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : '売却・査定のご相談'}</h1>
 				<p className="mt-4 text-body lg:text-body-pc">お持ちの不動産の査定を承ります。査定は無料で、その後のご依頼は任意です。</p>
 				<p className="mt-4 rounded-hr border border-line bg-surface-alt p-4 text-body lg:p-6 lg:text-body-pc" role="note">
 					{company.formNotice}
@@ -77,7 +93,7 @@ export function SellForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 			</div>
 
 			{/* C:フォーム(左・2行目)。フッターの導線が /sell#form なので、ここがアンカーの着地点になる */}
-			<div id="form" className="mt-8 max-w-[760px] scroll-mt-24 lg:col-start-1 lg:row-start-2 lg:mt-0">
+			<div ref={colRef} id="form" className="mt-8 max-w-[760px] scroll-mt-24 lg:col-start-1 lg:row-start-2 lg:mt-0">
 				{state.step === 'done' ? <Done /> : state.step === 'confirm' ? <Confirm state={state} action={action} siteKey={turnstileSiteKey} /> : <Input state={state} action={action} />}
 			</div>
 		</>
@@ -151,7 +167,7 @@ function Input({ state, action }: { state: Extract<SellState, { step: 'input' }>
 			</noscript>
 
 			<section className="space-y-4">
-				<h2 className="text-h3 font-bold text-sumi lg:text-h3-pc">物件について</h2>
+				<h2 tabIndex={-1} className="text-h3 font-bold text-sumi focus:outline-none lg:text-h3-pc">物件について</h2>
 				<fieldset>
 					<legend className="mb-1 text-small text-ink-weak">
 						物件種別{REQUIRED}
@@ -322,7 +338,7 @@ function Confirm({ state, action, siteKey }: { state: Extract<SellState, { step:
 	const waiting = siteKey && !token ? '確認を準備しています…' : undefined;
 	return (
 		<>
-			<h2 className="text-h2 font-bold lg:text-h2-pc">入力内容の確認</h2>
+			<h2 tabIndex={-1} className="text-h2 font-bold lg:text-h2-pc focus:outline-none">入力内容の確認</h2>
 			{message && (
 				<p className="mt-2 text-small text-badge-discount-fg" role="alert">
 					{message}
