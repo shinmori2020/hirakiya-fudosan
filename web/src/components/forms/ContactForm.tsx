@@ -214,9 +214,10 @@ function Input({ state, action, propertyNo }: { state: Extract<ContactState, { s
 				<label className={`${CHOICE} ${errors.agree ? 'text-badge-discount-fg' : ''}`}>
 					<input type="checkbox" name="agree" defaultChecked={values.agree} aria-required aria-invalid={!!errors.agree} aria-describedby={errors.agree ? `${id('agree')}-error` : undefined} className="size-4 accent-accent" />
 					<span className="text-ink">
-						<Link href="/privacy" className="text-accent-strong underline">
-							プライバシーポリシー
-						</Link>
+						{/* 別窓で開く(J-113)。同じ窓で開くと入力が消える。「別の窓」と文字で書き、読み上げにも伝える */}
+						<a href="/privacy" target="_blank" rel="noopener" className="text-accent-strong underline">
+							プライバシーポリシー(別の窓で開きます)
+						</a>
 						に同意する{REQUIRED}
 					</span>
 				</label>
