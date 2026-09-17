@@ -37,13 +37,41 @@ paths:
 - Resend + React Email(`web/src/emails/` に3本分のテンプレート)。`RESEND_API_KEY` / `CONTACT_EMAIL_FROM` / `CONTACT_EMAIL_TO`
 - 入力 → **確認画面** → 完了。確認画面を挟む(不動産の慣習)。確認画面は Server Action が返す(検証 → 確認 / 送信 の2段・同一 URL・J-102)
 - 二重送信防止(送信中はボタン無効)/ 送信中の表示 / エラー時の表示(何が起きたか・どう直すか。謝らない)
-- **Turnstile のトークンが入るまで送信ボタンを無効にする**(J-106)。トークンは確認画面が出てから1〜2秒遅れて入るので、その前に押せると「確認に失敗しました」が出る(F-011)。待機中の文言は「確認を準備しています…」。失効・失敗(`expired-callback` / `error-callback` / `timeout-callback`)では待機中に戻す。site key が無い開発時は待たない。二重送信防止(送信中の無効化)はそのまま残す
+- **Turnstile のトークンが入るまで送信ボタンを無効にする**(J-106)。トークンは確認画面が出てから1〜2秒遅れて入るので、その前に押せると「確認に失敗しました」が出る(F-011)。待機中の文言は「確認を準備しています…」。失効・失敗(`expired-callback` / `error-callback` / `timeout-callback`)では待機中に戻す。site key が無い開発時は待たない。二重送信防止(送信中の無効化)はそのまま残す。**作り**:`Turnstile.tsx` は explicit render(`api.js?onload=…&render=explicit`)で描画し、`callback` と失効・失敗の3つのコールバックを親の `onToken`(`useState` のセッター)に繋ぐ。確認画面は `const waiting = siteKey && !token ? '確認を準備しています…' : undefined` を持ち、`SubmitButton` が `pending`(`useFormStatus`)と `waiting` の**両方**で `disabled` + `aria-busy` にする。「修正する」は待機中も押せる(戻る操作に確認は要らない)
 - スパム対策は Cloudflare Turnstile。トークンが無い・検証に失敗した送信は拒否する(J-102)。ハニーポットだけで済ませない
 - 物件情報の引き継ぎ(内見予約)は URL パラメータ(`?property=HR-R-0001`)で行う。ブラウザ側には持たせない(J-102)
 - Turnstile が JS 前提のため、JS 無効時は送信できない(J-102 で決定)。`<noscript>` で「送信には JavaScript が必要です」と出す
 - **本番でキー未設定のときの挙動(J-105)**:`RESEND_API_KEY` / `CONTACT_EMAIL_TO` / `TURNSTILE_SECRET_KEY` が未設定なら、開発時(`NODE_ENV !== 'production'`)はその工程を飛ばして完了まで通し、console にその旨だけ出す。**本番(`NODE_ENV === 'production'`)では送信を拒否してエラーを返す**(設定漏れを「成功」に見せない。流用元と同じ)
 - **サンドボックス送信元の扱い(J-105)**:`CONTACT_EMAIL_FROM` が Resend のサンドボックス(`onboarding@resend.dev`)の間は、**自動返信を送らない**(アカウント本人以外に送れず 403 になる)。SHIN 宛の通知は送る。独自ドメインを設定した時点で自動返信が有効になる
 - メールは `@react-email/render` で **html と text を作って渡す**。`react:` prop は使わない(流用元で本番バンドルが落ちた記録があるため・J-105)
+
+## 3-A. 共通ロジックと I/O(`web/src/lib/forms/`・J-105)
+
+**UI と Server Action の流れは4本とも別実装**(J-007)。**共通化してよいのは、判断が1つしかない検証・整形・送信**だけ。①② で次の4モジュールに固まった。**③ /sell・④ /owner はこの4つをそのまま使い、固有の項目だけを自分の `lib/sell.ts` `lib/owner.ts` に足す**。
+
+| モジュール | 置く物 | 主な export | ③④ での使い方 |
+|---|---|---|---|
+| `forms/common.ts` | 共通7項目の型・読み取り・部分スキーマ・確認行。**純関数のみ**(I/O・`server-only` を入れない) | `CommonInput` / `EMPTY_COMMON` / `readCommon(fd)` / `str(fd, k)` / `commonSchema` / `firstErrors(issues)` / `normalizeCommon(v)` / `commonRows(v, noteLabel)` / `dash` / `normalizePhone` / `isPhone` / `methodLabel` | そのまま使う。備考のラベルが違うなら `commonRows(v, '相談内容')` のように引数で変える(関数は増やさない) |
+| `forms/dates.ts` | 日付だけの純関数。JST 基準 | `parseDateOnly` / `isPastDate(v, today)` / `weekdayOf` / `isClosedDay(v, closedWeekday)` / `preferredLabel` / `todayJst(now?)` | ③ の売却希望時期が「日付」になるなら使う。**「年内」「未定」のような選択肢なら使わない**(日付ではないので無理に通さない) |
+| `forms/deliver.ts` | **I/O**。先頭に `'server-only'`。Turnstile の検証と Resend の送信、その失敗文言 | `verifyTurnstile(token)` / `sendFormMails(job: MailJob)` / `MSG_TURNSTILE` / `MSG_SEND` / `MSG_NOT_CONFIGURED` / `DeliverResult` | そのまま使う。`MailJob` は `{ subject, notice, replySubject, reply, userEmail }`。本番でキー未設定なら拒否・サンドボックス送信元なら自動返信を送らない判断も中に入っているので、**各フォームで条件分岐を書かない** |
+| `forms/resolve-property.ts` | **I/O**。`?property=` の ID から index.json を引き直す(クライアントの表示を信用しない・J-102 e) | `resolveProperty(no)` → `{ property: ResolvedProperty \| null, sold: boolean }` | **③④ は対象物件を持たないので使わない**。③ の所在地は自由入力、④ は物件所在地を自由入力で受ける |
+
+**Zod の足し方(①② と同じ形にする)**:`commonSchema` は `z.object` のまま置いてあるので、各フォームは `commonSchema.extend({ 固有項目 }).superRefine((v, ctx) => { 条件つき必須 })` の順で組む。`.extend` は `superRefine` の**前**にしか書けない(`superRefine` を付けると `ZodEffects` になり `.extend` が消える)ため、この並びを崩さない。
+
+```ts
+export function sellSchema() {
+	return commonSchema
+		.extend({ kind: z.enum(KIND_SLUGS), ward: z.string().min(1, '…'), address: z.string().min(1, '…') })
+		.superRefine((v, ctx) => {
+			// 土地は築年・間取りを見ない、のような「他の項目に依存する必須」はここに書く
+			if (v.kind !== 'land' && !v.layout) ctx.addIssue({ code: 'custom', path: ['layout'], message: '…' });
+		});
+}
+```
+
+- **備考の必須は `commonSchema` に書かない**。上限(1000文字)だけ共通で、必須は各フォームの `superRefine` が足す(② の種別ごとの必須がこれで入った)
+- 検証の入口は `read〇〇(fd)` → `validate〇〇(input, today?)` の2段。`firstErrors` で欄ごとに最初の1件だけ返す
+- **`lib/forms/common.ts` `dates.ts` は `web/data/` を読まない**(J-041 のテスト方針。I/O が要るものは `deliver.ts` `resolve-property.ts` の側に置く)
 
 ## 4. 記録すべきこと(章3の数字)
 
