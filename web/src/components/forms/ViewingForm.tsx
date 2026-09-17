@@ -280,7 +280,8 @@ function Confirm({ state, action, siteKey }: { state: Extract<ViewingState, { st
 				<noscript>
 					<p className="mb-4 rounded-hr border border-line bg-surface-alt p-4 text-body">送信には JavaScript が必要です。</p>
 				</noscript>
-				<Turnstile siteKey={siteKey} onToken={setToken} />
+				{/* 送信に失敗した時(message が変わった時)はウィジェットを作り直す・J-114 */}
+				<Turnstile siteKey={siteKey} onToken={setToken} resetOn={message} />
 				<div className="mt-4 grid gap-2 sm:grid-cols-2">
 					<div className="sm:order-2">
 						<SubmitButton idle="送信する" busy="送信しています…" waiting={waiting} intent="send" className={PRIMARY} />

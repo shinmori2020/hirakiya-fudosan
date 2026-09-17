@@ -316,7 +316,8 @@ function Confirm({ state, action, siteKey }: { state: Extract<OwnerState, { step
 				<noscript>
 					<p className="mb-4 rounded-hr border border-line bg-surface-alt p-4 text-body">送信には JavaScript が必要です。</p>
 				</noscript>
-				<Turnstile siteKey={siteKey} onToken={setToken} />
+				{/* 送信に失敗した時(message が変わった時)はウィジェットを作り直す・J-114 */}
+				<Turnstile siteKey={siteKey} onToken={setToken} resetOn={message} />
 				{/* 640 以上は2列(左=修正する・右=送信する)、〜639 は縦積みで送信するが上 */}
 				<div className="mt-4 grid gap-2 sm:grid-cols-2">
 					<div className="sm:order-2">
