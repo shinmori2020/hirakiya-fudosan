@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { company, voices } from '@/config/site';
 
+/** 群の順(J-122)。voices の kind と同じ語 */
+const KINDS = ['賃貸', '売買', '管理'] as const;
+
 export const metadata: Metadata = {
 	title: 'お客様の声',
 	description: `賃貸・売買・管理でご利用いただいた方の声(架空)。${company.notice}`,
@@ -13,7 +16,8 @@ const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr borde
 /**
  * お客様の声(実装順 6・01 §16)。トップと同じ config/site.ts の voices を読む(J-056 項目9:別のデータ経路を作らない)。
  * 事例カード:属性 / 探した条件(町・種別)/ コメント。**架空である旨をカードとページの両方に明記**(J-057)。
- * カードの形はトップと同じ(白・灰線・角丸 6)。3件しかないのでページの上に注記を置き、件数を増やす時は config に足す。
+ * カードの形はトップと同じ(白・灰線・角丸 6)。件数を増やす時は config に足す。
+ * 3件を1列に並べるだけだと「どの相談の声か」が読めないので、**賃貸 / 売買 / 管理 で3群に分ける**(J-122)。件数は増やさない。
  */
 export default function VoicePage() {
 	return (
@@ -28,10 +32,12 @@ export default function VoicePage() {
 				</Container>
 			</section>
 
-			<section className="bg-surface-alt py-12 lg:py-16">
+			{KINDS.map((kind, i) => (
+				<section key={kind} className={i % 2 === 0 ? 'bg-surface-alt py-12 lg:py-16' : 'py-12 lg:py-16'}>
 				<Container>
-					<ul className="grid gap-4 lg:grid-cols-3">
-						{voices.map((v) => (
+					<h2 className="text-h2 font-bold lg:text-h2-pc">{kind}のご相談</h2>
+					<ul className="mt-6 grid max-w-[760px] gap-4">
+						{voices.filter((v) => v.kind === kind).map((v) => (
 							<li key={v.who} className="rounded-hr border border-line bg-surface p-4 lg:p-6">
 								<p className="text-small text-ink-weak lg:text-small-pc">
 									{v.town} / {v.kind} / {v.attr}
@@ -42,7 +48,8 @@ export default function VoicePage() {
 						))}
 					</ul>
 				</Container>
-			</section>
+				</section>
+			))}
 
 			<section className="py-12 lg:py-16">
 				<Container>
