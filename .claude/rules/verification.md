@@ -77,6 +77,7 @@ node scripts/measure.mjs /properties/HR-R-0001 1280 768 390
 - スマホは `viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2`。
 - 撮影スクリプトは scratchpad に置く(リポジトリには入れない)。再現が必要な測定は §3 の `measure.mjs` を使う。
 - **`shot-page.mjs` は接尾辞を引数で渡す。`-before-` を上書きしない**(09/19、after を撮るつもりで before を16枚上書きした。git から戻したが、コミット前だと復元できない)。
+- **`next/image` の lazy があるので、fullPage で撮る前に全体を一度スクロールする**(09/19、`/company/staff` で8枚中3枚が空で写った)。
 
 ## 5. 実データで確認する物件番号
 
