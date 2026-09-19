@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { DefList } from '@/components/guide/DefList';
 import { Container } from '@/components/layout/Container';
@@ -55,19 +56,25 @@ export default function CompanyPage() {
 
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
-					<div className="max-w-[760px]">
-						<h2 className="text-h2 font-bold lg:text-h2-pc">代表挨拶</h2>
-						<div className="mt-6 space-y-4">
-							{GREETING.map((p) => (
-								<p key={p.slice(0, 12)} className="text-body text-ink lg:text-body-pc">
-									{p}
-								</p>
-							))}
+					<h2 className="text-h2 font-bold lg:text-h2-pc">代表挨拶</h2>
+					{/* 人を示す写真(架空のためプレースホルダー・J-118)。md 以上は本文の左に置く */}
+					<div className="mt-6 gap-6 md:flex md:gap-8">
+						<div className="relative aspect-[3/4] w-[160px] shrink-0 overflow-hidden rounded-hr bg-surface md:w-[200px]">
+							<Image src={representative.photo} alt="" fill sizes="200px" unoptimized className="object-cover" />
 						</div>
-						<p className="mt-6 text-small text-ink lg:text-small-pc">
-							{representative.role} <span className="font-bold text-sumi">{representative.name}</span>
-							<span className="ml-1 text-ink-weak">(架空・{representative.qualifications.join('・')})</span>
-						</p>
+						<div className="mt-4 max-w-[760px] md:mt-0">
+							<div className="space-y-4">
+								{GREETING.map((p) => (
+									<p key={p.slice(0, 12)} className="text-body text-ink lg:text-body-pc">
+										{p}
+									</p>
+								))}
+							</div>
+							<p className="mt-6 text-small text-ink lg:text-small-pc">
+								{representative.role} <span className="font-bold text-sumi">{representative.name}</span>
+								<span className="ml-1 text-ink-weak">(架空・{representative.qualifications.join('・')})</span>
+							</p>
+						</div>
 					</div>
 				</Container>
 			</section>
