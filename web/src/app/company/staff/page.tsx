@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
-import { company, staff } from '@/config/site';
+import { company, staff, staffDepts } from '@/config/site';
 
 export const metadata: Metadata = {
 	title: 'スタッフ紹介',
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
  * スタッフ紹介(実装順 6・01 §8 要素4)。独立ページ(着手前判断 C)。説明ページの型(03 §7・J-115)。
  * 顔写真はプレースホルダー SVG(3:4・架空表記入り・J-053。判断 D)。8名の姓は 架空 / 見本 / 仮名 のみ(fictional-data.md §1)。
  * カードは一覧カードと同じ縦型(画像上・文字下)で、列数だけ幅で変える(03 §6):〜767 2列 / 768〜 3列 / 1024〜 4列。
+ * 8枚を同じ密度で並べるだけだと部署の区切りが読めないので、**部署で4群に分ける**(J-121)。
  * フォームの宛先になる3名には、担当のフォームへの押せる文字を添える(staff.formTarget)。**ひとことの文は初案**。
  */
 
@@ -40,10 +41,12 @@ export default function StaffPage() {
 				</Container>
 			</section>
 
-			<section className="bg-surface-alt py-12 lg:py-16">
+			{staffDepts.map((dept, i) => (
+				<section key={dept} className={i % 2 === 0 ? 'bg-surface-alt py-12 lg:py-16' : 'py-12 lg:py-16'}>
 				<Container>
-					<ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-4">
-						{staff.map((s) => {
+					<h2 className="text-h2 font-bold lg:text-h2-pc">{dept}</h2>
+					<ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+						{staff.filter((s) => s.dept === dept).map((s) => {
 							const link = s.formTarget ? FORM_LINK[s.formTarget] : null;
 							return (
 								<li key={s.name} className="flex flex-col rounded-hr border border-line bg-surface p-3 lg:p-4">
@@ -70,7 +73,8 @@ export default function StaffPage() {
 						})}
 					</ul>
 				</Container>
-			</section>
+				</section>
+			))}
 		</>
 	);
 }

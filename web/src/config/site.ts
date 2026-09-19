@@ -96,16 +96,21 @@ export interface Staff {
 	photo: string;
 	/** ひとこと(01 §8 要素4)。初案。実在の人物・店名は書かない */
 	comment: string;
+	/** 所属(スタッフ紹介の群・J-121)。役職から導出せず値で持つ(「賃貸営業」が2名いるため) */
+	dept: '代表' | '賃貸部' | '管理部' | '総務';
 }
+/** スタッフ紹介の群の順(J-121)。売買主任は代表と同じ「代表」の群に置く(売買は代表と2名体制・01 §8) */
+export const staffDepts = ['代表', '賃貸部', '管理部', '総務'] as const;
+
 export const staff: readonly Staff[] = [
-	{ name: '架空 太郎', role: '代表取締役', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-1.svg', comment: '創業から25年、青砥と立石で見てきた物件の話をします。' },
-	{ name: '見本 花子', role: '賃貸部長', qualifications: ['宅建士', '賃貸不動産経営管理士'], formTarget: 'contact', photo: '/placeholders/staff/staff-2.svg', comment: '内見は「ここが気になる」を先に聞いてから回ります。' },
-	{ name: '仮名 一郎', role: '売買主任', qualifications: ['宅建士', 'FP2級'], formTarget: 'sell', photo: '/placeholders/staff/staff-3.svg', comment: '査定の数字は、根拠になった条件と一緒にお出しします。' },
-	{ name: '架空 次郎', role: '管理部主任', qualifications: ['賃貸不動産経営管理士'], formTarget: 'owner', photo: '/placeholders/staff/staff-4.svg', comment: '空室は、家賃を下げる前にできることから一緒に探します。' },
-	{ name: '見本 三郎', role: '賃貸営業', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-5.svg', comment: '駅からの道は、雨の日の目線でも歩いて確かめています。' },
-	{ name: '仮名 美咲', role: '賃貸営業', qualifications: [], photo: '/placeholders/staff/staff-6.svg', comment: '初めての部屋探しの方には、順番から説明します。' },
-	{ name: '架空 恵', role: '管理事務', qualifications: [], photo: '/placeholders/staff/staff-7.svg', comment: '入居中の困りごとは、まず私が受けて担当につなぎます。' },
-	{ name: '見本 健', role: '総務経理', qualifications: [], photo: '/placeholders/staff/staff-8.svg', comment: '契約書類と費用の説明を、分かるまで何度でも。' },
+	{ name: '架空 太郎', role: '代表取締役', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-1.svg', comment: '創業から25年、青砥と立石で見てきた物件の話をします。', dept: '代表' },
+	{ name: '見本 花子', role: '賃貸部長', qualifications: ['宅建士', '賃貸不動産経営管理士'], formTarget: 'contact', photo: '/placeholders/staff/staff-2.svg', comment: '内見は「ここが気になる」を先に聞いてから回ります。', dept: '賃貸部' },
+	{ name: '仮名 一郎', role: '売買主任', qualifications: ['宅建士', 'FP2級'], formTarget: 'sell', photo: '/placeholders/staff/staff-3.svg', comment: '査定の数字は、根拠になった条件と一緒にお出しします。', dept: '代表' },
+	{ name: '架空 次郎', role: '管理部主任', qualifications: ['賃貸不動産経営管理士'], formTarget: 'owner', photo: '/placeholders/staff/staff-4.svg', comment: '空室は、家賃を下げる前にできることから一緒に探します。', dept: '管理部' },
+	{ name: '見本 三郎', role: '賃貸営業', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-5.svg', comment: '駅からの道は、雨の日の目線でも歩いて確かめています。', dept: '賃貸部' },
+	{ name: '仮名 美咲', role: '賃貸営業', qualifications: [], photo: '/placeholders/staff/staff-6.svg', comment: '初めての部屋探しの方には、順番から説明します。', dept: '賃貸部' },
+	{ name: '架空 恵', role: '管理事務', qualifications: [], photo: '/placeholders/staff/staff-7.svg', comment: '入居中の困りごとは、まず私が受けて担当につなぎます。', dept: '管理部' },
+	{ name: '見本 健', role: '総務経理', qualifications: [], photo: '/placeholders/staff/staff-8.svg', comment: '契約書類と費用の説明を、分かるまで何度でも。', dept: '総務' },
 ] as const;
 
 /**
