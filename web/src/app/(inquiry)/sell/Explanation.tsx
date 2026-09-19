@@ -30,7 +30,7 @@ export function SellExplanation() {
 		<div className="max-w-[760px] space-y-12 lg:space-y-16">
 			<section>
 				<h2 className="text-h2 font-bold lg:text-h2-pc">売却の流れ</h2>
-				<p className="mt-2 text-small text-ink-weak lg:text-small-pc">査定から引渡しまで、一般的に3〜6ヶ月です。</p>
+				<p className="mt-2 text-body text-ink lg:text-body-pc">査定から引渡しまで、一般的に3〜6ヶ月です。</p>
 				<div className="mt-6">
 					<Steps steps={FLOW} label="売却の流れ" />
 				</div>
@@ -44,7 +44,7 @@ export function SellExplanation() {
 						<li key={r.head}>
 							<r.icon size={24} aria-hidden="true" className="text-accent" />
 							<p className="mt-2 text-h3 font-bold text-sumi lg:text-h3-pc">{r.head}</p>
-							<p className="mt-1 text-small text-ink lg:text-small-pc">{r.text}</p>
+							<p className="mt-1 text-body text-ink lg:text-body-pc">{r.text}</p>
 						</li>
 					))}
 				</ul>
@@ -81,7 +81,7 @@ export function SellExplanation() {
 									<dd className="tabular text-ink">{c.days}日</dd>
 								</div>
 							</dl>
-							<p className="mt-3 text-xs text-ink lg:text-xs-pc">{c.note}</p>
+							<p className="mt-3 text-body text-ink lg:text-body-pc">{c.note}</p>
 						</li>
 					))}
 				</ul>

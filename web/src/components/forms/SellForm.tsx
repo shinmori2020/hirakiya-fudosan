@@ -84,6 +84,14 @@ export function SellForm({ turnstileSiteKey, explanation }: { turnstileSiteKey: 
 			<div className="lg:col-start-1 lg:row-start-1">
 				<h1 ref={h1Ref} tabIndex={-1} className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : '売却・査定のご相談'}</h1>
 				<p className="mt-4 text-body lg:text-body-pc">お持ちの不動産の査定を承ります。査定は無料で、その後のご依頼は任意です。</p>
+				{/* h1 直下からフォームへ(03 §7・J-119。上から入ると 1280 で 1245px スクロールしないと届かなかった)。完了画面では出さない */}
+				{state.step !== 'done' && (
+					<p className="mt-2 text-body lg:text-body-pc">
+						<a href="#form" className="text-accent-strong underline">
+							査定を依頼する(入力フォームへ)
+						</a>
+					</p>
+				)}
 				<p className="mt-4 rounded-hr border border-line bg-surface-alt p-4 text-body lg:p-6 lg:text-body-pc" role="note">
 					{company.formNotice}
 				</p>

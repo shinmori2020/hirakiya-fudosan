@@ -85,6 +85,14 @@ export function OwnerForm({ turnstileSiteKey, explanation }: { turnstileSiteKey:
 				<h1 ref={h1Ref} tabIndex={-1} className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : '管理・空室のご相談'}</h1>
 				<p className="mt-4 text-body lg:text-body-pc">賃貸管理の受託・空室のご相談を承ります。他社で管理中のご相談も承ります。</p>
 				{/* 相談内容から「売却」を外した分の導線(J-105 ④) */}
+				{/* h1 直下からフォームへ(03 §7・J-119)。完了画面では出さない */}
+				{state.step !== 'done' && (
+					<p className="mt-2 text-body lg:text-body-pc">
+						<a href="#form" className="text-accent-strong underline">
+							管理のご相談をする(入力フォームへ)
+						</a>
+					</p>
+				)}
 				<p className="mt-2 text-body lg:text-body-pc">
 					<Link href={SELL_LINK.href} className="text-accent-strong underline">
 						{SELL_LINK.text}

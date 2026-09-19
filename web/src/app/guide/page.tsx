@@ -80,7 +80,7 @@ export default function GuidePage() {
 			<section id="rental" className="scroll-mt-24 bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">部屋探しの流れ</h2>
-					<p className="mt-2 max-w-[760px] text-small text-ink-weak lg:text-small-pc">検索から入居まで、早い方で2週間、ゆっくり探して1〜2ヶ月が目安です。</p>
+					<p className="mt-2 max-w-[760px] text-body text-ink lg:text-body-pc">検索から入居まで、早い方で2週間、ゆっくり探して1〜2ヶ月が目安です。</p>
 					<div className="mt-6">
 						<Steps steps={RENTAL_STEPS} label="部屋探しの流れ" />
 					</div>
@@ -90,7 +90,7 @@ export default function GuidePage() {
 			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">初期費用の内訳</h2>
-					<p className="mt-2 max-w-[760px] text-small text-ink-weak lg:text-small-pc">
+					<p className="mt-2 max-w-[760px] text-body text-ink lg:text-body-pc">
 						合計は家賃の4〜6ヶ月分が目安です。物件ごとの目安額は、各物件ページの「入居時の目安合計」に出しています。
 					</p>
 					<div className="mt-6">
@@ -102,7 +102,7 @@ export default function GuidePage() {
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">必要書類</h2>
-					<p className="mt-2 max-w-[760px] text-small text-ink-weak lg:text-small-pc">物件・貸主によって増えることがあります。申込の前に担当からお伝えします。</p>
+					<p className="mt-2 max-w-[760px] text-body text-ink lg:text-body-pc">物件・貸主によって増えることがあります。申込の前に担当からお伝えします。</p>
 					<div className="mt-6">
 						<DefList rows={DOCUMENTS} label="必要書類" />
 					</div>
@@ -112,7 +112,7 @@ export default function GuidePage() {
 			<section id="sale" className="scroll-mt-24 py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">購入の流れ(売買)</h2>
-					<p className="mt-2 max-w-[760px] text-small text-ink-weak lg:text-small-pc">申込から引渡しまで1〜2ヶ月が目安です。住宅ローンの事前審査を先に済ませておくと、申込の時に動きやすくなります。</p>
+					<p className="mt-2 max-w-[760px] text-body text-ink lg:text-body-pc">申込から引渡しまで1〜2ヶ月が目安です。住宅ローンの事前審査を先に済ませておくと、申込の時に動きやすくなります。</p>
 					<div className="mt-6">
 						<Steps steps={SALE_STEPS} label="購入の流れ" />
 					</div>
@@ -123,7 +123,7 @@ export default function GuidePage() {
 				<Container>
 					<div className="max-w-[760px]">
 						<h2 className="text-h2 font-bold lg:text-h2-pc">まず探してみる</h2>
-						<p className="mt-2 text-small text-ink-weak lg:text-small-pc">条件が固まっていなくても大丈夫です。気になる物件があれば、そのページからそのまま内見のご予約ができます。</p>
+						<p className="mt-2 text-body text-ink lg:text-body-pc">条件が固まっていなくても大丈夫です。気になる物件があれば、そのページからそのまま内見のご予約ができます。</p>
 						<div className="mt-6 grid gap-2 sm:grid-cols-2">
 							<Link href="/properties" className={PRIMARY}>
 								物件を探す

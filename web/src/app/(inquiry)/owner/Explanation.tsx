@@ -26,13 +26,13 @@ export function OwnerExplanation() {
 		<div className="max-w-[760px] space-y-12 lg:space-y-16">
 			<section>
 				<h2 className="text-h2 font-bold lg:text-h2-pc">管理サービスの内容</h2>
-				<p className="mt-2 text-small text-ink-weak lg:text-small-pc">募集から退去までを一社でお受けします。一部だけのご依頼もご相談ください。</p>
+				<p className="mt-2 text-body text-ink lg:text-body-pc">募集から退去までを一社でお受けします。一部だけのご依頼もご相談ください。</p>
 				{/* 会社の説明なので枠も背景も持たせない(J-058) */}
 				<ul className="mt-6 grid gap-5 md:grid-cols-2 md:gap-4">
 					{SERVICES.map((s) => (
 						<li key={s.head}>
 							<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{s.head}</p>
-							<p className="mt-1 text-small text-ink lg:text-small-pc">{s.text}</p>
+							<p className="mt-1 text-body text-ink lg:text-body-pc">{s.text}</p>
 						</li>
 					))}
 				</ul>
@@ -77,14 +77,14 @@ export function OwnerExplanation() {
 
 			<section>
 				<h2 className="text-h2 font-bold lg:text-h2-pc">空室対策の提案</h2>
-				<p className="mt-2 text-small text-ink-weak lg:text-small-pc">家賃を下げる前にできることから、順にご提案します。</p>
+				<p className="mt-2 text-body text-ink lg:text-body-pc">家賃を下げる前にできることから、順にご提案します。</p>
 				<ol className="mt-6 space-y-4">
 					{VACANCY.map((v, i) => (
 						<li key={v.head} className="flex gap-3">
 							<span className="tabular flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-alt text-small font-bold text-sumi">{i + 1}</span>
 							<span>
 								<span className="block text-body font-bold text-sumi lg:text-body-pc">{v.head}</span>
-								<span className="mt-1 block text-small text-ink lg:text-small-pc">{v.text}</span>
+								<span className="mt-1 block text-body text-ink lg:text-body-pc">{v.text}</span>
 							</span>
 						</li>
 					))}
