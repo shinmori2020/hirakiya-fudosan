@@ -18,9 +18,11 @@ export function FixedCta({ soldNos = [] }: { soldNos?: string[] }) {
 	const pathname = usePathname();
 	const m = /^\/properties\/([A-Za-z0-9-]+)$/.exec(pathname);
 	const contact = footerColumns[4].items[0]; // お問い合わせ(/contact)
-	const reserveHref = m ? `/viewing?property=${encodeURIComponent(m[1])}` : contact.href;
+	// オーナー向けページでは右端を「管理のご相談」にして同じページのフォームへ(BtoB の切替は文言のみ・J-116)
+	const owner = pathname === '/owner';
+	const reserveHref = m ? `/viewing?property=${encodeURIComponent(m[1])}` : owner ? '/owner#form' : contact.href;
 	const sold = !!m && soldNos.includes(m[1]);
-	const reserveLabel = m ? (m[1].startsWith('HR-S-') ? '見学予約' : '内見予約') : '問い合わせ';
+	const reserveLabel = m ? (m[1].startsWith('HR-S-') ? '見学予約' : '内見予約') : owner ? '管理のご相談' : '問い合わせ';
 	return (
 		<div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface lg:hidden">
 			<div className={`grid h-16 gap-2 px-2 py-2 ${sold ? 'grid-cols-2' : 'grid-cols-3'}`}>

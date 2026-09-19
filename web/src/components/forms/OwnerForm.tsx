@@ -58,7 +58,7 @@ function SubmitButton({ idle, busy, waiting, intent, className }: { idle: string
  * 本体。入力 → 確認 → 完了 は同一 URL・同じ骨格(03 §7 フォームページ・J-103)。状態は Server Action が返す(J-102 c)
  * 3つの子(H1と説明 / 右カラム / フォーム)を返し、置き場所は page.tsx のグリッドが決める
  * ---------------------------------------------------------------------- */
-export function OwnerForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
+export function OwnerForm({ turnstileSiteKey, explanation }: { turnstileSiteKey: string; /** 説明部分(実装順 6・Server で描画したものを受け取る)。左カラムの A と C の間に置く。完了画面では出さない */ explanation?: React.ReactNode }) {
 	const initial: OwnerState = { step: 'input', values: EMPTY_OWNER, errors: {} };
 	const [state, action] = useActionState(ownerAction, initial);
 
@@ -95,13 +95,26 @@ export function OwnerForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 				</p>
 			</div>
 
+			{/* D:説明(実装順 6)。lg 以上は左の2行目。完了画面では出さず、フォームの行を1つ上げる */}
+			{explanation && state.step !== 'done' && <div className="mt-8 lg:col-start-1 lg:row-start-2 lg:mt-0">{explanation}</div>}
+
 			{/* B:送信したあとどうなるか(右・追従。〜1023 は説明とフォームの間に入る)。対象物件を持たないフォームの右カラム(03 §7・v0.88) */}
-			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:self-start">
+			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:self-start">
 				<Aside />
 			</div>
 
 			{/* C:フォーム(左・2行目)。フッターの導線が /owner#form なので、ここがアンカーの着地点になる(③ と同じ scroll-mt) */}
-			<div ref={colRef} id="form" className="mt-8 max-w-[760px] scroll-mt-24 lg:col-start-1 lg:row-start-2 lg:mt-0">
+			<div ref={colRef} id="form" className={`mt-8 max-w-[760px] scroll-mt-24 lg:col-start-1 lg:mt-0 ${explanation && state.step !== 'done' ? 'lg:row-start-3' : 'lg:row-start-2'}`}>
+				{/* P7:#form で着地した画面の中にも売却の導線を置く(上の h1 直下の分は上から読む人向け)。入力の段だけ */}
+				{state.step === 'input' && (
+					<p className="mb-4 text-small text-ink-weak lg:text-small-pc">
+						売却のご相談は
+						<Link href={SELL_LINK.href} className="mx-1 text-accent-strong underline">
+							査定依頼のフォーム
+						</Link>
+						へ。
+					</p>
+				)}
 				{state.step === 'done' ? <Done /> : state.step === 'confirm' ? <Confirm state={state} action={action} siteKey={turnstileSiteKey} /> : <Input state={state} action={action} />}
 			</div>
 		</>
