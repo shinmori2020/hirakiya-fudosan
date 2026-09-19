@@ -17,6 +17,10 @@ export const company = {
 	staffCount: 8,
 	managedUnits: 800,
 	occupancyRate: 96,
+	/** 平均空室期間(日)。01 §12 の架空値。入居率 96% と矛盾しない範囲で置いた初案(実装順 6) */
+	avgVacancyDays: 28,
+	/** 管理料の目安(家賃に対する %)。01 §12「一般的な水準に合わせる」の案(SHIN が書き換えてよい) */
+	managementFeeRate: 5,
 	business: ['賃貸仲介', '売買仲介', '賃貸管理'] as const,
 	/** 主軸(記録上の位置づけ。文言に使う) */
 	mainBusiness: '賃貸管理',
@@ -37,6 +41,10 @@ export interface Office {
 	walk: number;
 	lat: number;
 	lng: number;
+	/** 駐車場(01 §9 要素3)。架空 */
+	parking: string;
+	/** 最寄駅からの道順(01 §9 要素2)。実在の目印は書かない(架空) */
+	directions: string;
 }
 
 export const offices: readonly Office[] = [
@@ -50,6 +58,8 @@ export const offices: readonly Office[] = [
 		walk: 3,
 		lat: 35.7457,
 		lng: 139.8547,
+		parking: '2台(架空)。満車の場合は近隣のコインパーキングをご案内します',
+		directions: '青砥駅の改札を出て、駅前の通りを直進。1つ目の信号を渡って左側、徒歩3分です。',
 	},
 	{
 		slug: 'tateishi',
@@ -61,6 +71,8 @@ export const offices: readonly Office[] = [
 		walk: 2,
 		lat: 35.7414,
 		lng: 139.8487,
+		parking: 'なし(架空)。近隣のコインパーキングをご利用ください',
+		directions: '京成立石駅の改札を出て右へ。商店街の入口を過ぎてすぐ、徒歩2分です。',
 	},
 ] as const;
 
@@ -82,16 +94,45 @@ export interface Staff {
 	formTarget?: 'contact' | 'sell' | 'owner';
 	/** 顔写真のプレースホルダー(3:4・架空表記入り。物件写真と同じ作りの SVG。J-053) */
 	photo: string;
+	/** ひとこと(01 §8 要素4)。初案。実在の人物・店名は書かない */
+	comment: string;
 }
 export const staff: readonly Staff[] = [
-	{ name: '架空 太郎', role: '代表取締役', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-1.svg' },
-	{ name: '見本 花子', role: '賃貸部長', qualifications: ['宅建士', '賃貸不動産経営管理士'], formTarget: 'contact', photo: '/placeholders/staff/staff-2.svg' },
-	{ name: '仮名 一郎', role: '売買主任', qualifications: ['宅建士', 'FP2級'], formTarget: 'sell', photo: '/placeholders/staff/staff-3.svg' },
-	{ name: '架空 次郎', role: '管理部主任', qualifications: ['賃貸不動産経営管理士'], formTarget: 'owner', photo: '/placeholders/staff/staff-4.svg' },
-	{ name: '見本 三郎', role: '賃貸営業', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-5.svg' },
-	{ name: '仮名 美咲', role: '賃貸営業', qualifications: [], photo: '/placeholders/staff/staff-6.svg' },
-	{ name: '架空 恵', role: '管理事務', qualifications: [], photo: '/placeholders/staff/staff-7.svg' },
-	{ name: '見本 健', role: '総務経理', qualifications: [], photo: '/placeholders/staff/staff-8.svg' },
+	{ name: '架空 太郎', role: '代表取締役', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-1.svg', comment: '創業から25年、青砥と立石で見てきた物件の話をします。' },
+	{ name: '見本 花子', role: '賃貸部長', qualifications: ['宅建士', '賃貸不動産経営管理士'], formTarget: 'contact', photo: '/placeholders/staff/staff-2.svg', comment: '内見は「ここが気になる」を先に聞いてから回ります。' },
+	{ name: '仮名 一郎', role: '売買主任', qualifications: ['宅建士', 'FP2級'], formTarget: 'sell', photo: '/placeholders/staff/staff-3.svg', comment: '査定の数字は、根拠になった条件と一緒にお出しします。' },
+	{ name: '架空 次郎', role: '管理部主任', qualifications: ['賃貸不動産経営管理士'], formTarget: 'owner', photo: '/placeholders/staff/staff-4.svg', comment: '空室は、家賃を下げる前にできることから一緒に探します。' },
+	{ name: '見本 三郎', role: '賃貸営業', qualifications: ['宅建士'], photo: '/placeholders/staff/staff-5.svg', comment: '駅からの道は、雨の日の目線でも歩いて確かめています。' },
+	{ name: '仮名 美咲', role: '賃貸営業', qualifications: [], photo: '/placeholders/staff/staff-6.svg', comment: '初めての部屋探しの方には、順番から説明します。' },
+	{ name: '架空 恵', role: '管理事務', qualifications: [], photo: '/placeholders/staff/staff-7.svg', comment: '入居中の困りごとは、まず私が受けて担当につなぎます。' },
+	{ name: '見本 健', role: '総務経理', qualifications: [], photo: '/placeholders/staff/staff-8.svg', comment: '契約書類と費用の説明を、分かるまで何度でも。' },
+] as const;
+
+/**
+ * 売却事例(01 §11 要素3・架空3件)。実装順 6 の /sell が読む。02 のシード(今売っている物件)とは別建て。
+ * 町は 02 §8 の13町の中。番地は書かない(書くなら 0-0-0)。物件名は架空の書式(町名+ハイツ等+0-数字)、戸建・土地は名前を持たない。
+ * 数字は 02 §6 の売買20件の価格帯・面積・築年の内側。実際の相場は参照していない。担当者や売主のコメントは入れない(実在の声に見えるため)。
+ */
+export interface SaleCase {
+	kind: '戸建' | 'マンション' | '土地';
+	ward: string;
+	town: string;
+	name?: string;
+	areaSqm: number;
+	builtYear?: number;
+	/** 査定額(万円) */
+	assessedMan: number;
+	/** 成約価格(万円) */
+	soldMan: number;
+	/** 売り出しから成約までの日数 */
+	days: number;
+	/** 経過(事実だけ。形容を入れない) */
+	note: string;
+}
+export const saleCases: readonly SaleCase[] = [
+	{ kind: 'マンション', ward: '葛飾区', town: '青戸', name: '青戸レジデンス0-4', areaSqm: 68, builtYear: 2008, assessedMan: 3480, soldMan: 3400, days: 47, note: '管理物件の入居者の方からの紹介で、内覧2件目で申込。' },
+	{ kind: '戸建', ward: '葛飾区', town: '立石', areaSqm: 92, builtYear: 1999, assessedMan: 3980, soldMan: 3850, days: 73, note: '売却後は買主様が居住。引渡しまでに残置物の整理を当社で手配。' },
+	{ kind: '土地', ward: '葛飾区', town: 'お花茶屋', areaSqm: 80, assessedMan: 4200, soldMan: 4200, days: 35, note: '建物解体後に更地で売り出し。査定額のまま成約。' },
 ] as const;
 
 /** 対応エリア(13町・4区)。タクソノミー area と一致させる。表示順もこの順 */
