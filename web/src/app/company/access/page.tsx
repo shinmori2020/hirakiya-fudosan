@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { DefList } from '@/components/guide/DefList';
 import { Container } from '@/components/layout/Container';
@@ -40,9 +41,9 @@ export default function AccessPage() {
 						<h2 className="text-h2 font-bold lg:text-h2-pc">{o.name}</h2>
 						<div className="mt-6 grid gap-6 lg:grid-cols-2 lg:gap-8">
 							<div>
-								{/* 外観写真はプレースホルダーの面(03 §1)。実写真は使わない */}
-								<div className="flex aspect-[3/2] w-full items-center justify-center rounded-hr border border-line bg-surface text-small text-ink-weak lg:text-small-pc" role="img" aria-label={`${o.name} の外観(プレースホルダー)`}>
-									外観写真(架空・プレースホルダー)
+								{/* 場所を示す写真(架空のためプレースホルダー・J-118)。面に文字ではなく画像で置く(03 §2・J-119) */}
+								<div className="relative aspect-[3/2] w-full overflow-hidden rounded-hr bg-surface-alt">
+									<Image src={`/placeholders/offices/${o.slug}.svg`} alt={`${o.name} の外観(架空・プレースホルダー)`} fill sizes="(min-width: 64rem) 600px, 100vw" unoptimized className="object-cover" />
 								</div>
 								<div className="mt-4">
 									<DefList
