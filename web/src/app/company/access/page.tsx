@@ -37,10 +37,7 @@ export default function AccessPage() {
 			{offices.map((o, i) => (
 				<section key={o.slug} id={o.slug} className={`scroll-mt-24 py-12 lg:py-16 ${i % 2 === 0 ? 'bg-surface-alt' : ''}`}>
 					<Container>
-						<h2 className="text-h2 font-bold lg:text-h2-pc">
-							{o.name}
-							<span className="ml-2 text-small font-normal text-ink-weak lg:text-small-pc">{o.kind}</span>
-						</h2>
+						<h2 className="text-h2 font-bold lg:text-h2-pc">{o.name}</h2>
 						<div className="mt-6 grid gap-6 lg:grid-cols-2 lg:gap-8">
 							<div>
 								{/* 外観写真はプレースホルダーの面(03 §1)。実写真は使わない */}
