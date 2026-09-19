@@ -128,11 +128,13 @@ export interface SaleCase {
 	days: number;
 	/** 経過(事実だけ。形容を入れない) */
 	note: string;
+	/** 物件を示す写真(架空のためプレースホルダー・3:2・J-118) */
+	photo: string;
 }
 export const saleCases: readonly SaleCase[] = [
-	{ kind: 'マンション', ward: '葛飾区', town: '青戸', name: '青戸レジデンス0-4', areaSqm: 68, builtYear: 2008, assessedMan: 3480, soldMan: 3400, days: 47, note: '管理物件の入居者の方からの紹介で、内覧2件目で申込。' },
-	{ kind: '戸建', ward: '葛飾区', town: '立石', areaSqm: 92, builtYear: 1999, assessedMan: 3980, soldMan: 3850, days: 73, note: '売却後は買主様が居住。引渡しまでに残置物の整理を当社で手配。' },
-	{ kind: '土地', ward: '葛飾区', town: 'お花茶屋', areaSqm: 80, assessedMan: 4200, soldMan: 4200, days: 35, note: '建物解体後に更地で売り出し。査定額のまま成約。' },
+	{ kind: 'マンション', ward: '葛飾区', town: '青戸', name: '青戸レジデンス0-4', areaSqm: 68, builtYear: 2008, assessedMan: 3480, soldMan: 3400, days: 47, note: '管理物件の入居者の方からの紹介で、内覧2件目で申込。', photo: '/placeholders/cases/case-1.svg' },
+	{ kind: '戸建', ward: '葛飾区', town: '立石', areaSqm: 92, builtYear: 1999, assessedMan: 3980, soldMan: 3850, days: 73, note: '売却後は買主様が居住。引渡しまでに残置物の整理を当社で手配。', photo: '/placeholders/cases/case-2.svg' },
+	{ kind: '土地', ward: '葛飾区', town: 'お花茶屋', areaSqm: 80, assessedMan: 4200, soldMan: 4200, days: 35, note: '建物解体後に更地で売り出し。査定額のまま成約。', photo: '/placeholders/cases/case-3.svg' },
 ] as const;
 
 /** 対応エリア(13町・4区)。タクソノミー area と一致させる。表示順もこの順 */

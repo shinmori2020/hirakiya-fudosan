@@ -1,4 +1,5 @@
 import { Building2, Handshake, TrendingUp } from 'lucide-react';
+import Image from 'next/image';
 import { Steps, type Step } from '@/components/guide/Steps';
 import { company, formatPrice, saleCases } from '@/config/site';
 
@@ -59,6 +60,10 @@ export function SellExplanation() {
 				<ul className="mt-6 grid gap-3 md:grid-cols-3 lg:gap-4">
 					{saleCases.map((c) => (
 						<li key={`${c.town}-${c.kind}`} className="rounded-hr border border-line bg-surface p-4">
+							{/* 物件を示す写真(架空のためプレースホルダー・J-118)。一覧カードと同じ 3:2・unoptimized */}
+							<div className="relative mb-3 aspect-[3/2] w-full overflow-hidden rounded-hr bg-surface-alt">
+								<Image src={c.photo} alt="" fill sizes="(min-width: 64rem) 240px, (min-width: 48rem) 33vw, 100vw" unoptimized className="object-cover" />
+							</div>
 							<p className="text-small text-ink-weak lg:text-small-pc">
 								{c.ward}
 								{c.town} / {c.kind}
