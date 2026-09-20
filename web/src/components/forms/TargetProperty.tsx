@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { attrClass } from '@/components/property/AttrLink';
 import type { TargetPropertyFields } from '@/lib/target-property';
+import { SECONDARY } from '@/components/ui/button-class';
 
 /** page.tsx が index.json から渡す項目(表示用。Action は ID から読み直す) */
 export interface PropertyOption extends TargetPropertyFields {
@@ -21,8 +22,6 @@ export interface PropertyNames {
 	areaLabels: Record<string, string>;
 	stationNames: Record<string, string>;
 }
-
-const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
 
 /**
  * フォームページの右カラム「対象物件」(03 §7 フォームページ・J-103 → 密度は J-104)。表示専用の部品で、

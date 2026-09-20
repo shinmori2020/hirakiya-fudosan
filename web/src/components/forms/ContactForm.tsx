@@ -12,6 +12,7 @@ import { CONTACT_METHODS, DEPARTMENT, REPLY_BY } from '@/config/forms';
 import { company, mainOffice } from '@/config/site';
 import { confirmRows, EMPTY_INPUT, isPropertyNo, kindFromQuery, noteField, type ContactInput } from '@/lib/contact';
 import { targetPropertyRows } from '@/lib/target-property';
+import { CHOICE, PRIMARY, SECONDARY } from '@/components/ui/button-class';
 
 /** 互換のための別名(page.tsx が使う)。中身は TargetProperty の PropertyOption */
 export type ContactPropertyOption = PropertyOption;
@@ -22,9 +23,6 @@ export type ContactNames = PropertyNames;
  * ---------------------------------------------------------------------- */
 const INPUT = 'h-[46px] w-full rounded-hr border bg-surface px-3 text-body text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent lg:text-body-pc';
 const border = (err?: string) => (err ? 'border-badge-discount-fg' : 'border-line');
-const PRIMARY = 'flex h-12 w-full items-center justify-center rounded-hr bg-accent text-body font-bold text-white hover:bg-accent-strong lg:h-11 lg:text-body-pc';
-const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
-const CHOICE = 'flex min-h-11 cursor-pointer items-center gap-2 rounded-hr px-1 text-body transition-[background-color] duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:text-body-pc';
 const REQUIRED = <span className="ml-1 text-xs font-bold text-badge-discount-fg lg:text-xs-pc">必須</span>;
 /** 必須の欄(J-111)。見た目の「必須」だけでは読み上げに伝わらないので aria-required を足す。required は入れない(既定の検証を使わない設計) */
 const REQUIRED_KEYS: readonly string[] = ['name', 'phone', 'kind'];

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { company, voices } from '@/config/site';
+import { SECONDARY } from '@/components/ui/button-class';
 
 /** 群の順(J-122)。voices の kind と同じ語 */
 const KINDS = ['賃貸', '売買', '管理'] as const;
@@ -10,8 +11,6 @@ export const metadata: Metadata = {
 	title: 'お客様の声',
 	description: `賃貸・売買・管理でご利用いただいた方の声(架空)。${company.notice}`,
 };
-
-const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
 
 /**
  * お客様の声(実装順 6・01 §16)。トップと同じ config/site.ts の voices を読む(J-056 項目9:別のデータ経路を作らない)。

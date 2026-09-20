@@ -6,13 +6,12 @@ import { Container } from '@/components/layout/Container';
 import { MapLoader } from '@/components/property/MapLoader';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
 import { company, offices } from '@/config/site';
+import { SECONDARY } from '@/components/ui/button-class';
 
 export const metadata: Metadata = {
 	title: '店舗案内・アクセス',
 	description: `${offices.map((o) => o.name).join('・')}の住所・電話・営業時間・地図と駅からの道順。${company.notice}`,
 };
-
-const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
 
 /**
  * 店舗案内・アクセス(実装順 6・01 §9)。説明ページの型(03 §7・J-115)。

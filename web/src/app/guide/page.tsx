@@ -4,6 +4,7 @@ import { DefList } from '@/components/guide/DefList';
 import { Steps, type Step } from '@/components/guide/Steps';
 import { Container } from '@/components/layout/Container';
 import { company } from '@/config/site';
+import { PRIMARY, SECONDARY } from '@/components/ui/button-class';
 
 export const metadata: Metadata = {
 	title: '初めての方へ(流れ・費用)',
@@ -49,9 +50,6 @@ const DOCUMENTS = [
 	{ k: '審査時', v: '収入証明(源泉徴収票・給与明細3ヶ月分・確定申告書のいずれか)' },
 	{ k: '契約時', v: '住民票、印鑑、銀行口座の分かるもの。連帯保証人を立てる場合はその方の印鑑証明' },
 ] as const;
-
-const PRIMARY = 'flex h-12 w-full items-center justify-center rounded-hr bg-accent text-body font-bold text-white hover:bg-accent-strong lg:h-11 lg:text-body-pc';
-const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
 
 export default function GuidePage() {
 	return (

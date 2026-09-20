@@ -2,14 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { company, mainOffice } from '@/config/site';
+import { PRIMARY, SECONDARY } from '@/components/ui/button-class';
 
 export const metadata: Metadata = {
 	title: 'LINE について(ダミー)',
 	description: `このサイトの LINE ボタンはダミーです。${company.notice}`,
 };
-
-const PRIMARY = 'flex h-12 w-full items-center justify-center rounded-hr bg-accent text-body font-bold text-white hover:bg-accent-strong lg:h-11 lg:text-body-pc';
-const SECONDARY = 'flex h-12 w-full items-center justify-center rounded-hr border border-sumi bg-surface text-body font-medium text-sumi hover:bg-surface-alt lg:h-11 lg:text-body-pc';
 
 /**
  * LINE(ダミー)の説明(実装順 6・J-117。01 共通要素の決定 09/05「リンク先を『架空サイトのため利用できません』の説明に向ける」)。
