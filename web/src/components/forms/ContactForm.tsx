@@ -7,6 +7,7 @@ import { useFormStatus } from 'react-dom';
 import { contactAction, type ContactState } from '@/app/actions/contact';
 import { TargetProperty, type PropertyNames, type PropertyOption } from '@/components/forms/TargetProperty';
 import { Turnstile } from '@/components/forms/Turnstile';
+import { DefList } from '@/components/guide/DefList';
 import { CONTACT_KINDS, type ContactKind } from '@/config/contact';
 import { CONTACT_METHODS, DEPARTMENT, REPLY_BY } from '@/config/forms';
 import { company, mainOffice } from '@/config/site';
@@ -248,14 +249,10 @@ function Confirm({ state, action, siteKey }: { state: Extract<ContactState, { st
 				</p>
 			)}
 			{/* 対象物件は右カラムに出ているので、ここではカードを出さない(表の行だけ・J-103) */}
-			<dl className="mt-4">
-				{rows.map((r, i) => (
-					<div key={r.label} className={`flex gap-4 py-2 ${i < rows.length - 1 ? 'border-b border-line' : ''}`}>
-						<dt className="w-[7.5em] shrink-0 text-small text-ink-weak">{r.label}</dt>
-						<dd className="max-w-[32em] text-small whitespace-pre-wrap text-ink">{r.value}</dd>
-					</div>
-				))}
-			</dl>
+			{/* ラベル:値 の表は説明ページと同じ部品(03 §6 情報表の規則。最終行の下にも線・J-068) */}
+			<div className="mt-4">
+				<DefList rows={rows.map((r) => ({ k: r.label, v: r.value }))} preWrap />
+			</div>
 
 			<form action={action} className="mt-8">
 				{(Object.keys(values) as (keyof ContactInput)[]).map((k) => (
