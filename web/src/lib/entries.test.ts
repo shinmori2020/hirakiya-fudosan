@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { PropertySummary } from '@/types/property';
-import { countBy, entryCounts, stationsByLine, townsByWard } from '@/lib/entries';
+import { countBy, coveredCounts, entryCounts, stationsByLine, townsByWard } from '@/lib/entries';
 
 /** 最小のダミー。web/data は読まない */
 const mk = (over: Partial<PropertySummary> & { no: string }): PropertySummary => ({
@@ -74,5 +74,18 @@ describe('entries.ts', () => {
 		const out = stationsByLine([{ slug: 'keisei-main', name: '京成本線' }, { slug: 'keisei-oshiage', name: '京成押上線' }], stations);
 		expect(out[0].stations.map((s) => s.slug)).toEqual(['aoto', 'ohanajaya']);
 		expect(out[1].stations.map((s) => s.slug)).toEqual(['aoto']);
+	});
+
+	it('J-126 入口で辿れる物件数は、同じ物件を1回だけ数える(沿線は1物件が2本に乗る)', () => {
+		const all = [
+			mk({ no: 'HR-R-0001', lines: ['keisei-main', 'keisei-oshiage'] }),
+			mk({ no: 'HR-R-0002', lines: ['keisei-main'] }),
+			mk({ no: 'HR-S-0001', type: 'sale', lines: ['jr-sobu'] }),
+		];
+		// 足し算(entryCounts の合計)なら 2 + 1 = 3 になるが、実際の賃貸は2件
+		expect(coveredCounts(all, 'line', ['keisei-main', 'keisei-oshiage'])).toEqual({ rental: 2, sale: 0 });
+		expect(coveredCounts(all, 'line', ['keisei-main', 'jr-sobu'])).toEqual({ rental: 2, sale: 1 });
+		// 該当なしは 0
+		expect(coveredCounts(all, 'collection', ['pet-ok'])).toEqual({ rental: 0, sale: 0 });
 	});
 });

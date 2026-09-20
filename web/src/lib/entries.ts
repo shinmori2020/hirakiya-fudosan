@@ -46,6 +46,16 @@ export function entryCounts(all: PropertySummary[], key: EntryKey, terms: { slug
 }
 
 /**
+ * その入口で**辿り着ける物件の数**(J-126。トップの入口カードで使う)。
+ * `entryCounts` の合計ではない:1物件が2つの沿線に乗り、複数の特集に入るので、足すと物件数を超える
+ * (実測:沿線の合計は賃貸71件だが、賃貸は40件しかない)。**同じ物件は1回だけ数える**。
+ */
+export function coveredCounts(all: PropertySummary[], key: EntryKey, slugs: string[]): { rental: number; sale: number } {
+	const hit = all.filter((p) => slugs.some((slug) => has(p, key, slug)));
+	return { rental: hit.filter((p) => p.type === 'rental').length, sale: hit.filter((p) => p.type === 'sale').length };
+}
+
+/**
  * 区ごとの町(入口ページの見出しの単位)。config/site.ts の serviceAreas は町名しか持たないので、
  * タクソノミー(slug・name・parent)と突き合わせて slug を引く。一覧に無い町名は落とす(13町の外に出ない)。
  */
