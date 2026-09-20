@@ -2,7 +2,7 @@
 
 /**
  * チップ(トグルボタン)。03 §6:角丸 6px・高さ 40(スマホ)/ 32(PC)・13px・内側余白 8(J-034・J-035)。
- * 選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字。hover(PC)/ active(スマホ)で枠・文字が青緑、背景は淡い青緑 #E0F2F1。
+ * 選択中は青緑の塗り+白文字、未選択は灰線の枠+墨文字。hover(PC)/ active(スマホ)で枠・文字が青緑、背景は淡い青緑(`--color-badge-new-bg`)。
  * 背景・枠・文字色を 150ms・cubic-bezier(0.4,0,0.2,1) で遷移。駅フィルター(FilterPanel)とクイック条件タブ(QuickTabs・J-042)で共用。
  */
 export function Chip({ label, pressed, onClick }: { label: string; pressed: boolean; onClick: () => void }) {
