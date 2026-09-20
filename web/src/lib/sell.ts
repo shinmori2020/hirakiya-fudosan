@@ -23,7 +23,7 @@ import {
 	type SellTiming,
 	type SellWard,
 } from '@/config/sell';
-import { commonRows, commonSchema, EMPTY_COMMON, firstErrors, normalizeCommon, readCommon, str, type CommonInput, type ConfirmRow, type FormLike } from '@/lib/forms/common';
+import { commonRows, commonSchema, EMPTY_COMMON, firstErrors, normalizeCommon, optionLabel, readCommon, str, type CommonInput, type ConfirmRow, type FormLike } from '@/lib/forms/common';
 import { LAYOUTS } from '@/lib/search';
 
 export type { ConfirmRow } from '@/lib/forms/common';
@@ -35,13 +35,11 @@ const TIMING_SLUGS = SELL_TIMINGS.map((t) => t.slug) as [SellTiming, ...SellTimi
 const ASSESSMENT_SLUGS = SELL_ASSESSMENTS.map((a) => a.slug) as [SellAssessment, ...SellAssessment[]];
 export const LAYOUT_OPTIONS = [...LAYOUTS, LAYOUT_OTHER] as const;
 
-const label = <T extends string>(list: readonly { slug: T; label: string }[], slug: T | ''): string => (slug ? (list.find((x) => x.slug === slug)?.label ?? slug) : '');
-
-export const kindLabel = (slug: SellKind | '') => label(SELL_KINDS, slug);
-export const wardLabel = (slug: SellWard | '') => label(SELL_WARDS, slug);
-export const conditionLabel = (slug: SellCondition | '') => label(SELL_CONDITIONS, slug);
-export const timingLabel = (slug: SellTiming | '') => label(SELL_TIMINGS, slug);
-export const assessmentLabel = (slug: SellAssessment | '') => label(SELL_ASSESSMENTS, slug);
+export const kindLabel = (slug: SellKind | '') => optionLabel(SELL_KINDS, slug);
+export const wardLabel = (slug: SellWard | '') => optionLabel(SELL_WARDS, slug);
+export const conditionLabel = (slug: SellCondition | '') => optionLabel(SELL_CONDITIONS, slug);
+export const timingLabel = (slug: SellTiming | '') => optionLabel(SELL_TIMINGS, slug);
+export const assessmentLabel = (slug: SellAssessment | '') => optionLabel(SELL_ASSESSMENTS, slug);
 export const layoutLabel = (v: string) => (v === LAYOUT_OTHER ? 'その他' : v);
 
 /** 面積のラベル。種別が未選択の間は中立の「面積」にする */

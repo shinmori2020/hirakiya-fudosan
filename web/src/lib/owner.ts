@@ -9,7 +9,7 @@
 import { z } from 'zod';
 import { WARDS, type Ward } from '@/config/forms';
 import { OWNER_MANAGES, OWNER_NOTE_LABEL, OWNER_TOPICS, UNITS_MAX, type OwnerManage, type OwnerTopic } from '@/config/owner';
-import { commonRows, commonSchema, EMPTY_COMMON, firstErrors, normalizeCommon, readCommon, str, type CommonInput, type ConfirmRow, type FormLike } from '@/lib/forms/common';
+import { commonRows, commonSchema, EMPTY_COMMON, firstErrors, normalizeCommon, optionLabel, readCommon, str, type CommonInput, type ConfirmRow, type FormLike } from '@/lib/forms/common';
 
 export type { ConfirmRow } from '@/lib/forms/common';
 
@@ -17,11 +17,9 @@ const TOPIC_SLUGS = OWNER_TOPICS.map((t) => t.slug) as [OwnerTopic, ...OwnerTopi
 const WARD_SLUGS = WARDS.map((w) => w.slug) as [Ward, ...Ward[]];
 const MANAGE_SLUGS = OWNER_MANAGES.map((m) => m.slug) as [OwnerManage, ...OwnerManage[]];
 
-const label = <T extends string>(list: readonly { slug: T; label: string }[], slug: T | ''): string => (slug ? (list.find((x) => x.slug === slug)?.label ?? slug) : '');
-
-export const topicLabel = (slug: OwnerTopic | '') => label(OWNER_TOPICS, slug);
-export const wardLabel = (slug: Ward | '') => label(WARDS, slug);
-export const manageLabel = (slug: OwnerManage | '') => label(OWNER_MANAGES, slug);
+export const topicLabel = (slug: OwnerTopic | '') => optionLabel(OWNER_TOPICS, slug);
+export const wardLabel = (slug: Ward | '') => optionLabel(WARDS, slug);
+export const manageLabel = (slug: OwnerManage | '') => optionLabel(OWNER_MANAGES, slug);
 
 export interface OwnerInput extends CommonInput {
 	topic: OwnerTopic | '';

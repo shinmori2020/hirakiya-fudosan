@@ -24,6 +24,15 @@ export function isPhone(v: string): boolean {
 	return /^0\d{9,10}$/.test(digits);
 }
 
+/**
+ * 選択肢の slug → 表示名(③④ が同じ実装を持っていたので共通化した)。
+ * 選択肢の配列は `{ slug, label }` の形で config に置く(config/forms.ts・config/sell.ts・config/owner.ts)。
+ * 見つからない時は slug をそのまま返す(表示が消えるより、値が見える方が原因を追える)。
+ */
+export function optionLabel<T extends string>(list: readonly { slug: T; label: string }[], slug: T | ''): string {
+	return slug ? (list.find((x) => x.slug === slug)?.label ?? slug) : '';
+}
+
 export function methodLabel(slug: ContactMethod): string {
 	return CONTACT_METHODS.find((m) => m.slug === slug)?.label ?? slug;
 }
