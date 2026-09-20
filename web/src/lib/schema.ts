@@ -48,7 +48,7 @@ export function availabilityFor(status: Status): string {
 }
 
 /** 「東京都葛飾区曳舟0-0-0」を 都道府県 / 区 / 以降 に分ける(番地は 0-0-0 のまま出す) */
-export function addressParts(address: string, wardName: string): { region: string; locality: string; street: string } {
+export function addressForSchema(address: string, wardName: string): { region: string; locality: string; street: string } {
 	const region = address.startsWith('東京都') ? '東京都' : '';
 	const rest = address.slice(region.length);
 	const locality = wardName && rest.startsWith(wardName) ? wardName : '';
@@ -66,7 +66,7 @@ export interface ListingContext {
 
 /** 物件の構造化データ(RealEstateListing) */
 export function realEstateListing(p: PropertyDetail, ctx: ListingContext): JsonLd {
-	const { region, locality, street } = addressParts(p.address, ctx.wardName);
+	const { region, locality, street } = addressForSchema(p.address, ctx.wardName);
 	const about: JsonLd = {
 		'@type': placeType(p.kind),
 		name: p.title,
