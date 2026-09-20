@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
@@ -106,10 +107,12 @@ export default async function Home() {
 		},
 	];
 
+	// 3枚の導線カード。写真は「場所・物件を示すもの」だけ置く(J-118)。
+	// 初めての方へ = 店舗の外観(/company/access と同じ青砥本店の画像を流用。店内の接客風景は雰囲気を作るだけの写真に寄るため使わない・SHIN 09/20)
 	const guides = [
-		{ href: '/guide', title: '初めての方へ', text: '部屋探しの流れと、先に決めておくと早いことをまとめています。' },
-		{ href: '/sell', title: '売却をお考えの方へ', text: '相場の見方と、査定でお出しする数字の根拠をご説明します。' },
-		{ href: '/owner', title: 'オーナー様へ', text: '管理のご相談と空室対策。家賃を下げる前にできることから。' },
+		{ href: '/guide', title: '初めての方へ', text: '部屋探しの流れと、先に決めておくと早いことをまとめています。', photo: '/placeholders/offices/aoto.svg', alt: '青砥本店の外観(架空・プレースホルダー)' },
+		{ href: '/sell', title: '売却をお考えの方へ', text: '相場の見方と、査定でお出しする数字の根拠をご説明します。', photo: '/placeholders/guides/sell.svg', alt: '戸建の外観(架空・プレースホルダー)' },
+		{ href: '/owner', title: 'オーナー様へ', text: '管理のご相談と空室対策。家賃を下げる前にできることから。', photo: '/placeholders/guides/owner.svg', alt: '賃貸マンションの外観(架空・プレースホルダー)' },
 	];
 
 	return (
@@ -196,10 +199,16 @@ export default async function Home() {
 							<li key={g.href}>
 								<Link
 									href={g.href}
-									className="block h-full rounded-hr border border-line bg-surface p-4 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:p-6"
+									className="block h-full overflow-hidden rounded-hr border border-line bg-surface transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none"
 								>
-									<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</p>
-									<p className="mt-2 text-small text-ink-weak lg:text-small-pc">{g.text}</p>
+									{/* 場所・物件を示す写真(架空のためプレースホルダー・J-118)。売却事例カードと同じ 3:2 */}
+									<div className="relative aspect-[3/2] w-full bg-surface-alt">
+										<Image src={g.photo} alt={g.alt} fill sizes="(min-width: 64rem) 400px, 100vw" unoptimized className="object-cover" />
+									</div>
+									<div className="p-4 lg:p-6">
+										<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</p>
+										<p className="mt-2 text-small text-ink-weak lg:text-small-pc">{g.text}</p>
+									</div>
 								</Link>
 							</li>
 						))}
