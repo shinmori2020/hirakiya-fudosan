@@ -1,4 +1,3 @@
-import { Building2, Handshake, Store } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
@@ -83,22 +82,27 @@ export default async function Home() {
 		return town ? `${ward?.name ?? ''}${town.name}` : slug;
 	};
 
-	// 強み3点(01 §1-4)。数値は config から。アイコンは lucide(J-047 の帯と同じ系統・J-058)
+	// 強み3点(01 §1-4)を数字の形に(J-127)。/owner の管理実績と同じ作り(数字 + 単位小 + 説明)だが、
+	// **会社の説明なので枠も背景も持たせない**(J-058)。数値は config から取り、ベタ書きしない
 	const strengths = [
 		{
-			icon: Building2,
-			head: `管理${company.managedUnits}戸・入居率${company.occupancyRate}%`,
-			text: '貸すところまで見ているので、部屋の状態や入居後の話を実物ベースで説明できます。',
+			n: `${company.managedUnits}`,
+			unit: '戸',
+			label: '管理戸数',
+			text: `入居率${company.occupancyRate}%。貸すところまで見ているので、部屋の状態や入居後の話を実物ベースで説明できます。`,
 		},
 		{
-			icon: Store,
-			head: `青砥・立石で創業${now.getFullYear() - Number(company.founded.slice(0, 4))}年`,
+			n: `${now.getFullYear() - Number(company.founded.slice(0, 4))}`,
+			unit: '年',
+			label: '青砥・立石で創業',
 			text: '2店舗とも駅から徒歩3分以内。地元の物件を、地元で見てきた担当が案内します。',
 		},
 		{
-			icon: Handshake,
-			head: '賃貸・売買・管理を一社で',
-			text: 'オーナー様も入居者様も同じ窓口。引越し・売却・管理の相談が別々の会社に分かれません。',
+			// 3つ目だけ数字が無いと枠が1つ空くので「1社」にする(J-127)。3つの中で一番小さい数字が意味では逆に効く
+			n: '1',
+			unit: '社',
+			label: '借りる・買う・貸す・売る',
+			text: '同じ窓口でご相談いただけます。引越し・売却・管理で担当が変わりません。',
 		},
 	];
 
@@ -169,12 +173,15 @@ export default async function Home() {
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">ヒラキヤ不動産の3つの強み</h2>
 					{/* 会社の説明なので枠も背景も持たせない。下の3枚(導線)とは役割が違うので形を分ける(J-058) */}
-					<ul className="mt-6 grid gap-6 lg:grid-cols-3 lg:gap-8">
+					<ul className="mt-6 grid gap-6 md:grid-cols-3 lg:gap-8">
 						{strengths.map((s) => (
-							<li key={s.head}>
-								<s.icon size={24} aria-hidden="true" className="text-accent" />
-								<p className="mt-2 text-h3 font-bold text-sumi lg:text-h3-pc">{s.head}</p>
-								<p className="mt-1 text-small text-ink lg:text-small-pc">{s.text}</p>
+							<li key={s.label}>
+								<p className="tabular text-h2 font-bold text-sumi lg:text-h2-pc">
+									{s.n}
+									<span className="ml-1 text-small font-normal lg:text-small-pc">{s.unit}</span>
+								</p>
+								<p className="mt-1 text-h3 font-bold text-sumi lg:text-h3-pc">{s.label}</p>
+								<p className="mt-2 text-small text-ink lg:text-small-pc">{s.text}</p>
 							</li>
 						))}
 					</ul>
