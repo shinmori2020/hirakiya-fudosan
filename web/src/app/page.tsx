@@ -2,6 +2,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
+import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
@@ -216,27 +217,22 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 6 お客様の声(架空・config。実装順 6 の /voice と同じ配列) */}
-			<section className="bg-surface-alt py-12 lg:py-16">
+			{/* 6 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128) */}
+			<section className="bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
 				<Container>
-					<div className="flex items-baseline justify-between">
-						<h2 className="text-h2 font-bold lg:text-h2-pc">お客様の声</h2>
-						<Link href="/voice" className="text-small text-accent-strong underline">
-							すべて見る
-						</Link>
-					</div>
-					<ul className="mt-6 grid gap-4 lg:grid-cols-3">
-						{voices.map((v) => (
-							<li key={v.who} className="rounded-hr border border-line bg-surface p-4 lg:p-6">
-								<p className="text-small text-ink-weak lg:text-small-pc">
-									{v.town} / {v.kind} / {v.attr}
-								</p>
-								<p className="mt-2 text-small text-ink lg:text-small-pc">{v.text}</p>
-								{/* 実在の方と誤認されないよう、名乗りは記号だけにして架空表記を必ず添える(J-057・00 §7-9) */}
-								<p className="mt-2 text-xs text-ink-weak lg:text-xs-pc">{v.who}(架空)</p>
-							</li>
-						))}
-					</ul>
+					<VoiceCarousel
+						voices={voices}
+						heading={
+							<h2 id="voice-heading" className="text-h2 font-bold lg:text-h2-pc">
+								お客様の声
+							</h2>
+						}
+						extra={
+							<Link href="/voice" className="text-small text-accent-strong underline">
+								すべて見る
+							</Link>
+						}
+					/>
 				</Container>
 			</section>
 
