@@ -5,6 +5,7 @@ import { useActionState, useEffect, useId, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { ownerAction, type OwnerState } from '@/app/actions/owner';
 import { Turnstile } from '@/components/forms/Turnstile';
+import { Steps } from '@/components/guide/Steps';
 import { DefList } from '@/components/guide/DefList';
 import { CONTACT_METHODS, DEPARTMENT, REPLY_BY, WARDS } from '@/config/forms';
 import { OWNER_MANAGES, OWNER_NOTE_LABEL, OWNER_TOPICS, SELL_LINK, UNITS_MAX } from '@/config/owner';
@@ -135,21 +136,18 @@ function Aside() {
 			<h2 id="owner-flow" className="text-h3 font-bold text-sumi lg:text-h3-pc">
 				ご相談の進み方
 			</h2>
-			<ol className="mt-3 space-y-3">
-				{[
-					{ t: 'ご入力', d: 'この画面のフォームをお送りください。' },
-					{ t: '現況のヒアリング', d: `${DEPARTMENT.owner}より${REPLY_BY}にご連絡し、建物と入居の状況をうかがいます。` },
-					{ t: 'ご提案・お見積り', d: '管理の内容と費用をお出しします。' },
-				].map((s, i) => (
-					<li key={s.t} className="flex gap-3">
-						<span className="tabular flex size-6 shrink-0 items-center justify-center rounded-full bg-surface-alt text-small font-bold text-sumi">{i + 1}</span>
-						<span>
-							<span className="block text-small font-bold text-sumi">{s.t}</span>
-							<span className="block text-small text-ink">{s.d}</span>
-						</span>
-					</li>
-				))}
-			</ol>
+			{/* 本文の流れと同じ部品(J-124)。3段なので索引は出ない(J-123) */}
+			<div className="mt-3">
+				<Steps
+					dense
+					label="ご相談の進み方"
+					steps={[
+						{ title: 'ご入力', text: 'この画面のフォームをお送りください。' },
+						{ title: '現況のヒアリング', text: `${DEPARTMENT.owner}より${REPLY_BY}にご連絡し、建物と入居の状況をうかがいます。` },
+						{ title: 'ご提案・お見積り', text: '管理の内容と費用をお出しします。' },
+					]}
+				/>
+			</div>
 			<p className="mt-4 border-t border-line pt-4 text-small text-ink">ご相談は無料です。他社で管理中のご相談も承ります。</p>
 			<p className="mt-2 text-small text-ink-weak">
 				お電話でも承ります:

@@ -5,6 +5,7 @@ import { useActionState, useEffect, useId, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { sellAction, type SellState } from '@/app/actions/sell';
 import { Turnstile } from '@/components/forms/Turnstile';
+import { Steps } from '@/components/guide/Steps';
 import { DefList } from '@/components/guide/DefList';
 import { CONTACT_METHODS, DEPARTMENT, REPLY_BY } from '@/config/forms';
 import { hasBuiltAndLayout, SELL_ASSESSMENTS, SELL_CONDITIONS, SELL_KINDS, SELL_NOTE_LABEL, SELL_TIMINGS, SELL_WARDS, type SellKind } from '@/config/sell';
@@ -119,21 +120,18 @@ function Aside() {
 			<h2 id="sell-flow" className="text-h3 font-bold text-sumi lg:text-h3-pc">
 				査定の進み方
 			</h2>
-			<ol className="mt-3 space-y-3">
-				{[
-					{ t: 'ご入力', d: 'この画面のフォームをお送りください。' },
-					{ t: '結果のご連絡', d: `${DEPARTMENT.sell}より${REPLY_BY}にご連絡します。訪問査定の場合は日程をご相談します。` },
-					{ t: '媒介契約のご相談', d: '売り出しを決めてから契約の話に進みます。' },
-				].map((s, i) => (
-					<li key={s.t} className="flex gap-3">
-						<span className="tabular flex size-6 shrink-0 items-center justify-center rounded-full bg-surface-alt text-small font-bold text-sumi">{i + 1}</span>
-						<span>
-							<span className="block text-small font-bold text-sumi">{s.t}</span>
-							<span className="block text-small text-ink">{s.d}</span>
-						</span>
-					</li>
-				))}
-			</ol>
+			{/* 本文の「売却の流れ」と同じ部品(J-124)。3段なので索引は出ない(J-123) */}
+			<div className="mt-3">
+				<Steps
+					dense
+					label="査定の進み方"
+					steps={[
+						{ title: 'ご入力', text: 'この画面のフォームをお送りください。' },
+						{ title: '結果のご連絡', text: `${DEPARTMENT.sell}より${REPLY_BY}にご連絡します。訪問査定の場合は日程をご相談します。` },
+						{ title: '媒介契約のご相談', text: '売り出しを決めてから契約の話に進みます。' },
+					]}
+				/>
+			</div>
 			<p className="mt-4 border-t border-line pt-4 text-small text-ink">査定は無料です。その後のご依頼は任意です。</p>
 			<p className="mt-2 text-small text-ink-weak">
 				お電話でも承ります:
