@@ -33,7 +33,7 @@ export function optionLabel<T extends string>(list: readonly { slug: T; label: s
 	return slug ? (list.find((x) => x.slug === slug)?.label ?? slug) : '';
 }
 
-export function methodLabel(slug: ContactMethod): string {
+function methodLabel(slug: ContactMethod): string {
 	return CONTACT_METHODS.find((m) => m.slug === slug)?.label ?? slug;
 }
 
@@ -108,7 +108,7 @@ export interface ConfirmRow {
 	label: string;
 	value: string;
 }
-export const dash = (s: string) => (s ? s : '—');
+const dash = (s: string) => (s ? s : '—');
 
 export function commonRows(v: CommonInput, noteLabel = '備考'): ConfirmRow[] {
 	return [

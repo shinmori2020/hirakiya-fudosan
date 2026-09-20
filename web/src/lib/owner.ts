@@ -17,9 +17,9 @@ const TOPIC_SLUGS = OWNER_TOPICS.map((t) => t.slug) as [OwnerTopic, ...OwnerTopi
 const WARD_SLUGS = WARDS.map((w) => w.slug) as [Ward, ...Ward[]];
 const MANAGE_SLUGS = OWNER_MANAGES.map((m) => m.slug) as [OwnerManage, ...OwnerManage[]];
 
-export const topicLabel = (slug: OwnerTopic | '') => optionLabel(OWNER_TOPICS, slug);
+const topicLabel = (slug: OwnerTopic | '') => optionLabel(OWNER_TOPICS, slug);
 export const wardLabel = (slug: Ward | '') => optionLabel(WARDS, slug);
-export const manageLabel = (slug: OwnerManage | '') => optionLabel(OWNER_MANAGES, slug);
+const manageLabel = (slug: OwnerManage | '') => optionLabel(OWNER_MANAGES, slug);
 
 export interface OwnerInput extends CommonInput {
 	topic: OwnerTopic | '';
@@ -45,7 +45,7 @@ export function readOwner(fd: FormLike): OwnerInput {
 export type OwnerErrors = Partial<Record<keyof OwnerInput, string>>;
 
 /** 全角数字を半角にし、カンマを外してから数として読む(戸数。面積・電話と同じ扱い) */
-export function normalizeUnits(raw: string): string {
+function normalizeUnits(raw: string): string {
 	return raw
 		.replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
 		.replace(/[,,]/g, '')

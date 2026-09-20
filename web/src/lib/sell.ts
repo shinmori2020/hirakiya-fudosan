@@ -37,9 +37,9 @@ export const LAYOUT_OPTIONS = [...LAYOUTS, LAYOUT_OTHER] as const;
 
 export const kindLabel = (slug: SellKind | '') => optionLabel(SELL_KINDS, slug);
 export const wardLabel = (slug: SellWard | '') => optionLabel(SELL_WARDS, slug);
-export const conditionLabel = (slug: SellCondition | '') => optionLabel(SELL_CONDITIONS, slug);
-export const timingLabel = (slug: SellTiming | '') => optionLabel(SELL_TIMINGS, slug);
-export const assessmentLabel = (slug: SellAssessment | '') => optionLabel(SELL_ASSESSMENTS, slug);
+const conditionLabel = (slug: SellCondition | '') => optionLabel(SELL_CONDITIONS, slug);
+const timingLabel = (slug: SellTiming | '') => optionLabel(SELL_TIMINGS, slug);
+const assessmentLabel = (slug: SellAssessment | '') => optionLabel(SELL_ASSESSMENTS, slug);
 export const layoutLabel = (v: string) => (v === LAYOUT_OTHER ? 'その他' : v);
 
 /** 面積のラベル。種別が未選択の間は中立の「面積」にする */
