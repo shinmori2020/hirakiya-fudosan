@@ -8,8 +8,8 @@ import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { company, lines as LINES, mainOffice, news, offices, serviceAreas, voices } from '@/config/site';
 import { dateLabel } from '@/lib/format';
+import { listHref } from '@/lib/links';
 import { latestProperties } from '@/lib/home';
-import { coveredCounts } from '@/lib/entries';
 import { getProperties, getTerms } from '@/lib/properties';
 
 /**
@@ -65,13 +65,6 @@ export default async function Home() {
 
 	const kinds = kindTerms.map((t) => ({ slug: t.slug, name: t.name }));
 
-	// 入口カードの件数(J-126)。チップを外した代わりに「何件の入口が何件の物件に繋がるか」を1行で出す。
-	// 数え方は入口ページと同じ(lib/entries.ts・成約済みを含む・J-095)。
-	const entrySummary = (key: 'area' | 'line' | 'collection', terms: { slug: string; name: string }[], unit: string) => {
-		const { rental, sale } = coveredCounts(all, key, terms.map((t) => t.slug));
-		return `${terms.length}${unit} / 賃貸${rental}件・売買${sale}件`;
-	};
-	const townTerms = areas.flatMap((w) => w.towns);
 	const latest = latestProperties(all);
 	const stationName = (slug: string) => stationTerms.find((t) => t.slug === slug)?.name ?? slug;
 	const kindName = (slug: string) => kindTerms.find((t) => t.slug === slug)?.name ?? slug;
@@ -150,12 +143,29 @@ export default async function Home() {
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">探し方から選ぶ</h2>
-					{/* チップ28個は入口ページと同じ語の並びで、件数も駅も種別も入口ページの方が多い(J-126)。
-					    トップは「どの入口があるか」と件数だけにして、名前の一覧は入口ページに任せる */}
-					<div className="mt-6 grid gap-4 lg:grid-cols-3">
-						<EntryCard title="エリアから探す" href="/area" summary={entrySummary('area', townTerms, 'エリア')} text="13の町から、住みたい場所で絞ります。" />
-						<EntryCard title="沿線・駅から探す" href="/line" summary={entrySummary('line', LINES.map((l) => ({ slug: l.slug, name: l.name })), '沿線')} text="6沿線13駅。通勤・通学の路線から探せます。" />
-						<EntryCard title="特集から探す" href="/feature" summary={entrySummary('collection', collectionTerms.map((c) => ({ slug: c.slug, name: collectionName(c.slug) })), '特集')} text="敷金礼金なし・ペット可など、条件のまとまりから。" />
+					{/* J-126(チップを外して件数だけにする)は撤回した(SHIN・09/20)。町・沿線・特集の名前をそのまま並べる形に戻す */}
+					<div className="mt-6 grid gap-6 lg:grid-cols-3">
+						<EntryCard title="エリアから探す" href="/area">
+							{areas.flatMap((w) => w.towns).map((t) => (
+								<EntryLink key={t.slug} href={listHref('rental', { area: t.slug })}>
+									{t.name}
+								</EntryLink>
+							))}
+						</EntryCard>
+						<EntryCard title="沿線・駅から探す" href="/line">
+							{LINES.map((l) => (
+								<EntryLink key={l.slug} href={listHref('rental', { line: l.slug })}>
+									{l.name}
+								</EntryLink>
+							))}
+						</EntryCard>
+						<EntryCard title="特集から探す" href="/feature">
+							{collectionTerms.map((c) => (
+								<EntryLink key={c.slug} href={listHref('rental', { collection: c.slug })}>
+									{collectionName(c.slug)}
+								</EntryLink>
+							))}
+						</EntryCard>
 					</div>
 				</Container>
 			</section>
@@ -311,17 +321,32 @@ export default async function Home() {
 	);
 }
 
-/**
- * 入口カード(J-126):見出し + 1行の説明 + 件数。カード全体が入口ページへのリンク。
- * 中に町・沿線・特集の名前は並べない(同じ並びが入口ページにあり、そちらは件数・駅・種別まで出る)。
- */
-function EntryCard({ title, href, summary, text }: { title: string; href: string; summary: string; text: string }) {
+/** 入口カード(見出し+リンクの集まり+まとめページへの導線) */
+function EntryCard({ title, href, children }: { title: string; href: string; children: React.ReactNode }) {
 	return (
-		<Link href={href} className="block h-full rounded-hr border border-line bg-surface p-4 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:p-6">
-			<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">{title}</h3>
-			<p className="mt-2 text-small text-ink lg:text-small-pc">{text}</p>
-			<p className="tabular mt-2 text-small text-ink-weak lg:text-small-pc">{summary}</p>
-		</Link>
+		<section className="rounded-hr border border-line bg-surface p-4 lg:p-6">
+			<div className="flex items-baseline justify-between">
+				<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">{title}</h3>
+				<Link href={href} className="text-small text-accent-strong underline">
+					一覧
+				</Link>
+			</div>
+			<ul className="mt-3 flex flex-wrap gap-x-1 gap-y-2">{children}</ul>
+		</section>
+	);
+}
+
+/** 入口のリンク(押せるチップ・J-052 と同じ形) */
+function EntryLink({ href, children }: { href: string; children: React.ReactNode }) {
+	return (
+		<li>
+			<Link
+				href={href}
+				className="block h-8 cursor-pointer rounded-hr border border-accent bg-surface px-2 text-small leading-8 whitespace-nowrap text-accent-strong transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none"
+			>
+				{children}
+			</Link>
+		</li>
 	);
 }
 
