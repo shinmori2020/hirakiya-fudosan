@@ -16,8 +16,11 @@
 
 | ファイル | 使用箇所 | 元の題名 | 撮影者 | ライセンス | 出所 | 現在の寸法 / 容量 |
 |---|---|---|---|---|---|---|
-| `fv-town.jpg` | トップ FV の背景(街を上から見た写真) | Residential district in Tokyo (Unsplash).jpg | Fábio Hanashiro | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_district_in_Tokyo_(Unsplash).jpg) | 800×533 / 155KB |
+| `fv-town.jpg` | トップ FV の背景(街区を上から見た写真) | Tokyo, Japan (Unsplash GNPCLcjaJJ0).jpg | Matt Milton | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Tokyo,_Japan_(Unsplash_GNPCLcjaJJ0).jpg) | 1920×1280 / 237KB |
 | `guide-apartment.jpg` | トップ 導線カード「オーナー様へ」(賃貸の建物の外観) | Residential building in Ebisu.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_building_in_Ebisu.jpg) | 800×602 / 87KB |
+
+**FV の写真の差し替え(2026-09-21)**:同じ `fv-town.jpg` の中身を入れ替えた。**外したもの**:Residential district in Tokyo(Fábio Hanashiro・CC0)。**理由**:遠景の俯瞰で、FV の全面に敷くと拡大されて荒い(800×533 で置いていた)。同じ写真の高解像度版も試したが、**密集した俯瞰は圧縮が効かず 1600幅・品質42 でも 355KB**(目安の 300KB を超える)。
+**採らなかったもう1つの候補**:Urban Tokyo panorama(Joe Lewandowski・CC0)。**空が明るく、膜 50% では補足(白80%)のコントラストが 3.48〜3.59 と 4.5:1 を下回る**(見出しは 4.61〜4.75 で辛うじて超える)。採るなら膜を 60% に上げる必要があり、写真が沈むので見送った。比較のスクショは `docs/screenshots/fv-cand-{b,c}-{390,1280}.png`。
 
 **置いたが外した写真(2026-09-20)**:商店街(Keikyu Kamata Shopping Street Asuto)・自転車店(Bicycles shop in Ebisu)・剣道具店(Kendo shop in Gotanda)・焼き鳥店(Yakitori shop in Setagaya)の4枚は、**実在の店名・施設名が読める**ため使わないことにした(`fictional-data.md` §3。「京急 あすと 蒲田」「東京正武堂」等)。**店舗の外観(青砥・立石)と、店舗が写る導線カード2枚はプレースホルダーのまま**。看板が読めない写真が見つかれば差し替える(SHIN の判断待ち)。
 
@@ -25,7 +28,7 @@
 
 - 探し方:Commons の検索で `haswbstatement:P275=Q6938433`(ライセンス = CC0)を条件に付け、**CC0 だけ**に絞る。CC BY / CC BY-SA は帰属が要るので使わない
 - 取り方:`action=query&titles=File:…&prop=imageinfo&iiurlwidth=…` で得た `thumburl` を取得
-- 圧縮:PowerShell の `System.Drawing` で幅を落として再保存(**1枚 200KB 以下**)。FV の背景は全面に敷くので 1600×900・品質44 で 193KB(幅を優先した)
+- 圧縮:PowerShell の `System.Drawing` で幅を落として再保存(**1枚 200KB 以下**)。**FV の背景だけは全面に敷くので幅 1920 を優先し、300KB 以下を目安にする**(現在は 1920×1280・品質70 で 237KB)
 - **選ぶ時の条件(J-132 で足した)**:**実在の店名・施設名・表札・車のナンバーが読める写真は使わない**。架空の会社のページに実在の店が写ると、`fictional-data.md` §3 に触れる
 - 表示:`next/image` で最適化する(`unoptimized` は付けない。SVG のプレースホルダーとは扱いが違う)
 
