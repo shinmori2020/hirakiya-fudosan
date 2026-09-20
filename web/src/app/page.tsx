@@ -6,7 +6,7 @@ import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
-import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
+import { company, lines as LINES, mainOffice, news, offices, serviceAreas, voices } from '@/config/site';
 import { dateLabel } from '@/lib/format';
 import { latestProperties } from '@/lib/home';
 import { coveredCounts } from '@/lib/entries';
@@ -118,13 +118,28 @@ export default async function Home() {
 
 	return (
 		<>
-			{/* 1 ファーストビュー:キャッチ + 検索フォーム(画像は置かない・J-056 項目1) */}
-			<section className="py-8 lg:py-12">
+			{/*
+			  1 ファーストビュー(J-056 → J-130 で墨の面に)。03 §7 v0.95 の条件を守る:
+			   - 面は墨、文字は白・補足は白 80%
+			   - **検索フォームのパネルは白のまま**(入力欄を墨地に置かない。HomeSearch が bg-surface の箱を持つ)
+			   - 青緑は「この条件で探す」の1箇所だけ(§2)
+			   - 写真は**場所を示すもの**(店舗の外観・架空のためプレースホルダー・J-118 / J-129)。lg 以上だけ出す
+			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
+			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
+			*/}
+			<section className="bg-sumi py-8 lg:py-12">
 				<Container>
-					<h1 className="text-h1 font-bold text-sumi lg:text-display-pc">{company.tagline}</h1>
-					<p className="mt-2 text-small text-ink-weak lg:text-small-pc">
-						{wardLabel}の賃貸・売買・賃貸管理。{company.notice}
-					</p>
+					<div className="lg:flex lg:items-center lg:gap-8">
+						<div className="min-w-0 lg:flex-1">
+							<h1 className="text-h1 font-bold text-white lg:text-display-pc">{company.tagline}</h1>
+							<p className="mt-2 text-small text-white/80 lg:text-small-pc">
+								{wardLabel}の賃貸・売買・賃貸管理。{company.notice}
+							</p>
+						</div>
+						<div className="relative hidden aspect-[3/2] w-1/3 shrink-0 overflow-hidden rounded-hr lg:block">
+							<Image src="/placeholders/offices/aoto.svg" alt={`${mainOffice.name}の外観(架空・プレースホルダー)`} fill sizes="400px" unoptimized className="object-cover" />
+						</div>
+					</div>
 					<div className="mt-6">
 						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} />
 					</div>
