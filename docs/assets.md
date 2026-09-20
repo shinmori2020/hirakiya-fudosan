@@ -16,18 +16,17 @@
 
 | ファイル | 使用箇所 | 元の題名 | 撮影者 | ライセンス | 出所 | 現在の寸法 / 容量 |
 |---|---|---|---|---|---|---|
-| `fv-street.jpg` | トップ FV(街並み・商店街) | Keikyu Kamata Shopping Street Asuto.jpg | Drivephotographer | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Keikyu_Kamata_Shopping_Street_Asuto.jpg) | 960×540 / 121KB |
-| `guide-shop.jpg` | トップ 導線カード「初めての方へ」(店舗の外観) | Bicycles shop in Ebisu.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Bicycles_shop_in_Ebisu.jpg) | 800×600 / 76KB |
-| `guide-house.jpg` | トップ 導線カード「売却をお考えの方へ」(戸建の街並み) | Residential district in Tokyo (Unsplash).jpg | Fábio Hanashiro | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_district_in_Tokyo_(Unsplash).jpg) | 800×533 / 155KB |
-| `guide-apartment.jpg` | トップ 導線カード「オーナー様へ」(賃貸マンションの外観) | Residential building in Ebisu.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_building_in_Ebisu.jpg) | 800×602 / 87KB |
-| `office-aoto.jpg` | 店舗案内 青砥本店の外観 | Kendo shop in Gotanda.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Kendo_shop_in_Gotanda.jpg) | 900×678 / 146KB |
-| `office-tateishi.jpg` | 店舗案内 立石支店の外観 | Yakitori shop in Setagaya.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Yakitori_shop_in_Setagaya.jpg) | 900×678 / 137KB |
+| `fv-town.jpg` | トップ FV の背景(街を上から見た写真) | Residential district in Tokyo (Unsplash).jpg | Fábio Hanashiro | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_district_in_Tokyo_(Unsplash).jpg) | 800×533 / 155KB |
+| `guide-apartment.jpg` | トップ 導線カード「オーナー様へ」(賃貸の建物の外観) | Residential building in Ebisu.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_building_in_Ebisu.jpg) | 800×602 / 87KB |
+
+**置いたが外した写真(2026-09-20)**:商店街(Keikyu Kamata Shopping Street Asuto)・自転車店(Bicycles shop in Ebisu)・剣道具店(Kendo shop in Gotanda)・焼き鳥店(Yakitori shop in Setagaya)の4枚は、**実在の店名・施設名が読める**ため使わないことにした(`fictional-data.md` §3。「京急 あすと 蒲田」「東京正武堂」等)。**店舗の外観(青砥・立石)と、店舗が写る導線カード2枚はプレースホルダーのまま**。看板が読めない写真が見つかれば差し替える(SHIN の判断待ち)。
 
 **取得と加工の手順(再現用)**
 
 - 探し方:Commons の検索で `haswbstatement:P275=Q6938433`(ライセンス = CC0)を条件に付け、**CC0 だけ**に絞る。CC BY / CC BY-SA は帰属が要るので使わない
 - 取り方:`action=query&titles=File:…&prop=imageinfo&iiurlwidth=…` で得た `thumburl` を取得
-- 圧縮:PowerShell の `System.Drawing` で幅を 800〜960 に落とし、JPEG 品質 72 で再保存(**1枚 200KB 以下**)
+- 圧縮:PowerShell の `System.Drawing` で幅を落として再保存(**1枚 200KB 以下**)。FV の背景は全面に敷くので 1600×900・品質44 で 193KB(幅を優先した)
+- **選ぶ時の条件(J-132 で足した)**:**実在の店名・施設名・表札・車のナンバーが読める写真は使わない**。架空の会社のページに実在の店が写ると、`fictional-data.md` §3 に触れる
 - 表示:`next/image` で最適化する(`unoptimized` は付けない。SVG のプレースホルダーとは扱いが違う)
 
 **Unsplash を使わなかった理由**:検索を数回叩いた時点でボット判定(`Authorization required`)に入り、写真ページのメタデータを確認できなくなった。出所を確認できない素材は置かない。
@@ -37,9 +36,9 @@
 | 置き場所 | 中身 | 出所 |
 |---|---|---|
 | `placeholders/staff/staff-1〜8.svg` | スタッフ8名の顔(人型のシルエット・3:4) | 自作(J-053 → J-077) |
-| `placeholders/offices/{aoto,tateishi}.svg` | 店舗の外観(3:2) | 自作(実装順 6)。**写真に差し替え済みだが、SVG は残す** |
+| `placeholders/offices/{aoto,tateishi}.svg` | 店舗の外観(3:2) | 自作(実装順 6)。**店舗案内とトップの「初めての方へ」で使用中**(実在の店名が読める写真を避けたため・J-132) |
 | `placeholders/cases/case-1〜3.svg` | 売却事例3件(3:2) | 自作(J-107) |
-| `placeholders/guides/{sell,owner}.svg` | トップの導線カード(3:2) | 自作。**写真に差し替え済みだが、SVG は残す** |
+| `placeholders/guides/{sell,owner}.svg` | トップの導線カード(3:2) | 自作。**sell は使用中**(オーナー様のカードだけ写真に差し替え・J-132) |
 | `wp-uploads/placeholders/HR-*.svg` | 物件60件の写真(3:2・単色+物件番号+種目) | シードが生成(02 §6・`fictional-data.md` §4) |
 
 すべて墨系5段階(`#3A3F45` 〜 `#9AA3AB`・03 §2)で、画像の中に「架空・プレースホルダー」と書いてある。

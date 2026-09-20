@@ -6,7 +6,7 @@ import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
-import { company, lines as LINES, mainOffice, news, offices, serviceAreas, voices } from '@/config/site';
+import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { dateLabel } from '@/lib/format';
 import { listHref } from '@/lib/links';
 import { latestProperties } from '@/lib/home';
@@ -103,10 +103,12 @@ export default async function Home() {
 
 	// 3枚の導線カード。写真は「場所・物件を示すもの」だけ置く(J-118)。
 	// 初めての方へ = 店舗の外観(/company/access と同じ青砥本店の画像を流用。店内の接客風景は雰囲気を作るだけの写真に寄るため使わない・SHIN 09/20)
+	// 写真は**実在の店名・施設名が写っていないもの**だけ(fictional-data.md §3)。
+	// 店舗が写るものは看板が読めてしまうので、当面プレースホルダーのまま(SHIN の判断待ち)
 	const guides = [
-		{ href: '/guide', title: '初めての方へ', text: '部屋探しの流れと、先に決めておくと早いことをまとめています。', photo: '/placeholders/offices/aoto.svg', alt: '青砥本店の外観(架空・プレースホルダー)' },
-		{ href: '/sell', title: '売却をお考えの方へ', text: '相場の見方と、査定でお出しする数字の根拠をご説明します。', photo: '/placeholders/guides/sell.svg', alt: '戸建の外観(架空・プレースホルダー)' },
-		{ href: '/owner', title: 'オーナー様へ', text: '管理のご相談と空室対策。家賃を下げる前にできることから。', photo: '/placeholders/guides/owner.svg', alt: '賃貸マンションの外観(架空・プレースホルダー)' },
+		{ href: '/guide', title: '初めての方へ', text: '部屋探しの流れと、先に決めておくと早いことをまとめています。', photo: '/placeholders/offices/aoto.svg', alt: '', unoptimized: true },
+		{ href: '/sell', title: '売却をお考えの方へ', text: '相場の見方と、査定でお出しする数字の根拠をご説明します。', photo: '/placeholders/guides/sell.svg', alt: '', unoptimized: true },
+		{ href: '/owner', title: 'オーナー様へ', text: '管理のご相談と空室対策。家賃を下げる前にできることから。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
 	];
 
 	return (
@@ -120,20 +122,22 @@ export default async function Home() {
 			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
-			<section className="bg-sumi py-8 lg:py-12">
+			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col justify-between overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:py-12">
+				{/* 背景の写真(場所を示す写真・フリー素材 CC0・J-131。出所は docs/assets.md)。LCP なので priority */}
+				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
+				{/* 墨の膜(03 §2・J-133)。白文字のコントラストを 4.5:1 の上に保つ濃さ */}
+				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/50" />
 				<Container>
-					<div className="lg:flex lg:items-center lg:gap-8">
-						<div className="min-w-0 lg:flex-1">
-							<h1 className="text-h1 font-bold text-white lg:text-display-pc">{company.tagline}</h1>
-							<p className="mt-2 text-small text-white/80 lg:text-small-pc">
-								{wardLabel}の賃貸・売買・賃貸管理。{company.notice}
-							</p>
-						</div>
-						<div className="relative hidden aspect-[3/2] w-1/3 shrink-0 overflow-hidden rounded-hr lg:block">
-							<Image src="/placeholders/offices/aoto.svg" alt={`${mainOffice.name}の外観(架空・プレースホルダー)`} fill sizes="400px" unoptimized className="object-cover" />
-						</div>
+					<div className="max-w-[760px]">
+						<h1 className="text-h1 font-bold text-white lg:text-display-pc">{company.tagline}</h1>
+						<p className="mt-2 text-small text-white/80 lg:text-small-pc">
+							{wardLabel}の賃貸・売買・賃貸管理。{company.notice}
+						</p>
 					</div>
-					<div className="mt-6">
+				</Container>
+				{/* 検索フォームは FV の下寄り(上のキャッチとの間は余白で開ける)。パネルは白のまま(03 §7 v0.95) */}
+				<Container>
+					<div className="mt-10 lg:mt-12">
 						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} />
 					</div>
 				</Container>
@@ -229,7 +233,7 @@ export default async function Home() {
 								>
 									{/* 場所・物件を示す写真(架空のためプレースホルダー・J-118)。売却事例カードと同じ 3:2 */}
 									<div className="relative aspect-[3/2] w-full bg-surface-alt">
-										<Image src={g.photo} alt={g.alt} fill sizes="(min-width: 64rem) 400px, 100vw" unoptimized className="object-cover" />
+										<Image src={g.photo} alt={g.alt} fill sizes="(min-width: 64rem) 400px, 100vw" unoptimized={g.unoptimized} className="object-cover" />
 									</div>
 									<div className="p-4 lg:p-6">
 										<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</p>
