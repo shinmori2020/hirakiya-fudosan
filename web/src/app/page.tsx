@@ -126,7 +126,7 @@ export default async function Home() {
 				{/* 背景の写真(場所を示す写真・フリー素材 CC0・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
 				{/* 墨の膜(03 §2・J-133)。白文字のコントラストを 4.5:1 の上に保つ濃さ */}
-				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/50" />
+				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/60" />
 				<Container>
 					<div className="max-w-[760px]">
 						<h1 className="text-h1 font-bold text-white lg:text-display-pc">{company.tagline}</h1>
