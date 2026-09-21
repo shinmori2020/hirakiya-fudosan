@@ -56,7 +56,7 @@ export function CostBlock({ p }: { p: PropertyDetail }) {
 				// 最後の行は下線を引かない(下に合計の区切り線やアコーディオンの線が来て二重に見えるため・03 §6 の線の規則)
 				<div key={k} className={`${row} ${i === rows.length - 1 ? '' : 'border-b border-line'}`}>
 					<dt className="text-small text-ink-weak">{k}</dt>
-					<dd className={`text-small leading-[1.6] text-ink ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
+					<dd className={`text-small text-ink ${v === 'なし' ? 'font-bold' : ''}`}>{v}</dd>
 				</div>
 			))}
 			{/* 合計の区切りは上線と余白で作る。pt は足さない(足すと行の中身が他の行より下にずれる) */}
