@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { ChevronDown } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
@@ -165,10 +166,23 @@ export default async function Home() {
 						</div>
 					</div>
 				</Container>
+				{/*
+				  スクロール矢印(03 §6 部品・§8「FV の動き」・J-142)。1024 以上だけ(390 は FV の直下に固定CTA が来る)。
+				  押すと新着物件へ。上下 8px・1.5秒のループは中の span に付け、外の a は位置だけ持つ(transform を分ける)。
+				*/}
+				<a
+					href="#new"
+					aria-label="新着物件へ"
+					className="absolute bottom-2 left-1/2 hidden size-11 -translate-x-1/2 cursor-pointer items-center justify-center text-white lg:flex"
+				>
+					<span aria-hidden="true" className="animate-fv-bob [filter:drop-shadow(0_2px_8px_rgba(43,47,51,0.6))] motion-reduce:animate-none">
+						<ChevronDown size={20} />
+					</span>
+				</a>
 			</section>
 
-			{/* 2 新着物件(成約済みは出さない・公開日順8件)。J-140 で探し方より前に */}
-			<section className="py-12 lg:py-16">
+			{/* 2 新着物件(成約済みは出さない・公開日順8件)。J-140 で探し方より前に。id は FV の矢印の行き先(J-142) */}
+			<section id="new" className="scroll-mt-24 py-12 lg:py-16">
 				<Container>
 					<div className="flex items-baseline justify-between">
 						<h2 className="text-h2 font-bold lg:text-h2-pc">新着物件</h2>

@@ -100,6 +100,17 @@
       transform: scale(1.05);
     }
   }
+  /* スクロール矢印の上下 8px・1.5秒周期(03 §6 部品・§8「FV の動き」・J-142) */
+  --animate-fv-bob: fv-bob 1.5s ease-in-out infinite;
+  @keyframes fv-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
   --animate-fv-in: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) both;
   /* 検索フォームはキャッチの 200ms 後に同じ動きで出る(03 §8「FV の動き」・J-142) */
   --animate-fv-in-late: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) 200ms both;
@@ -127,6 +138,12 @@
 
 html {
   color-scheme: light; /* ダークモードは 03 に無いので作らない */
+  scroll-behavior: smooth; /* FV の矢印 → #new(03 §8「FV の動き」・J-142)。reduced-motion では下で auto に戻す */
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
