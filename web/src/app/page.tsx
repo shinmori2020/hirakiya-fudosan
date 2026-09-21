@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { FvCopy } from '@/components/home/FvCopy';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
 import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
@@ -10,6 +11,7 @@ import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { SECONDARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
+import { isNew } from '@/lib/badges';
 import { dateLabel } from '@/lib/format';
 import { listHref } from '@/lib/links';
 import { latestProperties } from '@/lib/home';
@@ -42,6 +44,10 @@ export default async function Home() {
 		getTerms('property_kind'),
 	]);
 	const now = new Date();
+	// 2段目の入れ替え候補(J-144)。{n} は新着の件数(03 §2 の新着 = 公開14日以内・成約済みを除く)、{offices} は店舗名
+	const newCount = all.filter((p) => p.status !== 'sold' && isNew(p, now)).length;
+	const officeNames = offices.map((o) => o.name.replace(/(本店|支店)$/, '')).join('と');
+	const taglineSubs = company.taglineSubs.map((t) => t.replace('{n}', String(newCount)).replace('{offices}', officeNames));
 	// 入口の件数(一覧の件数表示と同じ数え方。成約済みも含む・J-033)
 	const totalRental = all.filter((p) => p.type === 'rental').length;
 	const totalSale = all.filter((p) => p.type === 'sale').length;
@@ -151,7 +157,8 @@ export default async function Home() {
 							<div className="animate-fv-in motion-reduce:animate-none">
 								{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
 								<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc">{company.tagline}</h1>
-								<p className="mt-2 text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc">{company.taglineSub}</p>
+								{/* 2段目は10秒ごとに入れ替わる(03 §8「FV の動き」・J-144)。初期 HTML は1本目 */}
+								<FvCopy items={taglineSubs} className="mt-2 text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc" />
 							</div>
 							{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
 							<p className="mt-3 text-small text-white/90">{wardLabelFv}で賃貸 売買 賃貸管理</p>
