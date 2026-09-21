@@ -7,6 +7,8 @@
  *   2 入口ページから出ていくリンクがすべて 200 を返すか(未作成ページへのリンクが残っていないか)
  *   3 条件固定の一覧で条件を変えた後の URL に、固定キー(area= / line= / station= / collection=)が入っていないか
  *   4 トップの検索フォーム(FV)の select の option に出る件数と、その条件で送った先の一覧の件数が一致するか(J-145)
+ *   5 FV で賃貸⇄売買を切り替えた後も、ボタンの件数が select の値と一致するか(J-145 の修正。エリアは切替で残り、
+ *     種別固有の項目〔駅・家賃・間取り / 価格・種目〕はリセットされる。09/22 に件数だけ元に戻る不具合が出た)
  *     (パスとクエリに同じ条件を二重に持つと、/area/aoto?area=tateishi のような矛盾した URL を作れてしまう)
  *
  * 使い方(3001 で本番相当を起動してから。手順は .claude/rules/verification.md §1):
@@ -125,9 +127,39 @@ async function main() {
 		}
 	}
 
+	// 5 タブ切替の後もボタンの件数が select と一致するか(J-145 の修正)
+	let checkedSwitch = 0;
+	const buttonCount = async () => Number(((await page.locator('main > section form button[type="submit"]').innerText()).match(/\((\d+)件\)/) ?? [])[1]);
+	const listCountFor = async (url) => {
+		await open(url);
+		return await listCount();
+	};
+	for (const area of ['ohanajaya', 'aoto']) {
+		const rental = await listCountFor(`/properties?area=${area}`);
+		const sale = await listCountFor(`/properties?type=sale&area=${area}`);
+		await open('/');
+		await page.locator('main > section form select[name="area"]').selectOption(area);
+		await page.waitForTimeout(200);
+		// 種別固有の項目も選んでおく(切替でリセットされることを見る)
+		await page.locator('main > section form select[name="rent_max"]').selectOption({ index: 5 });
+		await page.waitForTimeout(200);
+		for (const [tab, expected] of [['売買', sale], ['賃貸', rental]]) {
+			await page.locator('main > section [role="tab"]', { hasText: tab }).click();
+			await page.waitForTimeout(250);
+			const shown = await buttonCount();
+			checkedSwitch++;
+			if (shown !== expected) note(`/ FV:area=${area} で「${tab}」に切り替えた後のボタン ${shown}件 / 一覧 ${expected}件`);
+		}
+		// 戻した後、種別固有の項目がリセットされているか(残っていると件数と select が食い違う)
+		const leftover = await page.locator('main > section form select[name="rent_max"]').inputValue();
+		if (leftover !== '') note(`/ FV:area=${area} で往復した後も rent_max=${leftover} が残っている(切替でリセットされていない)`);
+		const keptArea = await page.locator('main > section form select[name="area"]').inputValue();
+		if (keptArea !== area) note(`/ FV:往復した後にエリアが ${keptArea} に変わった(共通の項目なので残るはず)`);
+	}
+
 	await browser.close();
 
-	console.log(`リンク ${checkedLinks}本 / 件数 ${checkedCounts}組 / 固定ページ ${FIXED_SAMPLES.length}件 / FV の option ${checkedOptions}個 を検査`);
+	console.log(`リンク ${checkedLinks}本 / 件数 ${checkedCounts}組 / 固定ページ ${FIXED_SAMPLES.length}件 / FV の option ${checkedOptions}個 / タブ切替 ${checkedSwitch}回 を検査`);
 	if (problems.length === 0) {
 		console.log('要確認:0件');
 		return 0;

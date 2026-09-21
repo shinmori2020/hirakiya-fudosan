@@ -90,8 +90,15 @@ export function HomeSearch({
 		setFormQuery(q);
 	};
 	const switchType = (t: PropertyType) => {
+		// タブで入れ替わるのは**種別固有の項目だけ**(駅・家賃・間取り ⇄ 価格・種目)。
+		// **エリアは賃貸・売買で同じ select**(条件分岐の外)なので DOM の値が残る。件数も引き継いで種別で数え直す。
+		// 09/22 の実測:ここで formQuery を null に戻していたため、select は「お花茶屋」のままボタンだけ (40件) に戻っていた。
+		const next = emptyQuery(t);
+		next.area = [...query.area];
+		const n = applyQuery(all, next, now).length;
+		if (count !== null && n !== count) setFlashKey((k) => k + 1);
 		setType(t);
-		setFormQuery(null); // タブで form の中身が入れ替わる(選択は初期値に戻る)
+		setFormQuery(next);
 	};
 
 	function onSubmit(e: React.FormEvent<HTMLFormElement>) {
