@@ -6,6 +6,7 @@ import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
+import { SECONDARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { dateLabel } from '@/lib/format';
 import { listHref } from '@/lib/links';
@@ -22,6 +23,8 @@ import { getProperties, getTerms } from '@/lib/properties';
  */
 /** 対応エリアの区名(config の serviceAreas から作る。地名をベタ書きしない) */
 const wardLabel = serviceAreas.map((w) => w.ward).join('・');
+/** FV の補足はつなぎ記号を使わない(J-135・SHIN の指示 09/21)ので半角スペースで区切る */
+const wardLabelFv = serviceAreas.map((w) => w.ward).join(' ');
 
 export const metadata: Metadata = {
 	title: `${company.name} | ${company.tagline}`,
@@ -133,14 +136,21 @@ export default async function Home() {
 					  〜1023 は今までどおり縦に積み、キャッチを上・フォームを下端に寄せる(justify-between)。
 					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
 					*/}
-					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-[1fr_30%] lg:items-center lg:gap-10">
+					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-[1fr_40%] lg:items-center lg:gap-10">
 						{/*
 						  キャッチ(J-135)。膜が 30% と薄いので**墨の影**で読ませる(03 §8 の例外。他の文字には付けない)。
 						  出現効果は読み込み時の1回だけ。prefers-reduced-motion では止める。
 						*/}
-						<h1 className="animate-fv-in text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] motion-reduce:animate-none lg:text-display-pc">
-							{company.tagline}
-						</h1>
+						<div className="animate-fv-in motion-reduce:animate-none">
+							<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-display-pc">{company.tagline}</h1>
+							{/* 2段目は見出しの続き(H2 の大きさ。セクション見出しではないので p で出す) */}
+							<p className="mt-2 text-h3 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h2-pc">{company.taglineSub}</p>
+							<p className="mt-3 text-small text-white/90 [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-small-pc">{wardLabelFv}の賃貸 売買 賃貸管理</p>
+							{/* 青緑は検索フォームの「この条件で探す」だけに残す(03 §2)。ここは副ボタンの形 */}
+							<Link href="/guide" className={`${SECONDARY} mt-5 sm:w-fit sm:px-8`}>
+								初めての方へ
+							</Link>
+						</div>
 						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95) */}
 						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} />
 					</div>
