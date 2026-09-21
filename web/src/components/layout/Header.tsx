@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { company, mainOffice } from '@/config/site';
+import { OpenStatus } from '@/components/layout/OpenStatus';
 import { headerNav } from '@/config/nav';
 
 /**
@@ -60,9 +61,8 @@ export function Header() {
 						className="flex h-11 flex-col items-center justify-center rounded-hr bg-sumi px-3 text-white lg:px-4"
 					>
 						<span className="tabular text-small font-bold leading-tight lg:text-body-pc">{mainOffice.tel}</span>
-						<span className="hidden text-xs-pc leading-tight lg:block">
-							{company.hours} / {company.closed}定休
-						</span>
+						{/* 営業中の表示(03 §7・J-143)。水和前は現状の文言、マウント後に現在時刻(Asia/Tokyo)で3状態に */}
+						<OpenStatus hours={company.hours} closed={company.closed} fallback={`${company.hours} / ${company.closed}定休`} className="hidden text-xs-pc leading-tight lg:block" />
 					</a>
 					<button
 						type="button"
