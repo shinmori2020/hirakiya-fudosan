@@ -137,15 +137,17 @@ export default async function Home() {
 					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
 					*/}
 					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-[1fr_40%] lg:items-center lg:gap-10">
-						{/*
-						  キャッチ(J-135)。膜が 30% と薄いので**墨の影**で読ませる(03 §8 の例外。他の文字には付けない)。
-						  出現効果は読み込み時の1回だけ。prefers-reduced-motion では止める。
-						*/}
-						<div className="animate-fv-in motion-reduce:animate-none">
-							<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-display-pc">{company.tagline}</h1>
-							{/* 2段目は見出しの続き(H2 の大きさ。セクション見出しではないので p で出す) */}
-							<p className="mt-2 text-h3 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h2-pc">{company.taglineSub}</p>
-							<p className="mt-3 text-small text-white/90 [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-small-pc">{wardLabelFv}の賃貸 売買 賃貸管理</p>
+						<div>
+							{/*
+							  キャッチ2段(J-135)。膜が 30% と薄いので**墨の影**で読ませ、読み込み時に1回だけ出現効果を付ける。
+							  どちらも**1段目・2段目だけ**(03 §7・§8・J-136)。補足と副ボタンには付けない。prefers-reduced-motion では止める。
+							*/}
+							<div className="animate-fv-in motion-reduce:animate-none">
+								<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-display-pc">{company.tagline}</h1>
+								{/* 2段目は見出しの続き(H2 の大きさ 20 / 24px。セクション見出しではないので p で出す) */}
+								<p className="mt-2 text-h2 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h2-pc">{company.taglineSub}</p>
+							</div>
+							<p className="mt-3 text-small text-white/90">{wardLabelFv}の賃貸 売買 賃貸管理</p>
 							{/* 青緑は検索フォームの「この条件で探す」だけに残す(03 §2)。ここは副ボタンの形 */}
 							<Link href="/guide" className={`${SECONDARY} mt-5 sm:w-fit sm:px-8`}>
 								初めての方へ
