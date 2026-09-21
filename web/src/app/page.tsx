@@ -147,12 +147,8 @@ export default async function Home() {
 								{/* 2段目は見出しの続き(H2 の大きさ 20 / 24px。セクション見出しではないので p で出す) */}
 								<p className="mt-2 text-h2 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h2-pc">{company.taglineSub}</p>
 							</div>
-							{/* 補足は2行(区名 / 業務・J-135 の続き 09/21)。1行だと区名の区切りと業務の区切りが同じ強さになり、「墨田区の賃貸」でひとかたまりに読めるため */}
-							<p className="mt-3 text-small text-white/90">
-								{wardLabelFv}
-								<br />
-								賃貸 売買 賃貸管理
-							</p>
+							{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
+							<p className="mt-3 text-small text-white/90">{wardLabelFv}で賃貸 売買 賃貸管理</p>
 							{/* 青緑は検索フォームの「この条件で探す」だけに残す(03 §2)。ここは副ボタンの形 */}
 							<Link href="/guide" className={`${SECONDARY} mt-6 sm:w-fit sm:px-8`}>
 								初めての方へ
