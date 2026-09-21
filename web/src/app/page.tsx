@@ -122,22 +122,20 @@ export default async function Home() {
 			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
-			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col justify-between overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:py-12">
-				{/* 背景の写真(場所を示す写真・フリー素材 CC0・J-131。出所は docs/assets.md)。LCP なので priority */}
+			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
+				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
-				{/* 墨の膜(03 §2・J-133)。白文字のコントラストを 4.5:1 の上に保つ濃さ */}
-				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/60" />
-				<Container>
-					<div className="max-w-[760px]">
+				{/* 墨の膜(03 §2・J-133 の 50〜60%)。J-134 で 40% を試したが見出しが 4.14〜4.25 で 4.5:1 に届かず、50% に留めた */}
+				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/50" />
+				<Container className="flex flex-1 flex-col lg:flex-none">
+					{/*
+					  J-134:1280 以上は**左にキャッチ・右に検索フォーム**の2列(50 / 50)。
+					  〜1023 は今までどおり縦に積み、キャッチを上・フォームを下端に寄せる(justify-between)。
+					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
+					*/}
+					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-2 lg:items-center lg:gap-10">
 						<h1 className="text-h1 font-bold text-white lg:text-display-pc">{company.tagline}</h1>
-						<p className="mt-2 text-small text-white/80 lg:text-small-pc">
-							{wardLabel}の賃貸・売買・賃貸管理。{company.notice}
-						</p>
-					</div>
-				</Container>
-				{/* 検索フォームは FV の下寄り(上のキャッチとの間は余白で開ける)。パネルは白のまま(03 §7 v0.95) */}
-				<Container>
-					<div className="mt-10 lg:mt-12">
+						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95) */}
 						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} />
 					</div>
 				</Container>

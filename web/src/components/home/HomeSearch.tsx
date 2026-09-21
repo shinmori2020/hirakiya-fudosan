@@ -10,6 +10,7 @@ import type { PropertyType } from '@/types/property';
 /**
  * トップの検索フォーム(01 §1-1・実装順 3・J-056)。これは初案。
  * 賃貸 = エリア / 駅 / 家賃上限 / 間取り の4項目。スマホ(〜767)は間取りを出さず3項目(J-056)。
+ * 並びは PC でも2列(J-134。FV の右半分に置くため。ボタンは2列ぶんを使う下の行)。
  * 売買 = エリア / 価格上限 / 種目 の3項目。
  * 賃貸・売買はタブで切り替え、送信先はどちらも /properties。
  * 素の <form method="get" action="/properties"> なので JavaScript 無しでも動く。
@@ -75,7 +76,8 @@ export function HomeSearch({
 
 			<form action="/properties" method="get" onSubmit={onSubmit} className="mt-4">
 				{!rental && <input type="hidden" name="type" value="sale" />}
-				<div className={`grid gap-3 ${rental ? 'lg:grid-cols-[repeat(4,minmax(0,1fr))_auto]' : 'lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]'}`}>
+				{/* J-134:FV の右半分に入るので、PC でも1行に並べず**2列で折り返す**(エリア・駅 / 家賃・間取り、ボタンは下の行) */}
+				<div className="grid gap-3 lg:grid-cols-2">
 					<Field label="エリア">
 						<select name="area" className={selectClass} defaultValue="">
 							<option value="">指定しない</option>
@@ -159,7 +161,7 @@ export function HomeSearch({
 
 					<button
 						type="submit"
-						className="h-12 cursor-pointer rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:h-10 lg:self-end lg:text-body-pc"
+						className="h-12 cursor-pointer rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:col-span-2 lg:h-10 lg:text-body-pc"
 					>
 						この条件で探す
 					</button>
