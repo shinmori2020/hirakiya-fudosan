@@ -143,9 +143,9 @@ export default async function Home() {
 							  どちらも**1段目・2段目だけ**(03 §7・§8・J-136)。補足と副ボタンには付けない。prefers-reduced-motion では止める。
 							*/}
 							<div className="animate-fv-in motion-reduce:animate-none">
-								<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-display-pc">{company.tagline}</h1>
-								{/* 2段目は見出しの続き(H2 の大きさ 20 / 24px。セクション見出しではないので p で出す) */}
-								<p className="mt-2 text-h2 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h2-pc">{company.taglineSub}</p>
+								{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
+								<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc">{company.tagline}</h1>
+								<p className="mt-2 text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc">{company.taglineSub}</p>
 							</div>
 							{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
 							<p className="mt-3 text-small text-white/90">{wardLabelFv}で賃貸 売買 賃貸管理</p>
