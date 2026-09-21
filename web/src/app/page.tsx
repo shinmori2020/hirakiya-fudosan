@@ -125,16 +125,22 @@ export default async function Home() {
 			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
-				{/* 墨の膜(03 §2・J-133 の 50〜60%)。J-134 で 40% を試したが見出しが 4.14〜4.25 で 4.5:1 に届かず、50% に留めた */}
-				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/50" />
+				{/* 墨の膜(03 §2・J-133 → J-135 で 30〜60% に)。30% にして写真の明るさを残し、文字側は影で読ませる(§8・J-135) */}
+				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/30" />
 				<Container className="flex flex-1 flex-col lg:flex-none">
 					{/*
-					  J-134:1280 以上は**左にキャッチ・右に検索フォーム**の2列(50 / 50)。
+					  J-134 → J-135:1280 以上は**左にキャッチ・右に検索フォーム**の2列。**右は 30%**(J-135。写真を広く見せる)。
 					  〜1023 は今までどおり縦に積み、キャッチを上・フォームを下端に寄せる(justify-between)。
 					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
 					*/}
-					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-2 lg:items-center lg:gap-10">
-						<h1 className="text-h1 font-bold text-white lg:text-display-pc">{company.tagline}</h1>
+					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-[1fr_30%] lg:items-center lg:gap-10">
+						{/*
+						  キャッチ(J-135)。膜が 30% と薄いので**墨の影**で読ませる(03 §8 の例外。他の文字には付けない)。
+						  出現効果は読み込み時の1回だけ。prefers-reduced-motion では止める。
+						*/}
+						<h1 className="animate-fv-in text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] motion-reduce:animate-none lg:text-display-pc">
+							{company.tagline}
+						</h1>
 						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95) */}
 						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} />
 					</div>

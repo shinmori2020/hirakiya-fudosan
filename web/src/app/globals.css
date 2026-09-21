@@ -85,6 +85,22 @@
       transform: translateY(0);
     }
   }
+  /*
+   * FV のキャッチの出現効果(§8・J-135)。**読み込み時に1回だけ**、260ms で下から上へ。
+   * 許すのは FV のキャッチ1箇所だけ(他の文字には付けない)。
+   * prefers-reduced-motion は utilities 側の motion-reduce:animate-none で止める。
+   */
+  --animate-fv-in: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  @keyframes fv-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   /* 件数の数字が変わった時:青緑 → 通常色(墨)へ 300ms */
   --animate-count-flash: count-flash 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
   @keyframes count-flash {
