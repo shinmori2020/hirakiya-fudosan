@@ -125,18 +125,19 @@ export default async function Home() {
 			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
-			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
+			{/* 高さは内容+上下の余白(48 / 64)で決める(J-140。J-132 の「画面の高さに合わせる」は撤回)。スマホの下余白は固定CTA ぶん(§5 の例外・96) */}
+			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-24 lg:py-16">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
 				{/* 墨の膜(03 §2・J-133 → J-135 で 30〜60% に)。30% にして写真の明るさを残し、文字側は影で読ませる(§8・J-135) */}
 				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/30" />
-				<Container className="flex flex-1 flex-col lg:flex-none">
+				<Container>
 					{/*
 					  J-134 → J-135:1280 以上は**左にキャッチ・右に検索フォーム**の2列。**右は 30%**(J-135。写真を広く見せる)。
-					  〜1023 は今までどおり縦に積み、キャッチを上・フォームを下端に寄せる(justify-between)。
+					  〜1023 は縦に積む(キャッチ → 補足 → ボタン → フォーム)。
 					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
 					*/}
-					<div className="flex flex-1 flex-col justify-between gap-6 lg:grid lg:flex-none lg:grid-cols-[1fr_40%] lg:items-center lg:gap-8">
+					<div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_40%] lg:items-center lg:gap-8">
 						<div>
 							{/*
 							  キャッチ2段(J-135)。膜が 30% と薄いので**墨の影**で読ませ、読み込み時に1回だけ出現効果を付ける。
