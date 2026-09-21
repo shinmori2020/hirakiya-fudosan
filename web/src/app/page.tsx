@@ -47,7 +47,8 @@ export default async function Home() {
 	// 2段目の入れ替え候補(J-144)。{n} は新着の件数(03 §2 の新着 = 公開14日以内・成約済みを除く)、{offices} は店舗名
 	const newCount = all.filter((p) => p.status !== 'sold' && isNew(p, now)).length;
 	const officeNames = offices.map((o) => o.name.replace(/(本店|支店)$/, '')).join('と');
-	const taglineSubs = company.taglineSubs.map((t) => t.replace('{n}', String(newCount)).replace('{offices}', officeNames));
+	// 新着が0件の時は「新着物件は0件です」を出さない(件数の行だけ落とす。09/22 の実測で 0件だった)
+	const taglineSubs = company.taglineSubs.filter((t) => newCount > 0 || !t.includes('{n}')).map((t) => t.replace('{n}', String(newCount)).replace('{offices}', officeNames));
 	// 入口の件数(一覧の件数表示と同じ数え方。成約済みも含む・J-033)
 	const totalRental = all.filter((p) => p.type === 'rental').length;
 	const totalSale = all.filter((p) => p.type === 'sale').length;
