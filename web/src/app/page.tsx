@@ -161,7 +161,34 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 2 探し方の入口:エリア / 沿線・駅 / 特集(J-051 の listHref でリンク) */}
+			{/* 2 新着物件(成約済みは出さない・公開日順8件)。J-140 で探し方より前に */}
+			<section className="py-12 lg:py-16">
+				<Container>
+					<div className="flex items-baseline justify-between">
+						<h2 className="text-h2 font-bold lg:text-h2-pc">新着物件</h2>
+						<Link href="/properties" className="text-small text-accent-strong underline">
+							すべて見る
+						</Link>
+					</div>
+					<ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+						{latest.map((p, i) => (
+							<li key={p.no}>
+								<PropertyCard
+									p={p}
+									stationName={stationName}
+									now={now}
+									priority={i < 2}
+									kindName={kindName}
+									areaLabel={areaLabel}
+									tagNames={{ collectionName, featureName }}
+								/>
+							</li>
+						))}
+					</ul>
+				</Container>
+			</section>
+
+			{/* 3 探し方の入口:エリア / 沿線・駅 / 特集(J-051 の listHref でリンク)。J-140 で新着の後に */}
 			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">探し方から選ぶ</h2>
@@ -192,35 +219,8 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 3 新着物件(成約済みは出さない・公開日順8件) */}
-			<section className="py-12 lg:py-16">
-				<Container>
-					<div className="flex items-baseline justify-between">
-						<h2 className="text-h2 font-bold lg:text-h2-pc">新着物件</h2>
-						<Link href="/properties" className="text-small text-accent-strong underline">
-							すべて見る
-						</Link>
-					</div>
-					<ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-						{latest.map((p, i) => (
-							<li key={p.no}>
-								<PropertyCard
-									p={p}
-									stationName={stationName}
-									now={now}
-									priority={i < 2}
-									kindName={kindName}
-									areaLabel={areaLabel}
-									tagNames={{ collectionName, featureName }}
-								/>
-							</li>
-						))}
-					</ul>
-				</Container>
-			</section>
-
 			{/* 4 会社の強み3点 */}
-			<section className="bg-surface-alt py-12 lg:py-16">
+			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">ヒラキヤ不動産の3つの強み</h2>
 					{/* 会社の説明なので枠も背景も持たせない。下の3枚(導線)とは役割が違うので形を分ける(J-058) */}
@@ -240,7 +240,7 @@ export default async function Home() {
 			</section>
 
 			{/* 5 初めての方へ / 売却 / オーナー様 の3枚 */}
-			<section className="py-12 lg:py-16">
+			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<ul className="grid gap-4 lg:grid-cols-3">
 						{guides.map((g) => (
@@ -265,7 +265,7 @@ export default async function Home() {
 			</section>
 
 			{/* 6 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128) */}
-			<section className="bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
+			<section className="py-12 lg:py-16" aria-labelledby="voice-heading">
 				<Container>
 					<VoiceCarousel
 						voices={voices}
@@ -284,7 +284,7 @@ export default async function Home() {
 			</section>
 
 			{/* 7 お知らせ(最新3件・config。実装順 7 の /news と同じ配列) */}
-			<section className="py-12 lg:py-16">
+			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<div className="flex items-baseline justify-between">
 						<h2 className="text-h2 font-bold lg:text-h2-pc">お知らせ</h2>
@@ -314,7 +314,7 @@ export default async function Home() {
 			</section>
 
 			{/* 8 店舗案内(地図は詳細と同じ部品を再利用・OSM) */}
-			<section className="bg-surface-alt py-12 lg:py-16">
+			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">店舗案内</h2>
 					<ul className="mt-6 grid gap-6 lg:grid-cols-2">
