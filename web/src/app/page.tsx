@@ -125,7 +125,7 @@ export default async function Home() {
 			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
-			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-16 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
+			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
 				{/* 墨の膜(03 §2・J-133 → J-135 で 30〜60% に)。30% にして写真の明るさを残し、文字側は影で読ませる(§8・J-135) */}
