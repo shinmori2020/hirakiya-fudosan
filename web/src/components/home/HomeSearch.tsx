@@ -65,8 +65,9 @@ export function HomeSearch({
 						role="tab"
 						aria-selected={type === t}
 						onClick={() => setType(t)}
-						className={`h-10 flex-1 cursor-pointer rounded-hr border text-body font-bold transition-colors duration-150 motion-reduce:transition-none lg:h-9 lg:flex-none lg:px-6 lg:text-body-pc ${
-							type === t ? 'border-accent bg-accent text-white' : 'border-line bg-surface text-ink hover:bg-badge-new-bg'
+						// タブは墨の塗り(03 §6・J-136)。一覧の SearchResults と同じ見た目。青緑は「この条件で探す」だけ
+						className={`h-11 flex-1 cursor-pointer rounded-hr border text-body font-medium transition-colors duration-150 motion-reduce:transition-none lg:h-10 lg:flex-none lg:px-6 lg:text-body-pc ${
+							type === t ? 'border-sumi bg-sumi text-white' : 'border-line bg-surface text-sumi hover:border-sumi'
 						}`}
 					>
 						{t === 'rental' ? '賃貸' : '売買'}
