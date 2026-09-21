@@ -160,12 +160,24 @@ export function HomeSearch({
 						</Field>
 					)}
 
+					{/*
+					  売買(3項目)でも枠の高さを賃貸(4項目・lg 以上)に揃える(J-135 の修正・09/22)。
+					  ボタンの下に、間取りの欄と同じ高さの見えない欄を置き、空いた分を下の余白にする。
+					  表示・読み上げ・送信のどれにも入れない(visibility hidden・aria-hidden・name なし・tabIndex -1)。
+					*/}
 					<button
 						type="submit"
 						className="h-12 cursor-pointer rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:h-10 lg:text-body-pc"
 					>
 						この条件で探す
 					</button>
+					{!rental && (
+						<div aria-hidden="true" className="invisible hidden lg:block">
+							<Field label="間取り">
+								<select className={selectClass} tabIndex={-1} disabled aria-hidden="true" />
+							</Field>
+						</div>
+					)}
 				</div>
 			</form>
 		</div>
