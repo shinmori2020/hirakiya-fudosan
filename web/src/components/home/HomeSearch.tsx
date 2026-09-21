@@ -71,6 +71,18 @@ export function HomeSearch({
 	const query = formQuery ?? emptyQuery(type);
 	// 描画時に導出する(effect で setState しない・React Compiler の規則)。一覧と同じ数え方(成約済みを含む・J-033)
 	const count = mounted ? applyQuery(all, query, now).length : null;
+	// option の件数(J-145 の続き):今の条件のうち key だけを value に置き換えた時の件数。水和前は出さない(SSR と一致させる)
+	const optionCount = (key: 'area' | 'station' | 'rent_max' | 'layout' | 'price_max' | 'kind', value: string): string => {
+		if (count === null) return '';
+		const q: SearchQuery = { ...query }; // 描画中は ref を読まない(React Compiler の規則)。状態から導出した query を複製する
+		if (key === 'area') q.area = [value];
+		else if (key === 'station') q.station = [value];
+		else if (key === 'rent_max') q.rentMax = Number(value);
+		else if (key === 'layout') q.layout = [value];
+		else if (key === 'price_max') q.priceMax = Number(value);
+		else q.kind = [value];
+		return `(${applyQuery(all, q, now).length}件)`;
+	};
 	const recount = () => {
 		const q = queryFromForm();
 		const n = applyQuery(all, q, now).length;
@@ -131,6 +143,7 @@ export function HomeSearch({
 									{w.towns.map((t) => (
 										<option key={t.slug} value={t.slug}>
 											{t.name}
+											{optionCount('area', t.slug)}
 										</option>
 									))}
 								</optgroup>
@@ -146,7 +159,7 @@ export function HomeSearch({
 									<optgroup key={g.lineSlug} label={g.lineName}>
 										{g.stations.map((s) => (
 											<option key={s.slug} value={s.slug}>
-												{s.name}駅
+												{s.name}駅{optionCount('station', s.slug)}
 											</option>
 										))}
 									</optgroup>
@@ -161,7 +174,7 @@ export function HomeSearch({
 								<option value="">指定しない</option>
 								{RENT_STEPS.map((v) => (
 									<option key={v} value={v}>
-										{formatRent(v)}以下
+										{formatRent(v)}以下{optionCount('rent_max', String(v))}
 									</option>
 								))}
 							</select>
@@ -172,7 +185,7 @@ export function HomeSearch({
 								<option value="">指定しない</option>
 								{PRICE_STEPS.map((v) => (
 									<option key={v} value={v}>
-										{formatPrice(v)}以下
+										{formatPrice(v)}以下{optionCount('price_max', String(v))}
 									</option>
 								))}
 							</select>
@@ -187,6 +200,7 @@ export function HomeSearch({
 								{LAYOUTS.map((v) => (
 									<option key={v} value={v}>
 										{v}
+										{optionCount('layout', v)}
 									</option>
 								))}
 							</select>
@@ -198,6 +212,7 @@ export function HomeSearch({
 								{kinds.map((k) => (
 									<option key={k.slug} value={k.slug}>
 										{k.name}
+										{optionCount('kind', k.slug)}
 									</option>
 								))}
 							</select>

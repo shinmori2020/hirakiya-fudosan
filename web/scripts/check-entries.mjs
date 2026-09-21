@@ -6,6 +6,7 @@
  *   1 入口ページに出ている件数と、そのリンクを押した先の一覧の件数が一致するか
  *   2 入口ページから出ていくリンクがすべて 200 を返すか(未作成ページへのリンクが残っていないか)
  *   3 条件固定の一覧で条件を変えた後の URL に、固定キー(area= / line= / station= / collection=)が入っていないか
+ *   4 トップの検索フォーム(FV)の select の option に出る件数と、その条件で送った先の一覧の件数が一致するか(J-145)
  *     (パスとクエリに同じ条件を二重に持つと、/area/aoto?area=tateishi のような矛盾した URL を作れてしまう)
  *
  * 使い方(3001 で本番相当を起動してから。手順は .claude/rules/verification.md §1):
@@ -93,9 +94,40 @@ async function main() {
 		if (url.pathname !== s.path) note(`${s.path}:条件を変えたらパスが ${url.pathname} に変わった`);
 	}
 
+	// 4 FV の select の option の件数 = 送った先の一覧の件数(J-145)。賃貸の4本(エリア / 駅 / 家賃 / 間取り)を1つずつ選ぶ
+	let checkedOptions = 0;
+	for (const name of ['area', 'station', 'rent_max', 'layout']) {
+		await open('/');
+		const sel = page.locator('main > section form select[name="' + name + '"]');
+		if ((await sel.count()) === 0) {
+			note(`/ FV:select[name=${name}] が見つからない`);
+			continue;
+		}
+		const options = await sel.locator('option').evaluateAll((os) => os.map((o) => ({ value: o.value, text: o.textContent.trim() })).filter((o) => o.value));
+		for (const o of options) {
+			await open('/');
+			const s2 = page.locator('main > section form select[name="' + name + '"]');
+			await s2.selectOption(o.value);
+			await page.waitForTimeout(150);
+			const label = await s2.locator('option[value="' + o.value + '"]').textContent();
+			const m = label.match(/\((\d+)件\)/);
+			if (!m) {
+				note(`/ FV:${name}=${o.value} の option に件数が出ていない(${label.trim()})`);
+				continue;
+			}
+			const expected = Number(m[1]);
+			await page.locator('main > section form button[type="submit"]').click();
+			await page.waitForURL(/\/properties/, { timeout: 10000 });
+			await page.waitForTimeout(400);
+			const actual = await listCount();
+			checkedOptions++;
+			if (actual !== expected) note(`/ FV:${name}=${o.value} の option ${expected}件 / 一覧 ${actual}件`);
+		}
+	}
+
 	await browser.close();
 
-	console.log(`リンク ${checkedLinks}本 / 件数 ${checkedCounts}組 / 固定ページ ${FIXED_SAMPLES.length}件 を検査`);
+	console.log(`リンク ${checkedLinks}本 / 件数 ${checkedCounts}組 / 固定ページ ${FIXED_SAMPLES.length}件 / FV の option ${checkedOptions}個 を検査`);
 	if (problems.length === 0) {
 		console.log('要確認:0件');
 		return 0;
