@@ -85,7 +85,7 @@ export default function GuidePage() {
 				</Container>
 			</section>
 
-			<section className="py-16 lg:py-24">
+			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">初期費用の内訳</h2>
 					<p className="mt-2 max-w-[760px] text-body text-ink lg:text-body-pc">

@@ -31,7 +31,7 @@ export function Steps({ steps, label, dense = false }: { steps: readonly Step[];
 		<div>
 			{steps.length >= INDEX_FROM && (
 				/* 索引:md 以上だけ。読み上げは本文で足りるので読ませない */
-				<div aria-hidden="true" className="mb-8 hidden md:flex md:items-center lg:mb-10">
+				<div aria-hidden="true" className="mb-6 hidden md:flex md:items-center lg:mb-8">
 					{steps.map((s, i) => (
 						<div key={s.title} className="flex min-w-0 items-center">
 							{i > 0 && <span className="mx-2 h-px w-6 shrink bg-line lg:mx-3 lg:w-10" />}

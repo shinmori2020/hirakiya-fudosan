@@ -28,7 +28,7 @@ export function OwnerExplanation() {
 				<h2 className="text-h2 font-bold lg:text-h2-pc">管理サービスの内容</h2>
 				<p className="mt-2 text-body text-ink lg:text-body-pc">募集から退去までを一社でお受けします。一部だけのご依頼もご相談ください。</p>
 				{/* 会社の説明なので枠も背景も持たせない(J-058) */}
-				<ul className="mt-6 grid gap-5 md:grid-cols-2 md:gap-4">
+				<ul className="mt-6 grid gap-4 md:grid-cols-2">
 					{SERVICES.map((s) => (
 						<li key={s.head}>
 							<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{s.head}</p>

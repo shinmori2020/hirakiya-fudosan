@@ -125,7 +125,7 @@ export default async function Home() {
 			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
-			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-24 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
+			<section className="relative isolate flex min-h-[calc(100svh-110px)] flex-col overflow-hidden bg-sumi pt-8 pb-16 lg:min-h-[calc(100svh-103px)] lg:justify-center lg:py-12">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-center" />
 				{/* 墨の膜(03 §2・J-133 → J-135 で 30〜60% に)。30% にして写真の明るさを残し、文字側は影で読ませる(§8・J-135) */}
@@ -136,7 +136,7 @@ export default async function Home() {
 					  〜1023 は今までどおり縦に積み、キャッチを上・フォームを下端に寄せる(justify-between)。
 					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
 					*/}
-					<div className="flex flex-1 flex-col justify-between gap-10 lg:grid lg:flex-none lg:grid-cols-[1fr_40%] lg:items-center lg:gap-10">
+					<div className="flex flex-1 flex-col justify-between gap-6 lg:grid lg:flex-none lg:grid-cols-[1fr_40%] lg:items-center lg:gap-8">
 						<div>
 							{/*
 							  キャッチ2段(J-135)。膜が 30% と薄いので**墨の影**で読ませ、読み込み時に1回だけ出現効果を付ける。
@@ -149,7 +149,7 @@ export default async function Home() {
 							</div>
 							<p className="mt-3 text-small text-white/90">{wardLabelFv}の賃貸 売買 賃貸管理</p>
 							{/* 青緑は検索フォームの「この条件で探す」だけに残す(03 §2)。ここは副ボタンの形 */}
-							<Link href="/guide" className={`${SECONDARY} mt-5 sm:w-fit sm:px-8`}>
+							<Link href="/guide" className={`${SECONDARY} mt-6 sm:w-fit sm:px-8`}>
 								初めての方へ
 							</Link>
 						</div>
