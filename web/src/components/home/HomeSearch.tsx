@@ -1,8 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { LAYOUTS, PRICE_STEPS, RENT_STEPS } from '@/lib/search';
+import { useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { applyQuery, emptyQuery, LAYOUTS, PRICE_STEPS, RENT_STEPS, type SearchQuery } from '@/lib/search';
+import type { PropertySummary } from '@/types/property';
 import { homeSearchHref } from '@/lib/home';
 import { formatPrice, formatRent } from '@/config/site';
 import type { PropertyType } from '@/types/property';
@@ -14,6 +15,9 @@ import type { PropertyType } from '@/types/property';
  * 売買 = エリア / 価格上限 / 種目 の3項目。
  * 賃貸・売買はタブで切り替え、送信先はどちらも /properties。
  * 素の <form method="get" action="/properties"> なので JavaScript 無しでも動く。
+ * **ボタンの件数(J-145)**:JavaScript 無し・水和前は「この条件で探す」。マウント後に applyQuery(一覧と同じ数え方・成約済みを含む)で
+ * 「(◯件)」を付け、条件を変えるたびに更新する。0件でも送信は止めない(一覧の0件画面が緩和候補を出す・J-095)。
+ * 03 v0.1 の「青緑ボタンに件数」が J-056 の素の GET で暗黙に外れていたのを戻した(J-142)。
  * JavaScript がある時だけ onSubmit で lib/home.ts の homeSearchHref を使い、空欄を落とした短い URL に置き換える。
  * 駅は沿線6本を optgroup にした単一のセレクト(エリアとは連動しない・SHIN 確定 09/12)。
  * 複数路線の駅は沿線の並び順で最初の1本にだけ置く(一覧の左カラム・J-034 B と同じ)。
@@ -28,7 +32,12 @@ export function HomeSearch({
 	areas,
 	stationGroups,
 	kinds,
+	all,
+	nowIso,
 }: {
+	/** 物件全件(index.json 相当)。件数の計算に使う(J-145) */
+	all: PropertySummary[];
+	nowIso: string;
 	/** 区でまとめた町(表示順は config の serviceAreas 順) */
 	areas: { ward: string; towns: { slug: string; name: string }[] }[];
 	stationGroups: StationGroup[];
@@ -37,6 +46,41 @@ export function HomeSearch({
 	const [type, setType] = useState<PropertyType>('rental');
 	const router = useRouter();
 	const rental = type === 'rental';
+	const formRef = useRef<HTMLFormElement>(null);
+	const now = useMemo(() => new Date(nowIso), [nowIso]);
+	// 件数(J-145)。**水和前は出さない**(SSR と同じ HTML にするため)。mounted はサーバーで false・クライアントで true
+	const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
+	// form の今の値(onChange で読む)。null = 何も選んでいない(タブ切替でリセット)
+	const [formQuery, setFormQuery] = useState<SearchQuery | null>(null);
+	const [flashKey, setFlashKey] = useState(0);
+	const queryFromForm = (): SearchQuery => {
+		const f = new FormData(formRef.current ?? undefined);
+		const v = (k: string) => String(f.get(k) ?? '').trim();
+		const q = emptyQuery(type);
+		if (v('area')) q.area = [v('area')];
+		if (rental) {
+			if (v('station')) q.station = [v('station')];
+			if (v('rent_max')) q.rentMax = Number(v('rent_max'));
+			if (v('layout')) q.layout = [v('layout')];
+		} else {
+			if (v('price_max')) q.priceMax = Number(v('price_max'));
+			if (v('kind')) q.kind = [v('kind')];
+		}
+		return q;
+	};
+	const query = formQuery ?? emptyQuery(type);
+	// 描画時に導出する(effect で setState しない・React Compiler の規則)。一覧と同じ数え方(成約済みを含む・J-033)
+	const count = mounted ? applyQuery(all, query, now).length : null;
+	const recount = () => {
+		const q = queryFromForm();
+		const n = applyQuery(all, q, now).length;
+		if (count !== null && n !== count) setFlashKey((k) => k + 1);
+		setFormQuery(q);
+	};
+	const switchType = (t: PropertyType) => {
+		setType(t);
+		setFormQuery(null); // タブで form の中身が入れ替わる(選択は初期値に戻る)
+	};
 
 	function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -64,7 +108,7 @@ export function HomeSearch({
 						type="button"
 						role="tab"
 						aria-selected={type === t}
-						onClick={() => setType(t)}
+						onClick={() => switchType(t)}
 						// タブは墨の塗り(03 §6・J-136)。一覧の SearchResults と同じ見た目。青緑は「この条件で探す」だけ
 						className={`h-11 flex-1 cursor-pointer rounded-hr border text-body font-medium transition-colors duration-150 motion-reduce:transition-none lg:flex-none lg:px-6 lg:text-body-pc ${
 							type === t ? 'border-sumi bg-sumi text-white' : 'border-line bg-surface text-sumi hover:border-sumi'
@@ -75,7 +119,7 @@ export function HomeSearch({
 				))}
 			</div>
 
-			<form action="/properties" method="get" onSubmit={onSubmit} className="mt-4">
+			<form ref={formRef} action="/properties" method="get" onSubmit={onSubmit} onChange={recount} className="mt-4">
 				{!rental && <input type="hidden" name="type" value="sale" />}
 				{/* J-134 → J-135:FV の右 30% に入るので、PC でも**1列に縦積み**(エリア → 駅 → 家賃 → 間取り → ボタン) */}
 				<div className="grid gap-3">
@@ -170,6 +214,11 @@ export function HomeSearch({
 						className="h-12 cursor-pointer rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:h-10 lg:text-body-pc"
 					>
 						この条件で探す
+						{count !== null && (
+							<span key={flashKey} className="tabular animate-count-flash-light motion-reduce:animate-none">
+								({count}件)
+							</span>
+						)}
 					</button>
 					{!rental && (
 						<div aria-hidden="true" className="invisible hidden lg:block">
@@ -182,6 +231,11 @@ export function HomeSearch({
 			</form>
 		</div>
 	);
+}
+
+/** useSyncExternalStore の購読(変化しないので何もしない)。サーバー false / クライアント true の「マウント済み」を得るためだけ */
+function subscribeNoop() {
+	return () => {};
 }
 
 /** 絞り込み欄のセレクトと同じ寸法・同じ hover(03 §6・J-035) */

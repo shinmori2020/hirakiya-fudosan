@@ -169,7 +169,7 @@ export default async function Home() {
 						</div>
 						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95)。キャッチの 200ms 後に出る(03 §8「FV の動き」・J-142) */}
 						<div className="animate-fv-in-late motion-reduce:animate-none">
-							<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} />
+							<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
 						</div>
 					</div>
 				</Container>
