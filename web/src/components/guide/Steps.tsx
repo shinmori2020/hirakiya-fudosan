@@ -22,7 +22,8 @@ export interface Step {
 /** 索引を出す段数の下限(03 §7・J-123) */
 const INDEX_FROM = 4;
 
-const CIRCLE = 'tabular flex shrink-0 items-center justify-center rounded-full bg-surface-alt text-small font-bold text-sumi';
+// 丸は白地+灰線(J-139)。薄灰の面(/guide の帯)に薄灰の丸を置くと丸が消えて数字だけ浮いたため、どの面でも同じ見え方になる作りに
+const CIRCLE = 'tabular flex shrink-0 items-center justify-center rounded-full border border-line bg-surface text-small font-bold text-sumi';
 const SIZE = { normal: 'size-8', dense: 'size-6' };
 
 export function Steps({ steps, label, dense = false }: { steps: readonly Step[]; label: string; dense?: boolean }) {
