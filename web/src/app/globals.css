@@ -91,6 +91,8 @@
    * prefers-reduced-motion は utilities 側の motion-reduce:animate-none で止める。
    */
   --animate-fv-in: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  /* 検索フォームはキャッチの 200ms 後に同じ動きで出る(03 §8「FV の動き」・J-142) */
+  --animate-fv-in-late: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) 200ms both;
   @keyframes fv-in {
     from {
       opacity: 0;
