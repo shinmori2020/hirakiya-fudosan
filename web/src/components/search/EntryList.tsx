@@ -20,7 +20,7 @@ export function EntryList({ items, hrefBase, description }: { items: EntryCount[
 							<Link href={href} className={`${attrClass('text')} text-body font-bold lg:text-body-pc`}>
 								{it.name}
 							</Link>
-							{desc && <p className="mt-1 text-small text-ink-weak">{desc}</p>}
+							{desc && <p className="mt-1 text-body text-ink-weak lg:text-body-pc">{desc}</p>}
 						</div>
 						<p className="flex shrink-0 gap-3 text-small">
 							<Link href={href} className={attrClass('text')}>

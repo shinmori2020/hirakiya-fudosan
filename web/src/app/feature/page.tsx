@@ -27,8 +27,11 @@ export default async function FeatureIndexPage() {
 				<Breadcrumb items={[{ label: 'トップ', href: '/' }, { label: '特集' }]} />
 				<h1 className="mt-4 text-h1 font-bold lg:text-h1-pc">特集から探す</h1>
 				<p className="mt-2 text-body text-ink-weak lg:text-body-pc">条件をまとめた6つの特集です。特集名を選ぶと、その条件で絞った物件一覧に移ります。</p>
-				<div className="mt-8">
-					<EntryList items={entryCounts(all, 'collection', ordered)} hrefBase="/feature" description={(slug) => collectionDescriptions[slug]} />
+				{/* 入口ページは md 以上で2列(03 §7)。6件を3件ずつに分ける(/area /line は区・沿線の群で列を作るが、特集は群が無いので件数で割る) */}
+				<div className="mt-8 grid gap-8 md:grid-cols-2">
+					{[ordered.slice(0, 3), ordered.slice(3)].map((half, i) => (
+						<EntryList key={i} items={entryCounts(all, 'collection', half)} hrefBase="/feature" description={(slug) => collectionDescriptions[slug]} />
+					))}
 				</div>
 			</Container>
 		</section>
