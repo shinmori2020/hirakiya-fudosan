@@ -141,8 +141,18 @@ export default async function Home() {
 			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-24 lg:py-16">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 animate-fv-zoom object-cover object-center motion-reduce:animate-none" />
-				{/* 墨の膜(03 §2・J-133 → J-135 で 30〜60% に)。30% にして写真の明るさを残し、文字側は影で読ませる(§8・J-135) */}
-				<div aria-hidden="true" className="absolute inset-0 -z-10 bg-sumi/30" />
+				{/*
+				  墨の膜(03 §2・J-133 → J-135 → J-146)。**濃さに勾配を付け、位置がゆっくり動く**(§8「FV の動き」の5つ目)。
+				  左上 55% → 右下 70%(〜1023 は 60% → 70%。390 は写真の明るい壁が文字の下に来るため)。色は墨のまま。
+				  外の箱が FV の大きさ、中の面が 200%×200% で、中の面を translate で往復させる(JS なし)。
+				  最も薄い瞬間でも見出しの下地の平均で 4.5:1 以上(§2・J-146 で実測)。文字影は残す。
+				*/}
+				<div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+					<div
+						data-veil
+						className="absolute top-0 left-0 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 animate-fv-veil bg-[linear-gradient(135deg,rgba(43,47,51,0.6)_0%,rgba(43,47,51,0.7)_100%)] motion-reduce:animate-none lg:bg-[linear-gradient(135deg,rgba(43,47,51,0.55)_0%,rgba(43,47,51,0.7)_100%)]"
+					/>
+				</div>
 				<Container>
 					{/*
 					  J-134 → J-135:1280 以上は**左にキャッチ・右に検索フォーム**の2列。**右は 30%**(J-135。写真を広く見せる)。

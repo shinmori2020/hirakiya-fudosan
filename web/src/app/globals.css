@@ -111,6 +111,20 @@
       transform: translateY(8px);
     }
   }
+  /*
+   * 膜の揺らぎ(03 §8「FV の動き」・J-146)。200%×200% の勾配の面を translate で 0 ⇄ -50% に往復させる(20秒・alternate)。
+   * background-position を動かすと毎フレーム再描画になるので translate(合成のみ)を使う。
+   * 静止時(reduced-motion・animate-none)は要素の translate(-50% -50%)= 往復の折り返し点(濃い側)で止まる。
+   */
+  --animate-fv-veil: fv-veil 20s ease-in-out infinite alternate;
+  @keyframes fv-veil {
+    from {
+      translate: 0 0;
+    }
+    to {
+      translate: -50% -50%;
+    }
+  }
   --animate-fv-in: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) both;
   /* 検索フォームはキャッチの 200ms 後に同じ動きで出る(03 §8「FV の動き」・J-142) */
   --animate-fv-in-late: fv-in 260ms cubic-bezier(0.4, 0, 0.2, 1) 200ms both;
