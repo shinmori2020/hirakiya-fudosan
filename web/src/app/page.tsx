@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FvCopy } from '@/components/home/FvCopy';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
+import { NewListingsMini } from '@/components/home/NewListingsMini';
 import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { attrClass } from '@/components/property/AttrLink';
@@ -159,8 +160,9 @@ export default async function Home() {
 					  〜1023 は縦に積む(キャッチ → 補足 → ボタン → フォーム)。
 					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
 					*/}
-					<div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_40%] lg:items-center lg:gap-8">
-						<div>
+					<div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_40%] lg:items-center lg:gap-8">
+						{/* min-w-0:中のカルーセル(表示枚数+1枚を並べる)が 1fr の列を押し広げないように(J-147 の実装で検索パネルが右にはみ出した) */}
+						<div className="min-w-0">
 							{/*
 							  キャッチ2段(J-135)。膜が 30% と薄いので**墨の影**で読ませ、読み込み時に1回だけ出現効果を付ける。
 							  どちらも**1段目・2段目だけ**(03 §7・§8・J-136)。補足と副ボタンには付けない。prefers-reduced-motion では止める。
@@ -177,6 +179,15 @@ export default async function Home() {
 							<Link href="/guide" className={`${SECONDARY} mt-6 sm:w-fit sm:px-8`}>
 								初めての方へ
 							</Link>
+							{/*
+							  新着の小カード(03 §6・§7・§8「FV の動き」6・J-147)。1024 以上だけ(〜1023 は FV が画面を超え、新着セクションがすぐ下)。
+							  新着6件(新着セクションと同じ latestProperties)を3枚見せ、8秒で1枚ずつ送る。hover / フォーカス / 非表示 / reduced-motion で止まる。
+							  写真はプレースホルダーのまま(J-131・SHIN 09/23)。
+							*/}
+							<div className="mt-6 hidden lg:block">
+								{/* Carousel は Client なので関数を渡す部分は NewListingsMini(Client)に置く。駅名は slug → 名前の表で渡す */}
+								<NewListingsMini items={latest.slice(0, 6)} stations={Object.fromEntries(stationTerms.map((t) => [t.slug, t.name]))} />
+							</div>
 						</div>
 						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95)。キャッチの 200ms 後に出る(03 §8「FV の動き」・J-142) */}
 						<div className="animate-fv-in-late motion-reduce:animate-none">
