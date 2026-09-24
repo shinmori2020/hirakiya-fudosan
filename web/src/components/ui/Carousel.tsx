@@ -14,8 +14,6 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
  *  - スマホ(〜767):scroll-snap の横スワイプ(1枚強が見える幅)
  *  - 件数が1画面の枚数以下なら矢印を出さない
  * 仕組み:表示枚数+1枚だけを並べ、1枚分ずらしてから並びを回して位置を戻す(複製は持たない)。
- * **自動送り(J-147)**:`autoplay`(ms)を渡した時だけ、その間隔で1枚ずつ送る。**hover / フォーカスが中にある間 /
- * タブが非表示の間 / prefers-reduced-motion では止まる**。矢印は残す。使うのは FV の新着だけ(03 §6)。
  */
 export function Carousel<T>({
 	items,
@@ -26,8 +24,6 @@ export function Carousel<T>({
 	extra,
 	perView = { md: 2, lg: 4 },
 	mobileWidth = '85%',
-	autoplay,
-	dense = false,
 }: {
 	items: readonly T[];
 	getKey: (item: T) => string;
@@ -42,10 +38,6 @@ export function Carousel<T>({
 	perView?: { md: number; lg: number };
 	/** スマホで1枚が占める幅 */
 	mobileWidth?: string;
-	/** 自動送りの間隔(ms)。省略で自動送りなし(J-147) */
-	autoplay?: number;
-	/** 見出しと列の間を詰める(FV の小カード用。24 → 8) */
-	dense?: boolean;
 }) {
 	/** 1画面の枚数。0 = スマホ(スワイプ)。幅で切り替える */
 	const [per, setPer] = useState(0);
@@ -54,31 +46,12 @@ export function Carousel<T>({
 	/** 送り中の状態。running = false の1フレームだけ初期位置を置き、次のフレームで動かす */
 	const [slide, setSlide] = useState<{ dir: 1 | -1; running: boolean } | null>(null);
 	const timer = useRef<number | null>(null);
-	/** 自動送りを止める条件(hover・フォーカス・非表示タブ)。reduced-motion は effect の中で見る */
-	const [hold, setHold] = useState(false);
-	const [hidden, setHidden] = useState(false);
-	/** interval から最新の go を呼ぶための参照(描画中には触らず effect で更新する) */
-	const goRef = useRef<(dir: 1 | -1) => void>(() => {});
 
 	useEffect(() => {
 		return () => {
 			if (timer.current !== null) window.clearTimeout(timer.current);
 		};
 	}, []);
-
-	useEffect(() => {
-		if (!autoplay) return;
-		const onVis = () => setHidden(document.hidden);
-		document.addEventListener('visibilitychange', onVis);
-		return () => document.removeEventListener('visibilitychange', onVis);
-	}, [autoplay]);
-
-	useEffect(() => {
-		if (!autoplay || hold || hidden) return;
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		const id = window.setInterval(() => goRef.current(1), autoplay);
-		return () => window.clearInterval(id);
-	}, [autoplay, hold, hidden]);
 
 	useEffect(() => {
 		const wide = window.matchMedia('(min-width: 64rem)');
@@ -93,6 +66,8 @@ export function Carousel<T>({
 		};
 	}, [perView.lg, perView.md]);
 
+	if (items.length === 0) return null;
+
 	const paged = per > 0;
 	const arrows = paged && items.length > per;
 	const wrap = (i: number) => ((i % items.length) + items.length) % items.length;
@@ -104,7 +79,6 @@ export function Carousel<T>({
 
 	function go(dir: 1 | -1) {
 		if (slide) return; // 送り中の多重クリックは無視する
-		if (!arrows) return; // 1画面に収まる時は送らない(自動送りでも)
 		setSlide({ dir, running: false });
 		requestAnimationFrame(() => requestAnimationFrame(() => setSlide({ dir, running: true })));
 		if (timer.current !== null) window.clearTimeout(timer.current);
@@ -114,23 +88,11 @@ export function Carousel<T>({
 		}, 200);
 	}
 
-	useEffect(() => {
-		goRef.current = go;
-	});
-
-	if (items.length === 0) return null;
-
 	const ARROW =
 		'flex size-9 cursor-pointer items-center justify-center rounded-hr border border-line bg-surface text-sumi transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none';
 
 	return (
-		<div
-			aria-label={heading ? undefined : label}
-			onMouseEnter={autoplay ? () => setHold(true) : undefined}
-			onMouseLeave={autoplay ? () => setHold(false) : undefined}
-			onFocus={autoplay ? () => setHold(true) : undefined}
-			onBlur={autoplay ? (e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHold(false); } : undefined}
-		>
+		<div aria-label={heading ? undefined : label}>
 			{(heading || extra || arrows) && (
 				<div className="flex items-center justify-between gap-4">
 					{heading}
@@ -152,7 +114,7 @@ export function Carousel<T>({
 
 			{paged ? (
 				// md 以上:1件ずつ transform でスライド(200ms・03 §8 のイージング)
-				<div className={`-mx-1.5 overflow-hidden lg:-mx-2 ${dense ? 'mt-2' : 'mt-6'}`}>
+				<div className="-mx-1.5 mt-6 overflow-hidden lg:-mx-2">
 					<ul
 						className={`flex ${slide?.running ? 'transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none' : ''}`}
 						style={{ transform: `translateX(${offset}%)` }}
