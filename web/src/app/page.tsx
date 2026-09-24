@@ -10,7 +10,6 @@ import { Container } from '@/components/layout/Container';
 import { attrClass } from '@/components/property/AttrLink';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
-import { SECONDARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { isNew } from '@/lib/badges';
 import { dateLabel } from '@/lib/format';
@@ -175,12 +174,9 @@ export default async function Home() {
 							</div>
 							{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
 							<p className="mt-3 text-small text-white/90">{wardLabelFv}で賃貸 売買 賃貸管理</p>
-							{/* 青緑は検索フォームの「この条件で探す」だけに残す(03 §2)。ここは副ボタンの形 */}
-							<Link href="/guide" className={`${SECONDARY} mt-6 sm:w-fit sm:px-8`}>
-								初めての方へ
-							</Link>
+							{/* 副ボタン「初めての方へ」は J-148 で外した(導線3枚が FV の直下に来て、行き先が同じになるため) */}
 							{/*
-							  新着の小カード(03 §6・§7・§8「FV の動き」6・J-147)。1024 以上だけ(〜1023 は FV が画面を超え、新着セクションがすぐ下)。
+							  新着の小カード(03 §6・§7・§8「FV の動き」6・J-147)。1024 以上だけ(〜1023 は FV が画面を超えるため。新着の大カードは下のセクションにある)。
 							  新着6件(新着セクションと同じ latestProperties)を3枚見せ、8秒で1枚ずつ送る。hover / フォーカス / 非表示 / reduced-motion で止まる。
 							  写真はプレースホルダーのまま(J-131・SHIN 09/23)。
 							*/}
@@ -210,7 +206,52 @@ export default async function Home() {
 				</a>
 			</section>
 
-			{/* 2 新着物件(成約済みは出さない・公開日順8件)。J-140 で探し方より前に。id は FV の矢印の行き先(J-142) */}
+			{/* 2 初めての方へ / 売却 / オーナー様 の3枚。J-148 で FV の直後に(売却・オーナーの入口を2画面目に上げる) */}
+			<section className="py-12 lg:py-16">
+				<Container>
+					<ul className="grid gap-4 lg:grid-cols-3">
+						{guides.map((g) => (
+							<li key={g.href}>
+								<Link
+									href={g.href}
+									className="block h-full overflow-hidden rounded-hr border border-line bg-surface transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none"
+								>
+									{/* 場所・物件を示す写真(架空のためプレースホルダー・J-118)。売却事例カードと同じ 3:2 */}
+									<div className="relative aspect-[3/2] w-full bg-surface-alt">
+										<Image src={g.photo} alt={g.alt} fill sizes="(min-width: 64rem) 400px, 100vw" unoptimized={g.unoptimized} className="object-cover" />
+									</div>
+									<div className="p-4 lg:p-6">
+										<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</p>
+										<p className="mt-2 text-small text-ink-weak lg:text-small-pc">{g.text}</p>
+									</div>
+								</Link>
+							</li>
+						))}
+					</ul>
+				</Container>
+			</section>
+
+			{/* 3 会社の強み3点。J-148 で導線の次に(会社の信頼) */}
+			<section className="bg-surface-alt py-12 lg:py-16">
+				<Container>
+					<h2 className="text-h2 font-bold lg:text-h2-pc">ヒラキヤ不動産の3つの強み</h2>
+					{/* 会社の説明なので枠も背景も持たせない。下の3枚(導線)とは役割が違うので形を分ける(J-058) */}
+					<ul className="mt-6 grid gap-6 md:grid-cols-3 lg:gap-8">
+						{strengths.map((s) => (
+							<li key={s.label}>
+								<p className="tabular text-h2 font-bold text-sumi lg:text-h2-pc">
+									{s.n}
+									<span className="ml-1 text-small font-normal lg:text-small-pc">{s.unit}</span>
+								</p>
+								<p className="mt-1 text-h3 font-bold text-sumi lg:text-h3-pc">{s.label}</p>
+								<p className="mt-2 text-small text-ink lg:text-small-pc">{s.text}</p>
+							</li>
+						))}
+					</ul>
+				</Container>
+			</section>
+
+			{/* 4 新着物件(成約済みは出さない・公開日順8件)。J-148 で4番目に(FV の小カードと重なるため。J-140 の3を撤回)。id は FV の矢印の行き先(J-142) */}
 			<section id="new" className="scroll-mt-24 py-12 lg:py-16">
 				<Container>
 					<div className="flex items-baseline justify-between">
@@ -238,7 +279,7 @@ export default async function Home() {
 			</section>
 
 			{/*
-			  3 探し方の入口(J-141):**左 1/4 に見出し・説明・件数 / 右 3/4 にチップ3グループ**。
+			  5 探し方の入口(J-141):**左 1/4 に見出し・説明・件数 / 右 3/4 にチップ3グループ**。
 			  カードは使わない(上の新着と下の導線3枚がカードなので、3カラムのカードを続けると同じ形が3つ並ぶ・J-058)。
 			  リンク先は J-051 の listHref(新しい URL の作り方は足さない)。〜1023 は縦積み。
 			*/}
@@ -282,51 +323,6 @@ export default async function Home() {
 							))}
 						</div>
 					</div>
-				</Container>
-			</section>
-
-			{/* 4 会社の強み3点 */}
-			<section className="py-12 lg:py-16">
-				<Container>
-					<h2 className="text-h2 font-bold lg:text-h2-pc">ヒラキヤ不動産の3つの強み</h2>
-					{/* 会社の説明なので枠も背景も持たせない。下の3枚(導線)とは役割が違うので形を分ける(J-058) */}
-					<ul className="mt-6 grid gap-6 md:grid-cols-3 lg:gap-8">
-						{strengths.map((s) => (
-							<li key={s.label}>
-								<p className="tabular text-h2 font-bold text-sumi lg:text-h2-pc">
-									{s.n}
-									<span className="ml-1 text-small font-normal lg:text-small-pc">{s.unit}</span>
-								</p>
-								<p className="mt-1 text-h3 font-bold text-sumi lg:text-h3-pc">{s.label}</p>
-								<p className="mt-2 text-small text-ink lg:text-small-pc">{s.text}</p>
-							</li>
-						))}
-					</ul>
-				</Container>
-			</section>
-
-			{/* 5 初めての方へ / 売却 / オーナー様 の3枚 */}
-			<section className="bg-surface-alt py-12 lg:py-16">
-				<Container>
-					<ul className="grid gap-4 lg:grid-cols-3">
-						{guides.map((g) => (
-							<li key={g.href}>
-								<Link
-									href={g.href}
-									className="block h-full overflow-hidden rounded-hr border border-line bg-surface transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none"
-								>
-									{/* 場所・物件を示す写真(架空のためプレースホルダー・J-118)。売却事例カードと同じ 3:2 */}
-									<div className="relative aspect-[3/2] w-full bg-surface-alt">
-										<Image src={g.photo} alt={g.alt} fill sizes="(min-width: 64rem) 400px, 100vw" unoptimized={g.unoptimized} className="object-cover" />
-									</div>
-									<div className="p-4 lg:p-6">
-										<p className="text-h3 font-bold text-sumi lg:text-h3-pc">{g.title}</p>
-										<p className="mt-2 text-small text-ink-weak lg:text-small-pc">{g.text}</p>
-									</div>
-								</Link>
-							</li>
-						))}
-					</ul>
 				</Container>
 			</section>
 
