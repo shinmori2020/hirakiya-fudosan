@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FvCopy } from '@/components/home/FvCopy';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
-import { NewListingsMini } from '@/components/home/NewListingsMini';
 import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { attrClass } from '@/components/property/AttrLink';
@@ -175,15 +174,7 @@ export default async function Home() {
 							{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
 							<p className="mt-3 text-small text-white/90">{wardLabelFv}で賃貸 売買 賃貸管理</p>
 							{/* 副ボタン「初めての方へ」は J-148 で外した(導線3枚が FV の直下に来て、行き先が同じになるため) */}
-							{/*
-							  新着の小カード(03 §6・§7・§8「FV の動き」6・J-147)。1024 以上だけ(〜1023 は FV が画面を超えるため。新着の大カードは下のセクションにある)。
-							  新着6件(新着セクションと同じ latestProperties)を3枚見せ、8秒で1枚ずつ送る。hover / フォーカス / 非表示 / reduced-motion で止まる。
-							  写真はプレースホルダーのまま(J-131・SHIN 09/23)。
-							*/}
-							<div className="mt-6 hidden lg:block">
-								{/* Carousel は Client なので関数を渡す部分は NewListingsMini(Client)に置く。駅名は slug → 名前の表で渡す */}
-								<NewListingsMini items={latest.slice(0, 6)} stations={Object.fromEntries(stationTerms.map((t) => [t.slug, t.name]))} />
-							</div>
+							{/* 新着の小カードの行(J-147)は J-149 で外した。FV に詰め込みすぎて窮屈に見えたため。新着は下のセクション(大カード8枚)が担う */}
 						</div>
 						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95)。キャッチの 200ms 後に出る(03 §8「FV の動き」・J-142) */}
 						<div className="animate-fv-in-late motion-reduce:animate-none">
