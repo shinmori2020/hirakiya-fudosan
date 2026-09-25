@@ -20,11 +20,15 @@ describe('side-tab.ts', () => {
 		expect(isSearchPage('/feature/pet-ok')).toBe(true);
 	});
 
-	it('J-033 探す画面でないページでは縦タブを出す(トップ・404・会社案内)', () => {
-		expect(showsSideTab('/')).toBe(true);
+	it('J-033 探す画面でないページでは縦タブを出す(404・会社案内)', () => {
 		expect(showsSideTab('/this-page-does-not-exist')).toBe(true);
 		expect(showsSideTab('/company')).toBe(true);
 		expect(showsSideTab('/owner')).toBe(true);
+	});
+
+	it('J-151 トップでは縦タブを出さない(FV の帯に検索がある)。探す画面の判定には入れない', () => {
+		expect(showsSideTab('/')).toBe(false);
+		expect(isSearchPage('/')).toBe(false);
 	});
 
 	it('J-033 前方一致だけで判定しない:似た名前の別のパスは探す画面にしない', () => {

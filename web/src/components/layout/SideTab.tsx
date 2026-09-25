@@ -8,7 +8,8 @@ import { showsSideTab } from '@/lib/side-tab';
 /**
  * PC 右端に固定の縦タブ「物件を探す」(J-027)。墨背景・白文字(J-029)。PC のみ。
  * **探す画面では自分自身への導線になるので出さない**(J-033 項目11)。
- * 対象のパスは lib/side-tab.ts に1か所でまとめている(一覧・詳細・入口3ページ・条件固定38ページ)。
+ * **トップも出さない**(FV の帯に検索があり、同じ入口が並ぶため・J-151)。
+ * 対象のパスは lib/side-tab.ts に1か所でまとめている(一覧・詳細・入口3ページ・条件固定38ページ・トップ)。
  */
 export function SideTab() {
 	const pathname = usePathname();

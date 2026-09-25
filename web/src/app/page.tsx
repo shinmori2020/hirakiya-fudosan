@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FvCopy } from '@/components/home/FvCopy';
@@ -128,16 +127,18 @@ export default async function Home() {
 	return (
 		<>
 			{/*
-			  1 ファーストビュー(J-056 → J-130 で墨の面に)。03 §7 v0.95 の条件を守る:
-			   - 面は墨、文字は白・補足は白 80%
-			   - **検索フォームのパネルは白のまま**(入力欄を墨地に置かない。HomeSearch が bg-surface の箱を持つ)
-			   - 青緑は「この条件で探す」の1箇所だけ(§2)
-			   - 写真は**場所を示すもの**(店舗の外観・架空のためプレースホルダー・J-118 / J-129)。lg 以上だけ出す
-			     (〜1023 で出すと縦に伸びて検索フォームがファーストビューから出るため)
+			  1 ファーストビュー(J-151 で上下に分けた)。上 = 見せる面(写真 + 膜 + キャッチ2段 + 補足。検索は置かない)、
+			  下 = 操作する帯(白のカード・目的のタブ4つ + 検索 / 売る・貸すの案内)。03 §7 v1.17。
+			   - 文字は白・補足は白 90%。帯は白のまま(入力欄を墨地に置かない)
+			   - 青緑は帯の中のボタンだけ(検索 / 売る・貸すの主CTA。一度に見えるのは1つ・§2)
+			   - 写真は §1 のとおり場所・生活の場面を示すもの(J-150)
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
-			{/* 高さは内容+上下の余白(48 / 64)で決める(J-140。J-132 の「画面の高さに合わせる」は撤回)。スマホの下余白は固定CTA ぶん(§5 の例外・96) */}
-			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-24 lg:py-16">
+			{/*
+			  写真の面の高さ(J-151):〜1023 は内容+上下 48。1024 以上は 512(1280×700 で検索ボタンの下端が画面の下端から
+			  16px 以上内側に入る高さ)で、中身は上下中央。帯が下端に 80px 重なる
+			*/}
+			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-12 lg:flex lg:min-h-[512px] lg:flex-col lg:justify-center lg:py-16">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 animate-fv-zoom object-cover object-center motion-reduce:animate-none" />
 				{/*
@@ -153,13 +154,8 @@ export default async function Home() {
 					/>
 				</div>
 				<Container>
-					{/*
-					  J-134 → J-135:1280 以上は**左にキャッチ・右に検索フォーム**の2列。**右は 30%**(J-135。写真を広く見せる)。
-					  〜1023 は縦に積む(キャッチ → 補足 → ボタン → フォーム)。
-					  補足の1行は**最上部の架空注記バーと同じ内容**だったので外した(J-134。保留だった「FV の架空表記」の解消)。
-					*/}
-					<div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_40%] lg:items-center lg:gap-8">
-						{/* min-w-0:左の列の中身が 1fr の列を押し広げないように(J-147 のカルーセルで検索パネルが右にはみ出した対策。カルーセルは J-149 で外したが、列の保護として残す) */}
+					{/* 左右2列(J-134 → J-135)は J-151 で撤回。検索は下の帯へ。架空である旨は最上部のバーが担う(J-134) */}
+					<div>
 						<div className="min-w-0">
 							{/*
 							  キャッチ2段(J-135)。膜が 30% と薄いので**墨の影**で読ませ、読み込み時に1回だけ出現効果を付ける。
@@ -176,26 +172,18 @@ export default async function Home() {
 							{/* 副ボタン「初めての方へ」は J-148 で外した(導線3枚が FV の直下に来て、行き先が同じになるため) */}
 							{/* 新着の小カードの行(J-147)は J-149 で外した。FV に詰め込みすぎて窮屈に見えたため。新着は下のセクション(大カード8枚)が担う */}
 						</div>
-						{/* パネルは白のまま(入力欄を墨地に置かない・03 §7 v0.95)。キャッチの 200ms 後に出る(03 §8「FV の動き」・J-142) */}
-						<div className="animate-fv-in-late motion-reduce:animate-none">
-							<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
-						</div>
 					</div>
 				</Container>
-				{/*
-				  スクロール矢印(03 §6 部品・§8「FV の動き」・J-142)。1024 以上だけ(390 は FV の直下に固定CTA が来る)。
-				  押すと新着物件へ。上下 8px・1.5秒のループは中の span に付け、外の a は位置だけ持つ(transform を分ける)。
-				*/}
-				<a
-					href="#new"
-					aria-label="新着物件へ"
-					className="absolute bottom-2 left-1/2 hidden size-11 -translate-x-1/2 cursor-pointer items-center justify-center text-white lg:flex"
-				>
-					<span aria-hidden="true" className="animate-fv-bob [filter:drop-shadow(0_2px_8px_rgba(43,47,51,0.6))] motion-reduce:animate-none">
-						<ChevronDown size={20} />
-					</span>
-				</a>
 			</section>
+
+			{/* 操作する帯(J-151)。1024 以上は FV の下端に跨がせる(写真に 80px 重ね、残りは下へ)。〜1023 は FV のすぐ下 */}
+			<div className="relative z-10 mt-4 lg:-mt-20">
+				<Container>
+					<div className="animate-fv-in-late motion-reduce:animate-none">
+						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
+					</div>
+				</Container>
+			</div>
 
 			{/* 2 初めての方へ / 売却 / オーナー様 の3枚。J-148 で FV の直後に(売却・オーナーの入口を2画面目に上げる) */}
 			<section className="py-12 lg:py-16">

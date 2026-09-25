@@ -100,17 +100,6 @@
       transform: scale(1.05);
     }
   }
-  /* スクロール矢印の上下 8px・1.5秒周期(03 §6 部品・§8「FV の動き」・J-142) */
-  --animate-fv-bob: fv-bob 1.5s ease-in-out infinite;
-  @keyframes fv-bob {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(8px);
-    }
-  }
   /*
    * 膜の揺らぎ(03 §8「FV の動き」・J-146)。200%×200% の勾配の面を translate で 0 ⇄ -50% に往復させる(20秒・alternate)。
    * background-position を動かすと毎フレーム再描画になるので translate(合成のみ)を使う。
@@ -162,7 +151,7 @@
 
 html {
   color-scheme: light; /* ダークモードは 03 に無いので作らない */
-  scroll-behavior: smooth; /* FV の矢印 → #new(03 §8「FV の動き」・J-142)。reduced-motion では下で auto に戻す */
+  scroll-behavior: smooth; /* J-142 で FV の矢印のために入れた。矢印は J-151 で外したが、ページ内リンク(/sell の #form 等)に効くので残す。reduced-motion では下で auto に戻す */
 }
 @media (prefers-reduced-motion: reduce) {
   html {
