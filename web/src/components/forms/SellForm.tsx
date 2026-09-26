@@ -56,9 +56,9 @@ function SubmitButton({ idle, busy, waiting, intent, className }: { idle: string
 
 /* -------------------------------------------------------------------------
  * 本体。入力 → 確認 → 完了 は同一 URL・同じ骨格(03 §7 フォームページ・J-103)。状態は Server Action が返す(J-102 c)
- * 3つの子(H1と説明・注記 / 右カラム / フォーム)を返し、置き場所は page.tsx のグリッドが決める
+ * 3つの子(H1・リード・押せる文字・注記 / フォーム / 右カラム)を返し、置き場所は page.tsx のグリッドが決める。DOM の順が〜1023 の並び(J-154)
  * ---------------------------------------------------------------------- */
-export function SellForm({ turnstileSiteKey, explanation }: { turnstileSiteKey: string; /** 説明部分(実装順 6・Server で描画したものを受け取る)。左カラムの A と C の間に置く。完了画面では出さない */ explanation?: React.ReactNode }) {
+export function SellForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 	const initial: SellState = { step: 'input', values: EMPTY_SELL, errors: {} };
 	const [state, action] = useActionState(sellAction, initial);
 
@@ -80,40 +80,44 @@ export function SellForm({ turnstileSiteKey, explanation }: { turnstileSiteKey: 
 
 	return (
 		<>
-			{/* A:見出しと説明(左・1行目)。売却の流れ・当社で売る理由・売却事例は実装順 6 でここより下に足す */}
+			{/* A:見出し・リード・押せる文字2つ・注記(左・1行目)。説明は /sell/about に分けた(J-154) */}
 			<div className="lg:col-start-1 lg:row-start-1">
-				<h1 ref={h1Ref} tabIndex={-1} className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : '売却・査定のご相談'}</h1>
+				<h1 ref={h1Ref} tabIndex={-1} className="text-h1 font-bold lg:text-h1-pc">{state.step === 'done' ? '送信しました' : '査定のご依頼'}</h1>
 				<p className="mt-4 text-body lg:text-body-pc">お持ちの不動産の査定を承ります。査定は無料で、その後のご依頼は任意です。</p>
-				{/* h1 直下からフォームへ(03 §7・J-119。上から入ると 1280 で 1245px スクロールしないと届かなかった)。完了画面では出さない */}
+				{/* 見出しの近くに、説明のページとお問い合わせへの押せる文字(03 §7・J-154。J-119 の「入力フォームへ」は撤回)。完了画面では出さない */}
 				{state.step !== 'done' && (
-					<p className="mt-2 text-body lg:text-body-pc">
-						<a href="#form" className="text-accent-strong underline">
-							査定を依頼する(入力フォームへ)
-						</a>
-					</p>
+					<ul className="mt-2 space-y-1 text-body lg:text-body-pc">
+						<li>
+							<Link href="/sell/about" className="text-accent-strong underline">
+								売却の流れや事例を見る
+							</Link>
+						</li>
+						<li>
+							<Link href="/contact" className="text-accent-strong underline">
+								査定の前に相談だけしたい方はお問い合わせへ
+							</Link>
+						</li>
+					</ul>
 				)}
 				<p className="mt-4 rounded-hr border border-line bg-surface-alt p-4 text-body lg:p-6 lg:text-body-pc" role="note">
 					{company.formNotice}
 				</p>
 			</div>
 
-			{/* D:説明(実装順 6)。lg 以上は左の2行目。完了画面では出さず、フォームの行を1つ上げる */}
-			{explanation && state.step !== 'done' && <div className="mt-8 lg:col-start-1 lg:row-start-2 lg:mt-0">{explanation}</div>}
-
-			{/* B:送信したあとどうなるか(右・追従。〜1023 は説明とフォームの間に入る)。対象物件は無いので枠の中身だけ替える */}
-			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:mt-0 lg:self-start">
-				<Aside />
+			{/* C:フォーム(左・2行目)。フッターなどの導線が /sell#form なので、ここがアンカーの着地点になる。〜1023 は進み方より先に置く(J-154) */}
+			<div ref={colRef} id="form" className="mt-8 max-w-[760px] scroll-mt-24 lg:col-start-1 lg:row-start-2 lg:mt-0">
+				{state.step === 'done' ? <Done /> : state.step === 'confirm' ? <Confirm state={state} action={action} siteKey={turnstileSiteKey} /> : <Input state={state} action={action} />}
 			</div>
 
-			{/* C:フォーム(左・2行目)。フッターの導線が /sell#form なので、ここがアンカーの着地点になる */}
-			<div ref={colRef} id="form" className={`mt-8 max-w-[760px] scroll-mt-24 lg:col-start-1 lg:mt-0 ${explanation && state.step !== 'done' ? 'lg:row-start-3' : 'lg:row-start-2'}`}>
-				{state.step === 'done' ? <Done /> : state.step === 'confirm' ? <Confirm state={state} action={action} siteKey={turnstileSiteKey} /> : <Input state={state} action={action} />}
+			{/* B:送信したあとどうなるか(右・追従)。〜1023 はフォームの後(J-154)。対象物件を持たないフォームの右カラム(03 §7・J-107) */}
+			<div className="mt-8 lg:sticky lg:top-16 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:self-start">
+				<Aside />
 			</div>
 		</>
 	);
 }
 
-/** 右カラム。実装順 6 で書く「売却の流れ(査定 → 媒介 → 販売 → 契約 → 引渡し)」とは重ねず、送信の先だけを書く */
+/** 右カラム。説明のページ(/sell/about)の「売却の流れ(査定 → 媒介 → 販売 → 契約 → 引渡し)」とは重ねず、送信の先だけを書く */
 function Aside() {
 	return (
 		<section aria-labelledby="sell-flow" className="rounded-hr border border-line bg-surface p-4 lg:p-6">

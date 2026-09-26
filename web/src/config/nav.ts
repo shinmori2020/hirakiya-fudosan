@@ -33,7 +33,10 @@ export const footerColumns: readonly { heading: string; items: readonly NavItem[
 		heading: 'サービス',
 		items: [
 			{ label: '売却・査定のご相談', href: '/sell' },
+			// 説明のページ(J-154)。上の2行はフォームのページ
+			{ label: '売却について', href: '/sell/about' },
 			{ label: 'オーナー様(管理・空室)', href: '/owner' },
+			{ label: '管理について', href: '/owner/about' },
 			{ label: '法人向け', href: '/corporate' },
 			{ label: '初めての方へ', href: '/guide' },
 			{ label: 'よくある質問', href: '/faq' },

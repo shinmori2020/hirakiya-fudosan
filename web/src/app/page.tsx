@@ -120,8 +120,8 @@ export default async function Home() {
 	// 店舗が写るものは看板が読めてしまうので、当面プレースホルダーのまま(SHIN の判断待ち)
 	const guides = [
 		{ href: '/guide', title: '初めての方へ', text: '部屋探しの流れと、先に決めておくと早いことをまとめています。', photo: '/placeholders/offices/aoto.svg', alt: '', unoptimized: true },
-		{ href: '/sell', title: '売却をお考えの方へ', text: '相場の見方と、査定でお出しする数字の根拠をご説明します。', photo: '/placeholders/guides/sell.svg', alt: '', unoptimized: true },
-		{ href: '/owner', title: 'オーナー様へ', text: '管理のご相談と空室対策。家賃を下げる前にできることから。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
+		{ href: '/sell/about', title: '売却をお考えの方へ', text: '売却の流れと、当社で売る理由・売却事例をまとめています。', photo: '/placeholders/guides/sell.svg', alt: '', unoptimized: true },
+		{ href: '/owner/about', title: 'オーナー様へ', text: '管理サービスの内容と管理料の目安、空室対策をまとめています。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
 	];
 
 	return (

@@ -26,6 +26,11 @@ describe('side-tab.ts', () => {
 		expect(showsSideTab('/owner')).toBe(true);
 	});
 
+	it('J-154 説明のページ(/sell/about・/owner/about)も探す画面ではないので縦タブを出す', () => {
+		expect(showsSideTab('/sell/about')).toBe(true);
+		expect(showsSideTab('/owner/about')).toBe(true);
+	});
+
 	it('J-151 トップでは縦タブを出さない(FV の帯に検索がある)。探す画面の判定には入れない', () => {
 		expect(showsSideTab('/')).toBe(false);
 		expect(isSearchPage('/')).toBe(false);
