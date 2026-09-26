@@ -7,7 +7,7 @@
  *   2 入口ページから出ていくリンクがすべて 200 を返すか(未作成ページへのリンクが残っていないか)
  *   3 条件固定の一覧で条件を変えた後の URL に、固定キー(area= / line= / station= / collection=)が入っていないか
  *   4 トップの検索フォーム(FV)の select の option に出る件数と、その条件で送った先の一覧の件数が一致するか(J-145)
- *   5 FV で借りる⇄買うを切り替えた後も、ボタンの件数が select の値と一致するか(J-145 の修正。エリアは切替で残り、
+ *   5 FV で賃貸⇄売買を切り替えた後も、ボタンの件数が select の値と一致するか(J-145 の修正。エリアは切替で残り、
  *     種別固有の項目〔駅・家賃・間取り / 価格・種目〕はリセットされる。09/22 に件数だけ元に戻る不具合が出た)
  *     (パスとクエリに同じ条件を二重に持つと、/area/aoto?area=tateishi のような矛盾した URL を作れてしまう)
  *
@@ -143,8 +143,8 @@ async function main() {
 		// 種別固有の項目も選んでおく(切替でリセットされることを見る)
 		await page.locator('main form[action="/properties"] select[name="rent_max"]').selectOption({ index: 5 });
 		await page.waitForTimeout(200);
-		for (const [tab, expected] of [['買う', sale], ['借りる', rental]]) {
-			await page.locator('main [role="tablist"][aria-label="目的"] [role="tab"]', { hasText: tab }).click();
+		for (const [tab, expected] of [['売買', sale], ['賃貸', rental]]) {
+			await page.locator('main [role="tablist"][aria-label="物件の種別"] [role="tab"]', { hasText: tab }).click();
 			await page.waitForTimeout(250);
 			const shown = await buttonCount();
 			checkedSwitch++;

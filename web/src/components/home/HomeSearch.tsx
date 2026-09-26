@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { applyQuery, emptyQuery, LAYOUTS, PRICE_STEPS, RENT_STEPS, type SearchQuery } from '@/lib/search';
@@ -45,9 +44,6 @@ export function HomeSearch({
 	kinds: { slug: string; name: string }[];
 }) {
 	const [type, setType] = useState<PropertyType>('rental');
-	// 目的のタブ4つ(借りる / 買う / 売る / 貸す・J-151)。借りる・買うは検索、売る・貸すはフォームへの案内
-	const [mode, setMode] = useState<'rent' | 'buy' | 'sell' | 'owner'>('rent');
-	const sellOrOwner = mode === 'sell' || mode === 'owner';
 	const router = useRouter();
 	const rental = type === 'rental';
 	const formRef = useRef<HTMLFormElement>(null);
@@ -123,162 +119,126 @@ export function HomeSearch({
 
 	return (
 		<div className="rounded-hr border border-line bg-surface p-4 lg:p-6">
-			{/* 目的のタブ(J-151)。借りる・買うは1つのフォームを賃貸・売買で切り替える(01 §1 の判断ポイント) */}
-			<div role="tablist" aria-label="目的" className="flex gap-2">
-				{([
-					['rent', '借りる'],
-					['buy', '買う'],
-					['sell', '売る'],
-					['owner', '貸す'],
-				] as const).map(([m, label]) => (
+			{/* 賃貸・売買のタブ(01 §1 の判断ポイント。別フォームにせず1つのフォームを切り替える)。一覧と同じ2つ(J-152 で売る・貸すを外した) */}
+			<div role="tablist" aria-label="物件の種別" className="flex gap-2">
+				{(['rental', 'sale'] as const).map((t) => (
 					<button
-						key={m}
+						key={t}
 						type="button"
 						role="tab"
-						aria-selected={mode === m}
-						onClick={() => {
-							setMode(m);
-							if (m === 'rent') switchType('rental');
-							if (m === 'buy') switchType('sale');
-						}}
+						aria-selected={type === t}
+						onClick={() => switchType(t)}
 						// タブは墨の塗り(03 §6・J-136)。一覧の SearchResults と同じ見た目。青緑は「この条件で探す」だけ
 						className={`h-11 flex-1 cursor-pointer rounded-hr border text-body font-medium transition-colors duration-150 motion-reduce:transition-none lg:flex-none lg:px-6 lg:text-body-pc ${
-							mode === m ? 'border-sumi bg-sumi text-white' : 'border-line bg-surface text-sumi hover:border-sumi'
+							type === t ? 'border-sumi bg-sumi text-white' : 'border-line bg-surface text-sumi hover:border-sumi'
 						}`}
 					>
-						{label}
+						{t === 'rental' ? '賃貸' : '売買'}
 					</button>
 				))}
 			</div>
-			{/*
-			  売る・貸すの行と検索のフォームを同じ枠に重ねる(J-151)。枠の高さは検索のフォームで決まるので、
-			  4つのタブで帯の高さが変わらない(〜1023 で 393 → 180 に縮んでいた)。売る・貸すの中身は枠の上下中央。
-			  売る・貸すの間、フォームは見えない・押せない・読み上げない(invisible + inert)
-			*/}
-			<div className="mt-4 grid">
-				{sellOrOwner && (
-					// 売る・貸す:1行の説明 + フォームへのボタン(文言は仮・J-151)
-					<div className="col-start-1 row-start-1 flex flex-col justify-center gap-3 lg:flex-row lg:items-center lg:justify-between">
-						<p className="text-body text-ink lg:text-body-pc">{mode === 'sell' ? '売却の査定を無料で承ります' : '賃貸管理のご相談を承ります'}</p>
-						<Link
-							href={mode === 'sell' ? '/sell#form' : '/owner#form'}
-							className="flex h-12 items-center justify-center rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:h-10 lg:text-body-pc"
-						>
-							{mode === 'sell' ? '査定を依頼する' : '管理を相談する'}
-						</Link>
-					</div>
-				)}
 
-				<form
-					ref={formRef}
-					action="/properties"
-					method="get"
-					onSubmit={onSubmit}
-					onChange={recount}
-					inert={sellOrOwner}
-					className={`col-start-1 row-start-1 ${sellOrOwner ? 'invisible' : ''}`}
-				>
-					{!rental && <input type="hidden" name="type" value="sale" />}
-					{/* J-151:1024 以上は横1行(各欄は同じ幅で伸び縮み・右端にボタン)。〜1023 は縦積み */}
-					<div className={`grid gap-3 lg:min-h-16 lg:items-end lg:gap-4 ${rental ? 'lg:grid-cols-[repeat(4,minmax(0,1fr))_auto]' : 'lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]'}`}>
-						<Field label="エリア">
-							<select name="area" className={selectClass} defaultValue="">
+			<form ref={formRef} action="/properties" method="get" onSubmit={onSubmit} onChange={recount} className="mt-4">
+				{!rental && <input type="hidden" name="type" value="sale" />}
+				{/* J-151:1024 以上は横1行(各欄は同じ幅で伸び縮み・右端にボタン)。〜1023 は縦積み */}
+				<div className={`grid gap-3 lg:min-h-16 lg:items-end lg:gap-4 ${rental ? 'lg:grid-cols-[repeat(4,minmax(0,1fr))_auto]' : 'lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]'}`}>
+					<Field label="エリア">
+						<select name="area" className={selectClass} defaultValue="">
+							<option value="">指定しない</option>
+							{areas.map((w) => (
+								<optgroup key={w.ward} label={w.ward}>
+									{w.towns.map((t) => (
+										<option key={t.slug} value={t.slug}>
+											{t.name}
+											{optionCount('area', t.slug)}
+										</option>
+									))}
+								</optgroup>
+							))}
+						</select>
+					</Field>
+
+					{rental && (
+						<Field label="駅">
+							<select name="station" className={selectClass} defaultValue="">
 								<option value="">指定しない</option>
-								{areas.map((w) => (
-									<optgroup key={w.ward} label={w.ward}>
-										{w.towns.map((t) => (
-											<option key={t.slug} value={t.slug}>
-												{t.name}
-												{optionCount('area', t.slug)}
+								{stationGroups.map((g) => (
+									<optgroup key={g.lineSlug} label={g.lineName}>
+										{g.stations.map((s) => (
+											<option key={s.slug} value={s.slug}>
+												{s.name}駅{optionCount('station', s.slug)}
 											</option>
 										))}
 									</optgroup>
 								))}
 							</select>
 						</Field>
+					)}
 
-						{rental && (
-							<Field label="駅">
-								<select name="station" className={selectClass} defaultValue="">
-									<option value="">指定しない</option>
-									{stationGroups.map((g) => (
-										<optgroup key={g.lineSlug} label={g.lineName}>
-											{g.stations.map((s) => (
-												<option key={s.slug} value={s.slug}>
-													{s.name}駅{optionCount('station', s.slug)}
-												</option>
-											))}
-										</optgroup>
-									))}
-								</select>
-							</Field>
+					{rental ? (
+						<Field label="家賃(上限)">
+							<select name="rent_max" className={selectClass} defaultValue="">
+								<option value="">指定しない</option>
+								{RENT_STEPS.map((v) => (
+									<option key={v} value={v}>
+										{formatRent(v)}以下{optionCount('rent_max', String(v))}
+									</option>
+								))}
+							</select>
+						</Field>
+					) : (
+						<Field label="価格(上限)">
+							<select name="price_max" className={selectClass} defaultValue="">
+								<option value="">指定しない</option>
+								{PRICE_STEPS.map((v) => (
+									<option key={v} value={v}>
+										{formatPrice(v)}以下{optionCount('price_max', String(v))}
+									</option>
+								))}
+							</select>
+						</Field>
+					)}
+
+					{rental ? (
+						// スマホでは4つ目を出さない(J-056:3項目に留め、駅を足す判断を優先した)
+						<Field label="間取り" className="hidden lg:block">
+							<select name="layout" className={selectClass} defaultValue="">
+								<option value="">指定しない</option>
+								{LAYOUTS.map((v) => (
+									<option key={v} value={v}>
+										{v}
+										{optionCount('layout', v)}
+									</option>
+								))}
+							</select>
+						</Field>
+					) : (
+						<Field label="種目">
+							<select name="kind" className={selectClass} defaultValue="">
+								<option value="">指定しない</option>
+								{kinds.map((k) => (
+									<option key={k.slug} value={k.slug}>
+										{k.name}
+										{optionCount('kind', k.slug)}
+									</option>
+								))}
+							</select>
+						</Field>
+					)}
+
+					<button
+						type="submit"
+						className="h-12 cursor-pointer rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:h-10 lg:whitespace-nowrap lg:text-body-pc"
+					>
+						この条件で探す
+						{count !== null && (
+							<span key={flashKey} className="tabular animate-count-flash-light motion-reduce:animate-none">
+								({count}件)
+							</span>
 						)}
-
-						{rental ? (
-							<Field label="家賃(上限)">
-								<select name="rent_max" className={selectClass} defaultValue="">
-									<option value="">指定しない</option>
-									{RENT_STEPS.map((v) => (
-										<option key={v} value={v}>
-											{formatRent(v)}以下{optionCount('rent_max', String(v))}
-										</option>
-									))}
-								</select>
-							</Field>
-						) : (
-							<Field label="価格(上限)">
-								<select name="price_max" className={selectClass} defaultValue="">
-									<option value="">指定しない</option>
-									{PRICE_STEPS.map((v) => (
-										<option key={v} value={v}>
-											{formatPrice(v)}以下{optionCount('price_max', String(v))}
-										</option>
-									))}
-								</select>
-							</Field>
-						)}
-
-						{rental ? (
-							// スマホでは4つ目を出さない(J-056:3項目に留め、駅を足す判断を優先した)
-							<Field label="間取り" className="hidden lg:block">
-								<select name="layout" className={selectClass} defaultValue="">
-									<option value="">指定しない</option>
-									{LAYOUTS.map((v) => (
-										<option key={v} value={v}>
-											{v}
-											{optionCount('layout', v)}
-										</option>
-									))}
-								</select>
-							</Field>
-						) : (
-							<Field label="種目">
-								<select name="kind" className={selectClass} defaultValue="">
-									<option value="">指定しない</option>
-									{kinds.map((k) => (
-										<option key={k.slug} value={k.slug}>
-											{k.name}
-											{optionCount('kind', k.slug)}
-										</option>
-									))}
-								</select>
-							</Field>
-						)}
-
-						<button
-							type="submit"
-							className="h-12 cursor-pointer rounded-hr bg-accent px-6 text-body font-bold text-white transition-colors duration-150 hover:bg-accent-strong motion-reduce:transition-none lg:h-10 lg:whitespace-nowrap lg:text-body-pc"
-						>
-							この条件で探す
-							{count !== null && (
-								<span key={flashKey} className="tabular animate-count-flash-light motion-reduce:animate-none">
-									({count}件)
-								</span>
-							)}
-						</button>
-					</div>
-				</form>
-			</div>
+					</button>
+				</div>
+			</form>
 		</div>
 	);
 }
