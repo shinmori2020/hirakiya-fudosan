@@ -135,22 +135,28 @@ export default async function Home() {
 			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
 			*/}
 			{/*
-			  写真の面の高さ(J-151):〜1023 は内容+上下 48。1024 以上は 512(1280×700 で検索ボタンの下端が画面の下端から
-			  16px 以上内側に入る高さ)で、中身は上下中央。帯が下端に 80px 重なる
+			  写真の面の高さ(J-151 → J-153):〜1023 は内容+上下 48。1024 以上は**画面の高さに合わせる**(帯の下端が画面の下端から 16px 上)。
+			  式は clamp(512px, 100svh − 213px, 880px)。中身は上下中央。帯が下端に 80px 重なる。
+			   - 213 = 写真の面の上端 103(架空注記バー + ヘッダー)+ 帯の高さ 174 − 重なり 80 + 16。ヘッダーか帯の高さが変わったら直す
+			   - 下限 512:1280×700 で検索ボタンの下端が画面の下端から 16px 以上内側に入る高さ(J-151)
+			   - 上限 880:上限が無いと 2560×1440 で写真の面が 1227px になり、キャッチの上に 552px 空いた(試作4)
 			*/}
-			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-12 lg:flex lg:min-h-[512px] lg:flex-col lg:justify-center lg:py-16">
+			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-12 lg:flex lg:min-h-[clamp(512px,calc(100svh-213px),880px)] lg:flex-col lg:justify-center lg:py-16">
 				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
 				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 animate-fv-zoom object-cover object-center motion-reduce:animate-none" />
 				{/*
-				  墨の膜(03 §2・J-133 → J-135 → J-146)。**濃さに勾配を付け、位置がゆっくり動く**(§8「FV の動き」の5つ目)。
-				  左上 55% → 右下 70%(〜1023 は 60% → 70%。390 は写真の明るい壁が文字の下に来るため)。色は墨のまま。
+				  墨の膜(03 §2・J-133 → J-135 → J-146 → J-153)。**濃さに勾配を付け、位置がゆっくり動く**(§8「FV の動き」)。
+				  動く面:左上 62% → 右下 74%(J-153。高さを画面に合わせてキャッチが写真の明るい所に下がり、55→70% では 1280 で 4.20・1920 で 4.07 だった)。
+				  〜1023 は 60% → 70%(J-146 のまま。390 は写真の明るい壁が文字の下に来るため)。色は墨のまま。
 				  外の箱が FV の大きさ、中の面が 200%×200% で、中の面を translate で往復させる(JS なし)。
-				  最も薄い瞬間でも見出しの下地の平均で 4.5:1 以上(§2・J-146 で実測)。文字影は残す。
+				  1024 以上は外の箱にマスク(J-153):左 0〜50% はそのまま、右端へ向かって薄く(右端 約 25%)。キャッチは左側にあるので濃さを保ち、
+				  文字の無い右側で写真を明るく見せる。膜は1枚のまま(マスクは膜の形を決めるもの)。〜1023 はマスクなし。
+				  最も薄い瞬間でも見出しの下地の平均で 4.5:1 以上(§2・J-146 / J-153 で実測)。文字影は残す。
 				*/}
-				<div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+				<div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden lg:[mask-image:linear-gradient(to_right,#000_0%,#000_50%,rgba(0,0,0,0.355)_100%)]">
 					<div
 						data-veil
-						className="absolute top-0 left-0 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 animate-fv-veil bg-[linear-gradient(135deg,rgba(43,47,51,0.6)_0%,rgba(43,47,51,0.7)_100%)] motion-reduce:animate-none lg:bg-[linear-gradient(135deg,rgba(43,47,51,0.55)_0%,rgba(43,47,51,0.7)_100%)]"
+						className="absolute top-0 left-0 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 animate-fv-veil bg-[linear-gradient(135deg,rgba(43,47,51,0.6)_0%,rgba(43,47,51,0.7)_100%)] motion-reduce:animate-none lg:bg-[linear-gradient(135deg,rgba(43,47,51,0.62)_0%,rgba(43,47,51,0.74)_100%)]"
 					/>
 				</div>
 				<Container>
