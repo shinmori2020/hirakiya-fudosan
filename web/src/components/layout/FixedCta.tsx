@@ -14,18 +14,22 @@ import { footerColumns, lineDummy } from '@/config/nav';
  * 物件の無いページから「内見予約」で飛ばすと /contact へ戻されて遠回りになる。01 §共通要素の「内見予約(または問い合わせ)」の切り替え)。
  * 成約済み物件(soldNos・layout が index.json から渡す)では内見予約を隠し、電話・LINE の2列(J-038 判断 1)。売買は「見学予約」(判断 3)。
  */
-/** 自分のページにフォームを持つルート(J-120)。文言だけを変える(BtoB の切替は文言のみ・J-116) */
+/**
+ * 説明のページから、そのフォームへ向けるルート(J-120 → J-155)。文言だけを変える(BtoB の切替は文言のみ・J-116)。
+ * J-120 では説明とフォームが同じページ(/sell /owner)だったので、そのページのフォームへ向けていた。
+ * J-154 で分けた後は説明のページ(/sell/about /owner/about)に移し、フォームのページ /sell /owner は /contact /viewing と同じ既定(問い合わせ)にした(J-155)
+ */
 const SELF_FORM: Readonly<Record<string, { label: string; href: string }>> = {
-	'/sell': { label: '査定を依頼する', href: '/sell#form' },
-	'/owner': { label: '管理のご相談', href: '/owner#form' },
+	'/sell/about': { label: '査定を依頼する', href: '/sell#form' },
+	'/owner/about': { label: '管理のご相談', href: '/owner#form' },
 };
 
 export function FixedCta({ soldNos = [] }: { soldNos?: string[] }) {
 	const pathname = usePathname();
 	const m = /^\/properties\/([A-Za-z0-9-]+)$/.exec(pathname);
 	const contact = footerColumns[4].items[0]; // お問い合わせ(/contact)
-	// 説明とフォームが同じページ(/sell /owner)では、右端をそのページのフォームへ向ける(J-120。J-116 の範囲を /sell に広げた)。
-	// 別のフォーム(/contact)へ送ると、査定・管理の相談に来た人が用件の違うフォームに着く
+	// 説明のページ(/sell/about /owner/about)では、右端をそのフォームへ向ける(J-120 → J-155)。
+	// 別のフォーム(/contact)へ送ると、査定・管理の説明を読みに来た人が用件の違うフォームに着く
 	const selfForm = SELF_FORM[pathname];
 	const reserveHref = m ? `/viewing?property=${encodeURIComponent(m[1])}` : (selfForm?.href ?? contact.href);
 	const sold = !!m && soldNos.includes(m[1]);

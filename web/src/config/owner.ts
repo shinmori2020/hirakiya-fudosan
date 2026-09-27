@@ -24,4 +24,4 @@ export const UNITS_MAX = 1000;
 export const OWNER_NOTE_LABEL = 'ご相談の内容';
 
 /** 売却の相談はこちらへ(相談内容から外した分の導線・J-105) */
-export const SELL_LINK = { href: '/sell#form', text: '売却をご検討の方は査定依頼へ' } as const;
+export const SELL_LINK = { href: '/sell#form' } as const;

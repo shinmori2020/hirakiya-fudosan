@@ -46,7 +46,8 @@ export default function OwnerAboutPage() {
 					<div className="mt-4 max-w-[760px]">
 						<h1 className="text-h1 font-bold lg:text-h1-pc">管理について</h1>
 						<p className="mt-4 text-body text-ink lg:text-body-pc">管理サービスの内容と管理料の目安、空室対策をまとめています。</p>
-						<div className="mt-6">
+						{/* 1024 以上は /guide のボタン1つと同じ幅(760 の列に2列のグリッド・1280 で約 376px)。部品は変えず置く側で幅を決める(J-155) */}
+						<div className="mt-6 lg:grid lg:grid-cols-2 lg:gap-2">
 							<Link href={FORM_HREF} className={PRIMARY}>
 								管理を相談する
 							</Link>
@@ -145,7 +146,7 @@ export default function OwnerAboutPage() {
 				<Container>
 					<div className="max-w-[760px]">
 						<p className="text-body text-ink lg:text-body-pc">ご相談は無料です。他社で管理中のご相談も承ります。</p>
-						<div className="mt-4">
+						<div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-2">
 							<Link href={FORM_HREF} className={PRIMARY}>
 								管理を相談する
 							</Link>

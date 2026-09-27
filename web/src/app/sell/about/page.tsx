@@ -49,7 +49,8 @@ export default function SellAboutPage() {
 					<div className="mt-4 max-w-[760px]">
 						<h1 className="text-h1 font-bold lg:text-h1-pc">売却について</h1>
 						<p className="mt-4 text-body text-ink lg:text-body-pc">売却の流れと、当社で売る理由・売却事例をまとめています。</p>
-						<div className="mt-6">
+						{/* 1024 以上は /guide のボタン1つと同じ幅(760 の列に2列のグリッド・1280 で約 376px)。部品は変えず置く側で幅を決める(J-155) */}
+						<div className="mt-6 lg:grid lg:grid-cols-2 lg:gap-2">
 							<Link href={FORM_HREF} className={PRIMARY}>
 								査定を依頼する
 							</Link>
@@ -132,7 +133,7 @@ export default function SellAboutPage() {
 				<Container>
 					<div className="max-w-[760px]">
 						<p className="text-body text-ink lg:text-body-pc">査定は無料です。その後のご依頼は任意です。</p>
-						<div className="mt-4">
+						<div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-2">
 							<Link href={FORM_HREF} className={PRIMARY}>
 								査定を依頼する
 							</Link>
