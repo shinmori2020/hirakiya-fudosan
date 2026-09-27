@@ -14,7 +14,7 @@
   --color-surface: #ffffff;
   --color-surface-alt: #f3f4f5;
   --color-line: #d9dde1;
-  --color-accent: #1f8a8a; /* 検索ボタン・主CTAだけ */
+  --color-accent: #1d8282; /* 検索ボタン・主CTAだけ。J-158 で #1f8a8a から(白文字 4.15:1 → 4.60:1) */
   --color-accent-strong: #176c6c; /* hover / active / 本文リンク */
   --color-badge-new-bg: #e0f2f1;
   --color-badge-new-fg: #176c6c;
