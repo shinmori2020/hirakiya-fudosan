@@ -8,6 +8,7 @@ import { Container } from '@/components/layout/Container';
 import { attrClass } from '@/components/property/AttrLink';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
+import { PRIMARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { isNew } from '@/lib/badges';
 import { dateLabel } from '@/lib/format';
@@ -17,7 +18,8 @@ import { getProperties, getTerms } from '@/lib/properties';
 
 /**
  * トップ(実装順 3・01 §1)。これは初案。
- * 並び(01 §1):FV(キャッチ+検索フォーム)→ 探し方の入口3導線 → 新着 → 強み3点 → 3枚のカード → お客様の声 → お知らせ → 店舗案内。
+ * 並び(03 §7・J-148 → J-156):FV → 導線3枚 → 強み3点 → 売る・貸すのご相談 → 新着 → 探し方から選ぶ → お客様の声 → お知らせ → 店舗案内。
+ * (01 §1 の当初の並びは FV → 探し方の入口3導線 → 新着 → 強み3点 → 3枚のカード → 声 → お知らせ → 店舗)
  * 白と薄灰の帯を交互に(03 §7)。値は config/site.ts と data/ から取り、ベタ書きしない。
  * 新着の抽出と検索 URL の組み立ては lib/home.ts の純関数(J-056・テスト先行)。
  * 入口のリンクは J-051 の listHref を使う(新しい URL の作り方は足さない)。
@@ -122,6 +124,13 @@ export default async function Home() {
 		{ href: '/guide', title: '初めての方へ', text: '部屋探しの流れと、先に決めておくと早いことをまとめています。', photo: '/placeholders/offices/aoto.svg', alt: '', unoptimized: true },
 		{ href: '/sell/about', title: '売却をお考えの方へ', text: '売却の流れと、当社で売る理由・売却事例をまとめています。', photo: '/placeholders/guides/sell.svg', alt: '', unoptimized: true },
 		{ href: '/owner/about', title: 'オーナー様へ', text: '管理サービスの内容と管理料の目安、空室対策をまとめています。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
+	];
+
+	// 売る・貸すのご相談(J-156)。対のパネル2つ。各パネルは 見出し・一言・ボタン だけ(説明は /sell/about・/owner/about に譲る)。
+	// 行き先に #form を付けない(フォームのページはフォームが最初の画面に入り、見出しの近くの押せる文字も見てほしいため)
+	const consults = [
+		{ head: '売りたい方へ', text: '査定は無料です', button: '査定を依頼する', href: '/sell' },
+		{ head: '貸したい方へ', text: '一部だけのご依頼もご相談ください', button: '管理を相談する', href: '/owner' },
 	];
 
 	return (
@@ -236,8 +245,33 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 4 新着物件(成約済みは出さない・公開日順8件)。J-148 で4番目に(FV の小カードと重なるため。J-140 の3を撤回)。id は FV の矢印の行き先(J-142) */}
-			<section id="new" className="scroll-mt-24 py-12 lg:py-16">
+			{/*
+			  4 売る・貸すのご相談(J-156)。強み3点の直後(会社の信頼 → 申し込む の順。導線3枚は読む入口、ここは申し込む入口)。
+			  パネルは 03 §5 のカード(白・灰線・角丸 6・影なし)。1024 以上は左右、〜1023 は上下に積む。
+			  ボタンは青緑(主CTA・読み手が分かれる対のパネルなので1つずつ・03 §2)で、パネルの幅いっぱい。
+			  ボタンをパネルの下端に寄せ(mt-auto)、2つのパネルの高さとボタンの位置を揃える(grid の行で高さが揃う)。
+			*/}
+			<section className="py-12 lg:py-16">
+				<Container>
+					<h2 className="text-h2 font-bold lg:text-h2-pc">売る・貸すのご相談</h2>
+					<ul className="mt-6 grid gap-4 lg:grid-cols-2">
+						{consults.map((c) => (
+							<li key={c.href} className="flex flex-col rounded-hr border border-line bg-surface p-6 lg:p-8">
+								<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">{c.head}</h3>
+								<p className="mt-2 text-body text-ink lg:text-body-pc">{c.text}</p>
+								<div className="mt-auto pt-6">
+									<Link href={c.href} className={PRIMARY}>
+										{c.button}
+									</Link>
+								</div>
+							</li>
+						))}
+					</ul>
+				</Container>
+			</section>
+
+			{/* 5 新着物件(成約済みは出さない・公開日順8件)。J-148 で4番目に(FV の小カードと重なるため。J-140 の3を撤回)→ J-156 で5番目・面は薄灰。id は FV の矢印の行き先だった(J-142) */}
+			<section id="new" className="scroll-mt-24 bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<div className="flex items-baseline justify-between">
 						<h2 className="text-h2 font-bold lg:text-h2-pc">新着物件</h2>
@@ -264,11 +298,11 @@ export default async function Home() {
 			</section>
 
 			{/*
-			  5 探し方の入口(J-141):**左 1/4 に見出し・説明・件数 / 右 3/4 にチップ3グループ**。
+			  6 探し方の入口(J-141)。面は白(J-156 で付け替え):**左 1/4 に見出し・説明・件数 / 右 3/4 にチップ3グループ**。
 			  カードは使わない(上の新着と下の導線3枚がカードなので、3カラムのカードを続けると同じ形が3つ並ぶ・J-058)。
 			  リンク先は J-051 の listHref(新しい URL の作り方は足さない)。〜1023 は縦積み。
 			*/}
-			<section className="bg-surface-alt py-12 lg:py-16">
+			<section className="py-12 lg:py-16">
 				<Container>
 					<div className="lg:grid lg:grid-cols-4 lg:gap-8">
 						<div className="lg:col-span-1">
@@ -311,8 +345,8 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 6 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128) */}
-			<section className="py-12 lg:py-16" aria-labelledby="voice-heading">
+			{/* 7 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128)。面は薄灰(J-156) */}
+			<section className="bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
 				<Container>
 					<VoiceCarousel
 						voices={voices}
@@ -330,8 +364,8 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 7 お知らせ(最新3件・config。実装順 7 の /news と同じ配列) */}
-			<section className="bg-surface-alt py-12 lg:py-16">
+			{/* 8 お知らせ(最新3件・config。実装順 7 の /news と同じ配列)。面は白(J-156) */}
+			<section className="py-12 lg:py-16">
 				<Container>
 					<div className="flex items-baseline justify-between">
 						<h2 className="text-h2 font-bold lg:text-h2-pc">お知らせ</h2>
@@ -360,8 +394,8 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 8 店舗案内(地図は詳細と同じ部品を再利用・OSM) */}
-			<section className="py-12 lg:py-16">
+			{/* 9 店舗案内(地図は詳細と同じ部品を再利用・OSM)。面は薄灰(J-156) */}
+			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">店舗案内</h2>
 					<ul className="mt-6 grid gap-6 lg:grid-cols-2">
