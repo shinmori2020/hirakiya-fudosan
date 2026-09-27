@@ -126,7 +126,7 @@ export default async function Home() {
 		{ href: '/owner/about', title: 'オーナー様へ', text: '管理サービスの内容と管理料の目安、空室対策をまとめています。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
 	];
 
-	// 売る・貸すのご相談(J-156)。対のパネル2つ。各パネルは 見出し・一言・ボタン だけ(説明は /sell/about・/owner/about に譲る)。
+	// 売る・貸すのご相談(J-156 → J-157)。全幅の2分割。各面は 見出し・一言・ボタン だけ(説明は /sell/about・/owner/about に譲る)。
 	// 行き先に #form を付けない(フォームのページはフォームが最初の画面に入り、見出しの近くの押せる文字も見てほしいため)
 	const consults = [
 		{ head: '売りたい方へ', text: '査定は無料です', button: '査定を依頼する', href: '/sell' },
@@ -246,20 +246,28 @@ export default async function Home() {
 			</section>
 
 			{/*
-			  4 売る・貸すのご相談(J-156)。強み3点の直後(会社の信頼 → 申し込む の順。導線3枚は読む入口、ここは申し込む入口)。
-			  パネルは 03 §5 のカード(白・灰線・角丸 6・影なし)。1024 以上は左右、〜1023 は上下に積む。
-			  ボタンは青緑(主CTA・読み手が分かれる対のパネルなので1つずつ・03 §2)で、パネルの幅いっぱい。
-			  ボタンをパネルの下端に寄せ(mt-auto)、2つのパネルの高さとボタンの位置を揃える(grid の行で高さが揃う)。
+			  4 売る・貸すのご相談(J-156 → J-157)。強み3点の直後(会社の信頼 → 申し込む の順。導線3枚は読む入口、ここは申し込む入口)。
+			  全幅を左右に二分割(03 §1・§7)。左 = 墨(注記の帯と同じ)/ 右 = 墨系の1段目。カード(白いパネル)は使わない。
+			   - 1024 以上:左右の面は section に全幅の半分ずつ敷き(aria-hidden の2枚)、中身はコンテナの2列(間 32)に置く。
+			     左の文字はコンテナの左端から、右の文字は中央の少し右から始まり、ほかのセクションの文字の列と揃う
+			   - 〜1023:上下に積む(売る → 貸す)。各 li が自分の面を持ち、コンテナの余白ぶん外へ広げて全幅にする
+			   - ボタンは青緑(03 §2)・高さ 56px。暗い面との差が 3:1 に届かない(墨 3.25 / 1段目 2.56)ので白の細い枠で輪郭を出す。
+			     どちらも部品(PRIMARY)は変えず、置く側([&>a]:…)で決める。幅は文字の列(1280 で約 536px)
+			   - H2 は読み上げだけ(画面には出さない)。面全体は押せない(ボタンを押す形)
 			*/}
-			<section className="py-12 lg:py-16">
-				<Container>
-					<h2 className="text-h2 font-bold lg:text-h2-pc">売る・貸すのご相談</h2>
-					<ul className="mt-6 grid gap-4 lg:grid-cols-2">
-						{consults.map((c) => (
-							<li key={c.href} className="flex flex-col rounded-hr border border-line bg-surface p-6 lg:p-8">
-								<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">{c.head}</h3>
-								<p className="mt-2 text-body text-ink lg:text-body-pc">{c.text}</p>
-								<div className="mt-auto pt-6">
+			<section className="relative" aria-labelledby="consult-heading">
+				<h2 id="consult-heading" className="sr-only">
+					売る・貸すのご相談
+				</h2>
+				<div aria-hidden="true" className="absolute inset-y-0 left-0 hidden w-1/2 bg-sumi lg:block" />
+				<div aria-hidden="true" className="absolute inset-y-0 right-0 hidden w-1/2 bg-sumi-step1 lg:block" />
+				<Container className="relative">
+					<ul className="lg:grid lg:grid-cols-2 lg:gap-8">
+						{consults.map((c, i) => (
+							<li key={c.href} className={`-mx-4 px-4 py-12 lg:mx-0 lg:bg-transparent lg:py-16 lg:pr-14 lg:pl-0 ${i === 0 ? 'bg-sumi' : 'bg-sumi-step1'}`}>
+								<h3 className="text-h3 font-bold text-white lg:text-h3-pc">{c.head}</h3>
+								<p className="mt-2 text-body text-white lg:text-body-pc">{c.text}</p>
+								<div className="mt-6 [&>a]:h-14 [&>a]:border [&>a]:border-white">
 									<Link href={c.href} className={PRIMARY}>
 										{c.button}
 									</Link>
