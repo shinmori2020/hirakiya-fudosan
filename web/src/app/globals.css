@@ -8,7 +8,6 @@
 @theme {
   /* 色(§2) */
   --color-sumi: #2b2f33; /* 主色。見出し・ヘッダー文字・フッター背景 */
-  --color-sumi-step1: #3a3f45; /* 墨系の1段目(03 §2)。トップの売る・貸すのご相談の右の面(J-157) */
   --color-ink: #1f2933; /* 本文 */
   --color-ink-weak: #5f6b75; /* 補足・ラベル */
   --color-surface: #ffffff;

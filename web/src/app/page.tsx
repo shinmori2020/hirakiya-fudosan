@@ -126,11 +126,12 @@ export default async function Home() {
 		{ href: '/owner/about', title: 'オーナー様へ', text: '管理サービスの内容と管理料の目安、空室対策をまとめています。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
 	];
 
-	// 売る・貸すのご相談(J-156 → J-157)。全幅の2分割。各面は 見出し・一言・ボタン だけ(説明は /sell/about・/owner/about に譲る)。
-	// 行き先に #form を付けない(フォームのページはフォームが最初の画面に入り、見出しの近くの押せる文字も見てほしいため)
+	// 売る・貸すのご相談(J-156 → J-157 → J-159)。全幅の2分割で、面は写真(今はプレースホルダー)。各面の中央の白いパネルに 見出し・文・ボタン だけ。
+	// 文は /sell/about・/owner/about の中身から2文ずつ(初案)。行き先に #form を付けない(フォームのページはフォームが最初の画面に入り、見出しの近くの押せる文字も見てほしいため)
+	// 写真:左 = 住宅街か戸建ての外観 / 右 = 集合住宅の外観(未設定。FV のギミック用とは別のものを選ぶ・page-records/トップ.md の写真待ち)
 	const consults = [
-		{ head: '売りたい方へ', text: '査定は無料です', button: '査定を依頼する', href: '/sell' },
-		{ head: '貸したい方へ', text: '一部だけのご依頼もご相談ください', button: '管理を相談する', href: '/owner' },
+		{ head: '売りたい方へ', text: '査定は無料です。売るか貸すか決めていない段階でも、両方の数字を並べてご説明します。', button: '査定を依頼する', href: '/sell', photo: '/placeholders/consult/sell.svg' },
+		{ head: '貸したい方へ', text: '募集から退去までを一社でお受けします。一部だけのご依頼もご相談ください。', button: '管理を相談する', href: '/owner', photo: '/placeholders/consult/owner.svg' },
 	];
 
 	return (
@@ -246,36 +247,35 @@ export default async function Home() {
 			</section>
 
 			{/*
-			  4 売る・貸すのご相談(J-156 → J-157)。強み3点の直後(会社の信頼 → 申し込む の順。導線3枚は読む入口、ここは申し込む入口)。
-			  全幅を左右に二分割(03 §1・§7)。左 = 墨(注記の帯と同じ)/ 右 = 墨系の1段目。カード(白いパネル)は使わない。
-			   - 1024 以上:左右の面は section に全幅の半分ずつ敷き(aria-hidden の2枚)、中身はコンテナの2列(間 32)に置く。
-			     左の文字はコンテナの左端から、右の文字は中央の少し右から始まり、ほかのセクションの文字の列と揃う
-			   - 〜1023:上下に積む(売る → 貸す)。各 li が自分の面を持ち、コンテナの余白ぶん外へ広げて全幅にする
-			   - ボタンは青緑(03 §2)・高さ 56px。暗い面との差が 3:1 に届かない(J-158 の #1D8282 で 墨 2.93 / 1段目 2.31)ので白の細い枠で輪郭を出す。
-			     どちらも部品(PRIMARY)は変えず、置く側([&>a]:…)で決める。幅は文字の列(1280 で約 536px)
+			  4 売る・貸すのご相談(J-156 → J-157 → J-159)。強み3点の直後(会社の信頼 → 申し込む の順。導線3枚は読む入口、ここは申し込む入口)。
+			  全幅を左右に二分割(J-157)。〜1023 は上下に積む。左右それぞれの面を写真にし(今はプレースホルダー・03 §2 の墨系)、膜は掛けない(J-159)。
+			   - 各面の中央に白いパネル(03 §5 のカード:白・角丸 6・影なし・灰線)。それぞれの半分の中で左右・上下とも中央、幅の上限 480px
+			     (灰線は残した:写真が明るい壁や空だと、白いパネルの縁が写真に溶けるため)
+			   - パネルの中は左揃えで 見出し H3・文・ボタン。ボタンは青緑・高さ 56px・幅は文字に合わせる(部品 PRIMARY は変えず、置く側の [&>a]:… で決める)
+			   - J-157 の白の細い枠は外した(白いパネルの上では青緑とパネルの差が 4.6:1 あり、輪郭は見分けられる)
 			   - H2 は読み上げだけ(画面には出さない)。面全体は押せない(ボタンを押す形)
 			*/}
-			<section className="relative" aria-labelledby="consult-heading">
+			<section aria-labelledby="consult-heading">
 				<h2 id="consult-heading" className="sr-only">
 					売る・貸すのご相談
 				</h2>
-				<div aria-hidden="true" className="absolute inset-y-0 left-0 hidden w-1/2 bg-sumi lg:block" />
-				<div aria-hidden="true" className="absolute inset-y-0 right-0 hidden w-1/2 bg-sumi-step1 lg:block" />
-				<Container className="relative">
-					<ul className="lg:grid lg:grid-cols-2 lg:gap-8">
-						{consults.map((c, i) => (
-							<li key={c.href} className={`-mx-4 px-4 py-12 lg:mx-0 lg:bg-transparent lg:py-16 lg:pr-14 lg:pl-0 ${i === 0 ? 'bg-sumi' : 'bg-sumi-step1'}`}>
-								<h3 className="text-h3 font-bold text-white lg:text-h3-pc">{c.head}</h3>
-								<p className="mt-2 text-body text-white lg:text-body-pc">{c.text}</p>
-								<div className="mt-6 [&>a]:h-14 [&>a]:border [&>a]:border-white">
+				<ul className="grid lg:grid-cols-2">
+					{consults.map((c) => (
+						<li key={c.href} className="relative isolate flex items-center justify-center px-4 py-16 lg:px-8 lg:py-20">
+							{/* 写真の面(場所を示す写真・今はプレースホルダー・J-118)。面を示すだけなので alt は空 */}
+							<Image src={c.photo} alt="" fill sizes="(min-width: 64rem) 50vw, 100vw" unoptimized className="-z-10 object-cover" />
+							<div className="w-full max-w-[480px] rounded-hr border border-line bg-surface p-6 lg:p-8">
+								<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">{c.head}</h3>
+								<p className="mt-2 text-body text-ink lg:text-body-pc">{c.text}</p>
+								<div className="mt-6 [&>a]:inline-flex [&>a]:h-14 [&>a]:w-auto [&>a]:px-8">
 									<Link href={c.href} className={PRIMARY}>
 										{c.button}
 									</Link>
 								</div>
-							</li>
-						))}
-					</ul>
-				</Container>
+							</div>
+						</li>
+					))}
+				</ul>
 			</section>
 
 			{/* 5 新着物件(成約済みは出さない・公開日順8件)。J-148 で4番目に(FV の小カードと重なるため。J-140 の3を撤回)→ J-156 で5番目・面は薄灰。id は FV の矢印の行き先だった(J-142) */}
