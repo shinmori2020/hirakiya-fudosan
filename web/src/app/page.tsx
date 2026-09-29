@@ -357,7 +357,7 @@ export default async function Home() {
 			</section>
 
 			{/* 7 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128)。面は薄灰(J-156) */}
-			<section className="bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
+			<section className="overflow-x-clip bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
 				<Container>
 					<VoiceCarousel
 						voices={voices}

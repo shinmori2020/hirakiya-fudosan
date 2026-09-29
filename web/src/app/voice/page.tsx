@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { company, voices } from '@/config/site';
 import { SECONDARY } from '@/components/ui/button-class';
+import { VoiceCard } from '@/components/voice/VoiceCard';
 
 /** 群の順(J-122)。voices の kind と同じ語 */
 const KINDS = ['賃貸', '売買', '管理'] as const;
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 /**
  * お客様の声(実装順 6・01 §16)。トップと同じ config/site.ts の voices を読む(J-056 項目9:別のデータ経路を作らない)。
  * 事例カード:属性 / 探した条件(町・種別)/ コメント。**架空である旨をカードとページの両方に明記**(J-057)。
- * カードの形はトップと同じ(白・灰線・角丸 6)。件数を増やす時は config に足す。
+ * カードの形はトップと同じ(白・灰線・角丸 6)。**中身もトップと同じ `VoiceCard`**(話し手の塊 = 薄灰の丸 + 人型・名前・属性 → 本文・J-162)。
+ * ここでは本文を切らずに全文を出し、「全文を読む」とモーダルは付けない。件数を増やす時は config に足す。
  * 3件を1列に並べるだけだと「どの相談の声か」が読めないので、**賃貸 / 売買 / 管理 で3群に分ける**(J-122)。件数は増やさない。
  */
 export default function VoicePage() {
@@ -37,12 +39,8 @@ export default function VoicePage() {
 					<h2 className="text-h2 font-bold lg:text-h2-pc">{kind}のご相談</h2>
 					<ul className="mt-6 grid max-w-[760px] gap-4">
 						{voices.filter((v) => v.kind === kind).map((v) => (
-							<li key={v.who} className="rounded-hr border border-line bg-surface p-4 lg:p-6">
-								<p className="text-small text-ink-weak lg:text-small-pc">
-									{v.town} / {v.kind} / {v.attr}
-								</p>
-								<p className="mt-2 text-body text-ink lg:text-body-pc">{v.text}</p>
-								<p className="mt-3 text-xs text-ink-weak lg:text-xs-pc">{v.who}(架空)</p>
+							<li key={v.who} className="flex flex-col rounded-hr border border-line bg-surface p-4 lg:p-6">
+								<VoiceCard voice={v} textClassName="text-body lg:text-body-pc" />
 							</li>
 						))}
 					</ul>
