@@ -126,7 +126,7 @@ export default async function Home() {
 		{ href: '/owner/about', title: 'オーナー様へ', text: '管理サービスの内容と管理料の目安、空室対策をまとめています。', photo: '/photos/guide-apartment.jpg', alt: '賃貸の建物の外観(仮の写真)', unoptimized: false },
 	];
 
-	// 売る・貸すのご相談(J-156 → J-157 → J-159 → J-160)。全幅の2分割で、面は写真(今はプレースホルダー)。各面の中央に 見出し・文・ボタン だけを白文字で浮かせる。
+	// 売る・貸すのご相談(J-156 → J-157 → J-159 → J-160 → J-161)。全幅の2分割で、面は写真(今はプレースホルダー)。各面の中央に 見出し・文・ボタン だけを白文字で浮かせる。
 	// 文は /sell/about・/owner/about の中身から2文ずつ(初案)。行き先に #form を付けない(フォームのページはフォームが最初の画面に入り、見出しの近くの押せる文字も見てほしいため)
 	// 写真:左 = 住宅街か戸建ての外観 / 右 = 集合住宅の外観(未設定。FV のギミック用とは別のものを選ぶ・page-records/トップ.md の写真待ち)
 	const consults = [
@@ -250,10 +250,12 @@ export default async function Home() {
 			  4 売る・貸すのご相談(J-156 → J-157 → J-159)。強み3点の直後(会社の信頼 → 申し込む の順。導線3枚は読む入口、ここは申し込む入口)。
 			  全幅を左右に二分割(J-157)。〜1023 は上下に積む。左右それぞれの面を写真にする(今はプレースホルダー・03 §2 の墨系)。
 			   - 膜はプレースホルダーの間は掛けない(J-160。今の面の上では白文字が膜なしで 4.5:1 を超える)。写真に替えたら FV と同じ測り方(J-146)で決める
-			   - 文字の塊は J-159 のパネルの位置と大きさのまま(それぞれの半分の中で左右・上下とも中央・幅の上限 480px)。背景と灰線は J-160 で外した
-			   - 中は左揃えで 見出し H3・文・ボタン。見出しと文は白。文は折り返しを整える(text-pretty + word-break: auto-phrase で、行末に1〜2文字だけの行を作らない)
-			   - ボタンは青緑・高さ 56px・幅は文字に合わせる。白の細い枠(1px)を付ける(暗い面と青緑の差が 3:1 に届かないため・J-157 と同じ理由)。
-			     どちらも部品 PRIMARY は変えず、置く側の [&>a]:… で決める
+			   - 文字の塊は 1024 以上で J-159 のパネルの位置と大きさのまま(それぞれの半分の中で左右・上下とも中央・幅の上限 480px)。背景と灰線は J-160 で外した。
+			     〜1023 は内側の余白を外し、文字の左端をほかのセクションと同じ 16px にする(J-161)
+			   - 中は左揃えで 見出し H3・文・ボタン。見出しの見た目はほかのセクションの H2 と同じ大きさ(J-161)。見出しと文は白。
+			     文は折り返しを整える(text-pretty + word-break: auto-phrase で、行末に1〜2文字だけの行を作らない)
+			   - ボタンは白地 + 青緑の文字・高さ 56px・幅は文字に合わせる。hover は文字を濃い青緑に(J-161。白地なので白い枠は要らない)。
+			     部品 PRIMARY は変えず、置く側の [&>a]:… で地と文字の色を決める(白地の SECONDARY は墨の枠・墨の文字で形が合わない)
 			   - H2 は読み上げだけ(画面には出さない)。面全体は押せない(ボタンを押す形)
 			*/}
 			<section aria-labelledby="consult-heading">
@@ -265,10 +267,10 @@ export default async function Home() {
 						<li key={c.href} className="relative isolate flex items-center justify-center px-4 py-16 lg:px-8 lg:py-20">
 							{/* 写真の面(場所を示す写真・今はプレースホルダー・J-118)。面を示すだけなので alt は空 */}
 							<Image src={c.photo} alt="" fill sizes="(min-width: 64rem) 50vw, 100vw" unoptimized className="-z-10 object-cover" />
-							<div className="w-full max-w-[480px] p-6 lg:p-8">
-								<h3 className="text-h3 font-bold text-white lg:text-h3-pc">{c.head}</h3>
+							<div className="w-full max-w-[480px] lg:p-8">
+								<h3 className="text-h2 font-bold text-white lg:text-h2-pc">{c.head}</h3>
 								<p className="mt-2 text-body text-pretty text-white [word-break:auto-phrase] lg:text-body-pc">{c.text}</p>
-								<div className="mt-6 [&>a]:inline-flex [&>a]:h-14 [&>a]:w-auto [&>a]:border [&>a]:border-white [&>a]:px-8">
+								<div className="mt-6 [&>a]:inline-flex [&>a]:h-14 [&>a]:w-auto [&>a]:bg-surface [&>a]:px-8 [&>a]:text-accent [&>a:hover]:bg-surface [&>a:hover]:text-accent-strong">
 									<Link href={c.href} className={PRIMARY}>
 										{c.button}
 									</Link>
