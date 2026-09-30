@@ -358,21 +358,20 @@ export default async function Home() {
 
 			{/* 7 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128)。面は薄灰(J-156) */}
 			<section className="overflow-x-clip bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
-				<Container>
-					<VoiceCarousel
-						voices={voices}
-						heading={
-							<h2 id="voice-heading" className="text-h2 font-bold lg:text-h2-pc">
-								お客様の声
-							</h2>
-						}
-						extra={
-							<Link href="/voice" className="text-small text-accent-strong underline">
-								すべて見る
-							</Link>
-						}
-					/>
-				</Container>
+				{/* 見出しの列はコンテナの中、カードの列は画面の端から端まで(J-163)。コンテナは VoiceCarousel の中で見出しの列だけに掛ける */}
+				<VoiceCarousel
+					voices={voices}
+					heading={
+						<h2 id="voice-heading" className="text-h2 font-bold lg:text-h2-pc">
+							お客様の声
+						</h2>
+					}
+					extra={
+						<Link href="/voice" className="text-small text-accent-strong underline">
+							すべて見る
+						</Link>
+					}
+				/>
 			</section>
 
 			{/* 8 お知らせ(最新3件・config。実装順 7 の /news と同じ配列)。面は白(J-156) */}

@@ -259,6 +259,41 @@ dialog.hr-dialog::backdrop {
 }
 
 /*
+ * お客様の声のカルーセル(J-163・03 §6)。左右とも画面の端まで伸ばし、今のカード(--i 番目)を画面の中央に置く。
+ * 外枠(.hr-voice-loop)を幅のコンテナにして、カードの枠の幅(--w)と位置を 100cqw(画面の幅)から決める。
+ * サーバーの HTML の時点で位置が決まるので、読み込んだ後に動かない。カードの幅と間隔は J-162 のまま:
+ *   〜767:カード = コンテナの中身(100cqw − 32)の 85%・間 12 / 768〜1023:(中身 + 12)÷ 2・間 12 /
+ *   1024〜:(中身〔min(100cqw, 1280) − 64〕+ 16)÷ 3・間 16
+ */
+.hr-voice-loop {
+  container-type: inline-size;
+}
+.hr-voice-loop__track {
+  --w: calc((100cqw - 32px) * 0.85 + 12px);
+  display: flex;
+  transform: translateX(calc(50cqw - (var(--i) + 0.5) * var(--w)));
+  touch-action: pan-y;
+}
+.hr-voice-loop__track > li {
+  flex: none;
+  width: var(--w);
+  padding-inline: 6px;
+}
+@media (min-width: 48rem) {
+  .hr-voice-loop__track {
+    --w: calc((100cqw - 32px + 12px) / 2);
+  }
+}
+@media (min-width: 64rem) {
+  .hr-voice-loop__track {
+    --w: calc((min(100cqw, 1280px) - 64px + 16px) / 3);
+  }
+  .hr-voice-loop__track > li {
+    padding-inline: 8px;
+  }
+}
+
+/*
  * ギャラリーの送り(J-049・PC のみ)。次へ = 新しい画像が右から入り、今の画像は左へ抜ける。
  * 前へ = その逆。200ms・cubic-bezier(0.4, 0, 0.2, 1)(03 §8 の開閉と同じ値)。
  * 端も同じ向きのまま巡回させるので、画像の複製は持たない。
