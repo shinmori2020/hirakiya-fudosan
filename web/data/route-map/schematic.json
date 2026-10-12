@@ -1,0 +1,31 @@
+{
+  "viewBox": [660, 560],
+  "style": "schematic",
+  "types": [
+    { "id": "rental", "label": "賃貸" },
+    { "id": "sale", "label": "売買" }
+  ],
+  "lines": [
+    { "id": "keisei-main", "name": "京成本線", "color": "#1f5fae", "tag": [590, 300], "path": [[-10, 240], "horikiri-shobuen", "ohanajaya", "aoto", [480, 240], [500, 240], "keisei-koiwa", [560, 300], [670, 300]] },
+    { "id": "keisei-oshiage", "name": "京成押上線", "color": "#3f8fd2", "tag": [225, 415], "path": ["oshiage", [225, 415], "keisei-tateishi", "aoto"] },
+    { "id": "keisei-kanamachi", "name": "京成金町線", "color": "#7ab3e0", "tag": [480, 160], "path": [[480, 240], "kanamachi"] },
+    { "id": "jr-joban", "name": "JR常磐線", "color": "#2f9e6e", "tag": [580, 80], "path": [[-10, 80], "kitasenju", "ayase", "kameari", "kanamachi", [670, 80]] },
+    { "id": "jr-sobu", "name": "JR総武線", "color": "#d9a400", "tag": [580, 448], "path": [[190, 568], "hirai", [310, 448], "shinkoiwa", [670, 448]] },
+    { "id": "tobu-skytree", "name": "東武スカイツリーライン", "color": "#d96a2b", "tag": [130, 340], "path": ["oshiage", "hikifune", [130, 240], "kitasenju", [130, -10]] }
+  ],
+  "stations": [
+    { "id": "kitasenju", "name": "北千住", "x": 130, "y": 80, "label": [-17, -13, "end"] },
+    { "id": "ayase", "name": "綾瀬", "x": 240, "y": 80, "label": [0, -20, "up"] },
+    { "id": "kameari", "name": "亀有", "x": 360, "y": 80, "label": [0, -21, "up"] },
+    { "id": "kanamachi", "name": "金町", "x": 480, "y": 80, "label": [0, -20, "up"] },
+    { "id": "horikiri-shobuen", "name": "堀切菖蒲園", "x": 220, "y": 240, "label": [0, -19, "up"] },
+    { "id": "ohanajaya", "name": "お花茶屋", "x": 310, "y": 240, "label": [0, -20, "up"] },
+    { "id": "aoto", "name": "青砥", "x": 400, "y": 240, "label": [0, -23, "up"], "shop": "本店", "note": "青砥本店まで徒歩3分" },
+    { "id": "keisei-koiwa", "name": "京成小岩", "x": 540, "y": 280, "label": [16, -10, "start"] },
+    { "id": "keisei-tateishi", "name": "京成立石", "x": 320, "y": 320, "label": [16, 20, "start"], "shop": "支店", "note": "立石支店まで徒歩2分" },
+    { "id": "hikifune", "name": "曳舟", "x": 130, "y": 440, "label": [-22, 5, "end"] },
+    { "id": "oshiage", "name": "押上", "x": 130, "y": 510, "label": [-22, 5, "end"] },
+    { "id": "hirai", "name": "平井", "x": 250, "y": 508, "label": [16, 18, "start"] },
+    { "id": "shinkoiwa", "name": "新小岩", "x": 420, "y": 448, "label": [0, 34, "down"] }
+  ]
+}

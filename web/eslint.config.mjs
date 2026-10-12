@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // 外から持ち込んで書き換えない JS(出所と SHA-256 は docs/assets.md)。直さないものは検査しない
+    "public/vendor/**",
   ]),
 ]);
 

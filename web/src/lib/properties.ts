@@ -11,6 +11,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { REST_BASE, toDetail, toSummary, toTerms } from '@/lib/wp-map.mjs';
 import { withComputedCollections } from '@/lib/collections';
+import { checkStations, routeItems, type RouteItem, type RouteMapData } from '@/lib/route-map';
 import type { ExportMeta, PropertyDetail, PropertySummary, TaxonomyName, Term } from '@/types/property';
 
 const USE_STATIC = process.env.DATA_SOURCE === 'static';
@@ -82,6 +83,19 @@ export async function getProperty(no: string): Promise<PropertyDetail | null> {
 export async function getTerms(tax: TaxonomyName): Promise<Term[]> {
 	if (USE_STATIC) return (await readJson<Term[]>(`taxonomies/${tax}.json`)) ?? [];
 	return toTerms(await wpFetchAll(REST_BASE[tax]));
+}
+
+/**
+ * 路線図ヒーローに渡すもの(路線図のデータ + 物件ごとの種類と駅)。
+ * 路線図のデータは WP ではなく web/data/route-map/schematic.json(static / api のどちらでもファイルを読む)。
+ * 路線図の駅がサイトの駅(02 §8 の13駅)とずれていたら、ビルドを止める(lib/route-map.ts checkStations)。
+ */
+export async function getRouteMap(): Promise<{ data: RouteMapData; items: RouteItem[] }> {
+	const [data, all, stations] = await Promise.all([readJson<RouteMapData>('route-map/schematic.json'), getProperties(), getTerms('station')]);
+	if (!data) throw new Error('[route-map] web/data/route-map/schematic.json を読めませんでした');
+	const problems = checkStations(data, stations);
+	if (problems.length) throw new Error(`[route-map] 路線図の駅がサイトの駅と合いません:\n${problems.join('\n')}`);
+	return { data, items: routeItems(all) };
 }
 
 /** export の情報(static のみ。api 時は null) */

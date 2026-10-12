@@ -51,6 +51,16 @@
 
 すべて墨系5段階(`#3A3F45` 〜 `#9AA3AB`・03 §2)で、画像の中に「架空・プレースホルダー」と書いてある。
 
+## web/public/vendor/(外から持ち込んだ JS・2026-10-13 置いた)
+
+**書き換えない**(直す時は出所の側で直した版を、版の番号の入った別のフォルダに置く)。読み込みは **`web/src/lib/vendor-script.ts` を必ず通す**(ページや部品が自分で `<script>` を書かない。置き場所と版はこの関数の1か所。1回だけ読み、読めない・版が違う・時間切れ〔8秒〕なら「無い」として、その部品を出さない)。lint の対象から外している(`web/eslint.config.mjs`)。
+
+| ファイル | 使用箇所 | 版 | 出所 | 作者・ライセンス | SHA-256 | 容量 |
+|---|---|---|---|---|---|---|
+| `vendor/route-hero/2.0.0/route-hero.js` | 路線図ヒーロー(`components/search/RouteMap.tsx`)。**置き場所は未決で、まだどのページにも置いていない** | 2.0.0 | `_kits/route-hero-kit/route-hero.js`(SHIN が別の場所で作らせた部品・10/13 受け取り。`_kits/` はコミットしない控え) | **未確認**(README・HANDOFF に記載なし。SHIN に確認中) | `a9f2bed6948af999fa6a857ecdfc4564bf19aff24caa71c4769e0a587ad5918a`(`_kits` 側と一致) | 33,717 B |
+
+**路線図のデータ** `web/data/route-map/schematic.json`(駅13・沿線6・件数なし)も同じ出所(`_kits/route-hero-kit/data/schematic.json`・SHA-256 `ecea454699c0b3e41c674594c423cadad26d4242bb77528120d4de11aa7e5ae3`・2,535 B・`_kits` 側と一致)。vendor ではなく web/data に置いたのは、店舗の札と「徒歩3分 / 2分」の文が会社の値で、CLAUDE.md の「会社の値は site.ts と web/data 以外に書かない」に当たるため。ビルドの時に `lib/properties.ts` の `getRouteMap()` が読み、**駅がサイトの駅(02 §8 の13駅)とずれていたらビルドを止める**(`lib/route-map.ts` の `checkStations`)。駅の並びを確かめた資料は `_kits/route-hero-kit/data/SOURCES.md`(docs への移し先は未決)。
+
 ## 画像生成ツール
 
 **使っていない**(記録シート §4 のガバナンス「画像生成ツールと商用利用可否:不使用」)。
