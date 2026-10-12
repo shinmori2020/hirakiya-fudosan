@@ -254,7 +254,7 @@ export default async function Home() {
 			     〜1023 は内側の余白を外し、文字の左端をほかのセクションと同じ 16px にする(J-161)
 			   - 中は左揃えで 見出し H3・文・ボタン。見出しの見た目はほかのセクションの H2 と同じ大きさ(J-161)。見出しと文は白。
 			     文は折り返しを整える(text-pretty + word-break: auto-phrase で、行末に1〜2文字だけの行を作らない)
-			   - ボタンは白地 + 青緑の文字・高さ 56px・幅は文字に合わせる。hover は文字を濃い青緑に(J-161。白地なので白い枠は要らない)。
+			   - ボタンは白地 + 墨の文字・高さ 56px・幅は文字に合わせる。hover は地を薄灰に(白地の SECONDARY と同じ・文字は墨のまま)。白地なので白い枠は要らない(J-161)
 			     部品 PRIMARY は変えず、置く側の [&>a]:… で地と文字の色を決める(白地の SECONDARY は墨の枠・墨の文字で形が合わない)
 			   - H2 は読み上げだけ(画面には出さない)。面全体は押せない(ボタンを押す形)
 			*/}
@@ -270,7 +270,7 @@ export default async function Home() {
 							<div className="w-full max-w-[480px] lg:p-8">
 								<h3 className="text-h2 font-bold text-white lg:text-h2-pc">{c.head}</h3>
 								<p className="mt-2 text-body text-pretty text-white [word-break:auto-phrase] lg:text-body-pc">{c.text}</p>
-								<div className="mt-6 [&>a]:inline-flex [&>a]:h-14 [&>a]:w-auto [&>a]:bg-surface [&>a]:px-8 [&>a]:text-accent [&>a:hover]:bg-surface [&>a:hover]:text-accent-strong">
+								<div className="mt-6 [&>a]:inline-flex [&>a]:h-14 [&>a]:w-auto [&>a]:bg-surface [&>a]:px-8 [&>a]:text-sumi [&>a:hover]:bg-surface-alt [&>a:hover]:text-sumi">
 									<Link href={c.href} className={PRIMARY}>
 										{c.button}
 									</Link>
