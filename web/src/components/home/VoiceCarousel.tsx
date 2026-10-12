@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
+import { Fragment, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
 import type { Voice } from '@/config/site';
 import { Container } from '@/components/layout/Container';
 import { VoiceCard, VoiceSpeaker } from '@/components/voice/VoiceCard';
@@ -159,8 +159,10 @@ export function VoiceCarousel({ voices, heading, extra }: { voices: readonly Voi
 			}}
 		>
 			<Container>
+				{/* heading はトップ(サーバー側)で作った見出し。兄弟と並べるので key を付けた Fragment で包む
+				    (包まないと、開発時に React が「key の無い配列の子」として警告を出す。extra〔Link〕では出ない・J-165) */}
 				<div className="flex items-center justify-between gap-4">
-					{heading}
+					<Fragment key="heading">{heading}</Fragment>
 					<div className="flex items-center gap-3">
 						{extra}
 						<div className="flex gap-2">
