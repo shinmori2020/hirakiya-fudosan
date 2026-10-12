@@ -8,6 +8,9 @@ wp/uploads/*
 # WordPress 本体が themes に置く既定テーマ(自作テーマだけを追跡する)
 wp/themes/twenty*
 
+# 別の場所で作らせた部品の控え(読むだけ・コミットしない)。組み込んだものは web/public/vendor/ と web/data/ に置き、出所は docs/assets.md
+_kits/
+
 # Claude Code
 CLAUDE.local.md
 .claude/settings.local.json
