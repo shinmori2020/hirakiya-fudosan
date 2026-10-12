@@ -9,7 +9,7 @@
  *  └ meta.json                  取得日時・件数・WordPress のバージョン
  *  public/wp-uploads/placeholders/*.svg
  *
- * 使い方:  pnpm run export-wp   (Docker の WordPress が起動していること)
+ * 使い方:  npm run export-wp   (Docker の WordPress が起動していること)
  * 本番(Vercel)は DATA_SOURCE=static でこれらの JSON だけを読む。Vercel は WP に到達しない。
  */
 

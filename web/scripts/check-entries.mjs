@@ -12,7 +12,7 @@
  *     (パスとクエリに同じ条件を二重に持つと、/area/aoto?area=tateishi のような矛盾した URL を作れてしまう)
  *
  * 使い方(3001 で本番相当を起動してから。手順は .claude/rules/verification.md §1):
- *   DATA_SOURCE=static pnpm build && DATA_SOURCE=static pnpm start -p 3001
+ *   DATA_SOURCE=static npm run build && DATA_SOURCE=static npm run start -- -p 3001
  *   node scripts/check-entries.mjs [http://localhost:3001]
  *
  * 実装順 6・7 でページが増えたら ENTRIES に足す。終了コードは 要確認があれば 1。

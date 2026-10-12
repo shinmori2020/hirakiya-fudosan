@@ -1,7 +1,7 @@
 ---
-description: Docker の WordPress から物件データを JSON に書き出し(pnpm run export-wp)、差分を確認してコミットする。docker compose up -d の後に呼ぶ。
+description: Docker の WordPress から物件データを JSON に書き出し(npm run export-wp)、差分を確認してコミットする。docker compose up -d の後に呼ぶ。
 disable-model-invocation: true
-allowed-tools: Bash(docker compose ps) Bash(pnpm run export-wp) Bash(git status *) Bash(git diff *) Bash(git add web/data *) Bash(git add web/public/wp-uploads *) Bash(git commit -m *) Read
+allowed-tools: Bash(docker compose ps) Bash(npm run export-wp) Bash(git status *) Bash(git diff *) Bash(git add web/data *) Bash(git add web/public/wp-uploads *) Bash(git commit -m *) Read
 ---
 
 # /export-wp — Docker の WP → web/data/*.json → コミット
@@ -13,7 +13,7 @@ WordPress は手元の Docker でしか動かない。Vercel はこの JSON だ�
 1. **Docker の起動確認**
    `docker compose ps` で `hr-wp` が running か見る。止まっていれば「`docker compose up -d` を実行してから再実行」と伝えて止まる。次に `web/.env.local` の `WORDPRESS_API_URL`(既定 `http://localhost:8080/wp-json`)に到達できるか確認する。404 ならパーマリンクが「基本」に戻っている。推測で進めない
 2. **書き出し**
-   `web/` で `pnpm run export-wp` を実行する(= `node scripts/export-wp-data.mjs`。Nordic Works から流用)。出力先:
+   `web/` で `npm run export-wp` を実行する(pnpm は手元で動かない・J-166)(= `node scripts/export-wp-data.mjs`。Nordic Works から流用)。出力先:
    - `web/data/properties/index.json`(一覧用サブセット)
    - `web/data/properties/HR-R-0001.json` …(1物件1ファイル)
    - `web/data/taxonomies/{area,line,station,feature_tag,collection,status}.json`

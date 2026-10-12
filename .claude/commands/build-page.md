@@ -2,7 +2,7 @@
 description: docs/04-実装順.md の1段(または1ページ)を初案として実装し、before スクショと判断ポイントを出して止まる。コミットはしない。引数は実装順の番号か対象名(例: 1, "物件一覧", "2 物件詳細")。
 argument-hint: "[実装順の番号 | ページ名]"
 disable-model-invocation: true
-allowed-tools: Read Grep Glob Edit Write Bash(pnpm *) Bash(git status *) Bash(git diff *)
+allowed-tools: Read Grep Glob Edit Write Bash(npm run *) Bash(npm test) Bash(npx --no -- tsc *) Bash(git status *) Bash(git diff *)
 ---
 
 # /build-page $ARGUMENTS
@@ -20,8 +20,8 @@ allowed-tools: Read Grep Glob Edit Write Bash(pnpm *) Bash(git status *) Bash(gi
    - `web/src/types/property.ts` `web/src/lib/properties.ts` `web/src/config/site.ts`(値はここから取る。ベタ書きしない)
 2. **冒頭に「これは初案」と書く。** 03 から外れる値(色・サイズ・余白)は使わない。必要なら「03 に無いので仮に X」と明示する
 3. **スマホ 390px を先に実装し、PC 1280px に展開する**。実データで確認:長い物件名 / 写真0枚(HR-R-0004 等)/ 成約済み / 6枚
-4. `pnpm exec tsc --noEmit` と `pnpm lint` を通す。`DATA_SOURCE=static pnpm build` で対象ルートが Static であることを確認
-5. **before スクショ**:`pnpm dev` を起動し、Playwright(入っていれば)で 390×844 と 1280×800 を `docs/screenshots/<順>-<ページ>-before-390.png` / `-before-1280.png` に保存。Playwright が無ければ SHIN に撮影を依頼する(採番後に `J-NNN-before.png` へ改名)
+4. `npx --no -- tsc --noEmit` と `npm run lint` を通す。`DATA_SOURCE=static npm run build` で対象ルートが Static であることを確認
+5. **before スクショ**:`npm run dev` を起動し、Playwright(入っていれば)で 390×844 と 1280×800 を `docs/screenshots/<順>-<ページ>-before-390.png` / `-before-1280.png` に保存。Playwright が無ければ SHIN に撮影を依頼する(採番後に `J-NNN-before.png` へ改名)
 6. **報告(この形式で。長くしない)**
    ```
    【初案】<ページ> / 実装順 <N>

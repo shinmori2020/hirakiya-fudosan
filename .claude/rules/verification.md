@@ -12,8 +12,8 @@ paths:
 
 ```bash
 cd web
-DATA_SOURCE=static pnpm build            # 変更を反映してから撮る(dev の HMR では本番と差が出る)
-DATA_SOURCE=static pnpm start -p 3001 &  # 3000 は SHIN の dev サーバー。起動も停止もしない(F-006)
+DATA_SOURCE=static npm run build         # 変更を反映してから撮る(dev の HMR では本番と差が出る。pnpm は手元で動かない・J-166)
+DATA_SOURCE=static npm run start -- -p 3001 &  # 3000 は SHIN の dev サーバー。起動も停止もしない(F-006)
 # 起動待ちは curl のループで。sleep で決め打ちしない
 for i in $(seq 1 40); do curl -s -o /dev/null -w '%{http_code}' http://localhost:3001/properties/HR-R-0001 | grep -q 200 && break; sleep 1; done
 ```
@@ -22,7 +22,7 @@ for i in $(seq 1 40); do curl -s -o /dev/null -w '%{http_code}' http://localhost
 
 **確認用の送信は実際にメールが飛ぶ**。`.env.local` に本物のキーが入っている間、3001 でフォームを完了画面まで進めると `CONTACT_EMAIL_TO` 宛に本物のメールが届く(09/17 の測定で複数通)。**送信を抑止するフラグは作らない**(本番に残る危険があるため。F-011 と同じ型)。通し確認の回数を必要な分だけにし、繰り返す時は確認画面で止める。
 
-**pnpm・git などのコマンドは実行ディレクトリを確認してから実行する。失敗したコマンドの再試行では特に確認する**(F-010:再試行をルートで実行し、ルートに package.json を作った)。
+**npm・git などのコマンドは実行ディレクトリを確認してから実行する。失敗したコマンドの再試行では特に確認する**(F-010:再試行をルートで実行し、ルートに package.json を作った)。
 
 終わったら **3001 の LISTENING だけを落とす**。ポート番号を確認せずに `taskkill /IM node.exe` のような一括停止をしない。
 

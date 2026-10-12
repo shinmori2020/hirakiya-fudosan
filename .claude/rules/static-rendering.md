@@ -29,7 +29,7 @@ paths:
 
 ## 3. ビルド時に確認すること
 
-- `pnpm build` の出力で各ルートが **Static / SSG** になっているか(Dynamic が1つでもあれば原因を特定する)
+- `npm run build`(J-166 までは `pnpm build`)の出力で各ルートが **Static / SSG** になっているか(Dynamic が1つでもあれば原因を特定する)
 - `NEXT_PUBLIC_SITE_URL` が本番 URL になっているか(sitemap・canonical・OGP)
 - `web/data/meta.json` の件数・取得日時がコミット済みか
 - Lighthouse を公開前後で計測し、レポート本体を `docs/metrics/YYYY-MM-DD-*.json` に置く(数字だけでは自己申告になる)

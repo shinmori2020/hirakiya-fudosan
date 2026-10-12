@@ -583,4 +583,4 @@ foreach ( $plan as $i => [ $type, $kind ] ) {
 }
 
 hr_log( sprintf( '== 完了: 作成 %d / スキップ %d(既存)%s', $created, $skipped, $only_comments ? sprintf( ' / コメント更新 %d', $updated_cnt ) : '' ) );
-hr_log( '次: web/ で pnpm run export-wp(または /export-wp)' );
+hr_log( '次: web/ で npm run export-wp(または /export-wp)' );

@@ -6,7 +6,7 @@
  *
  * 使い方(確認用サーバー 3001 を起動してから。.claude/rules/verification.md §1):
  *   cd web
- *   DATA_SOURCE=static pnpm build && DATA_SOURCE=static pnpm start -p 3001 &
+ *   DATA_SOURCE=static npm run build && DATA_SOURCE=static npm run start -- -p 3001 &
  *   node scripts/check-fields.mjs                 # 全60件
  *   node scripts/check-fields.mjs HR-R-0001       # 1件だけ
  *   node scripts/check-fields.mjs --all           # 「表示あり」の行も含めて全部出す

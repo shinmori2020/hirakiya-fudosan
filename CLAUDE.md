@@ -16,7 +16,7 @@
 
 ## 技術スタック
 
-- **フロント**:Next.js 16.3(App Router・Turbopack(Next 16 の既定))/ React 19.2 / TypeScript strict / Tailwind 4 / pnpm 12 / Node 24
+- **フロント**:Next.js 16.3(App Router・Turbopack(Next 16 の既定))/ React 19.2 / TypeScript strict / Tailwind 4 / pnpm 12(手元の Windows では pnpm が動かないので、日々のコマンドは `npm run …`。下の「pnpm が動かない時」・J-166)/ Node 24
 - **CMS**:WordPress(Docker compose でローカル運用のみ。`compose.yaml` = WordPress 6 + MySQL 8.4 + phpMyAdmin)+ 自作プラグイン `hr-core`(CPT / タクソノミー / ACF 無料版)
 - **データ経路**:WP REST → `scripts/export-wp-data.mjs` → `web/data/*.json` + `web/public/wp-uploads/` → `DATA_SOURCE=static` でビルド(Nordic Works から流用)
 - **地図**:Leaflet / MapLibre + OpenStreetMap(Google Maps は使わない)
@@ -44,22 +44,23 @@ docker compose up -d                      # http://localhost:8080 / phpMyAdmin :
 docker compose stop                       # 停止(データは残る)
 docker compose exec -u www-data wordpress php wp-content/plugins/hr-core/scripts/seed-properties.php   # 物件60件を投入(冪等・--reset で入れ直し)
 
-# web/ で(Next.js)
-pnpm install
-pnpm dev                                  # http://localhost:3000(DATA_SOURCE=api で Docker の WP を読む)
-pnpm run export-wp                        # WP REST → web/data/*.json + 画像 DL(Docker 起動中のみ)
-DATA_SOURCE=static pnpm build && pnpm start   # 本番相当。Vercel はこの形でビルドする
-DATA_SOURCE=static pnpm start -p 3001         # 確認用(AI のスクショ等)は -p 3001。3000 は SHIN の dev サーバーなので起動・停止しない
-pnpm lint
-pnpm test                                 # web/src/lib/**/*.test.ts(Vitest・純関数のユニットテスト)
-pnpm exec playwright test                 # web/e2e(フォーム3本・検索 URL 同期)
+# web/ で(Next.js)。pnpm は手元で動かないので npm run で実行する(J-166)
+# 依存の追加・更新(pnpm install / add)は今はできない。npm install は使わない(pnpm のロックファイルとずれる)。必要になったら SHIN に相談
+npm run dev                               # http://localhost:3000(DATA_SOURCE=api で Docker の WP を読む)
+npm run export-wp                         # WP REST → web/data/*.json + 画像 DL(Docker 起動中のみ)
+DATA_SOURCE=static npm run build && npm run start   # 本番相当。Vercel は pnpm でこの形にビルドする
+DATA_SOURCE=static npm run start -- -p 3001         # 確認用(AI のスクショ等)は -p 3001。3000 は SHIN の dev サーバーなので起動・停止しない
+npm run lint
+npx --no -- tsc --noEmit                  # 型チェック。`--` を省くと --noEmit が npm の設定として読まれる
+npm test                                  # web/src/lib/**/*.test.ts(Vitest・純関数のユニットテスト)
+npx --no -- playwright test               # web/e2e(フォーム3本・検索 URL 同期)。Playwright は web にまだ入っていない
 ```
 
 `/export-wp` で「Docker 起動確認 → export → 差分確認 → コミット」を一括で行う。
 
 ```bash
 # web/ で(見た目の確認・実測)
-DATA_SOURCE=static pnpm build && DATA_SOURCE=static pnpm start -p 3001   # 3001 で本番相当を起動
+DATA_SOURCE=static npm run build && DATA_SOURCE=static npm run start -- -p 3001   # 3001 で本番相当を起動
 node scripts/measure.mjs properties/HR-R-0001 1280 768 390               # ラベル幅・下端・折り返し・アイコンのずれ・当たり判定
 ```
 
@@ -74,6 +75,8 @@ node scripts/measure.mjs properties/HR-R-0001 1280 768 390               # ラ�
 | `NEXT_PUBLIC_SITE_URL` | 公開 URL。sitemap・canonical・OGP に使う |
 | `RESEND_API_KEY` / `CONTACT_EMAIL_FROM` / `CONTACT_EMAIL_TO` | フォーム送信(3本共通・宛先は SHIN のみ) |
 | `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | スパム対策(採用時) |
+
+**pnpm が動かない時(J-166)**:手元の Windows では **Smart App Control が `pnpm.exe` を止める**(pnpm 12 は npm で入れても中身は署名の無い単体の実行ファイルで、Smart App Control にはアプリごとに許可する仕組みが無い。Code Integrity のログに「Smart App Control Block Details」が出る)。**Smart App Control は切らない**。`npm run …` は署名された node の上で package.json の scripts を動かすだけなので止まらない(scripts の中に pnpm を呼ぶものは無い・10/13 に確認)。**できないのは依存の追加・更新だけ**。`npm install` は使わない(`pnpm-lock.yaml` とずれる)。追加が必要になったら、JS 版の pnpm 10 に下げる案(`packageManager` の書き換えが要る)を SHIN と相談する。Vercel・CI は Linux なので pnpm のまま
 
 Norton 環境では `npm` / `pnpm` の HTTPS 検証が失敗する。`$env:NODE_OPTIONS="--use-system-ca"` を付けるか、Norton で `npmjs.org` を除外。PowerShell の `curl` は別名なので `curl.exe` を使う。
 
@@ -177,7 +180,7 @@ chore: update WP data export
 
 ## トラブルシューティング
 
-- **`pnpm run export-wp` が失敗する** → `docker compose ps` で hr-wp が running か、`WORDPRESS_API_URL` が `http://localhost:8080/wp-json` か、`/wp-json` が 404 ならパーマリンクが「基本」のままでないか確認
+- **`npm run export-wp` が失敗する** → `docker compose ps` で hr-wp が running か、`WORDPRESS_API_URL` が `http://localhost:8080/wp-json` か、`/wp-json` が 404 ならパーマリンクが「基本」のままでないか確認
 - **WordPress の更新** → 管理画面から更新するとコンテナ再作成で消える。上げるなら `compose.yaml` の `image:` を変える
 - **Vercel で物件が出ない** → `DATA_SOURCE=static` になっているか、`web/data/` がコミットされているか
 - **ページが動的レンダリングになる** → `cookies()` / `headers()` / `searchParams` を Server Component で読んでいないか。`.claude/rules/static-rendering.md`
