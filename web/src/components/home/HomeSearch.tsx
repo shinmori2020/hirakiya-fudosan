@@ -12,6 +12,7 @@ import type { PropertyType } from '@/types/property';
  * トップの検索フォーム(01 §1-1・実装順 3・J-056)。これは初案。
  * 賃貸 = エリア / 駅 / 家賃上限 / 間取り の4項目。スマホ(〜767)は間取りを出さず3項目(J-056)。
  * 並びは PC でも**1列の縦積み**(J-134 で2列 → J-135 で1列。FV の右 30% に置くため)。
+ * 置き場所は J-151 で FV の下の帯 → **J-168 でトップの「探し方から選ぶ」の「条件から探す」**(page.tsx)。中身は変えていない。
  * 売買 = エリア / 価格上限 / 種目 の3項目。
  * 賃貸・売買はタブで切り替え、送信先はどちらも /properties。
  * 素の <form method="get" action="/properties"> なので JavaScript 無しでも動く。
@@ -118,7 +119,8 @@ export function HomeSearch({
 	}
 
 	return (
-		<div className="rounded-hr border border-line bg-surface p-4 lg:p-6">
+		// 白い枠と内側の余白は持たない(J-168。FV の帯から「探し方から選ぶ」の「条件から探す」へ移した。このセクションはカードを使わない・J-141)
+		<div>
 			{/* 賃貸・売買のタブ(01 §1 の判断ポイント。別フォームにせず1つのフォームを切り替える)。一覧と同じ2つ(J-152 で売る・貸すを外した) */}
 			<div role="tablist" aria-label="物件の種別" className="flex gap-2">
 				{(['rental', 'sale'] as const).map((t) => (

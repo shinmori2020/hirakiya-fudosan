@@ -139,14 +139,13 @@ export default async function Home() {
 	return (
 		<>
 			{/*
-			  1 ファーストビュー(J-151 → J-167)。上 = 路線図ヒーロー / 下 = 操作する帯(白のカード・賃貸 / 売買のタブ + 検索)。03 §7 v1.31。
-			   - 上(J-167):1024 以上は 左 = キャッチ2段 + 補足 + 路線図のパネル / 右 = 路線図(5 : 7)、〜1023 は縦に積む。
+			  1 ファーストビュー(J-151 → J-167 → J-168)。**路線図ヒーローだけ**(J-168 で下の操作する帯を外し、「探し方から選ぶ」の「条件から探す」へ移した)。03 §7 v1.32。
+			   - 1024 以上は 左 = キャッチ2段 + 補足 + 路線図のパネル / 右 = 路線図(5 : 7)。〜1023 は キャッチ → 路線図 → パネル(J-168。見た目だけ CSS で入れ替え)。
 			     部品は components/search/RouteMap.tsx(route-hero.js 2.0.0 を包むだけ)。データは getRouteMap()(駅がサイトの13駅とずれたらビルドを止める)
 			   - 写真・膜・文字影・写真のズーム・膜の揺らぎは J-167 でやめた(J-150・J-146・J-153・J-142 の2つ・J-135 の文字影)
 			   - 面は薄灰(次の導線3枚が白・その次の強み3点が薄灰で交互を保つ)。路線図の地は白(.hr-route-map--on-alt)。文字は墨
-			   - 帯は路線図の下に続ける。J-151 の「写真に 80px 跨がせる」はやめた(跨がせると路線図の下の駅が隠れる)
-			   - 青緑は 帯の検索ボタン・路線図の検索ボタン・路線図で選んでいる駅と路線(§2・§6 のチップ)。路線図のタブは墨(globals.css で合わせた)
-			   - 出現の動きはキャッチ(260ms)→ 200ms 後に帯(§8 の FV の例外のまま)。路線図には付けない
+			   - 青緑は 路線図の検索ボタン・路線図で選んでいる駅と路線(§2・§6 のチップ)。路線図のタブは墨(globals.css で合わせた)
+			   - 出現の動きはキャッチ(260ms・J-135)だけ。J-168 で帯が無くなったので「出現の順序」は外した。路線図には付けない
 			*/}
 			<section className="bg-surface-alt pt-8 pb-12 lg:pt-12 lg:pb-16">
 				<Container>
@@ -170,10 +169,6 @@ export default async function Home() {
 							</>
 						}
 					/>
-					{/* 操作する帯(J-151 → J-152)。J-167 で路線図の下に続ける形に(跨がせない) */}
-					<div className="mt-6 animate-fv-in-late motion-reduce:animate-none lg:mt-8">
-						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
-					</div>
 				</Container>
 			</section>
 
@@ -285,7 +280,8 @@ export default async function Home() {
 			</section>
 
 			{/*
-			  6 探し方の入口(J-141)。面は白(J-156 で付け替え):**左 1/4 に見出し・説明・件数 / 右 3/4 にチップ3グループ**。
+			  6 探し方の入口(J-141 → J-168)。面は白(J-156 で付け替え):**左 1/4 に見出し・説明・件数 / 右 3/4 に「条件から探す」+ チップ3グループ**。
+			  「条件から探す」は J-168 で FV の帯から移した検索フォーム(中身は FV の時のまま・白い枠と内側の余白は外した)。
 			  カードは使わない(上の新着と下の導線3枚がカードなので、3カラムのカードを続けると同じ形が3つ並ぶ・J-058)。
 			  リンク先は J-051 の listHref(新しい URL の作り方は足さない)。〜1023 は縦積み。
 			*/}
@@ -306,6 +302,12 @@ export default async function Home() {
 							</p>
 						</div>
 						<div className="mt-8 space-y-6 lg:col-span-3 lg:mt-0">
+							<section>
+								<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">条件から探す</h3>
+								<div className="mt-3">
+									<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
+								</div>
+							</section>
 							{[
 								{ title: 'エリアから探す', href: '/area', items: areas.flatMap((w) => w.towns).map((t) => ({ key: t.slug, name: t.name, href: listHref('rental', { area: t.slug }) })) },
 								{ title: '沿線・駅から探す', href: '/line', items: LINES.map((l) => ({ key: l.slug, name: l.name, href: listHref('rental', { line: l.slug }) })) },
