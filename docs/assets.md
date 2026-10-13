@@ -16,7 +16,7 @@
 
 | ファイル | 使用箇所 | 元の題名 | 撮影者 | ライセンス | 出所 | 現在の寸法 / 容量 |
 |---|---|---|---|---|---|---|
-| `fv-town.jpg` | トップ FV の背景(**明るいリビング**。J-150 で生活の場面として範囲に入れた) | EVjqpcn79AM | Spacejoy | Unsplash License | [Unsplash](https://unsplash.com/photos/EVjqpcn79AM) | 1920×1080 / 197KB |
+| `fv-town.jpg` | **使っていない**(J-167 でトップの FV を路線図ヒーローに替えたため。ファイルは残している)。それまでは トップ FV の背景(**明るいリビング**。J-150 で生活の場面として範囲に入れた) | EVjqpcn79AM | Spacejoy | Unsplash License | [Unsplash](https://unsplash.com/photos/EVjqpcn79AM) | 1920×1080 / 197KB |
 | `guide-apartment.jpg` | トップ 導線カード「オーナー様へ」(賃貸の建物の外観) | Residential building in Ebisu.jpg | Syced | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Residential_building_in_Ebisu.jpg) | 800×602 / 87KB |
 
 **FV の写真の差し替え ②(2026-09-21・街区 → 生活の場面)**:`fv-town.jpg` の中身を **Spacejoy のリビング(Unsplash)** に入れ替えた。**外した理由**:街区の俯瞰(Tokyo, Japan / Matt Milton)は**都会の雑然とした感じが出ており**、探しているのが「住む場所」だと伝わらない。**明るい生活の場面**(窓から自然光・白と木・人と商品名が写らない)に替えた。ファイル名は `fv-town.jpg` のまま(参照箇所を増やさないため。中身は街ではなくなっている)。

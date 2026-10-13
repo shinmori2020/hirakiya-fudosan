@@ -27,6 +27,8 @@ declare global {
 				items?: readonly RouteItem[];
 				searchUrl?: string;
 				layout?: 'split' | 'stack' | 'none';
+				/** パネルを別の場所に置く時の空の要素。渡すと mount した要素には路線図だけが入る(並べ方はサイトが決める) */
+				panel?: HTMLElement;
 				label?: string;
 			},
 		): RouteHeroInstance | null;

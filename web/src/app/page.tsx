@@ -8,13 +8,14 @@ import { Container } from '@/components/layout/Container';
 import { attrClass } from '@/components/property/AttrLink';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
+import { RouteMap } from '@/components/search/RouteMap';
 import { PRIMARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { isNew } from '@/lib/badges';
 import { dateLabel } from '@/lib/format';
 import { listHref } from '@/lib/links';
 import { latestProperties } from '@/lib/home';
-import { getProperties, getTerms } from '@/lib/properties';
+import { getProperties, getRouteMap, getTerms } from '@/lib/properties';
 
 /**
  * トップ(実装順 3・01 §1)。これは初案。
@@ -36,12 +37,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-	const [all, areaTerms, stationTerms, collectionTerms, kindTerms] = await Promise.all([
+	const [all, areaTerms, stationTerms, collectionTerms, kindTerms, routeMap] = await Promise.all([
 		getProperties(),
 		getTerms('area'),
 		getTerms('station'),
 		getTerms('collection'),
 		getTerms('property_kind'),
+		getRouteMap(),
 	]);
 	const now = new Date();
 	// 2段目の入れ替え候補(J-144)。{n} は新着の件数(03 §2 の新着 = 公開14日以内・成約済みを除く)、{offices} は店舗名
@@ -137,69 +139,43 @@ export default async function Home() {
 	return (
 		<>
 			{/*
-			  1 ファーストビュー(J-151 で上下に分けた)。上 = 見せる面(写真 + 膜 + キャッチ2段 + 補足。検索は置かない)、
-			  下 = 操作する帯(白のカード・賃貸 / 売買のタブ + 検索。売る・貸すは J-152 で外した)。03 §7 v1.18。
-			   - 文字は白・補足は白 90%。帯は白のまま(入力欄を墨地に置かない)
-			   - 青緑は帯の検索ボタンだけ(§2)
-			   - 写真は §1 のとおり場所・生活の場面を示すもの(J-150)
-			  最上部の架空注記バー(墨)とは**白いヘッダーが間に入る**ので、面は繋がらない。
+			  1 ファーストビュー(J-151 → J-167)。上 = 路線図ヒーロー / 下 = 操作する帯(白のカード・賃貸 / 売買のタブ + 検索)。03 §7 v1.31。
+			   - 上(J-167):1024 以上は 左 = キャッチ2段 + 補足 + 路線図のパネル / 右 = 路線図(5 : 7)、〜1023 は縦に積む。
+			     部品は components/search/RouteMap.tsx(route-hero.js 2.0.0 を包むだけ)。データは getRouteMap()(駅がサイトの13駅とずれたらビルドを止める)
+			   - 写真・膜・文字影・写真のズーム・膜の揺らぎは J-167 でやめた(J-150・J-146・J-153・J-142 の2つ・J-135 の文字影)
+			   - 面は薄灰(次の導線3枚が白・その次の強み3点が薄灰で交互を保つ)。路線図の地は白(.hr-route-map--on-alt)。文字は墨
+			   - 帯は路線図の下に続ける。J-151 の「写真に 80px 跨がせる」はやめた(跨がせると路線図の下の駅が隠れる)
+			   - 青緑は 帯の検索ボタン・路線図の検索ボタン・路線図で選んでいる駅と路線(§2・§6 のチップ)。路線図のタブは墨(globals.css で合わせた)
+			   - 出現の動きはキャッチ(260ms)→ 200ms 後に帯(§8 の FV の例外のまま)。路線図には付けない
 			*/}
-			{/*
-			  写真の面の高さ(J-151 → J-153):〜1023 は内容+上下 48。1024 以上は**画面の高さに合わせる**(帯の下端が画面の下端から 16px 上)。
-			  式は clamp(512px, 100svh − 213px, 880px)。中身は上下中央。帯が下端に 80px 重なる。
-			   - 213 = 写真の面の上端 103(架空注記バー + ヘッダー)+ 帯の高さ 174 − 重なり 80 + 16。ヘッダーか帯の高さが変わったら直す
-			   - 下限 512:1280×700 で検索ボタンの下端が画面の下端から 16px 以上内側に入る高さ(J-151)
-			   - 上限 880:上限が無いと 2560×1440 で写真の面が 1227px になり、キャッチの上に 552px 空いた(試作4)
-			*/}
-			<section className="relative isolate overflow-hidden bg-sumi pt-12 pb-12 lg:flex lg:min-h-[clamp(512px,calc(100svh-213px),880px)] lg:flex-col lg:justify-center lg:py-16">
-				{/* 背景の写真(場所を示す写真・フリー素材・J-131。出所は docs/assets.md)。LCP なので priority */}
-				<Image src="/photos/fv-town.jpg" alt="" fill priority sizes="100vw" className="-z-10 animate-fv-zoom object-cover object-center motion-reduce:animate-none" />
-				{/*
-				  墨の膜(03 §2・J-133 → J-135 → J-146 → J-153)。**濃さに勾配を付け、位置がゆっくり動く**(§8「FV の動き」)。
-				  動く面:左上 62% → 右下 74%(J-153。高さを画面に合わせてキャッチが写真の明るい所に下がり、55→70% では 1280 で 4.20・1920 で 4.07 だった)。
-				  〜1023 は 60% → 70%(J-146 のまま。390 は写真の明るい壁が文字の下に来るため)。色は墨のまま。
-				  外の箱が FV の大きさ、中の面が 200%×200% で、中の面を translate で往復させる(JS なし)。
-				  1024 以上は外の箱にマスク(J-153):左 0〜50% はそのまま、右端へ向かって薄く(右端 約 25%)。キャッチは左側にあるので濃さを保ち、
-				  文字の無い右側で写真を明るく見せる。膜は1枚のまま(マスクは膜の形を決めるもの)。〜1023 はマスクなし。
-				  最も薄い瞬間でも見出しの下地の平均で 4.5:1 以上(§2・J-146 / J-153 で実測)。文字影は残す。
-				*/}
-				<div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden lg:[mask-image:linear-gradient(to_right,#000_0%,#000_50%,rgba(0,0,0,0.355)_100%)]">
-					<div
-						data-veil
-						className="absolute top-0 left-0 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 animate-fv-veil bg-[linear-gradient(135deg,rgba(43,47,51,0.6)_0%,rgba(43,47,51,0.7)_100%)] motion-reduce:animate-none lg:bg-[linear-gradient(135deg,rgba(43,47,51,0.62)_0%,rgba(43,47,51,0.74)_100%)]"
+			<section className="bg-surface-alt pt-8 pb-12 lg:pt-12 lg:pb-16">
+				<Container>
+					<RouteMap
+						data={routeMap.data}
+						items={routeMap.items}
+						className="hr-route-map--on-alt"
+						lead={
+							<>
+								{/* キャッチ2段(J-135 → J-140)。読み込み時に1回だけ出現効果(§8)。文字影は J-167 で外した(墨の文字を薄灰に置くため)。
+								    左の列が狭くなり「…くださ / い」と1文字の行ができたので、折り返しを整える(J-161 の文と同じ text-pretty + auto-phrase)。
+								    2段目は入れ替わる文で1行と2行が混ざるので、2行分の高さを取っておく(入れ替わるたびに下のパネルが動かないように) */}
+								<div className="animate-fv-in motion-reduce:animate-none">
+									{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
+									<h1 className="text-h1 font-bold text-pretty [word-break:auto-phrase] lg:text-h1-pc">{company.tagline}</h1>
+									{/* 2段目は10秒ごとに入れ替わる(03 §8「FV の動き」・J-144)。初期 HTML は1本目 */}
+									<FvCopy items={taglineSubs} className="mt-2 min-h-[2lh] text-h1 font-bold text-pretty text-sumi [word-break:auto-phrase] lg:text-h1-pc" />
+								</div>
+								{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
+								<p className="mt-3 text-small text-ink-weak">{wardLabelFv}で賃貸 売買 賃貸管理</p>
+							</>
+						}
 					/>
-				</div>
-				<Container>
-					{/* 左右2列(J-134 → J-135)は J-151 で撤回。検索は下の帯へ。架空である旨は最上部のバーが担う(J-134) */}
-					<div>
-						<div className="min-w-0">
-							{/*
-							  キャッチ2段(J-135)。膜が 30% と薄いので**墨の影**で読ませ、読み込み時に1回だけ出現効果を付ける。
-							  どちらも**1段目・2段目だけ**(03 §7・§8・J-136)。補足と副ボタンには付けない。prefers-reduced-motion では止める。
-							*/}
-							<div className="animate-fv-in motion-reduce:animate-none">
-								{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
-								<h1 className="text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc">{company.tagline}</h1>
-								{/* 2段目は10秒ごとに入れ替わる(03 §8「FV の動き」・J-144)。初期 HTML は1本目 */}
-								<FvCopy items={taglineSubs} className="mt-2 text-h1 font-bold text-white [text-shadow:0_2px_8px_rgba(43,47,51,0.6)] lg:text-h1-pc" />
-							</div>
-							{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
-							<p className="mt-3 text-small text-white/90">{wardLabelFv}で賃貸 売買 賃貸管理</p>
-							{/* 副ボタン「初めての方へ」は J-148 で外した(導線3枚が FV の直下に来て、行き先が同じになるため) */}
-							{/* 新着の小カードの行(J-147)は J-149 で外した。FV に詰め込みすぎて窮屈に見えたため。新着は下のセクション(大カード8枚)が担う */}
-						</div>
-					</div>
-				</Container>
-			</section>
-
-			{/* 操作する帯(J-151)。1024 以上は FV の下端に跨がせる(写真に 80px 重ね、残りは下へ)。〜1023 は FV のすぐ下 */}
-			<div className="relative z-10 mt-4 lg:-mt-20">
-				<Container>
-					<div className="animate-fv-in-late motion-reduce:animate-none">
+					{/* 操作する帯(J-151 → J-152)。J-167 で路線図の下に続ける形に(跨がせない) */}
+					<div className="mt-6 animate-fv-in-late motion-reduce:animate-none lg:mt-8">
 						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
 					</div>
 				</Container>
-			</div>
+			</section>
 
 			{/* 2 初めての方へ / 売却 / オーナー様 の3枚。J-148 で FV の直後に(売却・オーナーの入口を2画面目に上げる) */}
 			<section className="py-12 lg:py-16">
