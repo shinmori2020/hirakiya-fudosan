@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { onceLoader } from '@/lib/vendor-script';
+import { onceLoader, versionMatches } from '@/lib/vendor-script';
 
 /** 読み込みの代わり。resolve / reject を外から呼べる */
 function deferred() {
@@ -86,5 +86,22 @@ describe('vendor-script.ts onceLoader', () => {
 		d.resolve();
 		await expect(p).resolves.toBeNull();
 		await expect(get()).resolves.toBeNull();
+	});
+});
+
+describe('vendor-script.ts versionMatches', () => {
+	it('assets.md vendor 置いた版と同じ文字列なら true(three.js の REVISION "147")', () => {
+		expect(versionMatches('147', '147')).toBe(true);
+	});
+
+	it('assets.md vendor 版が違えば false(三つ目の数字が違う 1.0.1 も別の版)', () => {
+		expect(versionMatches('148', '147')).toBe(false);
+		expect(versionMatches('1.0.1', '1.0.0')).toBe(false);
+	});
+
+	it('assets.md vendor 版が無い・文字列でない時は false(数字の 147 も同じとみなさない)', () => {
+		expect(versionMatches(undefined, '147')).toBe(false);
+		expect(versionMatches(147, '147')).toBe(false);
+		expect(versionMatches('', '147')).toBe(false);
 	});
 });

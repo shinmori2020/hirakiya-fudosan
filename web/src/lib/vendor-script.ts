@@ -11,6 +11,13 @@
 
 /** 路線図ヒーロー(route-hero.js)。_kits/route-hero-kit から書き換えずに置いた。出所と SHA-256 は docs/assets.md */
 const ROUTE_HERO = { version: '2.0.0', src: '/vendor/route-hero/2.0.0/route-hero.js' } as const;
+/**
+ * three.js 0.147.0 の global build(window.THREE)。npm からは入れず、three@0.147.0 の build/three.min.js と LICENSE を置いた(J-171)。
+ * トップ(FV の背景の街)で読む。後で物件詳細(間取りの 3D)でも読む予定。**three.js を読むのはここだけ**
+ */
+const THREE_LIB = { revision: '147', src: '/vendor/three/0.147.0/three.min.js' } as const;
+/** FV の背景の街(block-town.js)。three.js の後に読む。_kits/block-town-kit から書き換えずに置いた(J-171) */
+const BLOCK_TOWN = { version: '1.0.0', src: '/vendor/block-town/1.0.0/block-town.js' } as const;
 
 /** 読み込みを待つ上限。超えたら「無い」として扱う */
 export const LOAD_TIMEOUT_MS = 8000;
@@ -45,6 +52,11 @@ export function onceLoader<T>(load: () => Promise<void>, pick: () => T | null, t
 	};
 }
 
+/** 版の確かめ:読み込んだものの版(文字列)が、置いた版と同じか */
+export function versionMatches(actual: unknown, expected: string): boolean {
+	return typeof actual === 'string' && actual === expected;
+}
+
 /** <script> を1つ足して、読み終わったら解決する(失敗したら reject) */
 function appendScript(src: string): Promise<void> {
 	return new Promise((resolve, reject) => {
@@ -59,7 +71,7 @@ function appendScript(src: string): Promise<void> {
 
 const routeHeroLoader = onceLoader(
 	() => appendScript(ROUTE_HERO.src),
-	() => (window.RouteHero?.version === ROUTE_HERO.version ? window.RouteHero : null),
+	() => (versionMatches(window.RouteHero?.version, ROUTE_HERO.version) ? (window.RouteHero ?? null) : null),
 	LOAD_TIMEOUT_MS,
 );
 
@@ -67,4 +79,33 @@ const routeHeroLoader = onceLoader(
 export function loadRouteHero(): Promise<RouteHeroApi | null> {
 	if (typeof window === 'undefined') return Promise.resolve(null);
 	return routeHeroLoader();
+}
+
+const threeLoader = onceLoader(
+	() => appendScript(THREE_LIB.src),
+	() => (versionMatches(window.THREE?.REVISION, THREE_LIB.revision) ? (window.THREE ?? null) : null),
+	LOAD_TIMEOUT_MS,
+);
+
+/** three.js 0.147.0 を読み込んで THREE を返す。読めない・版が違う(REVISION が "147" でない)・時間切れ・サーバー側は null */
+export function loadThree(): Promise<ThreeGlobal | null> {
+	if (typeof window === 'undefined') return Promise.resolve(null);
+	return threeLoader();
+}
+
+const blockTownLoader = onceLoader(
+	async () => {
+		// three.js が無いと描けないので、先に three.js を読む(読めなければ街も読まない)
+		if (!(await loadThree())) throw new Error('three.js を読めませんでした');
+		await appendScript(BLOCK_TOWN.src);
+	},
+	() => (versionMatches(window.BlockTown?.version, BLOCK_TOWN.version) ? (window.BlockTown ?? null) : null),
+	// three.js の読み込み(最大 8秒)を含むので、上限は2倍にする
+	LOAD_TIMEOUT_MS * 2,
+);
+
+/** FV の背景の街(block-town.js 1.0.0)を読み込んで BlockTown を返す。three.js が読めない時も null */
+export function loadBlockTown(): Promise<BlockTownApi | null> {
+	if (typeof window === 'undefined') return Promise.resolve(null);
+	return blockTownLoader();
 }

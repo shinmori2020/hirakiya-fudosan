@@ -51,13 +51,18 @@
 
 すべて墨系5段階(`#3A3F45` 〜 `#9AA3AB`・03 §2)で、画像の中に「架空・プレースホルダー」と書いてある。
 
-## web/public/vendor/(外から持ち込んだ JS・2026-10-13 置いた)
+## web/public/vendor/(外から持ち込んだ JS・2026-10-13 から置いた)
 
 **書き換えない**(直す時は出所の側で直した版を、版の番号の入った別のフォルダに置く)。読み込みは **`web/src/lib/vendor-script.ts` を必ず通す**(ページや部品が自分で `<script>` を書かない。置き場所と版はこの関数の1か所。1回だけ読み、読めない・版が違う・時間切れ〔8秒〕なら「無い」として、その部品を出さない)。lint の対象から外している(`web/eslint.config.mjs`)。
 
 | ファイル | 使用箇所 | 版 | 出所 | 作者・ライセンス | SHA-256 | 容量 |
 |---|---|---|---|---|---|---|
-| `vendor/route-hero/2.0.0/route-hero.js` | 路線図ヒーロー(`components/search/RouteMap.tsx`)。**置き場所は未決で、まだどのページにも置いていない** | 2.0.0 | `_kits/route-hero-kit/route-hero.js`(SHIN が別の場所で作らせた部品・10/13 受け取り。`_kits/` はコミットしない控え) | **未確認**(README・HANDOFF に記載なし。SHIN に確認中) | `a9f2bed6948af999fa6a857ecdfc4564bf19aff24caa71c4769e0a587ad5918a`(`_kits` 側と一致) | 33,717 B |
+| `vendor/route-hero/2.0.0/route-hero.js` | 路線図ヒーロー(`components/search/RouteMap.tsx`)。トップの FV(J-167) | 2.0.0 | `_kits/route-hero-kit/route-hero.js`(SHIN が別の場所で作らせた部品・10/13 受け取り。`_kits/` はコミットしない控え) | **このプロジェクト用に作成・第三者のコードなし**(別のチャットの Claude が作った・SHIN の確認 10/14) | `a9f2bed6948af999fa6a857ecdfc4564bf19aff24caa71c4769e0a587ad5918a`(`_kits` 側と一致) | 33,717 B |
+| `vendor/three/0.147.0/three.min.js` | トップの FV の背景の街(`components/home/FvTown.tsx` が `block-town.js` の前に読む・J-171)。後で物件詳細(間取りの 3D)でも読む予定 | 0.147.0(global build・REVISION "147") | npm の three@0.147.0 の `build/three.min.js` そのまま(`_kits/block-town-kit/vendor/three/0.147.0/` で受け取り、jsDelivr の `https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js` と SHA-256 が同じことを 10/14 に確かめた)。**npm からは入れていない** | three.js authors・**MIT**(同じフォルダの `LICENSE`) | `f34446bf875b5fb0dcd93819ffe1d9e182d46634ee855f5d904c6c4ac7cdbc95` | 607,784 B |
+| `vendor/three/0.147.0/LICENSE` | three.min.js のライセンス(MIT・Copyright © 2010-2022 three.js authors) | — | 同上(jsDelivr の `three@0.147.0/LICENSE` と同じ) | — | `fbf3943930dacbf56aabb8dc5d816440bd16aa6f4cc78ddbdf12106ee1807832` | 1,081 B |
+| `vendor/block-town/1.0.0/block-town.js` | トップの FV の背景の街(`components/home/FvTown.tsx`・J-171) | 1.0.0 | `_kits/block-town-kit/block-town.js`(10/14 受け取り。`_kits/` はコミットしない控え) | **このプロジェクト用に作成・第三者のコードなし**(別のチャットの Claude が作った・SHIN の確認 10/14)。three.js を使う | `9267bbf6e1caad1e53d17b85bed3091ea1e2503f0c6793603521e3d12de3205b`(`_kits` 側と一致) | 20,750 B |
+
+**three.js を読むページ(J-171)**:**トップ(FV の背景の街)**。以前の計画(間取りビューアの組み込みの計画・チャットの中だけ)では「物件詳細のページだけで読む」としていたが、J-171 でトップでも読む形に変えた。読み込みは `loadThree()` 1か所から、**最初の表示の後**(requestIdleCallback)に行う(トップの LCP は前と比べて伸びていない・記録シート J-171)。物件詳細で読むかは、間取りビューアを組み込む時に決める。
 
 **路線図のデータ** `web/data/route-map/schematic.json`(駅13・沿線6・件数なし)も同じ出所(`_kits/route-hero-kit/data/schematic.json`・SHA-256 `ecea454699c0b3e41c674594c423cadad26d4242bb77528120d4de11aa7e5ae3`・2,535 B・`_kits` 側と一致)。vendor ではなく web/data に置いたのは、店舗の札と「徒歩3分 / 2分」の文が会社の値で、CLAUDE.md の「会社の値は site.ts と web/data 以外に書かない」に当たるため。ビルドの時に `lib/properties.ts` の `getRouteMap()` が読み、**駅がサイトの駅(02 §8 の13駅)とずれていたらビルドを止める**(`lib/route-map.ts` の `checkStations`)。駅の並びを確かめた資料は **02 §8-5** に移した(受け取った `_kits/route-hero-kit/data/SOURCES.md` の中身)。
 
