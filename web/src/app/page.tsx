@@ -19,7 +19,7 @@ import { getProperties, getRouteMap, getTerms } from '@/lib/properties';
 
 /**
  * トップ(実装順 3・01 §1)。これは初案。
- * 並び(03 §7・J-148 → J-156):FV → 導線3枚 → 強み3点 → 売る・貸すのご相談 → 新着 → 探し方から選ぶ → お客様の声 → お知らせ → 店舗案内。
+ * 並び(03 §7・J-148 → J-156 → J-169):FV → 導線3枚 → 強み3点 → 売る・貸すのご相談 → 新着 → 条件から探す → 探し方から選ぶ → お客様の声 → お知らせ → 店舗案内。
  * (01 §1 の当初の並びは FV → 探し方の入口3導線 → 新着 → 強み3点 → 3枚のカード → 声 → お知らせ → 店舗)
  * 白と薄灰の帯を交互に(03 §7)。値は config/site.ts と data/ から取り、ベタ書きしない。
  * 新着の抽出と検索 URL の組み立ては lib/home.ts の純関数(J-056・テスト先行)。
@@ -280,12 +280,28 @@ export default async function Home() {
 			</section>
 
 			{/*
-			  6 探し方の入口(J-141 → J-168)。面は白(J-156 で付け替え):**左 1/4 に見出し・説明・件数 / 右 3/4 に「条件から探す」+ チップ3グループ**。
-			  「条件から探す」は J-168 で FV の帯から移した検索フォーム(中身は FV の時のまま・白い枠と内側の余白は外した)。
+			  6 条件から探す(J-168 → J-169)。新着物件の後・探し方から選ぶの前の独立したセクション。面は白。
+			  中身は元の FV の帯の検索フォーム(J-151 → J-152・件数つきのボタン J-145)。白い枠と内側の余白は付けない(J-168)。
+			  FV の直後には置かない(FV の路線図の検索と上下に並び、J-168 で外した形に戻るため)
+			*/}
+			<section className="py-12 lg:py-16" aria-labelledby="condition-heading">
+				<Container>
+					<h2 id="condition-heading" className="text-h2 font-bold lg:text-h2-pc">
+						条件から探す
+					</h2>
+					<div className="mt-6">
+						<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
+					</div>
+				</Container>
+			</section>
+
+			{/*
+			  7 探し方の入口(J-141 → J-169)。面は薄灰(J-169 で白から入れ替え):**左 1/4 に見出し・説明・件数 / 右 3/4 にチップ3グループ**。
+			  J-168 で先頭に入れた「条件から探す」は J-169 で 6 の独立したセクションに出した。
 			  カードは使わない(上の新着と下の導線3枚がカードなので、3カラムのカードを続けると同じ形が3つ並ぶ・J-058)。
 			  リンク先は J-051 の listHref(新しい URL の作り方は足さない)。〜1023 は縦積み。
 			*/}
-			<section className="py-12 lg:py-16">
+			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<div className="lg:grid lg:grid-cols-4 lg:gap-8">
 						<div className="lg:col-span-1">
@@ -302,12 +318,6 @@ export default async function Home() {
 							</p>
 						</div>
 						<div className="mt-8 space-y-6 lg:col-span-3 lg:mt-0">
-							<section>
-								<h3 className="text-h3 font-bold text-sumi lg:text-h3-pc">条件から探す</h3>
-								<div className="mt-3">
-									<HomeSearch areas={areas} stationGroups={stationGroups} kinds={kinds} all={all} nowIso={now.toISOString()} />
-								</div>
-							</section>
 							{[
 								{ title: 'エリアから探す', href: '/area', items: areas.flatMap((w) => w.towns).map((t) => ({ key: t.slug, name: t.name, href: listHref('rental', { area: t.slug }) })) },
 								{ title: '沿線・駅から探す', href: '/line', items: LINES.map((l) => ({ key: l.slug, name: l.name, href: listHref('rental', { line: l.slug }) })) },
@@ -334,8 +344,8 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 7 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128)。面は薄灰(J-156) */}
-			<section className="overflow-x-clip bg-surface-alt py-12 lg:py-16" aria-labelledby="voice-heading">
+			{/* 8 お客様の声(架空・config。/voice と同じ配列)。6件をカルーセルで1件ずつ送る(J-128)。面は白(J-156 の薄灰を J-169 で入れ替え) */}
+			<section className="overflow-x-clip py-12 lg:py-16" aria-labelledby="voice-heading">
 				{/* 見出しの列はコンテナの中、カードの列は画面の端から端まで(J-163)。コンテナは VoiceCarousel の中で見出しの列だけに掛ける */}
 				<VoiceCarousel
 					voices={voices}
@@ -352,8 +362,8 @@ export default async function Home() {
 				/>
 			</section>
 
-			{/* 8 お知らせ(最新3件・config。実装順 7 の /news と同じ配列)。面は白(J-156) */}
-			<section className="py-12 lg:py-16">
+			{/* 9 お知らせ(最新3件・config。実装順 7 の /news と同じ配列)。面は薄灰(J-156 の白を J-169 で入れ替え) */}
+			<section className="bg-surface-alt py-12 lg:py-16">
 				<Container>
 					<div className="flex items-baseline justify-between">
 						<h2 className="text-h2 font-bold lg:text-h2-pc">お知らせ</h2>
@@ -382,8 +392,8 @@ export default async function Home() {
 				</Container>
 			</section>
 
-			{/* 9 店舗案内(地図は詳細と同じ部品を再利用・OSM)。面は薄灰(J-156) */}
-			<section className="bg-surface-alt py-12 lg:py-16">
+			{/* 10 店舗案内(地図は詳細と同じ部品を再利用・OSM)。面は白(J-156 の薄灰を J-169 で入れ替え) */}
+			<section className="py-12 lg:py-16">
 				<Container>
 					<h2 className="text-h2 font-bold lg:text-h2-pc">店舗案内</h2>
 					<ul className="mt-6 grid gap-6 lg:grid-cols-2">
