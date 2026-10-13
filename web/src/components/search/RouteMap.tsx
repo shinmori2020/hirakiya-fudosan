@@ -13,7 +13,7 @@ import { loadRouteHero } from '@/lib/vendor-script';
  *  - 件数は items(物件ごとの種類と駅)から本体が重ならずに数える。データは getRouteMap()(サーバー側・ビルドの時)
  *  - 検索ボタンは普通のリンク。押した時の rh:go を止めて router.push に渡し、ページを読み込み直さずに一覧へ移る
  *    (Ctrl・⌘ などを押しながらのクリックは、本体が rh:go を出さずリンクのまま開く)
- *  - **lead を渡すと2列**(トップの FV・J-167):1024 以上は 左 = lead + パネル / 右 = 路線図(5 : 7・間 32)、〜1023 は lead → 路線図 → パネル(J-168)。
+ *  - **lead を渡すと2列**(トップの FV・J-167 → J-172):1024 以上は 左 = lead + パネル / 右 = 路線図(左 minmax(0, 1fr) : 右 min(58%, 820px)・間 32。路線図の白いカードは最大 820px)、〜1023 は lead → 路線図 → パネル(J-168)。
  *    パネルは本体の panel オプションで左の列の空の div に入れる。lead はサーバーで作った要素なので、兄弟と並べず
  *    それだけを包む div に入れる(兄弟と並べると開発時に key の警告が出る・J-165)
  *  - **左の列(lead + パネル)は1つの要素**(data-rm="column"・J-171)。トップの FV の背景の街が、これを quiet の1つ目(カメラの揺れの軸)に使う。
@@ -74,7 +74,7 @@ export function RouteMap({
 	}
 	return (
 		<div
-			className={`hr-route-map grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-x-8 ${className}`}
+			className={`hr-route-map grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_min(58%,820px)] lg:items-center lg:gap-x-8 ${className}`}
 		>
 			{/*
 			  HTML の順は lead → パネル → 路線図(読み上げと Tab の順。1024 以上の見た目と同じ)。
@@ -85,8 +85,9 @@ export function RouteMap({
 			<div data-rm="lead" className="min-w-0">{lead}</div>
 			{/* パネルと路線図は JS で後から描くので、描く前から場所を取っておく(取らないと、描いた瞬間に下の中身が
 			    1280 で 約 586px 下へずれた・J-167)。パネルの高さは幅で変わるので、測った値の最小の高さ(10/13・3001):
-			    〜413 は 347 / 414〜767 は 301〜259 / 768〜1023 は 261〜218(768 に合わせて 261)/ 1024 以上は 303。広い側で少し空きが出るのは、ずれより小さい害として受ける */}
-			<div data-rm="panel" className="min-h-[347px] min-w-0 max-lg:order-3 sm:min-h-[259px] md:min-h-[261px] lg:mt-6 lg:min-h-[303px]">
+			    〜413 は 347 / 414〜767 は 301〜259 / 768〜1023 は 261〜218(768 に合わせて 261)/ 1024 以上は 303。
+			    J-172 で左の列が 1fr になって狭まり、1024〜1099 は 345・1100〜1366 は 303・1440 以上は 261(10/14・3001)なので、1024〜 345 / 1280〜 303 / 1536〜 261 にした。広い側で少し空きが出るのは、ずれより小さい害として受ける */}
+			<div data-rm="panel" className="min-h-[347px] min-w-0 max-lg:order-3 sm:min-h-[259px] md:min-h-[261px] lg:mt-6 lg:min-h-[345px] xl:min-h-[303px] 2xl:min-h-[261px]">
 				<div ref={panelRef} />
 			</div>
 			</div>

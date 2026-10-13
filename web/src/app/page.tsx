@@ -152,7 +152,8 @@ export default async function Home() {
 			*/}
 			{/* 下の余白はスマホでも 64(止めるボタン 40 + 下 16 が、パネルの検索ボタンに重ならないように) */}
 			<section className="hr-fv relative isolate overflow-hidden bg-surface-alt pt-8 pb-16 lg:pt-12">
-				<Container>
+				{/* FV の中身だけ最大 1600(03 §5 の例外・J-172)。共通の Container(1280)は使わず、左右の余白は同じ 16 / 32 */}
+				<div className="mx-auto w-full max-w-[1600px] px-4 lg:px-8">
 					<RouteMap
 						data={routeMap.data}
 						items={routeMap.items}
@@ -173,7 +174,7 @@ export default async function Home() {
 							</>
 						}
 					/>
-				</Container>
+				</div>
 				{/* 街の層と止めるボタン(J-171)。街の層は -z-10 で一番下。HTML の上では中身の後ろに置き、Tab で止めるボタンに着くのを右下の見た目に合わせる */}
 				<FvTown />
 			</section>
