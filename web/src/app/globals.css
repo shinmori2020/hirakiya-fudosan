@@ -362,6 +362,50 @@ dialog.hr-dialog::backdrop {
     min-height: calc(100cqw * 560 / 660);
   }
 }
+/*
+ * トップの FV の左右の2分割(J-170)。1024 以上は、画面の左端から「左の列と右の列の間の真ん中」までを墨にする(右は section の薄灰)。
+ * 幅は section の幅から計算:本文の左端 + 左の列(5 / 12)+ 列の間の半分 16。1024〜1279 は 32 + (幅 − 96) × 5 / 12 + 16 = 幅 × 5 / 12 + 8、
+ * 1280 以上は (幅 − 1280) / 2 + 32 + (1280 − 96) × 5 / 12 + 16 = 幅 / 2 − 98.67。min() を入れ子にした1本の式は PostCSS の処理が Stack Overflow で落ちたので2本に分けた。
+ * グラデーションは使わず、疑似要素1枚で敷く。〜1023 はキャッチの塊だけを墨にする(page.tsx の leadClassName)
+ */
+@media (min-width: 64rem) {
+  .hr-fv-split::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    z-index: -1;
+    width: calc(100% * 5 / 12 + 8px);
+    background: var(--color-sumi);
+  }
+}
+@media (min-width: 80rem) {
+  .hr-fv-split::before {
+    width: calc(50% - 98.67px);
+  }
+}
+@media (min-width: 64rem) {
+  /* 墨の面の上のパネル:文は白 85%(10.2:1)・「選択を解除」は白・選んでいるタブは白の枠 */
+  .hr-fv-split .rh-panel .rh-picked {
+    color: rgb(255 255 255 / 0.85);
+  }
+  .hr-fv-split .rh-panel .rh-clear,
+  .hr-fv-split .rh-panel .rh-clear:hover {
+    color: var(--color-surface);
+  }
+  .hr-fv-split .rh-panel .rh-tab[aria-pressed="true"],
+  .hr-fv-split .rh-panel .rh-tab[aria-pressed="true"]:hover {
+    border-color: var(--color-surface);
+  }
+  /* 青緑の検索ボタンと墨は 2.93:1 なので白の細い枠(J-157 と同じ手当て・03 §2)。大きさを変えないよう外側に影で描く */
+  .hr-fv-split .rh-panel .rh-go {
+    box-shadow: 0 0 0 1px var(--color-surface);
+  }
+  /* フォーカスの輪郭は部品の濃い青緑だと墨の上で見えにくいので白にする(枠の外に出る輪郭だけ。タブは内側に出るのでそのまま) */
+  .hr-fv-split .rh-panel :is(.rh-linechip, .rh-chip, .rh-go, .rh-clear):focus-visible {
+    outline-color: var(--color-surface);
+  }
+}
 .hr-route-map .rh-tabs {
   gap: 8px;
   border: 0;

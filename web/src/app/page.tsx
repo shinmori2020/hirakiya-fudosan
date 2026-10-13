@@ -143,29 +143,31 @@ export default async function Home() {
 			   - 1024 以上は 左 = キャッチ2段 + 補足 + 路線図のパネル / 右 = 路線図(5 : 7)。〜1023 は キャッチ → 路線図 → パネル(J-168。見た目だけ CSS で入れ替え)。
 			     部品は components/search/RouteMap.tsx(route-hero.js 2.0.0 を包むだけ)。データは getRouteMap()(駅がサイトの13駅とずれたらビルドを止める)
 			   - 写真・膜・文字影・写真のズーム・膜の揺らぎは J-167 でやめた(J-150・J-146・J-153・J-142 の2つ・J-135 の文字影)
-			   - 面は薄灰(次の導線3枚が白・その次の強み3点が薄灰で交互を保つ)。路線図の地は白(.hr-route-map--on-alt)。文字は墨
+			   - 面は左右の2分割(J-170):1024 以上は 左 = 墨(globals.css の .hr-fv-split::before)/ 右 = 薄灰。〜1023 はキャッチの塊だけ墨(leadClassName)で、
+			     路線図とパネルは薄灰。墨の上の文字は白・補足は白 85%。墨の上のパネル(1024 以上)の色は globals.css で合わせる。路線図の地は白(.hr-route-map--on-alt)
 			   - 青緑は 路線図の検索ボタン・路線図で選んでいる駅と路線(§2・§6 のチップ)。路線図のタブは墨(globals.css で合わせた)
 			   - 出現の動きはキャッチ(260ms・J-135)だけ。J-168 で帯が無くなったので「出現の順序」は外した。路線図には付けない
 			*/}
-			<section className="bg-surface-alt pt-8 pb-12 lg:pt-12 lg:pb-16">
+			<section className="hr-fv-split relative isolate bg-surface-alt pt-8 pb-12 lg:pt-12 lg:pb-16">
 				<Container>
 					<RouteMap
 						data={routeMap.data}
 						items={routeMap.items}
 						className="hr-route-map--on-alt"
+						leadClassName="max-lg:-mx-4 max-lg:-mt-8 max-lg:bg-sumi max-lg:px-4 max-lg:pt-8 max-lg:pb-8"
 						lead={
 							<>
-								{/* キャッチ2段(J-135 → J-140)。読み込み時に1回だけ出現効果(§8)。文字影は J-167 で外した(墨の文字を薄灰に置くため)。
+								{/* キャッチ2段(J-135 → J-140)。読み込み時に1回だけ出現効果(§8)。文字影は J-167 で外した(J-170 で白の文字を墨に置く形になった。13.49:1 で影は要らない)。
 								    左の列が狭くなり「…くださ / い」と1文字の行ができたので、折り返しを整える(J-161 の文と同じ text-pretty + auto-phrase)。
 								    2段目は入れ替わる文で1行と2行が混ざるので、2行分の高さを取っておく(入れ替わるたびに下のパネルが動かないように) */}
 								<div className="animate-fv-in motion-reduce:animate-none">
 									{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
-									<h1 className="text-h1 font-bold text-pretty [word-break:auto-phrase] lg:text-h1-pc">{company.tagline}</h1>
+									<h1 className="text-h1 font-bold text-pretty text-white [word-break:auto-phrase] lg:text-h1-pc">{company.tagline}</h1>
 									{/* 2段目は10秒ごとに入れ替わる(03 §8「FV の動き」・J-144)。初期 HTML は1本目 */}
-									<FvCopy items={taglineSubs} className="mt-2 min-h-[2lh] text-h1 font-bold text-pretty text-sumi [word-break:auto-phrase] lg:text-h1-pc" />
+									<FvCopy items={taglineSubs} className="mt-2 min-h-[2lh] text-h1 font-bold text-pretty text-white [word-break:auto-phrase] lg:text-h1-pc" />
 								</div>
 								{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
-								<p className="mt-3 text-small text-ink-weak">{wardLabelFv}で賃貸 売買 賃貸管理</p>
+								<p className="mt-3 text-small text-white/85">{wardLabelFv}で賃貸 売買 賃貸管理</p>
 							</>
 						}
 					/>
