@@ -1,5 +1,5 @@
 /*!
- * block-map.js 1.0.0
+ * block-map.js 1.0.1
  * トップの FV に、路線図そのものを、ブロックで組んだ街の中の線路と駅として描く。three@0.147.0 (window.THREE) を使います。
  *
  * - 駅の位置は block-layout.json (実際の営業キロの順番と比率に合わせた、ブロックの路線図だけの配置)。
@@ -19,7 +19,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.0.1';
   var doc = global.document;
   var C = { white: '#FFFFFF', gray: '#F3F4F5', rule: '#D9DDE1', soft: '#5F6B75', ink: '#2B2F33', teal: '#1D8282', tealDeep: '#176C6C' };
   // 面の色: [上, 手前 (+z), 右 (+x)]
@@ -819,24 +819,37 @@
     }
 
     /* ---------- 並べる ---------- */
-    var base = null, shown = false, lastShown = null;
+    var base = null, shown = false, lastShown = null, builds = 0;
     function layout() {
       var w = host.clientWidth, h = host.clientHeight;
       if (!w || !h) return;
       var narrow = global.matchMedia && global.matchMedia('(max-width: 767px)').matches;
       var area = options.area && options.area.getBoundingClientRect(), hb = host.getBoundingClientRect();
-      var key = view + ':' + options.cell + ':' + Math.round(w / 40) + ':' + narrow + ':' + (area ? Math.round(area.width / 20) + ',' + Math.round((area.top - hb.top) / 20) : '');
+      // 見出しが横に並ぶか (縦に積む時は、見出しとパネルの下に路線図)
+      var q = options.quiet && [].concat(options.quiet)[0], qr = q && q.getBoundingClientRect(), beside = !qr || !area || area.left >= qr.right - 1;
+      // 作り直すのは、幅・並べ方・駅の間隔が変わった時だけ。FV の高さ (パネルが伸びた時など) では作り直さない
+      var key = view + ':' + options.cell + ':' + Math.round(w / 40) + ':' + narrow + ':' + (area ? Math.round(area.width / 20) : '') + ':' + (beside ? 'side' : 'stack');
       renderer.setPixelRatio(Math.min(global.devicePixelRatio || 1, w < 768 ? 1.5 : 1.75));
       renderer.setSize(w, h, false);
-      if (base && base.key === key) { frustum(w, h); draw(); if (shown) placeLabels(w, h); return; }
+      var areaTop = area ? area.top - hb.top : 0;
+      if (base && base.key === key) {
+        // 横に並ぶ時: 路線図の場所はそのまま (FV が伸びた分は、下に街が見えるだけ)
+        // 縦に積む時: パネルが伸びて路線図の場所が下がった分だけ、絵ごとずらす (大きく動いた時だけ作り直す)
+        var shift = beside || !shown ? 0 : areaTop - base.areaTop;
+        // (作った時より FV が低くなった時は、下の駅が切れないように作り直す)
+        if (Math.abs(base.shift + shift) <= 160 && h >= base.h - 24) {
+          if (shift) { anchor[1] += shift; base.shift += shift; base.areaTop = areaTop; }
+          frustum(w, h); draw(); if (shown) placeLabels(w, h); return;
+        }
+      }
+      builds++;
       shown = !!(net && !narrow && area && area.width && area.height);
       if (labelBox) labelBox.hidden = !shown;
       aim();
       if (shown !== lastShown) { lastShown = shown; if (typeof options.onLayout === 'function') options.onLayout({ shown: shown }); }
-      if (!shown) { stop(); clear(); clearLabels(); anchor = [w / 2, h / 2]; PX = 18; frustum(w, h); base = { key: key }; draw(); return; }
+      if (!shown) { stop(); clear(); clearLabels(); anchor = [w / 2, h / 2]; PX = 18; frustum(w, h); base = { key: key, areaTop: areaTop, shift: 0, h: h }; draw(); return; }
       // 路線図を置く範囲: area から、FV の右の端と上下の端の近くまで (駅と駅のあいだを広く取る)
       // (見出しの横に並ぶ時だけ、上は FV の上の端まで。縦に積む時は、見出しとパネルの下から)
-      var q = options.quiet && [].concat(options.quiet)[0], qr = q && q.getBoundingClientRect(), beside = !qr || area.left >= qr.right - 1;
       var R = { l: area.left - hb.left, r: Math.max(area.right - hb.left, w - 32), t: beside ? Math.min(area.top - hb.top, 32) : area.top - hb.top, b: Math.max(area.bottom - hb.top, h - 56) };
       // 1 ブロックの大きさ: 網 (駅と、図の中の折れ目) が R に収まる大きさ。札のぶんの余白を取る
       var fit = function () {
@@ -862,7 +875,7 @@
       anchor = [(R.l + R.r) / 2 - cx, (R.t + R.b) / 2 - cy];
       frustum(w, h);
       build(w, h);
-      base = { key: key };
+      base = { key: key, areaTop: areaTop, shift: 0, h: h };
       makeLabels();
       draw();
       placeLabels(w, h);
@@ -911,7 +924,7 @@
       get view() { return view; },
       relayout: function () { base = null; layout(); return api; },
       info: function () { var gp = net ? net.gaps.filter(function (g) { return g <= 20; }) : [0]; // 途中の駅を描いていない長い区間は除く
-        return { cell: cell, spacing: options.cell, snap: net ? net.broken : 0, gapMin: Math.min.apply(null, gp), gapMax: Math.max.apply(null, gp), town: built && built.town, hot: hot, view: view, px: Math.round(PX * 10) / 10, shown: shown, stations: shown ? net.stations.length : 0, labels: Object.keys(labels).length, trains: trains.length, running: running, moving: wantMoving }; },
+        return { cell: cell, spacing: options.cell, snap: net ? net.broken : 0, gapMin: Math.min.apply(null, gp), gapMax: Math.max.apply(null, gp), town: built && built.town, hot: hot, view: view, px: Math.round(PX * 10) / 10, shown: shown, stations: shown ? net.stations.length : 0, labels: Object.keys(labels).length, trains: trains.length, builds: builds, running: running, moving: wantMoving }; },
       destroy: function () {
         if (destroyed) return; destroyed = true;
         stop(); clearTimeout(timer); ro.disconnect(); io.disconnect(); doc.removeEventListener('visibilitychange', onVis);

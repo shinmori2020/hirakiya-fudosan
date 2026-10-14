@@ -20,7 +20,7 @@ const THREE_LIB = { revision: '147', src: '/vendor/three/0.147.0/three.min.js' }
  * FV の路線図(block-map.js・ブロックで組んだ街の中の線路と駅)。three.js の後に読む。_kits/block-map-kit から書き換えずに置いた(J-173)。
  * J-171 の block-town.js(背景の街)は J-173 でサイトから消した
  */
-const BLOCK_MAP = { version: '1.0.0', src: '/vendor/block-map/1.0.0/block-map.js' } as const;
+const BLOCK_MAP = { version: '1.0.1', src: '/vendor/block-map/1.0.1/block-map.js' } as const;
 
 /** 読み込みを待つ上限。超えたら「無い」として扱う */
 export const LOAD_TIMEOUT_MS = 8000;
@@ -107,7 +107,7 @@ const blockMapLoader = onceLoader(
 	LOAD_TIMEOUT_MS * 2,
 );
 
-/** FV の路線図(block-map.js 1.0.0)を読み込んで BlockMap を返す。three.js が読めない時も null。呼ぶのは 768 以上の時だけ(J-173) */
+/** FV の路線図(block-map.js 1.0.1・J-174)を読み込んで BlockMap を返す。three.js が読めない時も null。呼ぶのは 768 以上の時だけ(J-173) */
 export function loadBlockMap(): Promise<BlockMapApi | null> {
 	if (typeof window === 'undefined') return Promise.resolve(null);
 	return blockMapLoader();

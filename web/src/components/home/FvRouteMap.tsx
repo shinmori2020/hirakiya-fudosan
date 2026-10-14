@@ -6,7 +6,7 @@ import { stationCounts, type RouteItem, type RouteLayout, type RouteMapData } fr
 import { loadBlockMap, loadRouteHero } from '@/lib/vendor-script';
 
 /**
- * トップの FV(J-173)。路線図ヒーロー(route-hero.js 2.0.0)と、ブロックで組んだ街の中の路線図(block-map.js 1.0.0)をつなぐだけの部品。
+ * トップの FV(J-173)。路線図ヒーロー(route-hero.js 2.0.0)と、ブロックで組んだ街の中の路線図(block-map.js 1.0.1・J-174)をつなぐだけの部品。
  * どちらの本体も書き換えず、React で書き直さない。
  *  - 路線図ヒーロー:件数・選択・検索ボタンのリンクを受け持つ。パネルは左の列(panel)、平面の路線図は右の列(flat)。
  *    平面の路線図は 768 以上では CSS で隠し、767 以下と WebGL が使えない時(mount が null)だけ出す
