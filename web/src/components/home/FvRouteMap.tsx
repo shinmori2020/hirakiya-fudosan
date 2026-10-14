@@ -24,6 +24,7 @@ import { loadBlockMap, loadRouteHero } from '@/lib/vendor-script';
  */
 const MD_UP = '(min-width: 48rem)';
 const PANEL_WAIT_MS = 10000;
+const HIGHLIGHT_OFF_MS = 150;
 
 export function FvRouteMap({ data, layout, items, lead }: { data: RouteMapData; layout: RouteLayout; items: readonly RouteItem[]; lead: ReactNode }) {
 	const router = useRouter();
@@ -49,6 +50,7 @@ export function FvRouteMap({ data, layout, items, lead }: { data: RouteMapData; 
 		let hero: RouteHeroInstance | null = null;
 		let map: BlockMapInstance | null = null;
 		let off = () => {};
+		let hlTimer = 0;
 
 		const typeLabel = (id: string) => types.find((t) => t.id === id)?.label ?? '';
 		const stateOf = (d: RouteHeroDetail): BlockMapState => ({ type: d.type, typeLabel: typeLabel(d.type), types, selected: d.stations, counts });
@@ -106,10 +108,18 @@ export function FvRouteMap({ data, layout, items, lead }: { data: RouteMapData; 
 				const onChange = (e: Event) => m.update(stateOf((e as CustomEvent<RouteHeroDetail>).detail));
 				flatEl.addEventListener('rh:change', onChange);
 				if (hero) m.update(stateOf(hero.get()));
+				// 外した時は 150ms 待ってから全部の線に戻す(03 §8 の hover の時間)。その間に隣のチップへ入ったら戻さない。
+				// すぐ戻すと、チップの間の隙間を通る時に全部の線が一瞬濃くなってチカチカする
 				const chips = Array.from(panelEl.querySelectorAll<HTMLElement>('.rh-linechip'));
 				const handlers = chips.map((chip, i) => {
-					const on = () => m.highlight(data.lines[i]?.id ?? null);
-					const offHl = () => m.highlight(null);
+					const on = () => {
+						window.clearTimeout(hlTimer);
+						m.highlight(data.lines[i]?.id ?? null);
+					};
+					const offHl = () => {
+						window.clearTimeout(hlTimer);
+						hlTimer = window.setTimeout(() => m.highlight(null), HIGHLIGHT_OFF_MS);
+					};
 					chip.addEventListener('pointerenter', on);
 					chip.addEventListener('focus', on);
 					chip.addEventListener('pointerleave', offHl);
@@ -117,6 +127,7 @@ export function FvRouteMap({ data, layout, items, lead }: { data: RouteMapData; 
 					return { chip, on, offHl };
 				});
 				off = () => {
+					window.clearTimeout(hlTimer);
 					flatEl.removeEventListener('rh:change', onChange);
 					for (const h of handlers) {
 						h.chip.removeEventListener('pointerenter', h.on);
