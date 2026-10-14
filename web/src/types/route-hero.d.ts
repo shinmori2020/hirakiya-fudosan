@@ -15,6 +15,8 @@ declare global {
 
 	interface RouteHeroInstance {
 		get(): RouteHeroDetail;
+		/** 選んでいる駅を置き換える(FV の路線図の駅名の札から・J-173) */
+		select(stations: string[]): RouteHeroInstance;
 		destroy(): void;
 	}
 

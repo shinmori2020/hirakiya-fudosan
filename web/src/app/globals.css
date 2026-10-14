@@ -339,7 +339,7 @@ dialog.hr-dialog::backdrop {
 
 /*
  * 路線図ヒーロー(route-hero.js 2.0.0・web/public/vendor/route-hero/2.0.0/)。本体は書き換えず、ここで 03 に合わせる。
- * 包む部品は components/search/RouteMap.tsx(外側の div に .hr-route-map)。色の変数の初期値は本体が 03 のトークンにしてある。
+ * 包む部品は components/home/FvRouteMap.tsx(外側の section に .hr-route-map・J-173。それまでは components/search/RouteMap.tsx)。色の変数の初期値は本体が 03 のトークンにしてある。
  * 賃貸 / 売買のタブだけ、本体は「選択中を青緑の塗り」にしているので、サイトのタブ(03 §6・J-136 → J-152。
  * HomeSearch・SearchResults と同じ:別々のボタン・高さ 44・角丸 6・選択中は墨の塗り + 白文字・非選択は白地 + 灰線の枠で hover は墨の枠)に合わせる。
  * 青緑は「選ぶ」操作のタブには使わない(03 §6)。本体のセレクタ(.rh-tab[aria-pressed]・詳細度 0,2,0)より1段強くする。
@@ -363,7 +363,82 @@ dialog.hr-dialog::backdrop {
   }
 }
 /*
- * トップの FV(J-171)。背景はブロックの街(FvTown.tsx)。J-170 の左右の2分割(墨の疑似要素・墨の上のパネルの白への合わせ)は J-171 で撤回した。
+ * トップの FV の並べ方(J-173・components/home/FvRouteMap.tsx)。値は block-map-kit の README の「置き方」を元にした。
+ *  - 1200 以上は2列(左 1fr / 右 min(58%, 820px)・間 32・上下中央)。1199 以下は1列(間 24)。FV だけ 1199 で区切る(03 §7)
+ *  - 路線図の場所取り(area)は aspect-ratio 660 / 460。767 以下と WebGL が使えない時(.is-flat)は出さない
+ *  - 路線図ヒーローの平面の路線図(flat)は 768 以上では出さない。767 以下と .is-flat の時だけ出す
+ *  - パネルは JS で後から描くので、描く前から場所を取っておく(幅 4px 刻みで測った値・J-167 と同じ考え方)
+ */
+@media (min-width: 75rem) {
+  .hr-fv__grid {
+    grid-template-columns: minmax(0, 1fr) min(58%, 820px);
+    gap: 32px;
+    align-items: center;
+  }
+}
+.hr-fv__area {
+  aspect-ratio: 660 / 460;
+  max-width: 100%;
+}
+.hr-fv__flat {
+  display: none;
+}
+@media (max-width: 47.9375rem) {
+  .hr-fv__area {
+    display: none;
+  }
+  .hr-fv__flat {
+    display: block;
+  }
+}
+.hr-fv.is-flat .hr-fv__area {
+  display: none;
+}
+.hr-fv.is-flat .hr-fv__flat {
+  display: block;
+}
+.hr-fv__panel {
+  min-height: 347px;
+}
+@media (min-width: 40rem) {
+  .hr-fv__panel {
+    min-height: 259px;
+  }
+}
+/* 768〜1199 は1列で、列の幅でパネルの中身が 261 / 218 になる(1024〜1031 は lg の余白 32 で列が狭くなり 261)。1200 以上は左の列 1fr */
+@media (min-width: 48rem) {
+  .hr-fv__panel {
+    min-height: 261px;
+  }
+}
+@media (min-width: 62.5rem) {
+  .hr-fv__panel {
+    min-height: 218px;
+  }
+}
+@media (min-width: 64rem) {
+  .hr-fv__panel {
+    min-height: 261px;
+  }
+}
+@media (min-width: 64.5rem) {
+  .hr-fv__panel {
+    min-height: 218px;
+  }
+}
+@media (min-width: 75rem) {
+  .hr-fv__panel {
+    min-height: 303px;
+  }
+}
+@media (min-width: 86rem) {
+  .hr-fv__panel {
+    min-height: 261px;
+  }
+}
+
+/*
+ * トップの FV(J-171 → J-173)。J-171 の背景のブロックの街(FvTown.tsx)は J-173 で、街の中の路線図(FvRouteMap.tsx・block-map.js)に替えた。J-170 の左右の2分割は J-171 で撤回した。
  * FV の中の小さな文字(パネルの説明・「選択を解除」・横スクロールの案内)は、部品の弱い文字(#5F6B75)だと街の暗い面(#AFB6BD)の上で
  * 2.66:1 になるので墨にする(墨は 6.58:1・SHIN の条件)。チップの中の件数は白い地の上なので、そのまま
  */

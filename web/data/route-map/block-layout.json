@@ -1,0 +1,132 @@
+{
+ "note": "ブロックの路線図の駅の位置。営業キロを 0.8 乗して比率をそろえたもの (1 km = 72 単位)。平面の路線図 (schematic.json) とは別",
+ "viewBox": [
+  530,
+  592
+ ],
+ "stations": {
+  "oshiage": [
+   64.8,
+   494.9
+  ],
+  "hikifune": [
+   64.8,
+   403.7
+  ],
+  "kitasenju": [
+   64.8,
+   158.0
+  ],
+  "ayase": [
+   158.0,
+   64.8
+  ],
+  "kameari": [
+   284.7,
+   64.8
+  ],
+  "kanamachi": [
+   398.2,
+   64.8
+  ],
+  "aoto": [
+   306.6,
+   253.1
+  ],
+  "keisei-tateishi": [
+   252.6,
+   307.1
+  ],
+  "ohanajaya": [
+   201.8,
+   253.1
+  ],
+  "horikiri-shobuen": [
+   124.0,
+   253.1
+  ],
+  "keisei-koiwa": [
+   465.0,
+   319.9
+  ],
+  "hirai": [
+   208.8,
+   527.3
+  ],
+  "shinkoiwa": [
+   290.3,
+   445.8
+  ]
+ },
+ "lines": {
+  "keisei-main": [
+   [
+    -200.0,
+    253.1
+   ],
+   "horikiri-shobuen",
+   "ohanajaya",
+   "aoto",
+   [
+    398.2,
+    253.1
+   ],
+   "keisei-koiwa",
+   [
+    490.2,
+    345.1
+   ],
+   [
+    814.2,
+    345.1
+   ]
+  ],
+  "keisei-oshiage": [
+   "oshiage",
+   "keisei-tateishi",
+   "aoto"
+  ],
+  "keisei-kanamachi": [
+   [
+    398.2,
+    253.1
+   ],
+   "kanamachi"
+  ],
+  "jr-joban": [
+   [
+    -259.2,
+    158.0
+   ],
+   "kitasenju",
+   "ayase",
+   "kameari",
+   "kanamachi",
+   [
+    722.2,
+    64.8
+   ]
+  ],
+  "jr-sobu": [
+   [
+    -43.2,
+    779.3
+   ],
+   "hirai",
+   "shinkoiwa",
+   [
+    614.3,
+    445.8
+   ]
+  ],
+  "tobu-skytree": [
+   "oshiage",
+   "hikifune",
+   "kitasenju",
+   [
+    64.8,
+    -166.0
+   ]
+  ]
+ }
+}

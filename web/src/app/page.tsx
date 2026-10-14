@@ -2,14 +2,13 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FvCopy } from '@/components/home/FvCopy';
-import { FvTown } from '@/components/home/FvTown';
+import { FvRouteMap } from '@/components/home/FvRouteMap';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
 import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
 import { attrClass } from '@/components/property/AttrLink';
 import { MapLoader } from '@/components/property/MapLoader';
 import { PropertyCard } from '@/components/property/PropertyCard';
-import { RouteMap } from '@/components/search/RouteMap';
 import { PRIMARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { isNew } from '@/lib/badges';
@@ -140,44 +139,34 @@ export default async function Home() {
 	return (
 		<>
 			{/*
-			  1 ファーストビュー(J-151 → J-167 → J-168)。**路線図ヒーローだけ**(J-168 で下の操作する帯を外し、「探し方から選ぶ」の「条件から探す」へ移した)。03 §7 v1.32。
-			   - 1024 以上は 左 = キャッチ2段 + 補足 + 路線図のパネル / 右 = 路線図(5 : 7)。〜1023 は キャッチ → 路線図 → パネル(J-168。見た目だけ CSS で入れ替え)。
-			     部品は components/search/RouteMap.tsx(route-hero.js 2.0.0 を包むだけ)。データは getRouteMap()(駅がサイトの13駅とずれたらビルドを止める)
-			   - 写真・膜・文字影・写真のズーム・膜の揺らぎは J-167 でやめた(J-150・J-146・J-153・J-142 の2つ・J-135 の文字影)
-			   - 背景はブロックで組んだ街並み(J-171・components/home/FvTown.tsx・block-town.js + three.js)。地は薄灰。見出しとパネルの列の後ろは低い家と空き地。
-			     路線図は白いカードのまま街の上(.hr-route-map--on-alt)。文字は墨、FV の中の小さな文字も墨(globals.css の .hr-fv)。右下に止めるボタン。
-			     J-170 の墨 / 薄灰の2分割は J-171 で撤回
-			   - 青緑は 路線図の検索ボタン・路線図で選んでいる駅と路線(§2・§6 のチップ)。路線図のタブは墨(globals.css で合わせた)
-			   - 出現の動きはキャッチ(260ms・J-135)だけ。J-168 で帯が無くなったので「出現の順序」は外した。路線図には付けない
+			  1 ファーストビュー(J-151 → J-167 → J-168 → J-173)。03 §7 v1.37。部品は components/home/FvRouteMap.tsx。
+			   - 左 = キャッチ2段 + 補足 + 路線図ヒーローのパネル / 右 = ブロックで組んだ街の中の路線図(block-map.js・three.js。J-173)。
+			     1200 以上は2列、768〜1199 は見出しの下に路線図、767 以下は路線図ヒーローの平面の路線図(J-168 のまま キャッチ → 路線図 → パネル)
+			   - データは getRouteMap()(schematic.json・block-layout.json・items。駅と並び順がずれたらビルドを止める)
+			   - 写真・膜・文字影・写真のズーム・膜の揺らぎは J-167 でやめた。背景の街(block-town・J-171)は J-173 でやめた。文字は墨、FV の中の小さな文字も墨(globals.css の .hr-fv)
+			   - 青緑は 路線図の検索ボタン・パネルで選んでいる駅と路線・路線図で選んだ駅の屋根と札(§2・§6)。路線図ヒーローのタブは墨(globals.css で合わせた)
+			   - 出現の動きはキャッチ(260ms・J-135)だけ。路線図の動きは電車だけ(§8・止めるボタンは 3D の時だけ)
 			*/}
-			{/* 下の余白はスマホでも 64(止めるボタン 40 + 下 16 が、パネルの検索ボタンに重ならないように) */}
-			<section className="hr-fv relative isolate overflow-hidden bg-surface-alt pt-8 pb-16 lg:pt-12">
-				{/* FV の中身だけ最大 1600(03 §5 の例外・J-172)。共通の Container(1280)は使わず、左右の余白は同じ 16 / 32 */}
-				<div className="mx-auto w-full max-w-[1600px] px-4 lg:px-8">
-					<RouteMap
-						data={routeMap.data}
-						items={routeMap.items}
-						className="hr-route-map--on-alt"
-						lead={
-							<>
-								{/* キャッチ2段(J-135 → J-140)。読み込み時に1回だけ出現効果(§8)。文字影は J-167 で外した。J-171 から文字は墨(街の上)。補足も墨(弱い文字の #5F6B75 は街の暗い面の上で 2.66:1 になるため)。
-								    左の列が狭くなり「…くださ / い」と1文字の行ができたので、折り返しを整える(J-161 の文と同じ text-pretty + auto-phrase)。
-								    2段目は入れ替わる文で1行と2行が混ざるので、2行分の高さを取っておく(入れ替わるたびに下のパネルが動かないように) */}
-								<div className="animate-fv-in motion-reduce:animate-none">
-									{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
-									<h1 className="text-h1 font-bold text-pretty [word-break:auto-phrase] lg:text-h1-pc">{company.tagline}</h1>
-									{/* 2段目は10秒ごとに入れ替わる(03 §8「FV の動き」・J-144)。初期 HTML は1本目 */}
-									<FvCopy items={taglineSubs} className="mt-2 min-h-[2lh] text-h1 font-bold text-pretty text-sumi [word-break:auto-phrase] lg:text-h1-pc" />
-								</div>
-								{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
-								<p className="mt-3 text-small text-sumi">{wardLabelFv}で賃貸 売買 賃貸管理</p>
-							</>
-						}
-					/>
-				</div>
-				{/* 街の層と止めるボタン(J-171)。街の層は -z-10 で一番下。HTML の上では中身の後ろに置き、Tab で止めるボタンに着くのを右下の見た目に合わせる */}
-				<FvTown />
-			</section>
+			<FvRouteMap
+				data={routeMap.data}
+				layout={routeMap.layout}
+				items={routeMap.items}
+				lead={
+					<>
+						{/* キャッチ2段(J-135 → J-140)。読み込み時に1回だけ出現効果(§8)。文字影は J-167 で外した。J-171 から文字は墨。補足も墨(弱い文字の #5F6B75 は街の暗い面の上で 2.66:1 になるため)。
+						    左の列が狭くなり「…くださ / い」と1文字の行ができたので、折り返しを整える(J-161 の文と同じ text-pretty + auto-phrase)。
+						    2段目は入れ替わる文で1行と2行が混ざるので、2行分の高さを取っておく(入れ替わるたびに下のパネルが動かないように) */}
+						<div className="animate-fv-in motion-reduce:animate-none">
+							{/* 2段とも H1(24 / 32px・J-140)。Display は使わない。2段目は見出しの続きなので p で出す */}
+							<h1 className="text-h1 font-bold text-pretty [word-break:auto-phrase] lg:text-h1-pc">{company.tagline}</h1>
+							{/* 2段目は10秒ごとに入れ替わる(03 §8「FV の動き」・J-144)。初期 HTML は1本目 */}
+							<FvCopy items={taglineSubs} className="mt-2 min-h-[2lh] text-h1 font-bold text-pretty text-sumi [word-break:auto-phrase] lg:text-h1-pc" />
+						</div>
+						{/* 補足は1行(09/22)。区名と業務は助詞「で」で分ける(「・」は使わない・J-135)。390 では折り返してよい */}
+						<p className="mt-3 text-small text-sumi">{wardLabelFv}で賃貸 売買 賃貸管理</p>
+					</>
+				}
+			/>
 
 			{/* 2 初めての方へ / 売却 / オーナー様 の3枚。J-148 で FV の直後に(売却・オーナーの入口を2画面目に上げる) */}
 			<section className="py-12 lg:py-16">
