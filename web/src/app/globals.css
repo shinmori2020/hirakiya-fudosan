@@ -338,7 +338,7 @@ dialog.hr-dialog::backdrop {
 }
 
 /*
- * 路線図ヒーロー(route-hero.js 2.0.0・web/public/vendor/route-hero/2.0.0/)。本体は書き換えず、ここで 03 に合わせる。
+ * 路線図ヒーロー(route-hero.js 2.0.1・web/public/vendor/route-hero/2.0.1/・J-175)。本体は書き換えず、ここで 03 に合わせる。
  * 包む部品は components/home/FvRouteMap.tsx(外側の section に .hr-route-map・J-173。それまでは components/search/RouteMap.tsx)。色の変数の初期値は本体が 03 のトークンにしてある。
  * 賃貸 / 売買のタブだけ、本体は「選択中を青緑の塗り」にしているので、サイトのタブ(03 §6・J-136 → J-152。
  * HomeSearch・SearchResults と同じ:別々のボタン・高さ 44・角丸 6・選択中は墨の塗り + 白文字・非選択は白地 + 灰線の枠で hover は墨の枠)に合わせる。

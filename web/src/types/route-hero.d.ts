@@ -1,5 +1,5 @@
 /**
- * route-hero.js 2.0.0(web/public/vendor/route-hero/2.0.0/)が作る window.RouteHero の、このサイトで使う分だけの型。
+ * route-hero.js 2.0.1(web/public/vendor/route-hero/2.0.1/・J-175。使い方は 2.0.0 と同じ)が作る window.RouteHero の、このサイトで使う分だけの型。
  * 本体は書き換えない。データの形は web/data/route-map/schematic.json と lib/route-map.ts。
  */
 import type { RouteItem, RouteMapData } from '@/lib/route-map';

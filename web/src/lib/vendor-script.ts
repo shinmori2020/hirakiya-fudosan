@@ -10,7 +10,7 @@
  */
 
 /** 路線図ヒーロー(route-hero.js)。_kits/route-hero-kit から書き換えずに置いた。出所と SHA-256 は docs/assets.md */
-const ROUTE_HERO = { version: '2.0.0', src: '/vendor/route-hero/2.0.0/route-hero.js' } as const;
+const ROUTE_HERO = { version: '2.0.1', src: '/vendor/route-hero/2.0.1/route-hero.js' } as const;
 /**
  * three.js 0.147.0 の global build(window.THREE)。npm からは入れず、three@0.147.0 の build/three.min.js と LICENSE を置いた(J-171)。
  * トップ(FV の路線図・J-173。768 以上の時だけ)で読む。後で物件詳細(間取りの 3D)でも読む予定。**three.js を読むのはここだけ**

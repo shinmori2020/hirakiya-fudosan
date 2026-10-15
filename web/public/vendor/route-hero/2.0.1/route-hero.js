@@ -1,5 +1,5 @@
 /*!
- * route-hero.js 2.0.0
+ * route-hero.js 2.0.1
  * 路線図から物件を探せるヒーロー。ほかのライブラリは使いません。
  *
  * 路線・駅のデータ (JSON) から路線図を描き、駅や路線を選ぶと、選んだ駅のどれかに当たる物件を
@@ -11,7 +11,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '2.0.0';
+  var VERSION = '2.0.1';
   var NS = 'http://www.w3.org/2000/svg';
   var STYLE_ID = 'route-hero-style';
   var doc = global.document;
@@ -247,7 +247,8 @@
     injectCss();
     live++;
 
-    var state = { type: types[0].id, selected: [] };
+    // pressed: 路線のチップで押した路線。押された表示は、押した路線で、その路線の駅 (いまの種類で選べる駅) が全部選ばれている間だけ
+    var state = { type: types[0].id, selected: [], pressed: [] };
     if (options.type && byType[options.type]) state.type = options.type;
     var nodes = {}, lineNodes = {}, stripes = {}, lineTags = {}, lineChips = {}, tabs = {}, added = [], tipTimer = 0, touched = false;
     var layout = options.panel ? 'none' : (options.layout || 'split');
@@ -461,11 +462,14 @@
         if (n) node.g.removeAttribute('aria-disabled'); else node.g.setAttribute('aria-disabled', 'true');
         node.g.setAttribute('aria-label', s.name + '駅 ' + typeLabel() + n + '件' + (s.shop ? ' ' + s.shop + 'あり' : ''));
       });
+      // 押した路線のうち、駅が 1 つでも外れた路線は、押した路線から外す (駅を外した手段は問わない)
+      state.pressed = state.pressed.filter(lineComplete);
       Object.keys(lineChips).forEach(function (id) {
         var chip = lineChips[id], ids = onLine[id].filter(selectable);
         chip.small.textContent = anyOf(onLine[id]) + '件'; // その沿線に属する物件の数 (重ならずに数える)
         chip.button.disabled = !ids.length;
-        chip.button.setAttribute('aria-pressed', String(ids.length > 0 && ids.every(function (sid) { return state.selected.indexOf(sid) >= 0; })));
+        // 見た目 (CSS の [aria-pressed="true"]) と読み上げは、同じこの値で決まる
+        chip.button.setAttribute('aria-pressed', String(state.pressed.indexOf(id) >= 0));
       });
       picked.textContent = '';
       if (!state.selected.length) picked.textContent = '路線図の駅を押すと、その駅で絞り込めます。複数選べます。';
@@ -498,11 +502,26 @@
       if (i >= 0) state.selected.splice(i, 1); else state.selected.push(id);
       render(true);
     }
+    // その路線の駅 (いまの種類で選べる駅) が 1 つ以上あり、全部選ばれているか
+    function lineComplete(lineId) {
+      var ids = (onLine[lineId] || []).filter(selectable);
+      return ids.length > 0 && ids.every(function (id) { return state.selected.indexOf(id) >= 0; });
+    }
+    // 路線のチップ: 押していなければ、押した路線にして駅を全部選ぶ。押していれば、押した路線から外し、
+    // その路線の駅を外す (ほかの押した路線の駅でもある駅は残す)。駅を 1 つずつ選んでそろっても、押した路線にはしない
     function toggleLine(line) {
       var ids = onLine[line.id].filter(selectable);
-      var all = ids.every(function (id) { return state.selected.indexOf(id) >= 0; });
-      if (all) state.selected = state.selected.filter(function (id) { return ids.indexOf(id) < 0; });
-      else ids.forEach(function (id) { if (state.selected.indexOf(id) < 0) state.selected.push(id); });
+      if (!ids.length) return;
+      var at = state.pressed.indexOf(line.id);
+      if (at >= 0) {
+        state.pressed.splice(at, 1);
+        var keep = {};
+        state.pressed.forEach(function (lid) { onLine[lid].forEach(function (id) { keep[id] = true; }); });
+        state.selected = state.selected.filter(function (id) { return ids.indexOf(id) < 0 || keep[id]; });
+      } else {
+        state.pressed.push(line.id);
+        ids.forEach(function (id) { if (state.selected.indexOf(id) < 0) state.selected.push(id); });
+      }
       render(true);
     }
     function setType(id) {
