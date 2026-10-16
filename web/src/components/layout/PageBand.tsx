@@ -2,11 +2,11 @@ import { Container } from '@/components/layout/Container';
 
 /**
  * 見出しの帯(J-176・03 §7「見出しの帯」)。説明・文章のページの先頭に置き、ページの h1 をこの中に出す(h1 はページに1つ)。
- * 背景はトップの FV と同じ街の止まった画像(block-map-kit の header-town 1.0.0)。飾りなので CSS の背景にする(globals.css の .hr-page-band)。
+ * 背景はトップの FV と同じ街の止まった画像(block-map-kit の header-town 1.2.0・J-177)。飾りなので CSS の背景にする(globals.css の .hr-page-band)。
  * 動きも操作もないのでサーバーの部品のまま。パンくず・リード・注記は帯の直下に、各ページが置く(SHIN の判断)。
  * h1 は中身の列(Container)の左に最大 760。PC は帯の上下の真ん中、スマホは下半分で2行まで(題名は約 28 文字まで)。
  */
-const IMAGE = { pc: '/page-band/1.0.0/header-town-pc.webp', sp: '/page-band/1.0.0/header-town-sp.webp' } as const; // globals.css の .hr-page-band と同じ
+const IMAGE = { pc: '/page-band/1.2.0/header-town-pc.webp', sp: '/page-band/1.2.0/header-town-sp.webp' } as const; // globals.css の .hr-page-band と同じ
 const MD_UP = '(min-width: 48rem)';
 const SP_ONLY = '(max-width: 47.9375rem)';
 
