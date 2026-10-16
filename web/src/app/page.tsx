@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FvCopy } from '@/components/home/FvCopy';
 import { FvRouteMap } from '@/components/home/FvRouteMap';
+import { NewsList } from '@/components/news/NewsList';
 import { HomeSearch, type StationGroup } from '@/components/home/HomeSearch';
 import { VoiceCarousel } from '@/components/home/VoiceCarousel';
 import { Container } from '@/components/layout/Container';
@@ -12,7 +13,6 @@ import { PropertyCard } from '@/components/property/PropertyCard';
 import { PRIMARY } from '@/components/ui/button-class';
 import { company, lines as LINES, news, offices, serviceAreas, voices } from '@/config/site';
 import { isNew } from '@/lib/badges';
-import { dateLabel } from '@/lib/format';
 import { listHref } from '@/lib/links';
 import { latestProperties } from '@/lib/home';
 import { getProperties, getRouteMap, getTerms } from '@/lib/properties';
@@ -367,24 +367,10 @@ export default async function Home() {
 							すべて見る
 						</Link>
 					</div>
-					<ul className="mt-6">
-						{news.slice(0, 3).map((n) => (
-							<li key={n.slug} className="border-b border-line">
-								<Link
-									href={`/news/${n.slug}`}
-									className="flex flex-col gap-1 py-3 transition-colors duration-150 hover:bg-badge-new-bg motion-reduce:transition-none lg:flex-row lg:items-center lg:gap-4"
-								>
-									<span className="tabular shrink-0 text-small text-ink-weak lg:w-[7.5em] lg:text-small-pc">{dateLabel(n.date)}</span>
-									{/* お知らせのカテゴリーは押せないタグ(灰枠・灰文字)。物件の属性タグ(青緑・リンク)とは別系統(J-057) */}
-									{/* 幅を最長の「部屋探しのコツ」(6文字)に固定し、3行ともタイトルの左端を揃える(J-058) */}
-									<span className="inline-block w-[8.5em] shrink-0 self-start rounded-hr border border-line px-2 py-0.5 text-center text-xs whitespace-nowrap text-ink-weak lg:text-xs-pc">
-										{n.category}
-									</span>
-									<span className="text-body lg:text-body-pc">{n.title}</span>
-								</Link>
-							</li>
-						))}
-					</ul>
+					{/* 行の形は /news・記事の下の「ほかの記事」と同じ部品(実装順 7) */}
+					<div className="mt-6">
+						<NewsList items={news.slice(0, 3)} />
+					</div>
 				</Container>
 			</section>
 
