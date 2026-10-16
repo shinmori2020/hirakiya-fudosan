@@ -479,7 +479,8 @@ dialog.hr-dialog::backdrop {
 /*
  * 見出しの帯(J-176・03 §7「見出しの帯」・components/layout/PageBand.tsx)。値は block-map-kit の header/README.md の「置き方」のまま。
  *  - 画像は書き換えずに置いた2枚(public/page-band/1.2.0/。header-town 1.2.0・J-177。空き地の中もまわりと同じ色の低い家)。CSS の背景なので、画面の幅に合う方の1枚だけを読む
- *  - 767 以下:スマホ用・高さ 200・中央で切り抜く。h1 は下に寄せて下に 16
+ *  - 767 以下:スマホ用・高さ 200・中央で切り抜く。**h1 は帯の上下左右の中央・行も中央揃え**(J-178・SHIN の判断。キットの空き地〔下半分〕の外にもかかるが、
+ *    1.2.0 は文字の下の差が 5.6 : 1 以上〔360〜767 で実測〕。J-176・J-177 では下に寄せて下に 16)
  *  - 768 以上:PC 用・高さ 320・h1 は上下の真ん中。背景の位置は、画像の空き地の左端(352px)を中身の列の左端にそろえる:
  *    768〜1023 は列の左端が 16(Container の余白)なので -336px、1024〜1279 は 32 なので -320px(README の値)、1280 以上は中央
  *    (README は 768〜1279 を -320px にしているが、サイトの余白が 32 になるのは 1024 から。768〜1023 だけ 16 ずらした・J-176)
@@ -492,8 +493,11 @@ dialog.hr-dialog::backdrop {
 .hr-page-band__inner {
   display: flex;
   height: 100%;
-  align-items: flex-end;
-  padding-bottom: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.hr-page-band h1 {
+  text-align: center;
 }
 @media (min-width: 48rem) {
   .hr-page-band {
@@ -502,8 +506,10 @@ dialog.hr-dialog::backdrop {
     background-position: -336px 50%;
   }
   .hr-page-band__inner {
-    align-items: center;
-    padding-bottom: 0;
+    justify-content: flex-start;
+  }
+  .hr-page-band h1 {
+    text-align: left;
   }
 }
 @media (min-width: 64rem) {
