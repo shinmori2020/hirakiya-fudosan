@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { NewsList } from '@/components/news/NewsList';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
@@ -78,6 +79,8 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ sl
 	return (
 		<>
 			<article>
+				{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+				<PageBand title={n.title} />
 				<section className="pt-6 pb-12 lg:pt-8 lg:pb-16">
 					<Container>
 						<Breadcrumb items={[{ label: 'トップ', href: '/' }, { label: 'お知らせ・コラム', href: '/news' }, { label: n.title }]} />
@@ -86,7 +89,6 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ sl
 								<span className="tabular text-small text-ink-weak lg:text-small-pc">{dateLabel(n.date)}</span>
 								<span className="inline-block rounded-hr border border-line px-2 py-0.5 text-xs whitespace-nowrap text-ink-weak lg:text-xs-pc">{n.category}</span>
 							</p>
-							<h1 className="mt-2 text-h1 font-bold text-pretty [word-break:auto-phrase] lg:text-h1-pc">{n.title}</h1>
 							<p className="mt-4 text-body text-ink lg:text-body-pc">{n.lead}</p>
 							<p className="mt-2 text-small text-ink-weak lg:text-small-pc">架空の記事です。</p>
 							<div className="mt-8 border-t border-line pt-8 lg:mt-12 lg:pt-12">

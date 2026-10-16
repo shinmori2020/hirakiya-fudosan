@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
 import { company, staff, staffDepts } from '@/config/site';
 
@@ -27,12 +28,13 @@ const FORM_LINK: Readonly<Record<NonNullable<(typeof staff)[number]['formTarget'
 export default function StaffPage() {
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="スタッフ紹介" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					<Breadcrumb items={[{ label: 'トップ', href: '/' }, { label: '会社概要', href: '/company' }, { label: 'スタッフ紹介' }]} />
 					<div className="mt-4 max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">スタッフ紹介</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">
+						<p className="text-body text-ink lg:text-body-pc">
 							2店舗{company.staffCount}名です。内見・査定・管理のご相談は、それぞれ担当の部署がお受けします。
 						</p>
 						{/* 実在の方と誤認されないよう、氏名が架空であることをページの上でも明示する(00 §7-9・J-057 と同じ考え) */}

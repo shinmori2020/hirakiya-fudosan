@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DefList } from '@/components/guide/DefList';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { MapLoader } from '@/components/property/MapLoader';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
 import { company, offices } from '@/config/site';
@@ -22,12 +23,13 @@ export const metadata: Metadata = {
 export default function AccessPage() {
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="店舗案内・アクセス" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					<Breadcrumb items={[{ label: 'トップ', href: '/' }, { label: '会社概要', href: '/company' }, { label: '店舗案内・アクセス' }]} />
 					<div className="mt-4 max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">店舗案内・アクセス</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">
+						<p className="text-body text-ink lg:text-body-pc">
 							{offices.map((o) => `${o.name}(${o.station} 徒歩${o.walk}分)`).join('と')}の2店舗です。ご来店の際は、事前にご予約いただくとお待たせしません。
 						</p>
 					</div>

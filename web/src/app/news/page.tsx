@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { NewsList } from '@/components/news/NewsList';
 import { company, news } from '@/config/site';
 
@@ -16,11 +17,12 @@ export const metadata: Metadata = {
 export default function NewsIndexPage() {
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="お知らせ・コラム" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					<div className="max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">お知らせ・コラム</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">営業のお知らせと、お部屋探しのコツ・地域の情報をまとめています。</p>
+						<p className="text-body text-ink lg:text-body-pc">営業のお知らせと、お部屋探しのコツ・地域の情報をまとめています。</p>
 						<p className="mt-2 text-small text-ink-weak lg:text-small-pc">記事はすべて架空です。</p>
 					</div>
 				</Container>

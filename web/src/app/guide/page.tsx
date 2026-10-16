@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { DefList } from '@/components/guide/DefList';
 import { Steps, type Step } from '@/components/guide/Steps';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { company } from '@/config/site';
 import { PRIMARY, SECONDARY } from '@/components/ui/button-class';
 
@@ -54,11 +55,12 @@ const DOCUMENTS = [
 export default function GuidePage() {
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="初めての方へ" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					<div className="max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">初めての方へ</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">部屋探しと住まいの購入の流れ、かかる費用、用意する書類をまとめました。分からないことは、どの段階でもお電話・フォームでお尋ねください。</p>
+						<p className="text-body text-ink lg:text-body-pc">部屋探しと住まいの購入の流れ、かかる費用、用意する書類をまとめました。分からないことは、どの段階でもお電話・フォームでお尋ねください。</p>
 						<ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-small lg:text-small-pc">
 							<li>
 								<a href="#rental" className="text-accent-strong underline">

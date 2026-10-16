@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DefList } from '@/components/guide/DefList';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { company, history, mainOffice, offices, serviceAreas, staff } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -44,11 +45,12 @@ export default function CompanyPage() {
 
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="会社概要" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					<div className="max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">会社概要</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">{company.tagline}</p>
+						<p className="text-body text-ink lg:text-body-pc">{company.tagline}</p>
 						<p className="mt-2 text-small text-ink-weak lg:text-small-pc">{company.notice}</p>
 					</div>
 				</Container>

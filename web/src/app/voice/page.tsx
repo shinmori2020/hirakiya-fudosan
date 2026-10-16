@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { company, voices } from '@/config/site';
 import { SECONDARY } from '@/components/ui/button-class';
 import { VoiceCard } from '@/components/voice/VoiceCard';
@@ -23,11 +24,12 @@ export const metadata: Metadata = {
 export default function VoicePage() {
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="お客様の声" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					<div className="max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">お客様の声</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">賃貸・売買・管理でご利用いただいた方から、あとで聞かせていただいた話です。</p>
+						<p className="text-body text-ink lg:text-body-pc">賃貸・売買・管理でご利用いただいた方から、あとで聞かせていただいた話です。</p>
 						<p className="mt-2 text-small text-ink-weak lg:text-small-pc">すべて架空の事例です。実在の方の声ではありません。</p>
 					</div>
 				</Container>

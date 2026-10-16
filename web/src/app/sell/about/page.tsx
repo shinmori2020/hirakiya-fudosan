@@ -3,6 +3,7 @@ import { Building2, Handshake, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
 import { Steps, type Step } from '@/components/guide/Steps';
 import { PRIMARY } from '@/components/ui/button-class';
@@ -42,13 +43,14 @@ export default function SellAboutPage() {
 
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="売却について" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					{/* 2階層目なのでパンくずを出す(03 §7 説明ページ・J-119) */}
 					<Breadcrumb items={[{ label: 'トップ', href: '/' }, { label: '査定のご依頼', href: '/sell' }, { label: '売却について' }]} />
 					<div className="mt-4 max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">売却について</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">売却の流れと、当社で売る理由・売却事例をまとめています。</p>
+						<p className="text-body text-ink lg:text-body-pc">売却の流れと、当社で売る理由・売却事例をまとめています。</p>
 						{/* 1024 以上は /guide のボタン1つと同じ幅(760 の列に2列のグリッド・1280 で約 376px)。部品は変えず置く側で幅を決める(J-155) */}
 						<div className="mt-6 lg:grid lg:grid-cols-2 lg:gap-2">
 							<Link href={FORM_HREF} className={PRIMARY}>

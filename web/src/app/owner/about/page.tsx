@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { Breadcrumb } from '@/components/search/Breadcrumb';
 import { DefList } from '@/components/guide/DefList';
 import { PRIMARY } from '@/components/ui/button-class';
@@ -39,13 +40,14 @@ const FORM_HREF = '/owner#form';
 export default function OwnerAboutPage() {
 	return (
 		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="管理について" />
 			<section className="py-6 lg:py-8">
 				<Container>
 					{/* 2階層目なのでパンくずを出す(03 §7 説明ページ・J-119) */}
 					<Breadcrumb items={[{ label: 'トップ', href: '/' }, { label: '管理のご相談', href: '/owner' }, { label: '管理について' }]} />
 					<div className="mt-4 max-w-[760px]">
-						<h1 className="text-h1 font-bold lg:text-h1-pc">管理について</h1>
-						<p className="mt-4 text-body text-ink lg:text-body-pc">管理サービスの内容と管理料の目安、空室対策をまとめています。</p>
+						<p className="text-body text-ink lg:text-body-pc">管理サービスの内容と管理料の目安、空室対策をまとめています。</p>
 						{/* 1024 以上は /guide のボタン1つと同じ幅(760 の列に2列のグリッド・1280 で約 376px)。部品は変えず置く側で幅を決める(J-155) */}
 						<div className="mt-6 lg:grid lg:grid-cols-2 lg:gap-2">
 							<Link href={FORM_HREF} className={PRIMARY}>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
+import { PageBand } from '@/components/layout/PageBand';
 import { company, mainOffice } from '@/config/site';
 import { PRIMARY, SECONDARY } from '@/components/ui/button-class';
 
@@ -16,30 +17,34 @@ export const metadata: Metadata = {
  */
 export default function LineDummyPage() {
 	return (
-		<section className="py-6 lg:py-8">
-			<Container>
-				<div className="mx-auto max-w-[760px]">
-					<h1 className="text-h1 font-bold lg:text-h1-pc">LINE について</h1>
-					<p className="mt-4 rounded-hr border border-line bg-surface-alt p-4 text-body lg:p-6 lg:text-body-pc" role="note">
-						{company.notice}
-					</p>
-					<p className="mt-6 text-body text-ink lg:text-body-pc">
-						このサイトの「LINE」ボタンは<strong>ダミー</strong>です。実在のアカウントはなく、友だち追加や QR コードも用意していません。実際の不動産会社のサイトでは、ここに LINE の友だち追加ボタンや、トークでの問い合わせ方法が入ります。
-					</p>
-					<p className="mt-4 text-body text-ink lg:text-body-pc">ご連絡は、お電話かフォームからお願いします(架空サイトのため、どちらも実際の対応には使われません)。</p>
-					<div className="mt-8 grid gap-2 sm:grid-cols-2">
-						<a href={`tel:${mainOffice.tel.replace(/-/g, '')}`} className={PRIMARY}>
-							電話する({mainOffice.tel})
-						</a>
-						<Link href="/contact" className={SECONDARY}>
-							フォームで問い合わせる
-						</Link>
+		<>
+			{/* 見出しの帯(J-176・03 §7)。h1 は帯の中。パンくず・リード・注記は帯の直下 */}
+			<PageBand title="LINE について" />
+			<section className="py-6 lg:py-8">
+				<Container>
+					{/* 本文の列は帯の h1 と左端をそろえる(中央に置かない・J-176) */}
+					<div className="max-w-[760px]">
+						<p className="rounded-hr border border-line bg-surface-alt p-4 text-body lg:p-6 lg:text-body-pc" role="note">
+							{company.notice}
+						</p>
+						<p className="mt-6 text-body text-ink lg:text-body-pc">
+							このサイトの「LINE」ボタンは<strong>ダミー</strong>です。実在のアカウントはなく、友だち追加や QR コードも用意していません。実際の不動産会社のサイトでは、ここに LINE の友だち追加ボタンや、トークでの問い合わせ方法が入ります。
+						</p>
+						<p className="mt-4 text-body text-ink lg:text-body-pc">ご連絡は、お電話かフォームからお願いします(架空サイトのため、どちらも実際の対応には使われません)。</p>
+						<div className="mt-8 grid gap-2 sm:grid-cols-2">
+							<a href={`tel:${mainOffice.tel.replace(/-/g, '')}`} className={PRIMARY}>
+								電話する({mainOffice.tel})
+							</a>
+							<Link href="/contact" className={SECONDARY}>
+								フォームで問い合わせる
+							</Link>
+						</div>
+						<p className="mt-4 text-small text-ink-weak lg:text-small-pc">
+							営業時間 {company.hours}(定休日:{company.closed})
+						</p>
 					</div>
-					<p className="mt-4 text-small text-ink-weak lg:text-small-pc">
-						営業時間 {company.hours}(定休日:{company.closed})
-					</p>
-				</div>
-			</Container>
-		</section>
+				</Container>
+			</section>
+		</>
 	);
 }
